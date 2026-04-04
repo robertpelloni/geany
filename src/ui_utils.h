@@ -49,6 +49,7 @@ typedef struct GeanyInterfacePrefs
 	gchar			*editor_font;				/**< editor font */
 	gchar			*tagbar_font;				/**< symbol sidebar font */
 	gchar			*msgwin_font;				/**< message window font */
+	gchar			*ui_theme;				/**< application-wide UI CSS theme name */
 	gboolean		show_notebook_tabs;			/**< whether editor tabs are visible */
 	gint			tab_pos_editor;				/**< positions of editor's tabs */
 	gint			tab_pos_msgwin;				/**< positions of message window's tabs */
@@ -294,6 +295,7 @@ void ui_update_statusbar(GeanyDocument *doc);
 void ui_set_window_title(GeanyDocument *doc);
 
 void ui_set_editor_font(const gchar *font_name);
+void ui_set_app_theme(const gchar *theme_name);
 
 void ui_set_fullscreen(void);
 

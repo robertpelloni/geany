@@ -24,7 +24,7 @@
 
 #include "build.h"
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 
 G_BEGIN_DECLS
 

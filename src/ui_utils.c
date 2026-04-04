@@ -54,7 +54,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <gdk/gdkkeysyms.h>
 
 
@@ -80,6 +80,7 @@ static GtkWidget* toolbar_popup_menu1 = NULL;
 static GtkWidget* edit_menu1 = NULL;
 static GtkWidget* prefs_dialog = NULL;
 static GtkWidget* project_dialog = NULL;
+static GtkCssProvider *ui_theme_provider = NULL;
 
 static struct
 {
@@ -2554,7 +2555,7 @@ void ui_init_builder(void)
 }
 
 
-static void load_css_theme(const gchar *fn, guint priority)
+static GtkCssProvider *load_css_theme_provider(const gchar *fn)
 {
 	GtkCssProvider *provider = gtk_css_provider_new();
 	GError *error = NULL;
@@ -2563,14 +2564,73 @@ static void load_css_theme(const gchar *fn, guint priority)
 	{
 		g_warning("Failed to load custom CSS: %s", error->message);
 		g_error_free(error);
-		return;
+		g_object_unref(provider);
+		return NULL;
 	}
+
+	geany_debug("Loaded GTK+ CSS theme '%s'", fn);
+	return provider;
+}
+
+
+static void load_css_theme(const gchar *fn, guint priority)
+{
+	GtkCssProvider *provider = load_css_theme_provider(fn);
+
+	if (provider == NULL)
+		return;
 
 	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
 		GTK_STYLE_PROVIDER(provider), priority);
-	geany_debug("Loaded GTK+ CSS theme '%s'", fn);
-
 	g_object_unref(provider);
+}
+
+
+static gchar *get_ui_theme_path(const gchar *theme_name)
+{
+	const gchar *selected_theme = EMPTY(theme_name) ? "liquid-glass" : theme_name;
+	gchar *theme_fn = g_build_filename(app->datadir, "ui-themes", selected_theme, NULL);
+	gchar *with_suffix = g_strconcat(theme_fn, ".css", NULL);
+
+	g_free(theme_fn);
+	return with_suffix;
+}
+
+
+void ui_set_app_theme(const gchar *theme_name)
+{
+	GtkCssProvider *provider;
+	gchar *selected_theme_fn;
+	const gchar *selected_theme = EMPTY(theme_name) ? "liquid-glass" : theme_name;
+
+	selected_theme_fn = get_ui_theme_path(selected_theme);
+	provider = load_css_theme_provider(selected_theme_fn);
+	if (provider == NULL && g_strcmp0(selected_theme, "liquid-glass") != 0)
+	{
+		g_warning("Unknown Geany UI theme '%s', falling back to liquid-glass", selected_theme);
+		selected_theme = "liquid-glass";
+		g_free(selected_theme_fn);
+		selected_theme_fn = get_ui_theme_path(selected_theme);
+		provider = load_css_theme_provider(selected_theme_fn);
+	}
+	g_free(selected_theme_fn);
+
+	if (provider == NULL)
+		return;
+
+	if (ui_theme_provider != NULL)
+	{
+		gtk_style_context_remove_provider_for_screen(gdk_screen_get_default(),
+			GTK_STYLE_PROVIDER(ui_theme_provider));
+		g_object_unref(ui_theme_provider);
+	}
+
+	ui_theme_provider = provider;
+	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
+		GTK_STYLE_PROVIDER(ui_theme_provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
+
+	if (g_strcmp0(interface_prefs.ui_theme, selected_theme) != 0)
+		SETPTR(interface_prefs.ui_theme, g_strdup(selected_theme));
 }
 
 
@@ -2578,12 +2638,14 @@ static void init_css_styles(void)
 {
 	gchar *theme_fn;
 
-	// load the main geany.css file from system data dir
+	/* load the main geany.css file from system data dir */
 	theme_fn = g_build_filename(app->datadir, "geany.css", NULL);
 	load_css_theme(theme_fn, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 	g_free(theme_fn);
 
-	// if the user provided a geany.css file in their config dir, try and load that
+	ui_set_app_theme(interface_prefs.ui_theme);
+
+	/* if the user provided a geany.css file in their config dir, try and load that */
 	theme_fn = g_build_filename(app->configdir, "geany.css", NULL);
 	if (g_file_test(theme_fn, G_FILE_TEST_EXISTS))
 		load_css_theme(theme_fn, GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -2594,7 +2656,12 @@ static void init_css_styles(void)
 static void add_css_config_file_item(void)
 {
 	gchar *theme_fn;
+
 	theme_fn = g_build_filename(app->configdir, "geany.css", NULL);
+	ui_add_config_file_menu_item(theme_fn, NULL, NULL);
+	g_free(theme_fn);
+
+	theme_fn = get_ui_theme_path(interface_prefs.ui_theme);
 	ui_add_config_file_menu_item(theme_fn, NULL, NULL);
 	g_free(theme_fn);
 }

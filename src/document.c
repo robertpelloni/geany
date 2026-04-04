@@ -77,7 +77,7 @@
 /*#define USE_GIO_FILEMON 1*/
 #include <gio/gio.h>
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <gdk/gdkkeysyms.h>
 
 

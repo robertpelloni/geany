@@ -38,7 +38,8 @@ typedef enum GeanyFindFlags
 	GEANY_FIND_WHOLEWORD = 1 << 1,
 	GEANY_FIND_WORDSTART = 1 << 2,
 	GEANY_FIND_REGEXP    = 1 << 3,
-	GEANY_FIND_MULTILINE = 1 << 4
+	GEANY_FIND_MULTILINE = 1 << 4,
+	GEANY_FIND_DOTALL    = 1 << 5
 }
 GeanyFindFlags;
 
@@ -137,6 +138,7 @@ void search_find_usage(const gchar *search_text, const gchar *original_search_te
 void search_find_selection(struct GeanyDocument *doc, gboolean search_backwards);
 
 gint search_mark_all(struct GeanyDocument *doc, const gchar *search_text, GeanyFindFlags flags);
+gint search_count_matches(struct GeanyDocument *doc, const gchar *search_text, GeanyFindFlags flags);
 
 gint search_replace_match(struct _ScintillaObject *sci, const GeanyMatchInfo *match, const gchar *replace_text);
 

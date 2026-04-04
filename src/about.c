@@ -37,7 +37,7 @@
 #include "ui_utils.h"
 #include "utils.h"
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 
 #define HEADER "<span size=\"larger\" weight=\"bold\">Geany %s</span>"
 #define INFO "<span size=\"larger\" weight=\"bold\">%s</span>"

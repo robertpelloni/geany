@@ -72,7 +72,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <glib/gstdio.h>
 
 #ifdef G_OS_UNIX
@@ -1343,6 +1343,7 @@ static gboolean do_main_quit(void)
 	g_free(interface_prefs.editor_font);
 	g_free(interface_prefs.tagbar_font);
 	g_free(interface_prefs.msgwin_font);
+	g_free(interface_prefs.ui_theme);
 	g_free(editor_prefs.long_line_color);
 	g_free(editor_prefs.comment_toggle_mark);
 	g_free(editor_prefs.color_scheme);

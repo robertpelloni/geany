@@ -47,7 +47,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <gdk/gdkkeysyms.h>
 #include <signal.h>
 #include <string.h>

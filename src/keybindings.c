@@ -55,7 +55,7 @@
 #include "utils.h"
 #include "vte.h"
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 

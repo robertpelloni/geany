@@ -59,7 +59,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <gdk/gdkkeysyms.h>
 
 
@@ -96,6 +96,7 @@ static void on_check_line_end_toggled(GtkToggleButton *togglebutton, gpointer us
 static void on_sidebar_visible_toggled(GtkToggleButton *togglebutton, gpointer user_data);
 static void on_prefs_print_radio_button_toggled(GtkToggleButton *togglebutton, gpointer user_data);
 static void on_prefs_print_page_header_toggled(GtkToggleButton *togglebutton, gpointer user_data);
+static void populate_ui_theme_combo(GtkComboBoxText *combo);
 static void open_preferences_help(void);
 
 
@@ -135,6 +136,17 @@ static void prefs_action(PrefCallbackAction action)
 			stash_tree_update(various_treeview);
 			break;
 	}
+}
+
+
+static void populate_ui_theme_combo(GtkComboBoxText *combo)
+{
+	if (gtk_tree_model_iter_n_children(gtk_combo_box_get_model(GTK_COMBO_BOX(combo)), NULL) > 0)
+		return;
+
+	gtk_combo_box_text_append(combo, "liquid-glass", _("Liquid Glass"));
+	gtk_combo_box_text_append(combo, "cyber-glass", _("Cyber Glass"));
+	gtk_combo_box_text_append(combo, "aurora-forge", _("Aurora Forge"));
 }
 
 
@@ -503,6 +515,11 @@ static void prefs_init_dialog(void)
 
 	widget = ui_lookup_widget(ui_widgets.prefs_dialog, "combo_tab_sidebar");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(widget), interface_prefs.tab_pos_sidebar);
+
+	widget = ui_lookup_widget(ui_widgets.prefs_dialog, "combo_ui_theme");
+	populate_ui_theme_combo(GTK_COMBO_BOX_TEXT(widget));
+	if (!gtk_combo_box_set_active_id(GTK_COMBO_BOX(widget), interface_prefs.ui_theme))
+		gtk_combo_box_set_active_id(GTK_COMBO_BOX(widget), "liquid-glass");
 
 	widget = ui_lookup_widget(ui_widgets.prefs_dialog, "check_statusbar_visible");
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), interface_prefs.statusbar_visible);
@@ -971,6 +988,9 @@ on_prefs_dialog_response(GtkDialog *dialog, gint response, gpointer user_data)
 
 		widget = ui_lookup_widget(ui_widgets.prefs_dialog, "check_statusbar_visible");
 		interface_prefs.statusbar_visible = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+		widget = ui_lookup_widget(ui_widgets.prefs_dialog, "combo_ui_theme");
+		ui_set_app_theme(gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget)));
 
 		widget = ui_lookup_widget(ui_widgets.prefs_dialog, "spin_tab_label_len");
 		interface_prefs.tab_label_len = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(widget));

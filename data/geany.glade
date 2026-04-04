@@ -2259,6 +2259,42 @@
                                     <property name="position">5</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <object class="GtkGrid" id="grid_ui_theme">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="column-spacing">10</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label_ui_theme">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="tooltip-text" translatable="yes">Choose the built-in application skin used for Geany's GTK user interface.</property>
+                                        <property name="label" translatable="yes">Application skin:</property>
+                                        <property name="mnemonic-widget">combo_ui_theme</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">0</property>
+                                        <property name="top-attach">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBoxText" id="combo_ui_theme">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="tooltip-text" translatable="yes">Switch between Geany's built-in application-wide UI themes. Changes are applied when you accept the Preferences dialog.</property>
+                                      </object>
+                                      <packing>
+                                        <property name="left-attach">1</property>
+                                        <property name="top-attach">0</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">6</property>
+                                  </packing>
+                                </child>
                               </object>
                             </child>
                           </object>

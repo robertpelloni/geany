@@ -37,7 +37,7 @@
 #include "ui_utils.h"
 #include "utils.h"
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <gdk/gdkkeysyms.h>
 
 

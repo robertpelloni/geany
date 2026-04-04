@@ -55,7 +55,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <glib/gstdio.h>
 
 

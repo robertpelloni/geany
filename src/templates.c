@@ -44,7 +44,7 @@
 
 #include <time.h>
 #include <string.h>
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 
 
 GeanyTemplatePrefs template_prefs;

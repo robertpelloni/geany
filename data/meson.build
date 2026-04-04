@@ -1,6 +1,7 @@
 install_subdir('templates',    install_dir: cdata.get('GEANY_DATA_DIR'))
 install_subdir('tags',         install_dir: cdata.get('GEANY_DATA_DIR'))
 install_subdir('colorschemes', install_dir: cdata.get('GEANY_DATA_DIR'))
+install_subdir('ui-themes',    install_dir: cdata.get('GEANY_DATA_DIR'))
 
 install_subdir('filedefs',     install_dir: cdata.get('GEANY_DATA_DIR'), exclude_files: 'filetypes.python.in')
 

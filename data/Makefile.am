@@ -8,6 +8,7 @@ colorschemes = \
 	colorschemes/bespin.conf \
 	colorschemes/black.conf \
 	colorschemes/carbonfox.conf \
+	colorschemes/cyber-glass.conf \
 	colorschemes/cyber-sugar.conf \
 	colorschemes/darcula.conf \
 	colorschemes/dark-colors.conf \
@@ -26,6 +27,7 @@ colorschemes = \
 	colorschemes/inkpot.conf \
 	colorschemes/kugel.conf \
 	colorschemes/kurayami.conf \
+	colorschemes/liquid-glass.conf \
 	colorschemes/matcha.conf \
 	colorschemes/mc.conf \
 	colorschemes/metallic-bottle.conf \
@@ -46,7 +48,8 @@ colorschemes = \
 	colorschemes/tinge.conf \
 	colorschemes/ubuntu.conf \
 	colorschemes/underthesea.conf \
-	colorschemes/vibrant-ink.conf
+	colorschemes/vibrant-ink.conf \
+	colorschemes/aurora-forge.conf
 
 filetypes_dist = \
 	filedefs/filetypes.abaqus \
@@ -185,7 +188,10 @@ nobase_dist_pkgdata_DATA = \
 	snippets.conf \
 	ui_toolbar.xml \
 	geany.glade \
-	geany.css
+	geany.css \
+	ui-themes/liquid-glass.css \
+	ui-themes/cyber-glass.css \
+	ui-themes/aurora-forge.css
 
 nobase_pkgdata_DATA = \
 	$(filetypes_nodist)

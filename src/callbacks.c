@@ -66,7 +66,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 #include <gdk/gdkkeysyms.h>
 #include <glib/gstdio.h>
 #include <time.h>

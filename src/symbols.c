@@ -62,7 +62,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 
 
 typedef struct

@@ -1,0 +1,114 @@
+/* Liquid Glass UI theme for Geany
+ * Inspired by frosted iOS-style materials while remaining within GTK3 CSS.
+ */
+
+window,
+dialog,
+menubar,
+toolbar,
+notebook,
+statusbar,
+treeview.view,
+textview,
+entry,
+button,
+menu,
+popover {
+	color: #eef6ff;
+}
+
+window {
+	background-image: linear-gradient(160deg, rgba(18, 30, 58, 0.96), rgba(24, 45, 84, 0.92) 42%, rgba(48, 82, 140, 0.90));
+}
+
+menubar,
+toolbar,
+statusbar,
+notebook,
+scrolledwindow,
+treeview.view,
+textview,
+entry,
+button,
+menu {
+	background-color: rgba(18, 28, 48, 0.55);
+	background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
+	border: 1px solid rgba(190, 225, 255, 0.22);
+	border-radius: 14px;
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.16), 0 8px 24px rgba(2, 8, 24, 0.28);
+}
+
+menubar,
+toolbar,
+statusbar {
+	padding: 4px 8px;
+}
+
+menu menuitem:hover,
+menubar menuitem:hover,
+button:hover {
+	background-image: linear-gradient(180deg, rgba(154, 214, 255, 0.32), rgba(92, 162, 255, 0.18));
+}
+
+button,
+entry {
+	padding: 6px 10px;
+}
+
+entry:focus,
+button:focus,
+button:checked {
+	border-color: rgba(123, 210, 255, 0.7);
+	box-shadow: inset 0 1px rgba(255, 255, 255, 0.18), 0 0 0 2px rgba(96, 193, 255, 0.18);
+}
+
+paned > separator {
+	background-image: linear-gradient(180deg, rgba(173, 216, 255, 0.24), rgba(255, 255, 255, 0.08));
+	min-width: 8px;
+	min-height: 8px;
+}
+
+notebook > header {
+	background: transparent;
+	border: none;
+}
+
+notebook > header > tabs {
+	background: transparent;
+	border: none;
+}
+
+notebook > header > tabs > tab {
+	background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
+	border: 1px solid rgba(205, 231, 255, 0.20);
+	border-radius: 16px;
+	margin: 4px;
+	padding: 8px 12px;
+}
+
+notebook > header > tabs > tab:checked {
+	background-image: linear-gradient(180deg, rgba(140, 214, 255, 0.42), rgba(75, 142, 255, 0.24));
+	border-color: rgba(168, 227, 255, 0.55);
+	box-shadow: 0 8px 28px rgba(66, 154, 255, 0.20);
+}
+
+notebook > header.left > tabs > tab,
+notebook > header.right > tabs > tab {
+	min-width: 150px;
+}
+
+scrollbar slider {
+	background-image: linear-gradient(180deg, rgba(191, 231, 255, 0.38), rgba(102, 174, 255, 0.28));
+	border-radius: 999px;
+	border: 1px solid rgba(235, 247, 255, 0.20);
+}
+
+#GeanyDialog,
+#window1 {
+	background: transparent;
+}
+
+#geany-close-tab-button {
+	border-radius: 999px;
+	background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08));
+}

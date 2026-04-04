@@ -61,6 +61,7 @@ enum
 	GEANY_RESPONSE_FIND_IN_FILE,
 	GEANY_RESPONSE_FIND_IN_SESSION,
 	GEANY_RESPONSE_MARK,
+	GEANY_RESPONSE_COUNT,
 	GEANY_RESPONSE_REPLACE,
 	GEANY_RESPONSE_REPLACE_AND_FIND,
 	GEANY_RESPONSE_REPLACE_IN_SESSION,
@@ -94,6 +95,7 @@ static struct
 	gchar *fif_files;
 	gboolean find_regexp;
 	gboolean find_regexp_multiline;
+	gboolean find_regexp_dot_matches_newline;
 	gboolean find_escape_sequences;
 	gboolean find_case_sensitive;
 	gboolean find_match_whole_word;
@@ -101,6 +103,7 @@ static struct
 	gboolean find_close_dialog;
 	gboolean replace_regexp;
 	gboolean replace_regexp_multiline;
+	gboolean replace_regexp_dot_matches_newline;
 	gboolean replace_escape_sequences;
 	gboolean replace_case_sensitive;
 	gboolean replace_match_whole_word;
@@ -244,6 +247,8 @@ static void init_prefs(void)
 		"find_regexp", FALSE, "check_regexp");
 	stash_group_add_toggle_button(group, &settings.find_regexp_multiline,
 		"find_regexp_multiline", FALSE, "check_multiline");
+	stash_group_add_toggle_button(group, &settings.find_regexp_dot_matches_newline,
+		"find_regexp_dot_matches_newline", FALSE, "check_dotmatchnewline");
 	stash_group_add_toggle_button(group, &settings.find_case_sensitive,
 		"find_case_sensitive", FALSE, "check_case");
 	stash_group_add_toggle_button(group, &settings.find_escape_sequences,
@@ -262,6 +267,8 @@ static void init_prefs(void)
 		"replace_regexp", FALSE, "check_regexp");
 	stash_group_add_toggle_button(group, &settings.replace_regexp_multiline,
 		"replace_regexp_multiline", FALSE, "check_multiline");
+	stash_group_add_toggle_button(group, &settings.replace_regexp_dot_matches_newline,
+		"replace_regexp_dot_matches_newline", FALSE, "check_dotmatchnewline");
 	stash_group_add_toggle_button(group, &settings.replace_case_sensitive,
 		"replace_case_sensitive", FALSE, "check_case");
 	stash_group_add_toggle_button(group, &settings.replace_escape_sequences,
@@ -309,7 +316,8 @@ static void on_widget_toggled_set_insensitive(
 static GtkWidget *add_find_checkboxes(GtkDialog *dialog)
 {
 	GtkWidget *checkbox1, *checkbox2, *check_regexp, *checkbox5,
-			  *checkbox7, *check_multiline, *hbox, *fbox, *mbox;
+			  *checkbox7, *check_multiline, *check_dotmatchnewline,
+			  *check_wrap, *hbox, *fbox, *mbox;
 
 	check_regexp = gtk_check_button_new_with_mnemonic(_("_Use regular expressions"));
 	ui_hookup_widget(dialog, check_regexp, "check_regexp");
@@ -336,11 +344,28 @@ static GtkWidget *add_find_checkboxes(GtkDialog *dialog)
 		"matches to span multiple lines. In this mode, newline characters are part "
 		"of the input and can be captured as normal characters by the pattern."));
 
+	check_dotmatchnewline = gtk_check_button_new_with_mnemonic(_("._ matches new line"));
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_dotmatchnewline), FALSE);
+	gtk_widget_set_sensitive(check_dotmatchnewline, FALSE);
+	ui_hookup_widget(dialog, check_dotmatchnewline, "check_dotmatchnewline");
+	gtk_button_set_focus_on_click(GTK_BUTTON(check_dotmatchnewline), FALSE);
+	gtk_widget_set_tooltip_text(check_dotmatchnewline,
+		_("Make the dot in regular expressions also match newline characters, similar to Notepad++ regex dot-all mode."));
+
+	check_wrap = gtk_check_button_new_with_mnemonic(_("Wrap ar_ound"));
+	ui_hookup_widget(dialog, check_wrap, "check_wrap");
+	gtk_button_set_focus_on_click(GTK_BUTTON(check_wrap), FALSE);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_wrap), search_prefs.always_wrap);
+	gtk_widget_set_tooltip_text(check_wrap,
+		_("Wrap around the document automatically instead of prompting when the search reaches the end."));
+
 	/* Search features */
 	fbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start(GTK_BOX(fbox), check_regexp, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(fbox), check_multiline, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(fbox), check_dotmatchnewline, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(fbox), checkbox7, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(fbox), check_wrap, FALSE, FALSE, 0);
 
 	if (dialog != GTK_DIALOG(find_dlg.dialog))
 	{
@@ -544,6 +569,14 @@ static void create_find_dialog(void)
 	g_signal_connect(button, "clicked", G_CALLBACK(send_find_dialog_response),
 		GINT_TO_POINTER(GEANY_RESPONSE_MARK));
 
+	button = gtk_button_new_with_mnemonic(_("Co_unt"));
+	gtk_widget_set_size_request(button, MIN_DLG_BUTTON_SIZE, -1);
+	gtk_widget_set_tooltip_text(button,
+			_("Count all matches in the current document without altering markers or the selection."));
+	gtk_container_add(GTK_CONTAINER(bbox), button);
+	g_signal_connect(button, "clicked", G_CALLBACK(send_find_dialog_response),
+		GINT_TO_POINTER(GEANY_RESPONSE_COUNT));
+
 	button = gtk_button_new_with_mnemonic(_("In Sessi_on"));
 	gtk_widget_set_size_request(button, MIN_DLG_BUTTON_SIZE, -1);
 	gtk_container_add(GTK_CONTAINER(bbox), button);
@@ -585,6 +618,8 @@ void search_show_find_dialog(void)
 	{
 		create_find_dialog();
 		stash_group_display(find_prefs, find_dlg.dialog);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(find_dlg.dialog, "check_wrap")),
+			search_prefs.always_wrap);
 		if (sel)
 			gtk_entry_set_text(GTK_ENTRY(find_dlg.entry), sel);
 
@@ -593,6 +628,8 @@ void search_show_find_dialog(void)
 	}
 	else
 	{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(find_dlg.dialog, "check_wrap")),
+			search_prefs.always_wrap);
 		if (sel != NULL)
 		{
 			/* update the search text from current selection */
@@ -777,6 +814,8 @@ void search_show_replace_dialog(void)
 	{
 		create_replace_dialog();
 		stash_group_display(replace_prefs, replace_dlg.dialog);
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(replace_dlg.dialog, "check_wrap")),
+			search_prefs.always_wrap);
 		if (sel)
 			gtk_entry_set_text(GTK_ENTRY(replace_dlg.find_entry), sel);
 
@@ -785,6 +824,8 @@ void search_show_replace_dialog(void)
 	}
 	else
 	{
+		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(replace_dlg.dialog, "check_wrap")),
+			search_prefs.always_wrap);
 		if (sel != NULL)
 		{
 			/* update the search text from current selection */
@@ -1239,6 +1280,7 @@ on_find_replace_checkbutton_toggled(GtkToggleButton *togglebutton, gpointer user
 		GtkWidget *check_wordstart = ui_lookup_widget(dialog, "check_wordstart");
 		GtkWidget *check_escape = ui_lookup_widget(dialog, "check_escape");
 		GtkWidget *check_multiline = ui_lookup_widget(dialog, "check_multiline");
+		GtkWidget *check_dotmatchnewline = ui_lookup_widget(dialog, "check_dotmatchnewline");
 		gboolean replace = (dialog != find_dlg.dialog);
 		const char *back_button[2] = { "btn_previous" , "check_back" };
 
@@ -1248,6 +1290,7 @@ on_find_replace_checkbutton_toggled(GtkToggleButton *togglebutton, gpointer user
 		gtk_widget_set_sensitive(check_word, ! regex_set);
 		gtk_widget_set_sensitive(check_wordstart, ! regex_set);
 		gtk_widget_set_sensitive(check_multiline, regex_set);
+		gtk_widget_set_sensitive(check_dotmatchnewline, regex_set);
 	}
 }
 
@@ -1346,6 +1389,33 @@ gint search_mark_all(GeanyDocument *doc, const gchar *search_text, GeanyFindFlag
 }
 
 
+gint search_count_matches(GeanyDocument *doc, const gchar *search_text, GeanyFindFlags flags)
+{
+	gint count = 0;
+	struct Sci_TextToFind ttf;
+	GSList *match, *matches;
+
+	g_return_val_if_fail(DOC_VALID(doc), 0);
+
+	if (G_UNLIKELY(EMPTY(search_text)))
+		return 0;
+
+	ttf.chrg.cpMin = 0;
+	ttf.chrg.cpMax = sci_get_length(doc->editor->sci);
+	ttf.lpstrText = (gchar *)search_text;
+
+	matches = find_range(doc->editor->sci, flags, &ttf);
+	foreach_slist (match, matches)
+	{
+		count++;
+		geany_match_info_free(match->data);
+	}
+	g_slist_free(matches);
+
+	return count;
+}
+
+
 static void
 on_find_entry_activate(GtkEntry *entry, gpointer user_data)
 {
@@ -1364,12 +1434,14 @@ on_find_entry_activate_backward(GtkEntry *entry, gpointer user_data)
 }
 
 
-static GeanyFindFlags int_search_flags(gint match_case, gint whole_word, gint regexp, gint multiline, gint word_start)
+static GeanyFindFlags int_search_flags(gint match_case, gint whole_word, gint regexp,
+	gint multiline, gint dot_matches_newline, gint word_start)
 {
 	return (match_case ? GEANY_FIND_MATCHCASE : 0) |
 		(regexp ? GEANY_FIND_REGEXP : 0) |
 		(whole_word ? GEANY_FIND_WHOLEWORD : 0) |
 		(multiline ? GEANY_FIND_MULTILINE : 0) |
+		(dot_matches_newline ? GEANY_FIND_DOTALL : 0) |
 		/* SCFIND_WORDSTART overrides SCFIND_WHOLEWORD, but we want the opposite */
 		(word_start && !whole_word ? GEANY_FIND_WORDSTART : 0);
 }
@@ -1400,9 +1472,12 @@ on_find_dialog_response(GtkDialog *dialog, gint response, gpointer user_data)
 		g_free(search_data.original_text);
 		search_data.text = g_strdup(gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(user_data)))));
 		search_data.original_text = g_strdup(search_data.text);
+		search_prefs.always_wrap = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+			ui_lookup_widget(find_dlg.dialog, "check_wrap")));
+
 		search_data.flags = int_search_flags(settings.find_case_sensitive,
 			settings.find_match_whole_word, settings.find_regexp, settings.find_regexp_multiline,
-			settings.find_match_word_start);
+			settings.find_regexp_dot_matches_newline, settings.find_match_word_start);
 
 		if (EMPTY(search_data.text))
 		{
@@ -1455,6 +1530,20 @@ on_find_dialog_response(GtkDialog *dialog, gint response, gpointer user_data)
 					ui_set_statusbar(FALSE,
 						ngettext("Found %d match for \"%s\".",
 								 "Found %d matches for \"%s\".", count),
+						count, search_data.original_text);
+			}
+			break;
+
+			case GEANY_RESPONSE_COUNT:
+			{
+				gint count = search_count_matches(doc, search_data.text, search_data.flags);
+
+				if (count == 0)
+					ui_set_statusbar(FALSE, _("No matches found for \"%s\"."), search_data.original_text);
+				else
+					ui_set_statusbar(FALSE,
+						ngettext("Counted %d match for \"%s\".",
+								 "Counted %d matches for \"%s\".", count),
 						count, search_data.original_text);
 			}
 			break;
@@ -1552,9 +1641,13 @@ on_replace_dialog_response(GtkDialog *dialog, gint response, gpointer user_data)
 	find = g_strdup(gtk_entry_get_text(GTK_ENTRY(replace_dlg.find_entry)));
 	replace = g_strdup(gtk_entry_get_text(GTK_ENTRY(replace_dlg.replace_entry)));
 
+	search_prefs.always_wrap = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+		ui_lookup_widget(replace_dlg.dialog, "check_wrap")));
+
 	search_flags_re = int_search_flags(settings.replace_case_sensitive,
 		settings.replace_match_whole_word, settings.replace_regexp,
-		settings.replace_regexp_multiline, settings.replace_match_word_start);
+		settings.replace_regexp_multiline, settings.replace_regexp_dot_matches_newline,
+		settings.replace_match_word_start);
 
 	if ((response != GEANY_RESPONSE_FIND) && (search_flags_re & GEANY_FIND_MATCHCASE)
 		&& (strcmp(find, replace) == 0))
@@ -2009,6 +2102,8 @@ static GRegex *compile_regex(const gchar *str, GeanyFindFlags sflags)
 
 	if (sflags & GEANY_FIND_MULTILINE)
 		rflags |= G_REGEX_MULTILINE;
+	if (sflags & GEANY_FIND_DOTALL)
+		rflags |= G_REGEX_DOTALL;
 	if (~sflags & GEANY_FIND_MATCHCASE)
 		rflags |= G_REGEX_CASELESS;
 	if (sflags & (GEANY_FIND_WHOLEWORD | GEANY_FIND_WORDSTART))

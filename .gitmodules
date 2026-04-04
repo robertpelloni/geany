@@ -1,0 +1,6 @@
+[submodule "subprojects/bobgui"]
+	path = subprojects/bobgui
+	url = https://github.com/robertpelloni/bobgui
+[submodule "subprojects/bobui"]
+	path = subprojects/bobui
+	url = https://github.com/robertpelloni/bobui

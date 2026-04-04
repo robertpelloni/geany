@@ -33,7 +33,7 @@
 #include "utils.h"
 #include "ui_utils.h"
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 
 #ifdef HAVE_LOCALE_H
 # include <locale.h>

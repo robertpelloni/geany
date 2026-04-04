@@ -24,7 +24,7 @@
 
 #include "utils.h"
 
-#include <gtk/gtk.h>
+#include "gtkcompat.h"
 
 
 #define AREA_SIZE 300
