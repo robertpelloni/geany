@@ -122,6 +122,7 @@ More result row types now carry preview payloads, including:
 - generic current-document/session match rows
 - replace preview rows
 - bulk replace impact rows
+- session mark impact rows
 - ingested Find in Files rows
 
 The lower notebook now also behaves more intentionally:
@@ -133,6 +134,13 @@ The lower notebook now also behaves more intentionally:
 Bulk replace operations now also append document-impact rows before mutation-heavy actions run. Those rows capture affected-document counts and first-hit context, which gives Search Studio a better bridge between preview-only workflows and real replace execution.
 
 Replace preview construction is now more semantic as well. Instead of only splicing the raw payload string into line context, preview helpers now resolve the actual replacement text that Geany would apply (including regex backreference expansion) and present an original-line vs replacement-line view plus matched-segment diff text.
+
+The Mark tab now also has a session-wide execution path:
+- `Mark Session` applies highlight/bookmark behavior across open documents
+- `Clear Session Marks` removes search indicators and bookmarks across open documents
+- affected documents emit navigable session-mark impact rows with first-hit context and option summaries
+
+This pushes Search Studio beyond strict Notepad++ parity in one useful area: Geany can now treat mark/bookmark review as a multi-document operation inside the same cockpit.
 
 This means the Diff Preview pane is increasingly becoming a universal inspection surface instead of a replace-preview-only feature, and the lower notebook is starting to behave like a real result navigator rather than three unrelated panes.
 
@@ -233,7 +241,7 @@ Callback:
 ## Remaining technical debt
 
 1. Find in Files tab is now executable and can ingest its own grep output into Search Studio results, but it is still not as dense as Notepad++ or Geany's classic advanced dialog.
-2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document/open-document hits while Find in Files can ingest launched results. Bulk replace actions now also emit richer document-impact rows. Lower-pane focus and informational-row handling are more navigator-like now, but it is still not yet a full universal hit-list / navigation result viewer across every action.
+2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document/open-document hits while Find in Files can ingest launched results. Bulk replace actions now also emit richer document-impact rows, and Mark can now operate across the open-document set with session-mark impact rows. Lower-pane focus and informational-row handling are more navigator-like now, but it is still not yet a full universal hit-list / navigation result viewer across every action.
 3. Replace preview/dry-run groundwork exists and now feeds a dedicated Diff Preview pane, and more row types provide richer previews. It now resolves actual replacement text more accurately, but it is still a lightweight text preview rather than a true semantic diff viewer.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 

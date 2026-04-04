@@ -308,6 +308,11 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 static void search_studio_clear_results(GtkButton *button, gpointer user_data);
 static void search_studio_collect_document_hits(GtkButton *button, gpointer user_data);
 static void search_studio_collect_session_hits(GtkButton *button, gpointer user_data);
+static guint search_studio_append_mark_impact_row(const gchar *action, GeanyDocument *doc,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode,
+	gboolean bookmark_lines, gboolean purge_bookmarks);
+static void search_studio_mark_session_activate(GtkButton *button, gpointer user_data);
+static void search_studio_clear_session_marks_activate(GtkButton *button, gpointer user_data);
 static void search_studio_capture_begin(const gchar *query, const gchar *mode, const gchar *dir);
 static void search_studio_capture_finish(gint exit_status);
 static void search_studio_capture_grep_result(const gchar *utf8_msg);
@@ -1496,13 +1501,67 @@ static void search_studio_collect_session_hits(GtkButton *button, gpointer user_
 }
 
 
+static guint search_studio_append_mark_impact_row(const gchar *action, GeanyDocument *doc,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode,
+	gboolean bookmark_lines, gboolean purge_bookmarks)
+{
+	struct Sci_TextToFind ttf;
+	GSList *match, *matches;
+	guint count = 0;
+	gint first_start = -1;
+
+	if (!DOC_VALID(doc) || EMPTY(query))
+		return 0;
+
+	ttf.chrg.cpMin = 0;
+	ttf.chrg.cpMax = sci_get_length(doc->editor->sci);
+	ttf.lpstrText = (gchar *) query;
+	matches = find_range(doc->editor->sci, flags, &ttf);
+	foreach_slist(match, matches)
+	{
+		GeanyMatchInfo *info = match->data;
+
+		if (count == 0)
+			first_start = info->start;
+		count++;
+		geany_match_info_free(info);
+	}
+	g_slist_free(matches);
+
+	if (count > 0 && first_start >= 0)
+	{
+		gint line = sci_get_line_from_position(doc->editor->sci, first_start) + 1;
+		gchar *summary = g_strdup_printf("Marked %u matches in this document; bookmark-lines=%s; purge-first=%s.",
+			count, bookmark_lines ? "yes" : "no", purge_bookmarks ? "yes" : "no");
+		gchar *preview_title = g_strdup_printf("%s — %s:%d", action, DOC_FILENAME(doc), line);
+		gchar *line_preview = search_studio_build_line_preview_body(doc, first_start, query, action);
+		gchar *preview_body = g_strdup_printf("Mark impact summary\n\nFile: %s\nQuery: %s\nMode: %s\nMarked matches: %u\nBookmark lines: %s\nPurge existing bookmarks first: %s\n\n%s",
+			DOC_FILENAME(doc),
+			query,
+			mode != NULL ? mode : _("(none)"),
+			count,
+			bookmark_lines ? _("yes") : _("no"),
+			purge_bookmarks ? _("yes") : _("no"),
+			line_preview);
+		search_studio_result_append_preview_match(action, doc, query, mode, first_start,
+			summary, preview_title, preview_body);
+		g_free(preview_body);
+		g_free(line_preview);
+		g_free(preview_title);
+		g_free(summary);
+	}
+
+	return count;
+}
+
+
 static void search_studio_activity_show_page_hint(gint page_num)
 {
 	static const gchar *hints[] = {
 		"Find: use the dense search cockpit for repeated lookup, counting, and bookmark-marking.",
 		"Replace: execute targeted or bulk replacements directly, then fall back to the classic dialog if needed.",
 		"Find in Files: launch directory searches directly from Search Studio and review detailed results in the message window.",
-		"Mark: highlight all matches, optionally bookmark matching lines, then clear everything in one click."
+		"Mark: highlight all matches, optionally bookmark matching lines, fan marking out across open documents, then clear everything in one click."
 	};
 
 	if (page_num >= 0 && page_num < (gint) G_N_ELEMENTS(hints))
@@ -3131,6 +3190,99 @@ static void search_studio_clear_marks_activate(GtkButton *button, gpointer user_
 }
 
 
+static void search_studio_mark_session_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	gchar *text = NULL, *original_text = NULL;
+	GeanyFindFlags flags;
+	gboolean backwards = FALSE;
+	gboolean bookmark_lines;
+	gboolean purge_bookmarks;
+	guint page_count;
+	guint n;
+	guint docs_marked = 0;
+	guint total_matches = 0;
+
+	if (!search_studio_prepare_find(page, "entry_search", &text, &original_text, &flags, &backwards))
+		return;
+
+	bookmark_lines = ui_lookup_widget(page, "check_bookmark") &&
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_bookmark")));
+	purge_bookmarks = ui_lookup_widget(page, "check_purge") &&
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_purge")));
+	if (ui_lookup_widget(page, "combo_search"))
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), original_text, 0);
+
+	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
+	for (n = 0; n < page_count; n++)
+	{
+		GeanyDocument *doc = document_get_from_page(n);
+		guint count;
+
+		if (!DOC_VALID(doc))
+			continue;
+		count = search_mark_all_with_options(doc, text, flags, bookmark_lines, purge_bookmarks);
+		if (count > 0)
+		{
+			docs_marked++;
+			total_matches += count;
+			search_studio_append_mark_impact_row("Session Mark Impact", doc, text, flags,
+				search_studio_mode_name(page), bookmark_lines, purge_bookmarks);
+		}
+	}
+
+	if (total_matches == 0)
+		ui_set_statusbar(FALSE, _("No matches found for \"%s\" across open documents."), original_text);
+	else
+		ui_set_statusbar(FALSE, _("Marked %u matches across %u open documents for \"%s\"."),
+			total_matches, docs_marked, original_text);
+
+	search_studio_activity_append("[Mark] Session | query=%s | mode=%s | matches=%u | docs=%u | bookmarks=%s | purge=%s",
+		original_text, search_studio_mode_name(page), total_matches, docs_marked,
+		bookmark_lines ? "on" : "off", purge_bookmarks ? "on" : "off");
+	{
+		gchar *summary = g_strdup_printf("Marked %u matches across %u open documents; bookmark-lines=%s; purge-first=%s.",
+			total_matches, docs_marked, bookmark_lines ? "yes" : "no", purge_bookmarks ? "yes" : "no");
+		search_studio_result_append("Mark in Session", "Open Documents", original_text,
+			search_studio_mode_name(page), summary);
+		g_free(summary);
+	}
+	search_studio_store_search_data(text, original_text, flags, backwards);
+	g_free(text);
+	g_free(original_text);
+}
+
+
+static void search_studio_clear_session_marks_activate(GtkButton *button, gpointer user_data)
+{
+	guint page_count;
+	guint n;
+	guint cleared_docs = 0;
+
+	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
+	for (n = 0; n < page_count; n++)
+	{
+		GeanyDocument *doc = document_get_from_page(n);
+
+		if (!DOC_VALID(doc))
+			continue;
+		search_clear_all_marks(doc);
+		cleared_docs++;
+	}
+
+	ui_set_statusbar(FALSE, _("Cleared search highlights and bookmarks across %u open documents."),
+		cleared_docs);
+	search_studio_activity_append("[Mark] Cleared search highlights and bookmarks across %u open documents.",
+		cleared_docs);
+	{
+		gchar *summary = g_strdup_printf("Cleared search highlights and bookmarks across %u open documents.",
+			cleared_docs);
+		search_studio_result_append("Mark in Session", "Open Documents", "Clear", "N/A", summary);
+		g_free(summary);
+	}
+}
+
+
 static void search_studio_open_find_dialog_activate(GtkButton *button, gpointer user_data)
 {
 	search_studio_sync_find_dialog_from_page(GTK_WIDGET(user_data));
@@ -3663,9 +3815,15 @@ static GtkWidget *search_studio_create_mark_page(void)
 	button = gtk_button_new_with_mnemonic(_("_Mark now"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_mark_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Mark S_ession"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_mark_session_activate), page);
 	button = gtk_button_new_with_mnemonic(_("_Clear marks"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_clear_marks_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Clea_r Session Marks"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_clear_session_marks_activate), page);
 	gtk_box_pack_start(GTK_BOX(page), actions, FALSE, FALSE, 0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
 		settings.find_regexp ? "mode_regex" : settings.find_escape_sequences ? "mode_extended" : "mode_normal")), TRUE);

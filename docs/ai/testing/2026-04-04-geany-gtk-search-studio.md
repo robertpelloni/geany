@@ -58,10 +58,17 @@
 - Confirm line markers are placed on matching lines
 - Enable `Purge existing bookmarks first` and rerun with a different term
 - Confirm previous bookmarks are removed before the new set is added
+- Use `Mark Session`
+- Confirm search indicators are applied across multiple open documents
+- If bookmarking is enabled, confirm bookmark markers are applied across multiple open documents as well
+- Confirm session-mark impact rows are appended for affected documents and that selecting one shows richer first-hit context in Diff Preview
+- Activate one of the session-mark impact rows and confirm Geany switches to that document and jumps to the first stored match
 - Click `Clear marks`
-- Confirm both indicators and bookmarks are removed
-- Confirm the clear action is reflected in the Activity pane
-- Confirm the Results pane gets a clear-mark row
+- Confirm both indicators and bookmarks are removed from the active document
+- Click `Clear Session Marks`
+- Confirm indicators and bookmarks are removed across open documents
+- Confirm the clear actions are reflected in the Activity pane
+- Confirm the Results pane gets clear-mark summary rows
 
 ### Replace tab
 - Enter find/replace values
