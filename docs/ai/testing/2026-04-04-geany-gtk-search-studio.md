@@ -20,6 +20,7 @@
   - Diff Preview
 - Switch tabs and confirm the Activity pane receives page-specific guidance entries
 - Confirm the Results pane starts with an initialization row
+- Confirm the lower notebook initially focuses the Results tab after initialization rows are appended
 - Confirm the Diff Preview pane shows a default instructional message before any row selection
 - Close and reopen it
 - Confirm it reopens near the previous position
@@ -31,6 +32,7 @@
 - Confirm the Results pane gets a structured row for the action
 - For a successful current-document find, activate the newest match row and confirm Geany jumps to the stored match position
 - Select a result row and confirm the Diff Preview pane updates with row-specific detail text
+- Confirm row selection automatically pivots the lower notebook to the Diff Preview tab
 - Confirm generic match rows now show richer line-context preview text instead of only a one-line summary
 - Use Count and confirm the status bar reports the count
 - Confirm the Activity pane records the count summary
@@ -41,6 +43,7 @@
 - Use `Collect Session Hits` and confirm hits from multiple open documents can be appended to the Results pane
 - Activate one of the collected session-hit rows for an already-open file and confirm Geany switches to that document and jumps to the match
 - Use `Clear Results` and confirm the Results pane is cleared and a clear event is recorded
+- Confirm clearing results resets the Diff Preview pane back to its instructional state
 - Switch mode to Extended and verify escape-sequence processing works for simple cases like `\n`
 - Switch mode to Regex and verify multiline / dot-all controls become enabled
 
@@ -86,7 +89,7 @@
 - After results stream in, confirm additional Find in Files hit rows appear in the Results pane
 - Select an ingested Find in Files hit row and confirm the Diff Preview pane updates with richer hit details
 - Activate one of the ingested Find in Files hit rows and confirm Geany opens or switches to the corresponding file and jumps near the matched line
-- Confirm row activation on non-navigable summary rows does not crash and simply does nothing useful / may beep
+- Confirm row activation on non-navigable summary rows does not crash and instead reinforces that the row is informational and should be inspected in Diff Preview
 - Verify file pattern validation works when non-`all` modes are selected
 - Verify classic Find in Files can still be opened with the text/directory prefilled
 

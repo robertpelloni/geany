@@ -75,12 +75,13 @@ This is strategically useful because:
 - Find tab can now collect current-document or open-document hit sets into the results pane
 - Search Studio-launched Find in Files now ingests grep output back into the structured Results pane as navigable rows
 - more row types now populate the lower Diff Preview pane with richer detail text
+- lower-pane focus now behaves more like a navigator: appended rows pull focus to Results, row selection pivots to Diff Preview, and informational summary rows can be inspected without pretending to navigate
 - persistent window position
 
 ### Not yet complete
 - full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
 - complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing)
-- richer integrated results pane (today it supports current-document hits, open-document hits, and Search Studio-launched Find in Files ingestion, and more row types now drive the Diff Preview pane, but it is not yet a full universal hit-list viewer)
+- richer integrated results pane (today it supports current-document hits, open-document hits, and Search Studio-launched Find in Files ingestion, more row types now drive the Diff Preview pane, and lower-pane focus behaves more like a navigator, but it is not yet a full universal hit-list viewer)
 - replace preview / dry-run groundwork now exists inside the Replace tab, now with a dedicated lower Diff Preview surface
 
 ## Data-flow architecture

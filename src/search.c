@@ -96,6 +96,14 @@ enum
 };
 
 
+enum
+{
+	STUDIO_LOWER_PAGE_ACTIVITY,
+	STUDIO_LOWER_PAGE_RESULTS,
+	STUDIO_LOWER_PAGE_DIFF_PREVIEW
+};
+
+
 GeanySearchData search_data;
 GeanySearchPrefs search_prefs;
 
@@ -177,13 +185,14 @@ static struct
 	GtkWidget	*replace_page;
 	GtkWidget	*fif_page;
 	GtkWidget	*mark_page;
+	GtkWidget	*lower_notebook;
 	GtkWidget	*activity_view;
 	GtkWidget	*results_view;
 	GtkWidget	*preview_view;
 	GtkListStore	*results_store;
 	gint		position[2]; /* x, y */
 }
-studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
+studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
 
 static struct
 {
@@ -805,6 +814,13 @@ static const gchar *search_studio_mode_name(GtkWidget *page)
 }
 
 
+static void search_studio_show_lower_page(gint page)
+{
+	if (studio_dlg.lower_notebook != NULL)
+		gtk_notebook_set_current_page(GTK_NOTEBOOK(studio_dlg.lower_notebook), page);
+}
+
+
 static void search_studio_activity_append(const gchar *format, ...)
 {
 	GtkTextBuffer *buffer;
@@ -877,6 +893,7 @@ static void search_studio_result_append(const gchar *action, const gchar *target
 		STUDIO_RESULT_PREVIEW_TITLE, target,
 		STUDIO_RESULT_PREVIEW_BODY, preview_body,
 		-1);
+	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
 	g_free(preview_body);
 }
 
@@ -945,6 +962,7 @@ static void search_studio_result_append_match(const gchar *action, GeanyDocument
 		STUDIO_RESULT_PREVIEW_TITLE, target,
 		STUDIO_RESULT_PREVIEW_BODY, preview_body,
 		-1);
+	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
 	g_free(preview_body);
 	g_free(target);
 }
@@ -978,6 +996,7 @@ static void search_studio_result_append_preview_match(const gchar *action, Geany
 		STUDIO_RESULT_PREVIEW_TITLE, preview_title,
 		STUDIO_RESULT_PREVIEW_BODY, preview_body,
 		-1);
+	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
 	g_free(target);
 }
 
@@ -1239,6 +1258,7 @@ static void search_studio_capture_grep_result(const gchar *utf8_msg)
 			STUDIO_RESULT_PREVIEW_TITLE, target,
 			STUDIO_RESULT_PREVIEW_BODY, preview_body,
 			-1);
+		search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
 		g_free(preview_body);
 	}
 	studio_fif_capture.results_added++;
@@ -1253,6 +1273,8 @@ static void search_studio_clear_results(GtkButton *button, gpointer user_data)
 {
 	if (studio_dlg.results_store != NULL)
 		gtk_list_store_clear(studio_dlg.results_store);
+	search_studio_set_preview(_("Diff Preview"), _("Select a result row to inspect before/after or result details."));
+	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
 	search_studio_activity_append("[Results] Cleared structured results pane.");
 	search_studio_result_append("Results", "Search Studio", "Clear", "N/A",
 		"Cleared structured results rows.");
@@ -1350,6 +1372,7 @@ static void search_studio_results_selection_changed(GtkTreeSelection *selection,
 		STUDIO_RESULT_PREVIEW_BODY, &preview_body,
 		-1);
 	search_studio_set_preview(preview_title, preview_body);
+	search_studio_show_lower_page(STUDIO_LOWER_PAGE_DIFF_PREVIEW);
 	g_free(preview_title);
 	g_free(preview_body);
 }
@@ -1361,6 +1384,8 @@ static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreeP
 	GtkTreeIter iter;
 	GtkTreeModel *model = GTK_TREE_MODEL(studio_dlg.results_store);
 	gboolean can_navigate = FALSE;
+	gchar *action = NULL;
+	gchar *target = NULL;
 	gchar *filename = NULL;
 	gint pos = -1;
 	GeanyDocument *doc = NULL;
@@ -1369,15 +1394,21 @@ static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreeP
 		return;
 
 	gtk_tree_model_get(model, &iter,
+		STUDIO_RESULT_ACTION, &action,
+		STUDIO_RESULT_TARGET, &target,
 		STUDIO_RESULT_FILE, &filename,
 		STUDIO_RESULT_POS, &pos,
 		STUDIO_RESULT_CAN_NAVIGATE, &can_navigate,
 		-1);
 
-	if (!can_navigate || pos < 0)
+	if (!can_navigate)
 	{
+		search_studio_show_lower_page(STUDIO_LOWER_PAGE_DIFF_PREVIEW);
+		search_studio_activity_append("[Results] %s on %s is informational; inspect the Diff Preview pane for details.",
+			action != NULL ? action : _("Result"), target != NULL ? target : _("Search Studio"));
 		g_free(filename);
-		utils_beep();
+		g_free(target);
+		g_free(action);
 		return;
 	}
 
@@ -1411,6 +1442,8 @@ static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreeP
 		utils_beep();
 
 	g_free(filename);
+	g_free(target);
+	g_free(action);
 }
 
 
@@ -3528,6 +3561,7 @@ static void create_search_studio_dialog(void)
 	gtk_paned_pack1(GTK_PANED(paned), notebook, TRUE, FALSE);
 
 	preview_notebook = gtk_notebook_new();
+	studio_dlg.lower_notebook = preview_notebook;
 
 	activity_frame = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type(GTK_FRAME(activity_frame), GTK_SHADOW_IN);
