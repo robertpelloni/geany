@@ -33,6 +33,10 @@
 - Confirm the Results pane gets a Count row
 - Confirm at least some match-detail rows are appended for current-document count operations
 - Activate one of the appended match rows and confirm Geany jumps to that match
+- Use `Collect Document Hits` and confirm a broader set of navigable current-document match rows is appended
+- Use `Collect Session Hits` and confirm hits from multiple open documents can be appended to the Results pane
+- Activate one of the collected session-hit rows for an already-open file and confirm Geany switches to that document and jumps to the match
+- Use `Clear Results` and confirm the Results pane is cleared and a clear event is recorded
 - Switch mode to Extended and verify escape-sequence processing works for simple cases like `\n`
 - Switch mode to Regex and verify multiline / dot-all controls become enabled
 

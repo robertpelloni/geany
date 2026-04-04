@@ -173,6 +173,11 @@ Search actions now append structured result records for operations like:
 
 For Find / Count / Mark / Replace-find on the active document, Search Studio also appends concrete match rows (with capped detail volume) so users can activate a row and jump to that match.
 
+Additionally, the Find tab now supports explicit hit collection actions:
+- collect hits from the active document
+- collect hits from all open documents
+- clear the results pane
+
 This makes Search Studio feel much more like a real search workbench rather than a collection of form controls.
 
 ## What this improves versus previous Geany behavior
@@ -202,7 +207,7 @@ Callback:
 ## Remaining technical debt
 
 1. Find in Files tab is now executable, but still not as dense as Notepad++ or Geany's classic advanced dialog.
-2. Search Studio now has both activity and structured results panes, and some current-document rows are clickable for navigation, but it is not yet a full universal hit-list / navigation result viewer.
+2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document and open-document hits, but it is still not yet a full universal hit-list / navigation result viewer across every action.
 3. Replace operations do not yet offer preview/dry-run mode.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 

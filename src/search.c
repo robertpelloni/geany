@@ -256,8 +256,13 @@ static void search_studio_result_append(const gchar *action, const gchar *target
 	const gchar *query, const gchar *mode, const gchar *summary);
 static void search_studio_result_append_match(const gchar *action, GeanyDocument *doc,
 	const gchar *query, const gchar *mode, gint pos, const gchar *summary);
-static void search_studio_append_match_rows(const gchar *action, GeanyDocument *doc,
+static guint search_studio_append_match_rows(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint limit);
+static guint search_studio_append_session_match_rows(const gchar *action,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit);
+static void search_studio_clear_results(GtkButton *button, gpointer user_data);
+static void search_studio_collect_document_hits(GtkButton *button, gpointer user_data);
+static void search_studio_collect_session_hits(GtkButton *button, gpointer user_data);
 static void search_studio_activity_show_page_hint(gint page_num);
 static const gchar *search_studio_mode_name(GtkWidget *page);
 static gint search_mark_all_with_options(GeanyDocument *doc, const gchar *search_text,
@@ -843,7 +848,7 @@ static void search_studio_result_append_match(const gchar *action, GeanyDocument
 }
 
 
-static void search_studio_append_match_rows(const gchar *action, GeanyDocument *doc,
+static guint search_studio_append_match_rows(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint limit)
 {
 	struct Sci_TextToFind ttf;
@@ -851,7 +856,7 @@ static void search_studio_append_match_rows(const gchar *action, GeanyDocument *
 	guint count = 0;
 
 	if (!DOC_VALID(doc) || EMPTY(query))
-		return;
+		return 0;
 
 	ttf.chrg.cpMin = 0;
 	ttf.chrg.cpMax = sci_get_length(doc->editor->sci);
@@ -878,6 +883,89 @@ static void search_studio_append_match_rows(const gchar *action, GeanyDocument *
 		geany_match_info_free(info);
 	}
 	g_slist_free(matches);
+	return count;
+}
+
+
+static guint search_studio_append_session_match_rows(const gchar *action,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit)
+{
+	guint page_count;
+	guint n;
+	guint total = 0;
+
+	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
+	for (n = 0; n < page_count; n++)
+	{
+		GeanyDocument *doc = document_get_from_page(n);
+
+		if (!DOC_VALID(doc))
+			continue;
+		total += search_studio_append_match_rows(action, doc, query, flags, mode, per_doc_limit);
+	}
+	return total;
+}
+
+
+static void search_studio_clear_results(GtkButton *button, gpointer user_data)
+{
+	if (studio_dlg.results_store != NULL)
+		gtk_list_store_clear(studio_dlg.results_store);
+	search_studio_activity_append("[Results] Cleared structured results pane.");
+	search_studio_result_append("Results", "Search Studio", "Clear", "N/A",
+		"Cleared structured results rows.");
+}
+
+
+static void search_studio_collect_document_hits(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GeanyDocument *doc = document_get_current();
+	gchar *text = NULL, *original_text = NULL;
+	GeanyFindFlags flags;
+	gboolean backwards = FALSE;
+	guint count;
+
+	if (!DOC_VALID(doc) || !search_studio_prepare_find(page, "entry_search", &text, &original_text, &flags, &backwards))
+		return;
+
+	count = search_studio_append_match_rows("Document Hit", doc, text, flags,
+		search_studio_mode_name(page), 250);
+	search_studio_activity_append("[Results] Collected %u current-document hits for %s.", count, original_text);
+	{
+		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
+		gchar *summary = g_strdup_printf("Collected %u navigable hits from the active document.", count);
+		search_studio_result_append("Collect Hits", target, original_text, search_studio_mode_name(page), summary);
+		g_free(summary);
+		g_free(target);
+	}
+	g_free(text);
+	g_free(original_text);
+}
+
+
+static void search_studio_collect_session_hits(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	gchar *text = NULL, *original_text = NULL;
+	GeanyFindFlags flags;
+	gboolean backwards = FALSE;
+	guint count;
+
+	if (!search_studio_prepare_find(page, "entry_search", &text, &original_text, &flags, &backwards))
+		return;
+
+	count = search_studio_append_session_match_rows("Session Hit", text, flags,
+		search_studio_mode_name(page), 100);
+	search_studio_activity_append("[Results] Collected %u open-document hits for %s.", count, original_text);
+	{
+		gchar *summary = g_strdup_printf("Collected %u navigable hits across open documents.", count);
+		search_studio_result_append("Collect Session Hits", "Open Documents", original_text,
+			search_studio_mode_name(page), summary);
+		g_free(summary);
+	}
+	g_free(text);
+	g_free(original_text);
 }
 
 
@@ -2715,6 +2803,15 @@ static GtkWidget *search_studio_create_find_page(void)
 	button = gtk_button_new_with_mnemonic(_("_Mark / Bookmark"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_mark_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Collect _Document Hits"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_collect_document_hits), page);
+	button = gtk_button_new_with_mnemonic(_("Collect Sessi_on Hits"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_collect_session_hits), page);
+	button = gtk_button_new_with_mnemonic(_("Clear _Results"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_clear_results), page);
 	button = gtk_button_new_with_mnemonic(_("Open classic _Find dialog"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_open_find_dialog_activate), page);
