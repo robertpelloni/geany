@@ -178,6 +178,8 @@ Additionally, the Find tab now supports explicit hit collection actions:
 - collect hits from all open documents
 - clear the results pane
 
+Search Studio-launched Find in Files searches now also feed grep output back into the Results pane through a lightweight capture path. This gives the dialog a first real cross-file results ingestion loop instead of treating Find in Files as a pure fire-and-forget background action.
+
 This makes Search Studio feel much more like a real search workbench rather than a collection of form controls.
 
 ## What this improves versus previous Geany behavior
@@ -206,8 +208,8 @@ Callback:
 
 ## Remaining technical debt
 
-1. Find in Files tab is now executable, but still not as dense as Notepad++ or Geany's classic advanced dialog.
-2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document and open-document hits, but it is still not yet a full universal hit-list / navigation result viewer across every action.
+1. Find in Files tab is now executable and can ingest its own grep output into Search Studio results, but it is still not as dense as Notepad++ or Geany's classic advanced dialog.
+2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document/open-document hits while Find in Files can ingest launched results, but it is still not yet a full universal hit-list / navigation result viewer across every action.
 3. Replace operations do not yet offer preview/dry-run mode.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 

@@ -75,6 +75,8 @@
 - Verify `Find in Files now` starts a search directly from Search Studio
 - Confirm the Activity pane records the launch summary and selected options
 - Confirm the Results pane gets a Find in Files row with target/query/summary fields
+- After results stream in, confirm additional Find in Files hit rows appear in the Results pane
+- Activate one of the ingested Find in Files hit rows and confirm Geany opens or switches to the corresponding file and jumps near the matched line
 - Confirm row activation on non-navigable summary rows does not crash and simply does nothing useful / may beep
 - Verify file pattern validation works when non-`all` modes are selected
 - Verify classic Find in Files can still be opened with the text/directory prefilled

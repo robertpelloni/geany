@@ -182,6 +182,16 @@ static struct
 }
 studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
 
+static struct
+{
+	gboolean active;
+	gchar *query;
+	gchar *mode;
+	gchar *dir;
+	guint results_added;
+}
+studio_fif_capture = { FALSE, NULL, NULL, NULL, 0 };
+
 
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
@@ -229,7 +239,7 @@ static gboolean execute_find_in_files_request(const gchar *search_text, const gc
 	gboolean recursive, gboolean regexp, gboolean use_extra_options,
 	const gchar *extra_options, gint files_mode, const gchar *files,
 	GeanyEncodingIndex enc_idx, GtkWidget *search_widget, GtkWidget *dir_widget,
-	GtkWidget *files_widget);
+	GtkWidget *files_widget, gboolean capture_results, const gchar *capture_mode);
 static GtkWidget *search_studio_create_find_page(void);
 static GtkWidget *search_studio_create_replace_page(void);
 static GtkWidget *search_studio_create_fif_page(void);
@@ -263,6 +273,9 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 static void search_studio_clear_results(GtkButton *button, gpointer user_data);
 static void search_studio_collect_document_hits(GtkButton *button, gpointer user_data);
 static void search_studio_collect_session_hits(GtkButton *button, gpointer user_data);
+static void search_studio_capture_begin(const gchar *query, const gchar *mode, const gchar *dir);
+static void search_studio_capture_finish(gint exit_status);
+static void search_studio_capture_grep_result(const gchar *utf8_msg);
 static void search_studio_activity_show_page_hint(gint page_num);
 static const gchar *search_studio_mode_name(GtkWidget *page);
 static gint search_mark_all_with_options(GeanyDocument *doc, const gchar *search_text,
@@ -384,6 +397,9 @@ void search_finalize(void)
 	FREE_WIDGET(studio_dlg.dialog);
 	g_free(search_data.text);
 	g_free(search_data.original_text);
+	g_free(studio_fif_capture.query);
+	g_free(studio_fif_capture.mode);
+	g_free(studio_fif_capture.dir);
 }
 
 
@@ -907,6 +923,95 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 }
 
 
+static void search_studio_capture_begin(const gchar *query, const gchar *mode, const gchar *dir)
+{
+	studio_fif_capture.active = TRUE;
+	studio_fif_capture.results_added = 0;
+	SETPTR(studio_fif_capture.query, g_strdup(query));
+	SETPTR(studio_fif_capture.mode, g_strdup(mode));
+	SETPTR(studio_fif_capture.dir, g_strdup(dir));
+}
+
+
+static void search_studio_capture_finish(gint exit_status)
+{
+	if (!studio_fif_capture.active)
+		return;
+
+	search_studio_activity_append("[Find in Files] Capture finished | query=%s | mode=%s | rows=%u | exit=%d",
+		EMPTY(studio_fif_capture.query) ? "(empty)" : studio_fif_capture.query,
+		EMPTY(studio_fif_capture.mode) ? "N/A" : studio_fif_capture.mode,
+		studio_fif_capture.results_added, exit_status);
+	{
+		gchar *summary = g_strdup_printf("Captured %u structured Find in Files rows (exit=%d).",
+			studio_fif_capture.results_added, exit_status);
+		search_studio_result_append("Find in Files Capture",
+			EMPTY(studio_fif_capture.dir) ? "Search Studio" : studio_fif_capture.dir,
+			EMPTY(studio_fif_capture.query) ? "(empty)" : studio_fif_capture.query,
+			EMPTY(studio_fif_capture.mode) ? "N/A" : studio_fif_capture.mode,
+			summary);
+		g_free(summary);
+	}
+
+	studio_fif_capture.active = FALSE;
+}
+
+
+static void search_studio_capture_grep_result(const gchar *utf8_msg)
+{
+	gchar **parts;
+	gchar *filename;
+	gchar *full_path;
+	gchar *target;
+	gchar *summary;
+	gint line;
+
+	if (!studio_fif_capture.active || EMPTY(utf8_msg) || studio_dlg.results_store == NULL)
+		return;
+
+	parts = g_strsplit(utf8_msg, ":", 3);
+	if (parts[0] == NULL || parts[1] == NULL || parts[2] == NULL)
+	{
+		g_strfreev(parts);
+		return;
+	}
+
+	line = atoi(parts[1]);
+	if (line <= 0)
+	{
+		g_strfreev(parts);
+		return;
+	}
+
+	filename = g_strstrip(parts[0]);
+	full_path = g_canonicalize_filename(filename,
+		EMPTY(studio_fif_capture.dir) ? "." : studio_fif_capture.dir);
+	target = g_strdup_printf("%s:%d", full_path, line);
+	summary = g_strdup_printf("Find in Files hit at line %d: %s", line, g_strstrip(parts[2]));
+
+	{
+		GtkTreeIter iter;
+		gtk_list_store_prepend(studio_dlg.results_store, &iter);
+		gtk_list_store_set(studio_dlg.results_store, &iter,
+			STUDIO_RESULT_ACTION, "Find in Files Hit",
+			STUDIO_RESULT_TARGET, target,
+			STUDIO_RESULT_QUERY, studio_fif_capture.query,
+			STUDIO_RESULT_MODE, studio_fif_capture.mode,
+			STUDIO_RESULT_SUMMARY, summary,
+			STUDIO_RESULT_FILE, full_path,
+			STUDIO_RESULT_LINE, line,
+			STUDIO_RESULT_POS, -1,
+			STUDIO_RESULT_CAN_NAVIGATE, TRUE,
+			-1);
+	}
+	studio_fif_capture.results_added++;
+	g_free(summary);
+	g_free(target);
+	g_free(full_path);
+	g_strfreev(parts);
+}
+
+
 static void search_studio_clear_results(GtkButton *button, gpointer user_data)
 {
 	if (studio_dlg.results_store != NULL)
@@ -1018,14 +1123,29 @@ static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreeP
 
 	if (filename != NULL && g_strcmp0(filename, GEANY_STRING_UNTITLED) != 0)
 		doc = document_find_by_filename(filename);
+	if (doc == NULL && filename != NULL && g_strcmp0(filename, GEANY_STRING_UNTITLED) != 0)
+	{
+		gchar *locale_filename = utils_get_locale_from_utf8(filename);
+		doc = document_open_file(locale_filename, FALSE, NULL, NULL);
+		g_free(locale_filename);
+	}
 	if (doc == NULL)
 		doc = document_get_current();
 
 	if (DOC_VALID(doc))
 	{
+		gint goto_pos = pos;
+		if (goto_pos < 0 && gtk_tree_model_iter_n_children(model, NULL) >= 0)
+		{
+			gint line = -1;
+			gtk_tree_model_get(model, &iter, STUDIO_RESULT_LINE, &line, -1);
+			if (line > 0)
+				goto_pos = sci_get_position_from_line(doc->editor->sci, line - 1);
+		}
 		document_show_tab(doc);
-		editor_goto_pos(doc->editor, pos, TRUE);
-		search_studio_activity_append("[Results] Navigated to %s at position %d.", filename ? filename : GEANY_STRING_UNTITLED, pos);
+		if (goto_pos >= 0)
+			editor_goto_pos(doc->editor, goto_pos, TRUE);
+		search_studio_activity_append("[Results] Navigated to %s at position %d.", filename ? filename : GEANY_STRING_UNTITLED, goto_pos);
 	}
 	else
 		utils_beep();
@@ -2749,7 +2869,7 @@ static void search_studio_fif_find_activate(GtkButton *button, gpointer user_dat
 
 	if (execute_find_in_files_request(search_text, utf8_dir, invert, case_sensitive,
 			whole_word, recursive, regexp, use_extra, extra_options, files_mode, files,
-			enc_idx, search_entry, dir_entry, files_entry))
+			enc_idx, search_entry, dir_entry, files_entry, TRUE, search_studio_mode_name(page)))
 	{
 		ui_set_search_entry_background(search_entry, TRUE);
 		ui_set_search_entry_background(dir_entry, TRUE);
@@ -3309,7 +3429,7 @@ static gboolean execute_find_in_files_request(const gchar *search_text, const gc
 	gboolean recursive, gboolean regexp, gboolean use_extra_options,
 	const gchar *extra_options, gint files_mode, const gchar *files,
 	GeanyEncodingIndex enc_idx, GtkWidget *search_widget, GtkWidget *dir_widget,
-	GtkWidget *files_widget)
+	GtkWidget *files_widget, gboolean capture_results, const gchar *capture_mode)
 {
 	gchar *locale_dir = utils_get_locale_from_utf8(utf8_dir);
 	gboolean ok = FALSE;
@@ -3339,7 +3459,11 @@ static gboolean execute_find_in_files_request(const gchar *search_text, const gc
 		const gchar *enc = (enc_idx == GEANY_ENCODING_UTF_8) ? NULL :
 			encodings_get_charset_from_index(enc_idx);
 
+		if (capture_results)
+			search_studio_capture_begin(search_text, capture_mode, utf8_dir);
 		ok = search_find_in_files(search_text, utf8_dir, opts->str, enc, recursive);
+		if (!ok && capture_results)
+			search_studio_capture_finish(-1);
 		g_string_free(opts, TRUE);
 	}
 
@@ -3374,7 +3498,7 @@ on_find_in_files_dialog_response(GtkDialog *dialog, gint response,
 				settings.fif_regexp, settings.fif_use_extra_options,
 				settings.fif_extra_options, settings.fif_files_mode,
 				settings.fif_files, enc_idx, search_combo, dir_combo,
-				fif_dlg.files_combo))
+				fif_dlg.files_combo, FALSE, NULL))
 		{
 			ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(search_combo), search_text, 0);
 			ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(fif_dlg.files_combo), NULL, 0);
@@ -3573,6 +3697,8 @@ static void read_fif_io(gchar *msg, GIOCondition condition, gchar *enc, gint msg
 			utf8_msg = msg;
 
 		msgwin_msg_add_string(msg_color, -1, NULL, utf8_msg);
+		if (msg_color == COLOR_BLACK)
+			search_studio_capture_grep_result(utf8_msg);
 
 		if (utf8_msg != msg)
 			g_free(utf8_msg);
@@ -3610,6 +3736,8 @@ static void search_finished(GPid child_pid, gint status, gpointer user_data)
 	{
 		exit_status = 1;
 	}
+
+	search_studio_capture_finish(exit_status);
 
 	switch (exit_status)
 	{
