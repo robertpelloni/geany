@@ -37,8 +37,13 @@
 - Use Count and confirm the status bar reports the count
 - Confirm the Activity pane records the count summary
 - Confirm the Results pane gets a Count row
+- Confirm a count-impact row is appended for the active document and that selecting it shows richer first-hit context in Diff Preview
 - Confirm at least some match-detail rows are appended for current-document count operations
 - Activate one of the appended match rows and confirm Geany jumps to that match
+- Use `Count Session` and confirm the status bar reports an aggregate count across open documents
+- Confirm per-document count-impact rows are appended for affected documents
+- Select one of those session count-impact rows and confirm the Diff Preview pane updates with richer first-hit context
+- Activate one of those session count-impact rows and confirm Geany switches to that document and jumps to the stored first match
 - Use `Collect Document Hits` and confirm a broader set of navigable current-document match rows is appended
 - Use `Collect Session Hits` and confirm hits from multiple open documents can be appended to the Results pane
 - Activate one of the collected session-hit rows for an already-open file and confirm Geany switches to that document and jumps to the match

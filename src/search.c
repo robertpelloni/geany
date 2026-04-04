@@ -308,6 +308,9 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 static void search_studio_clear_results(GtkButton *button, gpointer user_data);
 static void search_studio_collect_document_hits(GtkButton *button, gpointer user_data);
 static void search_studio_collect_session_hits(GtkButton *button, gpointer user_data);
+static guint search_studio_append_count_impact_row(const gchar *action, GeanyDocument *doc,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode);
+static void search_studio_count_session_activate(GtkButton *button, gpointer user_data);
 static guint search_studio_append_mark_impact_row(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode,
 	gboolean bookmark_lines, gboolean purge_bookmarks);
@@ -1498,6 +1501,61 @@ static void search_studio_collect_session_hits(GtkButton *button, gpointer user_
 	}
 	g_free(text);
 	g_free(original_text);
+}
+
+
+static guint search_studio_append_count_impact_row(const gchar *action, GeanyDocument *doc,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode)
+{
+	gint count;
+	struct Sci_TextToFind ttf;
+	GSList *match, *matches;
+	gint first_start = -1;
+
+	if (!DOC_VALID(doc) || EMPTY(query))
+		return 0;
+
+	count = search_count_matches(doc, query, flags);
+	if (count <= 0)
+		return 0;
+
+	ttf.chrg.cpMin = 0;
+	ttf.chrg.cpMax = sci_get_length(doc->editor->sci);
+	ttf.lpstrText = (gchar *) query;
+	matches = find_range(doc->editor->sci, flags, &ttf);
+	foreach_slist(match, matches)
+	{
+		GeanyMatchInfo *info = match->data;
+
+		if (first_start < 0)
+			first_start = info->start;
+		geany_match_info_free(info);
+	}
+	g_slist_free(matches);
+
+	if (first_start >= 0)
+	{
+		gint line = sci_get_line_from_position(doc->editor->sci, first_start) + 1;
+		gchar *summary = g_strdup_printf("Counted %d matches in this document; first matching line %d.",
+			count, line);
+		gchar *preview_title = g_strdup_printf("%s — %s:%d", action, DOC_FILENAME(doc), line);
+		gchar *line_preview = search_studio_build_line_preview_body(doc, first_start, query, action);
+		gchar *preview_body = g_strdup_printf("Count impact summary\n\nFile: %s\nQuery: %s\nMode: %s\nCounted matches: %d\nFirst matching line: %d\n\n%s",
+			DOC_FILENAME(doc),
+			query,
+			mode != NULL ? mode : _("(none)"),
+			count,
+			line,
+			line_preview);
+		search_studio_result_append_preview_match(action, doc, query, mode, first_start,
+			summary, preview_title, preview_body);
+		g_free(preview_body);
+		g_free(line_preview);
+		g_free(preview_title);
+		g_free(summary);
+	}
+
+	return count;
 }
 
 
@@ -3110,6 +3168,7 @@ static void search_studio_count_activate(GtkButton *button, gpointer user_data)
 		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 		gchar *summary = g_strdup_printf("Counted %d matches in the active document.", count);
 		search_studio_result_append("Count", target, original_text, search_studio_mode_name(page), summary);
+		search_studio_append_count_impact_row("Count Impact", doc, text, flags, search_studio_mode_name(page));
 		search_studio_append_match_rows("Count Match", doc, text, flags, search_studio_mode_name(page), 50);
 		g_free(summary);
 		g_free(target);
@@ -3162,9 +3221,66 @@ static void search_studio_mark_activate(GtkButton *button, gpointer user_data)
 		gchar *summary = g_strdup_printf("Marked %d matches; bookmark-lines=%s; purge-first=%s.",
 			count, bookmark_lines ? "yes" : "no", purge_bookmarks ? "yes" : "no");
 		search_studio_result_append("Mark", target, original_text, search_studio_mode_name(page), summary);
+		search_studio_append_mark_impact_row("Mark Impact", doc, text, flags,
+			search_studio_mode_name(page), bookmark_lines, purge_bookmarks);
 		search_studio_append_match_rows("Mark Match", doc, text, flags, search_studio_mode_name(page), 50);
 		g_free(summary);
 		g_free(target);
+	}
+	search_studio_store_search_data(text, original_text, flags, backwards);
+	g_free(text);
+	g_free(original_text);
+}
+
+
+static void search_studio_count_session_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	gchar *text = NULL, *original_text = NULL;
+	GeanyFindFlags flags;
+	gboolean backwards = FALSE;
+	guint page_count;
+	guint n;
+	guint docs_counted = 0;
+	guint total_matches = 0;
+
+	if (!search_studio_prepare_find(page, "entry_search", &text, &original_text, &flags, &backwards))
+		return;
+
+	if (ui_lookup_widget(page, "combo_search"))
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), original_text, 0);
+
+	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
+	for (n = 0; n < page_count; n++)
+	{
+		GeanyDocument *doc = document_get_from_page(n);
+		guint count;
+
+		if (!DOC_VALID(doc))
+			continue;
+		count = search_studio_append_count_impact_row("Session Count Impact", doc, text, flags,
+			search_studio_mode_name(page));
+		if (count > 0)
+		{
+			docs_counted++;
+			total_matches += count;
+		}
+	}
+
+	if (total_matches == 0)
+		ui_set_statusbar(FALSE, _("No matches found for \"%s\" across open documents."), original_text);
+	else
+		ui_set_statusbar(FALSE, _("Counted %u matches across %u open documents for \"%s\"."),
+			total_matches, docs_counted, original_text);
+
+	search_studio_activity_append("[Count] Session | query=%s | mode=%s | matches=%u | docs=%u",
+		original_text, search_studio_mode_name(page), total_matches, docs_counted);
+	{
+		gchar *summary = g_strdup_printf("Counted %u matches across %u open documents.",
+			total_matches, docs_counted);
+		search_studio_result_append("Count in Session", "Open Documents", original_text,
+			search_studio_mode_name(page), summary);
+		g_free(summary);
 	}
 	search_studio_store_search_data(text, original_text, flags, backwards);
 	g_free(text);
@@ -3600,6 +3716,9 @@ static GtkWidget *search_studio_create_find_page(void)
 	button = gtk_button_new_with_mnemonic(_("Co_unt"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_count_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Count S_ession"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_count_session_activate), page);
 	button = gtk_button_new_with_mnemonic(_("_Mark / Bookmark"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_mark_activate), page);

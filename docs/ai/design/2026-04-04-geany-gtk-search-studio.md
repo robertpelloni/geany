@@ -78,13 +78,14 @@ This is strategically useful because:
 - bulk replace operations now emit document-impact rows, so replace-in-document and replace-in-session no longer collapse entirely into one opaque summary
 - replace preview / impact inspection is now more semantic: preview bodies resolve actual replacement text instead of only echoing the raw payload string
 - Mark now also has a session-wide path, pushing beyond basic single-document parity and making Search Studio more useful for multi-document review/bookmark workflows
+- Count now also has a session-wide path and per-document impact rows, pushing the universal result navigator beyond simple active-document summaries
 - lower-pane focus now behaves more like a navigator: appended rows pull focus to Results, row selection pivots to Diff Preview, and informational summary rows can be inspected without pretending to navigate
 - persistent window position
 
 ### Not yet complete
 - full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
 - complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing), though session-wide marking/bookmarking now meaningfully reduces the gap for multi-document workflows
-- richer integrated results pane (today it supports current-document hits, open-document hits, Search Studio-launched Find in Files ingestion, and bulk-replace document-impact rows; more row types now drive the Diff Preview pane, and lower-pane focus behaves more like a navigator, but it is not yet a full universal hit-list viewer)
+- richer integrated results pane (today it supports current-document hits, open-document hits, Search Studio-launched Find in Files ingestion, count/mark/replace impact rows, and more row types now drive the Diff Preview pane; lower-pane focus behaves more like a navigator, but it is not yet a full universal hit-list viewer)
 - replace preview / dry-run groundwork now exists inside the Replace tab, now with a dedicated lower Diff Preview surface
 
 ## Data-flow architecture
