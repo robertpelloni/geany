@@ -79,6 +79,21 @@ enum
 };
 
 
+enum
+{
+	STUDIO_RESULT_ACTION,
+	STUDIO_RESULT_TARGET,
+	STUDIO_RESULT_QUERY,
+	STUDIO_RESULT_MODE,
+	STUDIO_RESULT_SUMMARY,
+	STUDIO_RESULT_FILE,
+	STUDIO_RESULT_LINE,
+	STUDIO_RESULT_POS,
+	STUDIO_RESULT_CAN_NAVIGATE,
+	STUDIO_RESULT_COLUMNS
+};
+
+
 GeanySearchData search_data;
 GeanySearchPrefs search_prefs;
 
@@ -234,9 +249,15 @@ static void search_studio_fif_find_activate(GtkButton *button, gpointer user_dat
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
 	guint page_num, gpointer user_data);
+static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreePath *path,
+	GtkTreeViewColumn *column, gpointer user_data);
 static void search_studio_activity_append(const gchar *format, ...) G_GNUC_PRINTF(1, 2);
 static void search_studio_result_append(const gchar *action, const gchar *target,
 	const gchar *query, const gchar *mode, const gchar *summary);
+static void search_studio_result_append_match(const gchar *action, GeanyDocument *doc,
+	const gchar *query, const gchar *mode, gint pos, const gchar *summary);
+static void search_studio_append_match_rows(const gchar *action, GeanyDocument *doc,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint limit);
 static void search_studio_activity_show_page_hint(gint page_num);
 static const gchar *search_studio_mode_name(GtkWidget *page);
 static gint search_mark_all_with_options(GeanyDocument *doc, const gchar *search_text,
@@ -780,12 +801,83 @@ static void search_studio_result_append(const gchar *action, const gchar *target
 
 	gtk_list_store_prepend(studio_dlg.results_store, &iter);
 	gtk_list_store_set(studio_dlg.results_store, &iter,
-		0, action,
-		1, target,
-		2, query,
-		3, mode,
-		4, summary,
+		STUDIO_RESULT_ACTION, action,
+		STUDIO_RESULT_TARGET, target,
+		STUDIO_RESULT_QUERY, query,
+		STUDIO_RESULT_MODE, mode,
+		STUDIO_RESULT_SUMMARY, summary,
+		STUDIO_RESULT_FILE, NULL,
+		STUDIO_RESULT_LINE, -1,
+		STUDIO_RESULT_POS, -1,
+		STUDIO_RESULT_CAN_NAVIGATE, FALSE,
 		-1);
+}
+
+
+static void search_studio_result_append_match(const gchar *action, GeanyDocument *doc,
+	const gchar *query, const gchar *mode, gint pos, const gchar *summary)
+{
+	GtkTreeIter iter;
+	gchar *target;
+	gint line;
+
+	if (studio_dlg.results_store == NULL || !DOC_VALID(doc))
+		return;
+
+	line = sci_get_line_from_position(doc->editor->sci, pos) + 1;
+	target = g_strdup_printf("%s:%d", DOC_FILENAME(doc), line);
+
+	gtk_list_store_prepend(studio_dlg.results_store, &iter);
+	gtk_list_store_set(studio_dlg.results_store, &iter,
+		STUDIO_RESULT_ACTION, action,
+		STUDIO_RESULT_TARGET, target,
+		STUDIO_RESULT_QUERY, query,
+		STUDIO_RESULT_MODE, mode,
+		STUDIO_RESULT_SUMMARY, summary,
+		STUDIO_RESULT_FILE, DOC_FILENAME(doc),
+		STUDIO_RESULT_LINE, line,
+		STUDIO_RESULT_POS, pos,
+		STUDIO_RESULT_CAN_NAVIGATE, TRUE,
+		-1);
+	g_free(target);
+}
+
+
+static void search_studio_append_match_rows(const gchar *action, GeanyDocument *doc,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint limit)
+{
+	struct Sci_TextToFind ttf;
+	GSList *match, *matches;
+	guint count = 0;
+
+	if (!DOC_VALID(doc) || EMPTY(query))
+		return;
+
+	ttf.chrg.cpMin = 0;
+	ttf.chrg.cpMax = sci_get_length(doc->editor->sci);
+	ttf.lpstrText = (gchar *) query;
+	matches = find_range(doc->editor->sci, flags, &ttf);
+	foreach_slist(match, matches)
+	{
+		GeanyMatchInfo *info = match->data;
+
+		if (count < limit)
+		{
+			gchar *line_text = sci_get_line(doc->editor->sci,
+				sci_get_line_from_position(doc->editor->sci, info->start));
+			gchar *summary;
+
+			g_strstrip(line_text);
+			summary = g_strdup_printf("Match at line %d: %s",
+				sci_get_line_from_position(doc->editor->sci, info->start) + 1, line_text);
+			search_studio_result_append_match(action, doc, query, mode, info->start, summary);
+			g_free(summary);
+			g_free(line_text);
+		}
+		count++;
+		geany_match_info_free(info);
+	}
+	g_slist_free(matches);
 }
 
 
@@ -807,6 +899,50 @@ static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget 
 	guint page_num, gpointer user_data)
 {
 	search_studio_activity_show_page_hint((gint) page_num);
+}
+
+
+static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreePath *path,
+	GtkTreeViewColumn *column, gpointer user_data)
+{
+	GtkTreeIter iter;
+	GtkTreeModel *model = GTK_TREE_MODEL(studio_dlg.results_store);
+	gboolean can_navigate = FALSE;
+	gchar *filename = NULL;
+	gint pos = -1;
+	GeanyDocument *doc = NULL;
+
+	if (!gtk_tree_model_get_iter(model, &iter, path))
+		return;
+
+	gtk_tree_model_get(model, &iter,
+		STUDIO_RESULT_FILE, &filename,
+		STUDIO_RESULT_POS, &pos,
+		STUDIO_RESULT_CAN_NAVIGATE, &can_navigate,
+		-1);
+
+	if (!can_navigate || pos < 0)
+	{
+		g_free(filename);
+		utils_beep();
+		return;
+	}
+
+	if (filename != NULL && g_strcmp0(filename, GEANY_STRING_UNTITLED) != 0)
+		doc = document_find_by_filename(filename);
+	if (doc == NULL)
+		doc = document_get_current();
+
+	if (DOC_VALID(doc))
+	{
+		document_show_tab(doc);
+		editor_goto_pos(doc->editor, pos, TRUE);
+		search_studio_activity_append("[Results] Navigated to %s at position %d.", filename ? filename : GEANY_STRING_UNTITLED, pos);
+	}
+	else
+		utils_beep();
+
+	g_free(filename);
 }
 
 
@@ -2196,6 +2332,8 @@ static void search_studio_find_activate(GtkButton *button, gpointer user_data)
 		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 		search_studio_result_append("Find", target, original_text, search_studio_mode_name(page),
 			result > -1 ? "Found next occurrence in current document." : "No occurrence found from the current position.");
+		if (result > -1)
+			search_studio_append_match_rows("Find Match", doc, text, flags, search_studio_mode_name(page), 1);
 		g_free(target);
 	}
 	g_free(text);
@@ -2249,6 +2387,7 @@ static void search_studio_count_activate(GtkButton *button, gpointer user_data)
 		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 		gchar *summary = g_strdup_printf("Counted %d matches in the active document.", count);
 		search_studio_result_append("Count", target, original_text, search_studio_mode_name(page), summary);
+		search_studio_append_match_rows("Count Match", doc, text, flags, search_studio_mode_name(page), 50);
 		g_free(summary);
 		g_free(target);
 	}
@@ -2300,6 +2439,7 @@ static void search_studio_mark_activate(GtkButton *button, gpointer user_data)
 		gchar *summary = g_strdup_printf("Marked %d matches; bookmark-lines=%s; purge-first=%s.",
 			count, bookmark_lines ? "yes" : "no", purge_bookmarks ? "yes" : "no");
 		search_studio_result_append("Mark", target, original_text, search_studio_mode_name(page), summary);
+		search_studio_append_match_rows("Mark Match", doc, text, flags, search_studio_mode_name(page), 50);
 		g_free(summary);
 		g_free(target);
 	}
@@ -2385,6 +2525,8 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 				original_find, search_studio_mode_name(page), result > -1 ? "match found" : "not found");
 			search_studio_result_append("Replace/Find", target, original_find, search_studio_mode_name(page),
 				result > -1 ? "Found next match from Replace tab." : "No further match found from Replace tab.");
+			if (result > -1)
+				search_studio_append_match_rows("Replace Match", doc, find, flags, search_studio_mode_name(page), 1);
 			g_free(target);
 			break;
 		}
@@ -2862,8 +3004,9 @@ static void create_search_studio_dialog(void)
 	results_scroll = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(results_scroll),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	studio_dlg.results_store = gtk_list_store_new(5,
-		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+	studio_dlg.results_store = gtk_list_store_new(STUDIO_RESULT_COLUMNS,
+		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
+		G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_BOOLEAN);
 	studio_dlg.results_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(studio_dlg.results_store));
 	renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new_with_attributes(_("Action"), renderer, "text", 0, NULL);
@@ -2880,6 +3023,8 @@ static void create_search_studio_dialog(void)
 	renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new_with_attributes(_("Summary"), renderer, "text", 4, NULL);
 	gtk_tree_view_append_column(GTK_TREE_VIEW(studio_dlg.results_view), column);
+	g_signal_connect(studio_dlg.results_view, "row-activated",
+		G_CALLBACK(search_studio_results_row_activated), NULL);
 	gtk_container_add(GTK_CONTAINER(results_scroll), studio_dlg.results_view);
 	gtk_container_add(GTK_CONTAINER(results_frame), results_scroll);
 	gtk_notebook_append_page(GTK_NOTEBOOK(preview_notebook), results_frame, gtk_label_new(_("Results")));

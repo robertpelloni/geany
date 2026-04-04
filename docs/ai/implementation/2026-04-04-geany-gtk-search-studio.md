@@ -107,9 +107,18 @@ The Results tab is backed by a `GtkListStore`/`GtkTreeView` and records structur
 - Mode
 - Summary
 
-This is still a summary-level results surface, not yet a full clickable hit-list. But it is a major architectural step because Search Studio now distinguishes between:
+Additional hidden metadata columns store navigation context such as:
+- filename
+- line
+- position
+- whether the row is navigable
+
+This is now more than a summary-level results surface: for current-document operations it can append concrete match rows and respond to row activation by navigating to the stored match position.
+
+It is not yet a full universal hit-list, but it is a major architectural step because Search Studio now distinguishes between:
 - narrative workflow logging
 - structured operation records
+- navigable match entries
 
 ### 7. Extended mark behavior
 Implemented:
@@ -162,6 +171,8 @@ Search actions now append structured result records for operations like:
 - Find in Files launches
 - classic-dialog bridge launches
 
+For Find / Count / Mark / Replace-find on the active document, Search Studio also appends concrete match rows (with capped detail volume) so users can activate a row and jump to that match.
+
 This makes Search Studio feel much more like a real search workbench rather than a collection of form controls.
 
 ## What this improves versus previous Geany behavior
@@ -191,7 +202,7 @@ Callback:
 ## Remaining technical debt
 
 1. Find in Files tab is now executable, but still not as dense as Notepad++ or Geany's classic advanced dialog.
-2. Search Studio now has both activity and structured results panes, but not yet a full clickable hit-list / navigation result viewer.
+2. Search Studio now has both activity and structured results panes, and some current-document rows are clickable for navigation, but it is not yet a full universal hit-list / navigation result viewer.
 3. Replace operations do not yet offer preview/dry-run mode.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 

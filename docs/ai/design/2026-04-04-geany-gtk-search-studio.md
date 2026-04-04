@@ -71,12 +71,13 @@ This is strategically useful because:
 - direct Mark / Bookmark action
 - direct Clear marks action
 - integrated lower notebook with both activity and structured results panes
+- structured results rows can now drive match navigation for current-document operations
 - persistent window position
 
 ### Not yet complete
 - full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
 - complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing)
-- richer integrated results pane (today it is structured summaries, not yet a full clickable hit-list viewer)
+- richer integrated results pane (today it is a partly clickable current-document match navigator, not yet a full universal hit-list viewer)
 - replace preview / dry-run workflow
 
 ## Data-flow architecture

@@ -27,9 +27,12 @@
 - Confirm matching works and Find Next / Previous state updates correctly
 - Confirm the Activity pane records a summary line for the action
 - Confirm the Results pane gets a structured row for the action
+- For a successful current-document find, activate the newest match row and confirm Geany jumps to the stored match position
 - Use Count and confirm the status bar reports the count
 - Confirm the Activity pane records the count summary
 - Confirm the Results pane gets a Count row
+- Confirm at least some match-detail rows are appended for current-document count operations
+- Activate one of the appended match rows and confirm Geany jumps to that match
 - Switch mode to Extended and verify escape-sequence processing works for simple cases like `\n`
 - Switch mode to Regex and verify multiline / dot-all controls become enabled
 
@@ -38,6 +41,8 @@
 - Confirm search indicators are shown
 - Confirm the Activity pane records the mark action
 - Confirm the Results pane gets a Mark row
+- Confirm at least some match-detail rows are appended for current-document mark operations
+- Activate one of the appended match rows and confirm Geany jumps to that match
 - Enable `Bookmark matching lines` and run again
 - Confirm line markers are placed on matching lines
 - Enable `Purge existing bookmarks first` and rerun with a different term
@@ -58,6 +63,7 @@
   - Replace in Session
 - Confirm the Activity pane records a summary for each action
 - Confirm the Results pane gets structured rows for each action
+- For the Replace tab's Find-style operations, confirm navigable match rows appear when applicable
 - Confirm classic Replace can still be opened with synced state
 
 ### Find in Files tab
@@ -65,6 +71,7 @@
 - Verify `Find in Files now` starts a search directly from Search Studio
 - Confirm the Activity pane records the launch summary and selected options
 - Confirm the Results pane gets a Find in Files row with target/query/summary fields
+- Confirm row activation on non-navigable summary rows does not crash and simply does nothing useful / may beep
 - Verify file pattern validation works when non-`all` modes are selected
 - Verify classic Find in Files can still be opened with the text/directory prefilled
 
