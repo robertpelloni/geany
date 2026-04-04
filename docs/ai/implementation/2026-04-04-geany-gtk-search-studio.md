@@ -118,6 +118,13 @@ Additional hidden metadata columns store navigation and preview context such as:
 
 This is now more than a summary-level results surface: for current-document operations it can append concrete match rows and respond to row activation by navigating to the stored match position. Selection changes can also update the Diff Preview pane with row-specific details.
 
+More result row types now carry preview payloads, including:
+- generic current-document/session match rows
+- replace preview rows
+- ingested Find in Files rows
+
+This means the Diff Preview pane is increasingly becoming a universal inspection surface instead of a replace-preview-only feature.
+
 It is not yet a full universal hit-list, but it is a major architectural step because Search Studio now distinguishes between:
 - narrative workflow logging
 - structured operation records
@@ -216,7 +223,7 @@ Callback:
 
 1. Find in Files tab is now executable and can ingest its own grep output into Search Studio results, but it is still not as dense as Notepad++ or Geany's classic advanced dialog.
 2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document/open-document hits while Find in Files can ingest launched results, but it is still not yet a full universal hit-list / navigation result viewer across every action.
-3. Replace preview/dry-run groundwork exists and now feeds a dedicated Diff Preview pane, but it is still a lightweight splice preview rather than a true semantic diff viewer.
+3. Replace preview/dry-run groundwork exists and now feeds a dedicated Diff Preview pane, and more row types provide richer previews, but it is still a lightweight text preview rather than a true semantic diff viewer.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 
 ## Why this was implemented this way

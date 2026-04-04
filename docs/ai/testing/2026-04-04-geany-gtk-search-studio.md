@@ -31,6 +31,7 @@
 - Confirm the Results pane gets a structured row for the action
 - For a successful current-document find, activate the newest match row and confirm Geany jumps to the stored match position
 - Select a result row and confirm the Diff Preview pane updates with row-specific detail text
+- Confirm generic match rows now show richer line-context preview text instead of only a one-line summary
 - Use Count and confirm the status bar reports the count
 - Confirm the Activity pane records the count summary
 - Confirm the Results pane gets a Count row
@@ -83,6 +84,7 @@
 - Confirm the Activity pane records the launch summary and selected options
 - Confirm the Results pane gets a Find in Files row with target/query/summary fields
 - After results stream in, confirm additional Find in Files hit rows appear in the Results pane
+- Select an ingested Find in Files hit row and confirm the Diff Preview pane updates with richer hit details
 - Activate one of the ingested Find in Files hit rows and confirm Geany opens or switches to the corresponding file and jumps near the matched line
 - Confirm row activation on non-navigable summary rows does not crash and simply does nothing useful / may beep
 - Verify file pattern validation works when non-`all` modes are selected
