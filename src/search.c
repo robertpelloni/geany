@@ -275,6 +275,11 @@ static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
 	const GeanyMatchInfo *info, const gchar *replace_preview);
 static guint search_studio_append_replace_preview_session_rows(const gchar *query,
 	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint per_doc_limit);
+static guint search_studio_append_replace_impact_rows(const gchar *action, GeanyDocument *doc,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview);
+static guint search_studio_append_replace_impact_session_rows(const gchar *action,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview,
+	guint *doc_count);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
@@ -1166,6 +1171,100 @@ static guint search_studio_append_replace_preview_session_rows(const gchar *quer
 			continue;
 		total += search_studio_append_replace_preview_rows(doc, query, flags, mode, replace_preview, per_doc_limit);
 	}
+	return total;
+}
+
+
+static guint search_studio_append_replace_impact_rows(const gchar *action, GeanyDocument *doc,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview)
+{
+	struct Sci_TextToFind ttf;
+	GSList *match, *matches;
+	guint count = 0;
+	gint first_start = -1;
+	gint first_end = -1;
+
+	if (!DOC_VALID(doc) || EMPTY(query))
+		return 0;
+
+	ttf.chrg.cpMin = 0;
+	ttf.chrg.cpMax = sci_get_length(doc->editor->sci);
+	ttf.lpstrText = (gchar *) query;
+	matches = find_range(doc->editor->sci, flags, &ttf);
+	foreach_slist(match, matches)
+	{
+		GeanyMatchInfo *info = match->data;
+
+		if (count == 0)
+		{
+			first_start = info->start;
+			first_end = info->end;
+		}
+		count++;
+		geany_match_info_free(info);
+	}
+	g_slist_free(matches);
+
+	if (count > 0 && first_start >= 0)
+	{
+		GeanyMatchInfo info = { 0 };
+		gint line = sci_get_line_from_position(doc->editor->sci, first_start) + 1;
+		gchar *summary;
+		gchar *preview_title;
+		gchar *payload_preview;
+		gchar *preview_body;
+
+		info.start = first_start;
+		info.end = first_end;
+		summary = g_strdup_printf("Affected %u matches in this document; first affected line %d.", count, line);
+		preview_title = g_strdup_printf("%s — %s:%d", action, DOC_FILENAME(doc), line);
+		payload_preview = search_studio_build_replace_preview_body(doc, &info, replace_preview);
+		preview_body = g_strdup_printf("Document impact summary\n\nFile: %s\nQuery: %s\nMode: %s\nReplacement payload: %s\nAffected matches: %u\nFirst affected line: %d\n\n%s",
+			DOC_FILENAME(doc),
+			query,
+			mode != NULL ? mode : _("(none)"),
+			replace_preview != NULL ? replace_preview : _("(none)"),
+			count,
+			line,
+			payload_preview);
+		search_studio_result_append_preview_match(action, doc, query, mode, first_start,
+			summary, preview_title, preview_body);
+		g_free(preview_body);
+		g_free(payload_preview);
+		g_free(preview_title);
+		g_free(summary);
+	}
+
+	return count;
+}
+
+
+static guint search_studio_append_replace_impact_session_rows(const gchar *action,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview,
+	guint *doc_count)
+{
+	guint page_count;
+	guint n;
+	guint total = 0;
+	guint docs = 0;
+
+	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
+	for (n = 0; n < page_count; n++)
+	{
+		GeanyDocument *doc = document_get_from_page(n);
+		guint count;
+
+		if (!DOC_VALID(doc))
+			continue;
+		count = search_studio_append_replace_impact_rows(action, doc, query, flags, mode, replace_preview);
+		if (count > 0)
+		{
+			total += count;
+			docs++;
+		}
+	}
+	if (doc_count != NULL)
+		*doc_count = docs;
 	return total;
 }
 
@@ -3117,13 +3216,15 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 		}
 		case GEANY_RESPONSE_REPLACE_IN_FILE:
 		{
+			guint planned = search_studio_append_replace_impact_rows("Replace Impact", doc,
+				find, flags, search_studio_mode_name(page), original_replace);
 			gint reps = document_replace_all(doc, find, replace, original_find, original_replace, flags);
 			gchar *target = g_path_get_basename(DOC_FILENAME(doc));
-			gchar *summary = g_strdup_printf("Replaced %d matches in the active document.", reps);
+			gchar *summary = g_strdup_printf("Replaced %d matches in the active document (planned hits: %u).", reps, planned);
 			if (!reps)
 				utils_beep();
-			search_studio_activity_append("[Replace] Replace in document | find=%s | replace=%s | replacements=%d",
-				original_find, original_replace, reps);
+			search_studio_activity_append("[Replace] Replace in document | find=%s | replace=%s | replacements=%d | planned=%u",
+				original_find, original_replace, reps, planned);
 			search_studio_result_append("Replace in Document", target, original_find, search_studio_mode_name(page), summary);
 			g_free(summary);
 			g_free(target);
@@ -3146,11 +3247,21 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 				_("This operation will modify all open files which contain the text to replace."),
 				_("Are you sure to replace in the whole session?")))
 				break;
-			replace_in_session(doc, flags, FALSE, find, replace, original_find, original_replace);
-			search_studio_activity_append("[Replace] Replace in session | find=%s | replace=%s | mode=%s",
-				original_find, original_replace, search_studio_mode_name(page));
-			search_studio_result_append("Replace in Session", "Session", original_find, search_studio_mode_name(page),
-				"Applied replacement across open documents.");
+			{
+				guint planned_docs = 0;
+				guint planned_matches = search_studio_append_replace_impact_session_rows("Session Replace Impact",
+					find, flags, search_studio_mode_name(page), original_replace, &planned_docs);
+				replace_in_session(doc, flags, FALSE, find, replace, original_find, original_replace);
+				search_studio_activity_append("[Replace] Replace in session | find=%s | replace=%s | mode=%s | planned-docs=%u | planned-matches=%u",
+					original_find, original_replace, search_studio_mode_name(page), planned_docs, planned_matches);
+				{
+					gchar *summary = g_strdup_printf("Applied replacement across open documents (planned docs: %u, planned matches: %u).",
+						planned_docs, planned_matches);
+					search_studio_result_append("Replace in Session", "Session", original_find, search_studio_mode_name(page),
+						summary);
+					g_free(summary);
+				}
+			}
 			break;
 	}
 
