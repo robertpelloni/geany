@@ -116,6 +116,7 @@ void search_init(void);
 void search_finalize(void);
 
 void search_show_find_dialog(void);
+void search_show_search_studio_dialog(void);
 
 void search_show_replace_dialog(void);
 

@@ -986,6 +986,12 @@ void on_toolbutton_compile_clicked(GtkAction *action, gpointer user_data)
 }
 
 
+void on_search_studio1_activate(GtkMenuItem *menuitem, gpointer user_data)
+{
+	search_show_search_studio_dialog();
+}
+
+
 void on_find1_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
 	search_show_find_dialog();

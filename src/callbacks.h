@@ -94,6 +94,7 @@ void on_normal_size1_activate(GtkMenuItem *menuitem, gpointer user_data);
 
 void on_show_color_chooser1_activate(GtkMenuItem *menuitem, gpointer user_data);
 
+void on_search_studio1_activate(GtkMenuItem *menuitem, gpointer user_data);
 void on_find1_activate(GtkMenuItem *menuitem, gpointer user_data);
 
 void on_find_next1_activate(GtkMenuItem *menuitem, gpointer user_data);

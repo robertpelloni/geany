@@ -7292,6 +7292,17 @@ Supported placeholders are:
                       <object class="GtkMenu" id="search1_menu">
                         <property name="can-focus">False</property>
                         <child>
+                          <object class="GtkImageMenuItem" id="search_studio1">
+                            <property name="label" translatable="yes">Search Stu_dio...</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="use-underline">True</property>
+                            <property name="image">image6</property>
+                            <property name="use-stock">False</property>
+                            <signal name="activate" handler="on_search_studio1_activate" swapped="no"/>
+                          </object>
+                        </child>
+                        <child>
                           <object class="GtkImageMenuItem" id="find1">
                             <property name="label" translatable="yes">_Find...</property>
                             <property name="visible">True</property>
