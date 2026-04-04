@@ -70,12 +70,13 @@ This is strategically useful because:
 - direct Count action
 - direct Mark / Bookmark action
 - direct Clear marks action
+- integrated activity / preview pane for in-dialog workflow feedback
 - persistent window position
 
 ### Not yet complete
 - full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
 - complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing)
-- integrated results pane / preview pane inside the GTK Search Studio
+- richer integrated results pane (today it is an activity / preview summary pane, not a full hit-list viewer)
 - replace preview / dry-run workflow
 
 ## Data-flow architecture

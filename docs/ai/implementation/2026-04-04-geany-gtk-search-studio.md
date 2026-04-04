@@ -82,6 +82,19 @@ Implemented GTK callbacks for:
 
 These call Geany's existing search/document primitives rather than inventing a new backend.
 
+### 7. Integrated activity / preview pane
+The Search Studio dialog now includes a lower read-only activity pane.
+
+It is not yet a full search-results viewer, but it provides immediate in-dialog feedback for:
+- current page guidance
+- find/count summaries
+- replace actions
+- mark/bookmark actions
+- file-search launches
+- classic-dialog bridge actions
+
+This gives the dialog a much more cockpit-like feel and starts building the case for a future richer preview/results surface.
+
 ### 7. Extended mark behavior
 Implemented:
 - `search_mark_all_with_options()`
@@ -114,6 +127,14 @@ Introduced:
 
 This moved Search Studio Replace beyond simple bridging into direct execution against the active document/session.
 
+### 11. Notebook activity logging
+Added helpers such as:
+- `search_studio_activity_append()`
+- `search_studio_activity_show_page_hint()`
+- `search_studio_notebook_switch_page()`
+
+These record useful summaries directly inside Search Studio so the user can see what happened without relying only on the status bar.
+
 ## What this improves versus previous Geany behavior
 
 ### 9. Menu integration
@@ -141,7 +162,7 @@ Callback:
 ## Remaining technical debt
 
 1. Find in Files tab is now executable, but still not as dense as Notepad++ or Geany's classic advanced dialog.
-2. Search Studio currently has no integrated results/preview pane.
+2. Search Studio now has an activity / preview pane, but not yet a full hit-list / structured result viewer.
 3. Replace operations do not yet offer preview/dry-run mode.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 

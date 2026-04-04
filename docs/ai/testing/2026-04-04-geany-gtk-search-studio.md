@@ -14,25 +14,31 @@
   - Replace
   - Find in Files
   - Mark
+- Confirm a lower **Activity / Preview** pane is visible
+- Switch tabs and confirm the pane receives page-specific guidance entries
 - Close and reopen it
 - Confirm it reopens near the previous position
 
 ### Find tab
 - Enter a literal string and use Find Next / Find Previous
 - Confirm matching works and Find Next / Previous state updates correctly
+- Confirm the Activity / Preview pane records a summary line for the action
 - Use Count and confirm the status bar reports the count
+- Confirm the Activity / Preview pane records the count summary
 - Switch mode to Extended and verify escape-sequence processing works for simple cases like `\n`
 - Switch mode to Regex and verify multiline / dot-all controls become enabled
 
 ### Mark tab
 - Enter a search string and click Mark now
 - Confirm search indicators are shown
+- Confirm the Activity / Preview pane records the mark action
 - Enable `Bookmark matching lines` and run again
 - Confirm line markers are placed on matching lines
 - Enable `Purge existing bookmarks first` and rerun with a different term
 - Confirm previous bookmarks are removed before the new set is added
 - Click `Clear marks`
 - Confirm both indicators and bookmarks are removed
+- Confirm the clear action is reflected in the Activity / Preview pane
 
 ### Replace tab
 - Enter find/replace values
@@ -43,11 +49,13 @@
   - Replace in Document
   - Replace in Selection
   - Replace in Session
+- Confirm the Activity / Preview pane records a summary for each action
 - Confirm classic Replace can still be opened with synced state
 
 ### Find in Files tab
 - Enter search text and a valid directory
 - Verify `Find in Files now` starts a search directly from Search Studio
+- Confirm the Activity / Preview pane records the launch summary and selected options
 - Verify file pattern validation works when non-`all` modes are selected
 - Verify classic Find in Files can still be opened with the text/directory prefilled
 

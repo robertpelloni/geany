@@ -49,6 +49,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdarg.h>
 
 #include <gdk/gdkkeysyms.h>
 
@@ -159,9 +160,10 @@ static struct
 	GtkWidget	*replace_page;
 	GtkWidget	*fif_page;
 	GtkWidget	*mark_page;
+	GtkWidget	*activity_view;
 	gint		position[2]; /* x, y */
 }
-studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
+studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
 
 
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
@@ -228,6 +230,11 @@ static gboolean search_studio_prepare_replace(GtkWidget *page, gchar **find, gch
 static void search_studio_replace_action_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
+static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
+	guint page_num, gpointer user_data);
+static void search_studio_activity_append(const gchar *format, ...) G_GNUC_PRINTF(1, 2);
+static void search_studio_activity_show_page_hint(gint page_num);
+static const gchar *search_studio_mode_name(GtkWidget *page);
 static gint search_mark_all_with_options(GeanyDocument *doc, const gchar *search_text,
 	GeanyFindFlags flags, gboolean bookmark_lines, gboolean purge_bookmarks);
 static void search_clear_all_marks(GeanyDocument *doc);
@@ -718,6 +725,65 @@ static void search_studio_store_search_data(const gchar *text, const gchar *orig
 	search_data.flags = flags;
 	search_data.backwards = backwards;
 	search_data.search_bar = FALSE;
+}
+
+
+static const gchar *search_studio_mode_name(GtkWidget *page)
+{
+	GtkWidget *mode_regex = ui_lookup_widget(page, "mode_regex");
+	GtkWidget *mode_extended = ui_lookup_widget(page, "mode_extended");
+
+	if (mode_regex && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mode_regex)))
+		return "Regex";
+	if (mode_extended && gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(mode_extended)))
+		return "Extended";
+	return "Normal";
+}
+
+
+static void search_studio_activity_append(const gchar *format, ...)
+{
+	GtkTextBuffer *buffer;
+	GtkTextIter end;
+	gchar *message;
+	va_list args;
+
+	if (studio_dlg.activity_view == NULL)
+		return;
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(studio_dlg.activity_view));
+	va_start(args, format);
+	message = g_strdup_vprintf(format, args);
+	va_end(args);
+
+	gtk_text_buffer_get_end_iter(buffer, &end);
+	if (gtk_text_buffer_get_char_count(buffer) > 0)
+		gtk_text_buffer_insert(buffer, &end, "\n", -1);
+	gtk_text_buffer_insert(buffer, &end, message, -1);
+	gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(studio_dlg.activity_view),
+		gtk_text_buffer_get_insert(buffer));
+	g_free(message);
+}
+
+
+static void search_studio_activity_show_page_hint(gint page_num)
+{
+	static const gchar *hints[] = {
+		"Find: use the dense search cockpit for repeated lookup, counting, and bookmark-marking.",
+		"Replace: execute targeted or bulk replacements directly, then fall back to the classic dialog if needed.",
+		"Find in Files: launch directory searches directly from Search Studio and review detailed results in the message window.",
+		"Mark: highlight all matches, optionally bookmark matching lines, then clear everything in one click."
+	};
+
+	if (page_num >= 0 && page_num < (gint) G_N_ELEMENTS(hints))
+		search_studio_activity_append("[%s] %s", page_num == 0 ? "Find" : page_num == 1 ? "Replace" : page_num == 2 ? "Find in Files" : "Mark", hints[page_num]);
+}
+
+
+static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
+	guint page_num, gpointer user_data)
+{
+	search_studio_activity_show_page_hint((gint) page_num);
 }
 
 
@@ -2100,6 +2166,9 @@ static void search_studio_find_activate(GtkButton *button, gpointer user_data)
 		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), original_text, 0);
 	result = document_find_text(doc, text, original_text, flags, backwards, NULL, TRUE);
 	ui_set_search_entry_background(ui_lookup_widget(page, "entry_search"), (result > -1));
+	search_studio_activity_append("[Find] %s | mode=%s | wrap=%s | result=%s",
+		original_text, search_studio_mode_name(page),
+		search_prefs.always_wrap ? "on" : "off", result > -1 ? "match found" : "not found");
 	g_free(text);
 	g_free(original_text);
 }
@@ -2145,6 +2214,8 @@ static void search_studio_count_activate(GtkButton *button, gpointer user_data)
 			ngettext("Counted %d match for \"%s\".", "Counted %d matches for \"%s\".", count),
 			count, original_text);
 
+	search_studio_activity_append("[Count] %s | mode=%s | matches=%d",
+		original_text, search_studio_mode_name(page), count);
 	search_studio_store_search_data(text, original_text, flags, backwards);
 	g_free(text);
 	g_free(original_text);
@@ -2185,6 +2256,9 @@ static void search_studio_mark_activate(GtkButton *button, gpointer user_data)
 			ngettext("Marked %d match for \"%s\".", "Marked %d matches for \"%s\".", count),
 			count, original_text);
 
+	search_studio_activity_append("[Mark] %s | mode=%s | matches=%d | bookmarks=%s | purge=%s",
+		original_text, search_studio_mode_name(page), count,
+		bookmark_lines ? "on" : "off", purge_bookmarks ? "on" : "off");
 	search_studio_store_search_data(text, original_text, flags, backwards);
 	g_free(text);
 	g_free(original_text);
@@ -2200,18 +2274,21 @@ static void search_studio_clear_marks_activate(GtkButton *button, gpointer user_
 
 	search_clear_all_marks(doc);
 	ui_set_statusbar(FALSE, _("Cleared search highlights and bookmarks."));
+	search_studio_activity_append("[Mark] Cleared search highlights and bookmarks.");
 }
 
 
 static void search_studio_open_find_dialog_activate(GtkButton *button, gpointer user_data)
 {
 	search_studio_sync_find_dialog_from_page(GTK_WIDGET(user_data));
+	search_studio_activity_append("[Find] Opened classic Find dialog with synchronized state.");
 }
 
 
 static void search_studio_open_replace_dialog_activate(GtkButton *button, gpointer user_data)
 {
 	search_studio_sync_replace_dialog_from_page(GTK_WIDGET(user_data));
+	search_studio_activity_append("[Replace] Opened classic Replace dialog with synchronized state.");
 }
 
 
@@ -2221,6 +2298,7 @@ static void search_studio_open_fif_dialog_activate(GtkButton *button, gpointer u
 	const gchar *text = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
 	const gchar *dir = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_dir")));
 	search_show_find_in_files_dialog_full(EMPTY(text) ? NULL : text, EMPTY(dir) ? NULL : dir);
+	search_studio_activity_append("[Find in Files] Opened classic Find in Files dialog with synchronized text/directory.");
 }
 
 
@@ -2247,21 +2325,39 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 		{
 			gint result = document_find_text(doc, find, original_find, flags, backwards, NULL, TRUE);
 			ui_set_search_entry_background(ui_lookup_widget(page, "entry_search"), (result > -1));
+			search_studio_activity_append("[Replace] Find next for %s | mode=%s | result=%s",
+				original_find, search_studio_mode_name(page), result > -1 ? "match found" : "not found");
 			break;
 		}
 		case GEANY_RESPONSE_REPLACE:
-			document_replace_text(doc, find, original_find, replace, flags, backwards);
+		{
+			gint rep = document_replace_text(doc, find, original_find, replace, flags, backwards);
+			search_studio_activity_append("[Replace] Single replace | find=%s | replace=%s | mode=%s | result=%s",
+				original_find, original_replace, search_studio_mode_name(page), rep != -1 ? "changed" : "no change");
 			break;
+		}
 		case GEANY_RESPONSE_REPLACE_AND_FIND:
-			if (document_replace_text(doc, find, original_find, replace, flags, backwards) != -1)
+		{
+			gint rep = document_replace_text(doc, find, original_find, replace, flags, backwards);
+			if (rep != -1)
 				document_find_text(doc, find, original_find, flags, backwards, NULL, TRUE);
+			search_studio_activity_append("[Replace] Replace & Find | find=%s | replace=%s | mode=%s | result=%s",
+				original_find, original_replace, search_studio_mode_name(page), rep != -1 ? "changed" : "no change");
 			break;
+		}
 		case GEANY_RESPONSE_REPLACE_IN_FILE:
-			if (!document_replace_all(doc, find, replace, original_find, original_replace, flags))
+		{
+			gint reps = document_replace_all(doc, find, replace, original_find, original_replace, flags);
+			if (!reps)
 				utils_beep();
+			search_studio_activity_append("[Replace] Replace in document | find=%s | replace=%s | replacements=%d",
+				original_find, original_replace, reps);
 			break;
+		}
 		case GEANY_RESPONSE_REPLACE_IN_SEL:
 			document_replace_sel(doc, find, replace, original_find, original_replace, flags);
+			search_studio_activity_append("[Replace] Replace in selection | find=%s | replace=%s | mode=%s",
+				original_find, original_replace, search_studio_mode_name(page));
 			break;
 		case GEANY_RESPONSE_REPLACE_IN_SESSION:
 			if (!search_prefs.skip_confirmation_for_replace_in_session &&
@@ -2270,6 +2366,8 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 				_("Are you sure to replace in the whole session?")))
 				break;
 			replace_in_session(doc, flags, FALSE, find, replace, original_find, original_replace);
+			search_studio_activity_append("[Replace] Replace in session | find=%s | replace=%s | mode=%s",
+				original_find, original_replace, search_studio_mode_name(page));
 			break;
 	}
 
@@ -2347,6 +2445,10 @@ static void search_studio_fif_find_activate(GtkButton *button, gpointer user_dat
 		ui_set_search_entry_background(dir_entry, TRUE);
 		ui_set_search_entry_background(files_entry, TRUE);
 		ui_set_statusbar(FALSE, _("Searching in files started from Search Studio."));
+		search_studio_activity_append("[Find in Files] text=%s | dir=%s | mode=%s | recursive=%s | case=%s | whole-word=%s | invert=%s | files-mode=%d",
+			search_text, utf8_dir, search_studio_mode_name(page), recursive ? "on" : "off",
+			case_sensitive ? "on" : "off", whole_word ? "on" : "off",
+			invert ? "on" : "off", files_mode);
 	}
 	else
 		utils_beep();
@@ -2602,6 +2704,10 @@ static void create_search_studio_dialog(void)
 	GtkWidget *subtitle;
 	GtkWidget *close_button;
 	GtkWidget *notebook;
+	GtkWidget *paned;
+	GtkWidget *activity_frame;
+	GtkWidget *activity_scroll;
+	GtkWidget *activity_label;
 
 	studio_dlg.dialog = gtk_dialog_new();
 	gtk_window_set_title(GTK_WINDOW(studio_dlg.dialog), _("Search Studio"));
@@ -2624,6 +2730,9 @@ static void create_search_studio_dialog(void)
 	gtk_box_pack_start(GTK_BOX(header), subtitle, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(content), header, FALSE, FALSE, 0);
 
+	paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
+	gtk_paned_set_position(GTK_PANED(paned), 300);
+
 	notebook = gtk_notebook_new();
 	studio_dlg.notebook = notebook;
 	studio_dlg.find_page = search_studio_create_find_page();
@@ -2634,7 +2743,26 @@ static void create_search_studio_dialog(void)
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.replace_page, gtk_label_new(_("Replace")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.fif_page, gtk_label_new(_("Find in Files")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.mark_page, gtk_label_new(_("Mark")));
-	gtk_box_pack_start(GTK_BOX(content), notebook, TRUE, TRUE, 0);
+	g_signal_connect(notebook, "switch-page", G_CALLBACK(search_studio_notebook_switch_page), NULL);
+	gtk_paned_pack1(GTK_PANED(paned), notebook, TRUE, FALSE);
+
+	activity_frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(activity_frame), GTK_SHADOW_IN);
+	activity_label = ui_label_new_bold(_("Activity / Preview"));
+	gtk_frame_set_label_widget(GTK_FRAME(activity_frame), activity_label);
+	activity_scroll = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(activity_scroll),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	studio_dlg.activity_view = gtk_text_view_new();
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(studio_dlg.activity_view), FALSE);
+	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(studio_dlg.activity_view), FALSE);
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(studio_dlg.activity_view), GTK_WRAP_WORD_CHAR);
+	gtk_container_add(GTK_CONTAINER(activity_scroll), studio_dlg.activity_view);
+	gtk_container_add(GTK_CONTAINER(activity_frame), activity_scroll);
+	gtk_paned_pack2(GTK_PANED(paned), activity_frame, FALSE, FALSE);
+
+	gtk_box_pack_start(GTK_BOX(content), paned, TRUE, TRUE, 0);
+	search_studio_activity_append("Search Studio initialized. Classic dialogs remain available, but this unified cockpit now handles Find, Replace, Find in Files, and Mark workflows directly.");
 
 	close_button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
 	gtk_dialog_add_action_widget(GTK_DIALOG(studio_dlg.dialog), close_button, GTK_RESPONSE_CLOSE);
