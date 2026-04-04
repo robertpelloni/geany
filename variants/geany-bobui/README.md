@@ -16,8 +16,19 @@ This variant currently contains a standalone **Search Studio** prototype with:
 - Replace
 - Find in Files
 - Mark
+- lower navigator tabs for:
+  - Activity
+  - Results
+  - Diff Preview
 
 The UI intentionally mirrors the density and speed of Notepad++ while adding room for richer preview, workflow shortcuts, and future command-palette integration.
+
+The current BobUI prototype now mirrors several of the matured GTK Search Studio concepts:
+- structured result rows instead of only static form controls
+- lower-pane navigator behavior
+- session-aware actions like `Count Session` and `Mark Session`
+- preview-oriented replace and impact routing
+- informational vs navigable result-row behavior
 
 ## Toolchain direction
 
@@ -39,6 +50,6 @@ without forcing an all-at-once migration of the production application.
 ## Next steps
 
 1. connect the Search Studio controls to Geany core search services
-2. add preview and result panes
+2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BobUI-native presentation

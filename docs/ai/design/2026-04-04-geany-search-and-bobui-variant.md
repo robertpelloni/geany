@@ -122,3 +122,16 @@ The project should migrate **behavior first, surface second**:
 - preview-aware replace workflows
 - transform tool integration
 - keyboard-first command routing
+
+## BobUI prototype evolution
+
+The BobUI variant should now mirror the **matured Search Studio interaction model**, not just the earliest tab shell.
+
+That means the prototype should increasingly preserve these concepts even before backend wiring exists:
+- lower navigator tabs for Activity / Results / Diff Preview
+- structured result rows rather than isolated per-tab placeholder text boxes
+- session-aware actions like Count Session and Mark Session
+- replace-preview and impact-style result routing
+- explicit distinction between informational rows and navigable rows
+
+This is strategically important because it lets the BobUI frontend validate the intended workflow rhythm before the backend boundary is finalized.

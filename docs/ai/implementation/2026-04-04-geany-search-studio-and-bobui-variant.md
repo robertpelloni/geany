@@ -104,12 +104,22 @@ This variant gives the project a place to explore:
   - Find in Files
   - Mark
 
+The prototype no longer stops at four static forms. It now mirrors more of the matured GTK Search Studio model by adding:
+- a lower `Activity / Results / Diff Preview` navigator
+- structured result rows via a Qt tree widget
+- preview updates on row selection
+- informational vs navigable row behavior on row activation
+- prototype session-aware actions such as `Count Session` and `Mark Session`
+- prototype replace preview / impact rows with richer preview text
+
 ### Prototype goals
 The prototype intentionally models the **control density** and **workflow rhythm** of Notepad++ while leaving room for “better than N++” capabilities:
 - preview panes
 - richer action summaries
 - future command-palette integration
 - future transform-tooling integration
+
+This evolution is important because it tests the emerging frontend contract before engine wiring is complete. The BobUI variant can now validate that the intended cockpit is not just tabbed, but also navigator-driven.
 
 ## BobUI submodule
 
@@ -130,6 +140,6 @@ This is separate from the BobGUI exploratory path and allows the repo to compare
 
 ### BobUI variant
 1. Wire the prototype to real Geany search logic
-2. Add finder/result panes
+2. Replace prototype-generated result rows with backend-driven document/session/search rows
 3. Add command palette entry points
 4. Add transform actions inspired by TextFX / TextLab

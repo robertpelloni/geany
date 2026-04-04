@@ -52,6 +52,14 @@ Confirm these exist:
 ### Content guard
 - Confirm `variants/geany-bobui/` contains no `bobgui` references
 - Confirm the prototype models Find / Replace / Find in Files / Mark tabs
+- Confirm a lower navigator exists with tabs for:
+  - Activity
+  - Results
+  - Diff Preview
+- Confirm buttons like `Count Session`, `Mark Session`, `Replace in Session`, and preview actions exist in the prototype surface
+- Trigger several prototype actions and confirm structured rows are appended in the Results pane
+- Select a result row and confirm the Diff Preview pane updates with richer detail text
+- Activate both informational and navigable rows and confirm the prototype logs different behaviors in Activity
 
 ## Current environment limitation
 - Full compile validation for both the GTK tree and the BobUI variant still depends on external toolchain availability.
