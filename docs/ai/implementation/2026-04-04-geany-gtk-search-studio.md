@@ -95,6 +95,22 @@ It is not yet a full search-results viewer, but it provides immediate in-dialog 
 
 This gives the dialog a much more cockpit-like feel and starts building the case for a future richer preview/results surface.
 
+### 8. Structured results pane
+The lower pane now uses a notebook with separate views for:
+- Activity
+- Results
+
+The Results tab is backed by a `GtkListStore`/`GtkTreeView` and records structured entries with columns such as:
+- Action
+- Target
+- Query
+- Mode
+- Summary
+
+This is still a summary-level results surface, not yet a full clickable hit-list. But it is a major architectural step because Search Studio now distinguishes between:
+- narrative workflow logging
+- structured operation records
+
 ### 7. Extended mark behavior
 Implemented:
 - `search_mark_all_with_options()`
@@ -130,10 +146,23 @@ This moved Search Studio Replace beyond simple bridging into direct execution ag
 ### 11. Notebook activity logging
 Added helpers such as:
 - `search_studio_activity_append()`
+- `search_studio_result_append()`
 - `search_studio_activity_show_page_hint()`
 - `search_studio_notebook_switch_page()`
 
 These record useful summaries directly inside Search Studio so the user can see what happened without relying only on the status bar.
+
+### 12. Structured result capture
+Search actions now append structured result records for operations like:
+- Find
+- Count
+- Mark
+- Clear marks
+- Replace variants
+- Find in Files launches
+- classic-dialog bridge launches
+
+This makes Search Studio feel much more like a real search workbench rather than a collection of form controls.
 
 ## What this improves versus previous Geany behavior
 
@@ -162,7 +191,7 @@ Callback:
 ## Remaining technical debt
 
 1. Find in Files tab is now executable, but still not as dense as Notepad++ or Geany's classic advanced dialog.
-2. Search Studio now has an activity / preview pane, but not yet a full hit-list / structured result viewer.
+2. Search Studio now has both activity and structured results panes, but not yet a full clickable hit-list / navigation result viewer.
 3. Replace operations do not yet offer preview/dry-run mode.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 
