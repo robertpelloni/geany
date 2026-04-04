@@ -77,9 +77,10 @@
 - Confirm the Activity pane records a summary for each action
 - Confirm the Results pane gets structured rows for each action
 - For the Replace tab's Find-style operations, confirm navigable match rows appear when applicable
-- For `Replace in Document`, confirm document-impact rows are appended before/alongside the summary row and that selecting one shows richer first-hit context in Diff Preview
+- For `Replace in Document`, confirm document-impact rows are appended before/alongside the summary row and that selecting one shows richer first-hit context in Diff Preview with resolved replacement text
 - For preview actions, confirm candidate rows appear without modifying the document
-- Select a replace preview candidate row and confirm the Diff Preview pane shows richer before/match/payload/after text
+- Select a replace preview candidate row and confirm the Diff Preview pane shows richer original-line / replacement-line / matched-segment diff text
+- In Regex mode, verify a preview using backreferences (for example, find `(foo)(bar)` and replace with `\\2-\\1`) shows the resolved replacement text instead of only echoing the raw payload
 - For `Replace in Session`, confirm per-document impact rows are appended for affected open documents and that activating one can navigate to the first affected location in that document
 - Confirm classic Replace can still be opened with synced state
 

@@ -132,6 +132,8 @@ The lower notebook now also behaves more intentionally:
 
 Bulk replace operations now also append document-impact rows before mutation-heavy actions run. Those rows capture affected-document counts and first-hit context, which gives Search Studio a better bridge between preview-only workflows and real replace execution.
 
+Replace preview construction is now more semantic as well. Instead of only splicing the raw payload string into line context, preview helpers now resolve the actual replacement text that Geany would apply (including regex backreference expansion) and present an original-line vs replacement-line view plus matched-segment diff text.
+
 This means the Diff Preview pane is increasingly becoming a universal inspection surface instead of a replace-preview-only feature, and the lower notebook is starting to behave like a real result navigator rather than three unrelated panes.
 
 It is not yet a full universal hit-list, but it is a major architectural step because Search Studio now distinguishes between:
@@ -232,7 +234,7 @@ Callback:
 
 1. Find in Files tab is now executable and can ingest its own grep output into Search Studio results, but it is still not as dense as Notepad++ or Geany's classic advanced dialog.
 2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document/open-document hits while Find in Files can ingest launched results. Bulk replace actions now also emit richer document-impact rows. Lower-pane focus and informational-row handling are more navigator-like now, but it is still not yet a full universal hit-list / navigation result viewer across every action.
-3. Replace preview/dry-run groundwork exists and now feeds a dedicated Diff Preview pane, and more row types provide richer previews, but it is still a lightweight text preview rather than a true semantic diff viewer.
+3. Replace preview/dry-run groundwork exists and now feeds a dedicated Diff Preview pane, and more row types provide richer previews. It now resolves actual replacement text more accurately, but it is still a lightweight text preview rather than a true semantic diff viewer.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 
 ## Why this was implemented this way

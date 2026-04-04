@@ -76,6 +76,7 @@ This is strategically useful because:
 - Search Studio-launched Find in Files now ingests grep output back into the structured Results pane as navigable rows
 - more row types now populate the lower Diff Preview pane with richer detail text
 - bulk replace operations now emit document-impact rows, so replace-in-document and replace-in-session no longer collapse entirely into one opaque summary
+- replace preview / impact inspection is now more semantic: preview bodies resolve actual replacement text instead of only echoing the raw payload string
 - lower-pane focus now behaves more like a navigator: appended rows pull focus to Results, row selection pivots to Diff Preview, and informational summary rows can be inspected without pretending to navigate
 - persistent window position
 

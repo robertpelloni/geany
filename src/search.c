@@ -270,16 +270,19 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 static void search_studio_replace_preview_document(GtkButton *button, gpointer user_data);
 static void search_studio_replace_preview_session(GtkButton *button, gpointer user_data);
 static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const gchar *query,
-	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint limit);
+	GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
+	const gchar *replace_display, guint limit);
 static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
-	const GeanyMatchInfo *info, const gchar *replace_preview);
+	const GeanyMatchInfo *info, const gchar *replace_text, const gchar *replace_display);
 static guint search_studio_append_replace_preview_session_rows(const gchar *query,
-	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint per_doc_limit);
+	GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
+	const gchar *replace_display, guint per_doc_limit);
 static guint search_studio_append_replace_impact_rows(const gchar *action, GeanyDocument *doc,
-	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview);
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
+	const gchar *replace_display);
 static guint search_studio_append_replace_impact_session_rows(const gchar *action,
-	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview,
-	guint *doc_count);
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
+	const gchar *replace_display, guint *doc_count);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
@@ -1065,8 +1068,47 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 }
 
 
+static gchar *search_build_replacement_text(const GeanyMatchInfo *match, const gchar *replace_text)
+{
+	GString *str;
+	gint i = 0;
+
+	g_return_val_if_fail(match != NULL && replace_text != NULL, g_strdup(""));
+
+	if (!(match->flags & GEANY_FIND_REGEXP) || match->match_text == NULL)
+		return g_strdup(replace_text);
+
+	str = g_string_new(replace_text);
+	while (str->str[i])
+	{
+		gchar *ptr = &str->str[i];
+		gchar *grp;
+		gchar c;
+
+		if (ptr[0] != '\\')
+		{
+			i++;
+			continue;
+		}
+		c = ptr[1];
+		if (c == '\\' || !isdigit(c))
+		{
+			g_string_erase(str, i, 1);
+			i++;
+			continue;
+		}
+		g_string_erase(str, i, 2);
+		grp = get_regex_match_string(match->match_text - match->matches[0].start, match, c - '0');
+		g_string_insert(str, i, grp);
+		i += strlen(grp);
+		g_free(grp);
+	}
+	return g_string_free(str, FALSE);
+}
+
+
 static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
-	const GeanyMatchInfo *info, const gchar *replace_preview)
+	const GeanyMatchInfo *info, const gchar *replace_text, const gchar *replace_display)
 {
 	gint line_no;
 	gint line_start;
@@ -1076,10 +1118,13 @@ static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
 	gchar *before;
 	gchar *match_text;
 	gchar *after_tail;
+	gchar *replacement_text;
+	gchar *escaped_payload;
+	gchar *escaped_replacement;
 	gchar *after_line;
 	gchar *body;
 
-	if (!DOC_VALID(doc) || info == NULL)
+	if (!DOC_VALID(doc) || info == NULL || replace_text == NULL)
 		return g_strdup(_("No preview available."));
 
 	line_no = sci_get_line_from_position(doc->editor->sci, info->start);
@@ -1092,11 +1137,22 @@ static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
 	before = g_strndup(line_text, rel_start);
 	match_text = g_strndup(line_text + rel_start, rel_end - rel_start);
 	after_tail = g_strdup(line_text + rel_end);
-	after_line = g_strconcat(before, replace_preview, after_tail, NULL);
-	body = g_strdup_printf("Before:\n%s\n\nMatched text:\n%s\n\nReplacement payload:\n%s\n\nAfter (payload splice preview):\n%s",
-		line_text, match_text, replace_preview, after_line);
+	replacement_text = search_build_replacement_text(info, replace_text);
+	escaped_payload = g_strescape(replace_display != NULL ? replace_display : replace_text, NULL);
+	escaped_replacement = g_strescape(replacement_text, NULL);
+	after_line = g_strconcat(before, replacement_text, after_tail, NULL);
+	body = g_strdup_printf("Original line:\n- %s\n\nReplacement line:\n+ %s\n\nMatched segment diff:\n- %s\n+ %s\n\nPayload entered:\n%s\n\nActual replacement text:\n%s",
+		line_text,
+		after_line,
+		match_text,
+		escaped_replacement != NULL ? escaped_replacement : replacement_text,
+		escaped_payload != NULL ? escaped_payload : (replace_display != NULL ? replace_display : replace_text),
+		escaped_replacement != NULL ? escaped_replacement : replacement_text);
 
 	g_free(after_line);
+	g_free(escaped_replacement);
+	g_free(escaped_payload);
+	g_free(replacement_text);
 	g_free(after_tail);
 	g_free(match_text);
 	g_free(before);
@@ -1106,13 +1162,14 @@ static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
 
 
 static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const gchar *query,
-	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint limit)
+	GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
+	const gchar *replace_display, guint limit)
 {
 	struct Sci_TextToFind ttf;
 	GSList *match, *matches;
 	guint count = 0;
 
-	if (!DOC_VALID(doc) || EMPTY(query))
+	if (!DOC_VALID(doc) || EMPTY(query) || replace_text == NULL)
 		return 0;
 
 	ttf.chrg.cpMin = 0;
@@ -1127,24 +1184,27 @@ static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const
 		{
 			gchar *line_text = sci_get_line(doc->editor->sci,
 				sci_get_line_from_position(doc->editor->sci, info->start));
+			gchar *replacement_text = search_build_replacement_text(info, replace_text);
+			gchar *escaped_replacement = g_strescape(replacement_text, NULL);
 			gchar *summary;
-			gchar *escaped_replace = g_strescape(replace_preview, NULL);
 			gchar *preview_title;
 			gchar *preview_body;
 
 			g_strstrip(line_text);
 			summary = g_strdup_printf("Would replace line %d match with: %s | context: %s",
 				sci_get_line_from_position(doc->editor->sci, info->start) + 1,
-				escaped_replace != NULL ? escaped_replace : replace_preview, line_text);
+				escaped_replacement != NULL ? escaped_replacement : replacement_text,
+				line_text);
 			preview_title = g_strdup_printf("Replace Preview — %s:%d",
 				DOC_FILENAME(doc), sci_get_line_from_position(doc->editor->sci, info->start) + 1);
-			preview_body = search_studio_build_replace_preview_body(doc, info, replace_preview);
+			preview_body = search_studio_build_replace_preview_body(doc, info, replace_text, replace_display);
 			search_studio_result_append_preview_match("Replace Preview", doc, query, mode,
 				info->start, summary, preview_title, preview_body);
 			g_free(preview_body);
 			g_free(preview_title);
-			g_free(escaped_replace);
 			g_free(summary);
+			g_free(escaped_replacement);
+			g_free(replacement_text);
 			g_free(line_text);
 		}
 		count++;
@@ -1156,7 +1216,8 @@ static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const
 
 
 static guint search_studio_append_replace_preview_session_rows(const gchar *query,
-	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint per_doc_limit)
+	GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
+	const gchar *replace_display, guint per_doc_limit)
 {
 	guint page_count;
 	guint n;
@@ -1169,14 +1230,16 @@ static guint search_studio_append_replace_preview_session_rows(const gchar *quer
 
 		if (!DOC_VALID(doc))
 			continue;
-		total += search_studio_append_replace_preview_rows(doc, query, flags, mode, replace_preview, per_doc_limit);
+		total += search_studio_append_replace_preview_rows(doc, query, flags, mode,
+			replace_text, replace_display, per_doc_limit);
 	}
 	return total;
 }
 
 
 static guint search_studio_append_replace_impact_rows(const gchar *action, GeanyDocument *doc,
-	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview)
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
+	const gchar *replace_display)
 {
 	struct Sci_TextToFind ttf;
 	GSList *match, *matches;
@@ -1184,7 +1247,7 @@ static guint search_studio_append_replace_impact_rows(const gchar *action, Geany
 	gint first_start = -1;
 	gint first_end = -1;
 
-	if (!DOC_VALID(doc) || EMPTY(query))
+	if (!DOC_VALID(doc) || EMPTY(query) || replace_text == NULL)
 		return 0;
 
 	ttf.chrg.cpMin = 0;
@@ -1218,12 +1281,12 @@ static guint search_studio_append_replace_impact_rows(const gchar *action, Geany
 		info.end = first_end;
 		summary = g_strdup_printf("Affected %u matches in this document; first affected line %d.", count, line);
 		preview_title = g_strdup_printf("%s — %s:%d", action, DOC_FILENAME(doc), line);
-		payload_preview = search_studio_build_replace_preview_body(doc, &info, replace_preview);
+		payload_preview = search_studio_build_replace_preview_body(doc, &info, replace_text, replace_display);
 		preview_body = g_strdup_printf("Document impact summary\n\nFile: %s\nQuery: %s\nMode: %s\nReplacement payload: %s\nAffected matches: %u\nFirst affected line: %d\n\n%s",
 			DOC_FILENAME(doc),
 			query,
 			mode != NULL ? mode : _("(none)"),
-			replace_preview != NULL ? replace_preview : _("(none)"),
+			replace_display != NULL ? replace_display : (replace_text != NULL ? replace_text : _("(none)")),
 			count,
 			line,
 			payload_preview);
@@ -1240,8 +1303,8 @@ static guint search_studio_append_replace_impact_rows(const gchar *action, Geany
 
 
 static guint search_studio_append_replace_impact_session_rows(const gchar *action,
-	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview,
-	guint *doc_count)
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
+	const gchar *replace_display, guint *doc_count)
 {
 	guint page_count;
 	guint n;
@@ -1256,7 +1319,8 @@ static guint search_studio_append_replace_impact_session_rows(const gchar *actio
 
 		if (!DOC_VALID(doc))
 			continue;
-		count = search_studio_append_replace_impact_rows(action, doc, query, flags, mode, replace_preview);
+		count = search_studio_append_replace_impact_rows(action, doc, query, flags, mode,
+			replace_text, replace_display);
 		if (count > 0)
 		{
 			total += count;
@@ -3111,7 +3175,7 @@ static void search_studio_replace_preview_document(GtkButton *button, gpointer u
 		return;
 
 	count = search_studio_append_replace_preview_rows(doc, find, flags,
-		search_studio_mode_name(page), original_replace, 250);
+		search_studio_mode_name(page), replace, original_replace, 250);
 	search_studio_activity_append("[Replace Preview] Document | find=%s | replace=%s | matches=%u | mode=%s",
 		original_find, original_replace, count, search_studio_mode_name(page));
 	{
@@ -3141,7 +3205,7 @@ static void search_studio_replace_preview_session(GtkButton *button, gpointer us
 		return;
 
 	count = search_studio_append_replace_preview_session_rows(find, flags,
-		search_studio_mode_name(page), original_replace, 100);
+		search_studio_mode_name(page), replace, original_replace, 100);
 	search_studio_activity_append("[Replace Preview] Session | find=%s | replace=%s | matches=%u | mode=%s",
 		original_find, original_replace, count, search_studio_mode_name(page));
 	{
@@ -3217,7 +3281,7 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 		case GEANY_RESPONSE_REPLACE_IN_FILE:
 		{
 			guint planned = search_studio_append_replace_impact_rows("Replace Impact", doc,
-				find, flags, search_studio_mode_name(page), original_replace);
+				find, flags, search_studio_mode_name(page), replace, original_replace);
 			gint reps = document_replace_all(doc, find, replace, original_find, original_replace, flags);
 			gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 			gchar *summary = g_strdup_printf("Replaced %d matches in the active document (planned hits: %u).", reps, planned);
@@ -3250,7 +3314,7 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 			{
 				guint planned_docs = 0;
 				guint planned_matches = search_studio_append_replace_impact_session_rows("Session Replace Impact",
-					find, flags, search_studio_mode_name(page), original_replace, &planned_docs);
+					find, flags, search_studio_mode_name(page), replace, original_replace, &planned_docs);
 				replace_in_session(doc, flags, FALSE, find, replace, original_find, original_replace);
 				search_studio_activity_append("[Replace] Replace in session | find=%s | replace=%s | mode=%s | planned-docs=%u | planned-matches=%u",
 					original_find, original_replace, search_studio_mode_name(page), planned_docs, planned_matches);
@@ -4435,46 +4499,15 @@ gint search_find_next(ScintillaObject *sci, const gchar *str, GeanyFindFlags fla
 
 gint search_replace_match(ScintillaObject *sci, const GeanyMatchInfo *match, const gchar *replace_text)
 {
-	GString *str;
-	gint ret = 0;
-	gint i = 0;
+	gchar *resolved_text;
+	gint ret;
 
 	sci_set_target_start(sci, match->start);
 	sci_set_target_end(sci, match->end);
 
-	if (! (match->flags & GEANY_FIND_REGEXP))
-		return sci_replace_target(sci, replace_text, FALSE);
-
-	str = g_string_new(replace_text);
-	while (str->str[i])
-	{
-		gchar *ptr = &str->str[i];
-		gchar *grp;
-		gchar c;
-
-		if (ptr[0] != '\\')
-		{
-			i++;
-			continue;
-		}
-		c = ptr[1];
-		/* backslash or unnecessary escape */
-		if (c == '\\' || !isdigit(c))
-		{
-			g_string_erase(str, i, 1);
-			i++;
-			continue;
-		}
-		/* digit escape */
-		g_string_erase(str, i, 2);
-		/* fix match offsets by subtracting index of whole match start from the string */
-		grp = get_regex_match_string(match->match_text - match->matches[0].start, match, c - '0');
-		g_string_insert(str, i, grp);
-		i += strlen(grp);
-		g_free(grp);
-	}
-	ret = sci_replace_target(sci, str->str, FALSE);
-	g_string_free(str, TRUE);
+	resolved_text = search_build_replacement_text(match, replace_text);
+	ret = sci_replace_target(sci, resolved_text, FALSE);
+	g_free(resolved_text);
 	return ret;
 }
 
