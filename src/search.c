@@ -90,6 +90,8 @@ enum
 	STUDIO_RESULT_LINE,
 	STUDIO_RESULT_POS,
 	STUDIO_RESULT_CAN_NAVIGATE,
+	STUDIO_RESULT_PREVIEW_TITLE,
+	STUDIO_RESULT_PREVIEW_BODY,
 	STUDIO_RESULT_COLUMNS
 };
 
@@ -177,10 +179,11 @@ static struct
 	GtkWidget	*mark_page;
 	GtkWidget	*activity_view;
 	GtkWidget	*results_view;
+	GtkWidget	*preview_view;
 	GtkListStore	*results_store;
 	gint		position[2]; /* x, y */
 }
-studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
+studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
 
 static struct
 {
@@ -259,6 +262,8 @@ static void search_studio_replace_preview_document(GtkButton *button, gpointer u
 static void search_studio_replace_preview_session(GtkButton *button, gpointer user_data);
 static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const gchar *query,
 	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint limit);
+static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
+	const GeanyMatchInfo *info, const gchar *replace_preview);
 static guint search_studio_append_replace_preview_session_rows(const gchar *query,
 	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint per_doc_limit);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
@@ -267,11 +272,16 @@ static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget 
 	guint page_num, gpointer user_data);
 static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreePath *path,
 	GtkTreeViewColumn *column, gpointer user_data);
+static void search_studio_results_selection_changed(GtkTreeSelection *selection, gpointer user_data);
 static void search_studio_activity_append(const gchar *format, ...) G_GNUC_PRINTF(1, 2);
+static void search_studio_set_preview(const gchar *title, const gchar *body);
 static void search_studio_result_append(const gchar *action, const gchar *target,
 	const gchar *query, const gchar *mode, const gchar *summary);
 static void search_studio_result_append_match(const gchar *action, GeanyDocument *doc,
 	const gchar *query, const gchar *mode, gint pos, const gchar *summary);
+static void search_studio_result_append_preview_match(const gchar *action, GeanyDocument *doc,
+	const gchar *query, const gchar *mode, gint pos, const gchar *summary,
+	const gchar *preview_title, const gchar *preview_body);
 static guint search_studio_append_match_rows(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint limit);
 static guint search_studio_append_session_match_rows(const gchar *action,
@@ -818,6 +828,23 @@ static void search_studio_activity_append(const gchar *format, ...)
 }
 
 
+static void search_studio_set_preview(const gchar *title, const gchar *body)
+{
+	GtkTextBuffer *buffer;
+	gchar *text;
+
+	if (studio_dlg.preview_view == NULL)
+		return;
+
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(studio_dlg.preview_view));
+	text = g_strdup_printf("%s\n\n%s",
+		!EMPTY(title) ? title : _("Preview"),
+		!EMPTY(body) ? body : _("Select a result row to inspect its preview details."));
+	gtk_text_buffer_set_text(buffer, text, -1);
+	g_free(text);
+}
+
+
 static void search_studio_result_append(const gchar *action, const gchar *target,
 	const gchar *query, const gchar *mode, const gchar *summary)
 {
@@ -837,6 +864,8 @@ static void search_studio_result_append(const gchar *action, const gchar *target
 		STUDIO_RESULT_LINE, -1,
 		STUDIO_RESULT_POS, -1,
 		STUDIO_RESULT_CAN_NAVIGATE, FALSE,
+		STUDIO_RESULT_PREVIEW_TITLE, target,
+		STUDIO_RESULT_PREVIEW_BODY, summary,
 		-1);
 }
 
@@ -865,6 +894,40 @@ static void search_studio_result_append_match(const gchar *action, GeanyDocument
 		STUDIO_RESULT_LINE, line,
 		STUDIO_RESULT_POS, pos,
 		STUDIO_RESULT_CAN_NAVIGATE, TRUE,
+		STUDIO_RESULT_PREVIEW_TITLE, target,
+		STUDIO_RESULT_PREVIEW_BODY, summary,
+		-1);
+	g_free(target);
+}
+
+
+static void search_studio_result_append_preview_match(const gchar *action, GeanyDocument *doc,
+	const gchar *query, const gchar *mode, gint pos, const gchar *summary,
+	const gchar *preview_title, const gchar *preview_body)
+{
+	GtkTreeIter iter;
+	gchar *target;
+	gint line;
+
+	if (studio_dlg.results_store == NULL || !DOC_VALID(doc))
+		return;
+
+	line = sci_get_line_from_position(doc->editor->sci, pos) + 1;
+	target = g_strdup_printf("%s:%d", DOC_FILENAME(doc), line);
+
+	gtk_list_store_prepend(studio_dlg.results_store, &iter);
+	gtk_list_store_set(studio_dlg.results_store, &iter,
+		STUDIO_RESULT_ACTION, action,
+		STUDIO_RESULT_TARGET, target,
+		STUDIO_RESULT_QUERY, query,
+		STUDIO_RESULT_MODE, mode,
+		STUDIO_RESULT_SUMMARY, summary,
+		STUDIO_RESULT_FILE, DOC_FILENAME(doc),
+		STUDIO_RESULT_LINE, line,
+		STUDIO_RESULT_POS, pos,
+		STUDIO_RESULT_CAN_NAVIGATE, TRUE,
+		STUDIO_RESULT_PREVIEW_TITLE, preview_title,
+		STUDIO_RESULT_PREVIEW_BODY, preview_body,
 		-1);
 	g_free(target);
 }
@@ -929,6 +992,46 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 }
 
 
+static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
+	const GeanyMatchInfo *info, const gchar *replace_preview)
+{
+	gint line_no;
+	gint line_start;
+	gint rel_start;
+	gint rel_end;
+	gchar *line_text;
+	gchar *before;
+	gchar *match_text;
+	gchar *after_tail;
+	gchar *after_line;
+	gchar *body;
+
+	if (!DOC_VALID(doc) || info == NULL)
+		return g_strdup(_("No preview available."));
+
+	line_no = sci_get_line_from_position(doc->editor->sci, info->start);
+	line_start = sci_get_position_from_line(doc->editor->sci, line_no);
+	line_text = sci_get_line(doc->editor->sci, line_no);
+	g_strchomp(line_text);
+
+	rel_start = MAX(0, info->start - line_start);
+	rel_end = MAX(rel_start, info->end - line_start);
+	before = g_strndup(line_text, rel_start);
+	match_text = g_strndup(line_text + rel_start, rel_end - rel_start);
+	after_tail = g_strdup(line_text + rel_end);
+	after_line = g_strconcat(before, replace_preview, after_tail, NULL);
+	body = g_strdup_printf("Before:\n%s\n\nMatched text:\n%s\n\nReplacement payload:\n%s\n\nAfter (payload splice preview):\n%s",
+		line_text, match_text, replace_preview, after_line);
+
+	g_free(after_line);
+	g_free(after_tail);
+	g_free(match_text);
+	g_free(before);
+	g_free(line_text);
+	return body;
+}
+
+
 static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const gchar *query,
 	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint limit)
 {
@@ -953,12 +1056,20 @@ static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const
 				sci_get_line_from_position(doc->editor->sci, info->start));
 			gchar *summary;
 			gchar *escaped_replace = g_strescape(replace_preview, NULL);
+			gchar *preview_title;
+			gchar *preview_body;
 
 			g_strstrip(line_text);
 			summary = g_strdup_printf("Would replace line %d match with: %s | context: %s",
 				sci_get_line_from_position(doc->editor->sci, info->start) + 1,
 				escaped_replace != NULL ? escaped_replace : replace_preview, line_text);
-			search_studio_result_append_match("Replace Preview", doc, query, mode, info->start, summary);
+			preview_title = g_strdup_printf("Replace Preview — %s:%d",
+				DOC_FILENAME(doc), sci_get_line_from_position(doc->editor->sci, info->start) + 1);
+			preview_body = search_studio_build_replace_preview_body(doc, info, replace_preview);
+			search_studio_result_append_preview_match("Replace Preview", doc, query, mode,
+				info->start, summary, preview_title, preview_body);
+			g_free(preview_body);
+			g_free(preview_title);
 			g_free(escaped_replace);
 			g_free(summary);
 			g_free(line_text);
@@ -1160,6 +1271,29 @@ static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget 
 	guint page_num, gpointer user_data)
 {
 	search_studio_activity_show_page_hint((gint) page_num);
+}
+
+
+static void search_studio_results_selection_changed(GtkTreeSelection *selection, gpointer user_data)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *preview_title = NULL;
+	gchar *preview_body = NULL;
+
+	if (!gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
+		search_studio_set_preview(_("Diff Preview"), _("Select a result row to inspect before/after or result details."));
+		return;
+	}
+
+	gtk_tree_model_get(model, &iter,
+		STUDIO_RESULT_PREVIEW_TITLE, &preview_title,
+		STUDIO_RESULT_PREVIEW_BODY, &preview_body,
+		-1);
+	search_studio_set_preview(preview_title, preview_body);
+	g_free(preview_title);
+	g_free(preview_body);
 }
 
 
@@ -3291,6 +3425,10 @@ static void create_search_studio_dialog(void)
 	GtkWidget *results_frame;
 	GtkWidget *results_scroll;
 	GtkWidget *results_label;
+	GtkWidget *preview_frame;
+	GtkWidget *preview_scroll;
+	GtkWidget *preview_label;
+	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 
@@ -3357,7 +3495,7 @@ static void create_search_studio_dialog(void)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	studio_dlg.results_store = gtk_list_store_new(STUDIO_RESULT_COLUMNS,
 		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
-		G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_BOOLEAN);
+		G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_STRING);
 	studio_dlg.results_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(studio_dlg.results_store));
 	renderer = gtk_cell_renderer_text_new();
 	column = gtk_tree_view_column_new_with_attributes(_("Action"), renderer, "text", 0, NULL);
@@ -3376,9 +3514,27 @@ static void create_search_studio_dialog(void)
 	gtk_tree_view_append_column(GTK_TREE_VIEW(studio_dlg.results_view), column);
 	g_signal_connect(studio_dlg.results_view, "row-activated",
 		G_CALLBACK(search_studio_results_row_activated), NULL);
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(studio_dlg.results_view));
+	gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+	g_signal_connect(selection, "changed", G_CALLBACK(search_studio_results_selection_changed), NULL);
 	gtk_container_add(GTK_CONTAINER(results_scroll), studio_dlg.results_view);
 	gtk_container_add(GTK_CONTAINER(results_frame), results_scroll);
 	gtk_notebook_append_page(GTK_NOTEBOOK(preview_notebook), results_frame, gtk_label_new(_("Results")));
+
+	preview_frame = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type(GTK_FRAME(preview_frame), GTK_SHADOW_IN);
+	preview_label = ui_label_new_bold(_("Diff Preview"));
+	gtk_frame_set_label_widget(GTK_FRAME(preview_frame), preview_label);
+	preview_scroll = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(preview_scroll),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	studio_dlg.preview_view = gtk_text_view_new();
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(studio_dlg.preview_view), FALSE);
+	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(studio_dlg.preview_view), FALSE);
+	gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(studio_dlg.preview_view), GTK_WRAP_WORD_CHAR);
+	gtk_container_add(GTK_CONTAINER(preview_scroll), studio_dlg.preview_view);
+	gtk_container_add(GTK_CONTAINER(preview_frame), preview_scroll);
+	gtk_notebook_append_page(GTK_NOTEBOOK(preview_notebook), preview_frame, gtk_label_new(_("Diff Preview")));
 
 	gtk_paned_pack2(GTK_PANED(paned), preview_notebook, FALSE, FALSE);
 
@@ -3386,6 +3542,7 @@ static void create_search_studio_dialog(void)
 	search_studio_activity_append("Search Studio initialized. Classic dialogs remain available, but this unified cockpit now handles Find, Replace, Find in Files, and Mark workflows directly.");
 	search_studio_result_append("Studio", "Search Studio", "Initialization", "N/A",
 		"Unified notebook, direct execution paths, and lower preview/results panes are ready.");
+	search_studio_set_preview(_("Diff Preview"), _("Select a result row to inspect before/after or result details."));
 
 	close_button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
 	gtk_dialog_add_action_widget(GTK_DIALOG(studio_dlg.dialog), close_button, GTK_RESPONSE_CLOSE);

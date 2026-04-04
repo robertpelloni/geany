@@ -99,6 +99,7 @@ This gives the dialog a much more cockpit-like feel and starts building the case
 The lower pane now uses a notebook with separate views for:
 - Activity
 - Results
+- Diff Preview
 
 The Results tab is backed by a `GtkListStore`/`GtkTreeView` and records structured entries with columns such as:
 - Action
@@ -107,13 +108,15 @@ The Results tab is backed by a `GtkListStore`/`GtkTreeView` and records structur
 - Mode
 - Summary
 
-Additional hidden metadata columns store navigation context such as:
+Additional hidden metadata columns store navigation and preview context such as:
 - filename
 - line
 - position
 - whether the row is navigable
+- preview title
+- preview body
 
-This is now more than a summary-level results surface: for current-document operations it can append concrete match rows and respond to row activation by navigating to the stored match position.
+This is now more than a summary-level results surface: for current-document operations it can append concrete match rows and respond to row activation by navigating to the stored match position. Selection changes can also update the Diff Preview pane with row-specific details.
 
 It is not yet a full universal hit-list, but it is a major architectural step because Search Studio now distinguishes between:
 - narrative workflow logging
@@ -153,7 +156,7 @@ Introduced:
 - `search_studio_replace_preview_session()`
 - preview-row collection helpers for replace candidates
 
-This moved Search Studio Replace beyond simple bridging into direct execution against the active document/session, and added dry-run groundwork so users can inspect replacement candidate rows before modifying content.
+This moved Search Studio Replace beyond simple bridging into direct execution against the active document/session, and added dry-run groundwork so users can inspect replacement candidate rows before modifying content. Replace preview rows now carry richer preview text so the Diff Preview pane can show a simple before/match/payload/after view.
 
 ### 11. Notebook activity logging
 Added helpers such as:
@@ -213,7 +216,7 @@ Callback:
 
 1. Find in Files tab is now executable and can ingest its own grep output into Search Studio results, but it is still not as dense as Notepad++ or Geany's classic advanced dialog.
 2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document/open-document hits while Find in Files can ingest launched results, but it is still not yet a full universal hit-list / navigation result viewer across every action.
-3. Replace preview/dry-run groundwork exists, but it is still row-based and not yet a true before/after diff viewer.
+3. Replace preview/dry-run groundwork exists and now feeds a dedicated Diff Preview pane, but it is still a lightweight splice preview rather than a true semantic diff viewer.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 
 ## Why this was implemented this way

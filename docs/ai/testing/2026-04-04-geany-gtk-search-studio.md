@@ -17,8 +17,10 @@
 - Confirm a lower notebook pane is visible with:
   - Activity
   - Results
+  - Diff Preview
 - Switch tabs and confirm the Activity pane receives page-specific guidance entries
 - Confirm the Results pane starts with an initialization row
+- Confirm the Diff Preview pane shows a default instructional message before any row selection
 - Close and reopen it
 - Confirm it reopens near the previous position
 
@@ -28,6 +30,7 @@
 - Confirm the Activity pane records a summary line for the action
 - Confirm the Results pane gets a structured row for the action
 - For a successful current-document find, activate the newest match row and confirm Geany jumps to the stored match position
+- Select a result row and confirm the Diff Preview pane updates with row-specific detail text
 - Use Count and confirm the status bar reports the count
 - Confirm the Activity pane records the count summary
 - Confirm the Results pane gets a Count row
@@ -71,6 +74,7 @@
 - Confirm the Results pane gets structured rows for each action
 - For the Replace tab's Find-style operations, confirm navigable match rows appear when applicable
 - For preview actions, confirm candidate rows appear without modifying the document
+- Select a replace preview candidate row and confirm the Diff Preview pane shows richer before/match/payload/after text
 - Confirm classic Replace can still be opened with synced state
 
 ### Find in Files tab
