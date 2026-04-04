@@ -255,6 +255,12 @@ static gboolean search_studio_prepare_replace(GtkWidget *page, gchar **find, gch
 	gchar **original_find, gchar **original_replace, GeanyFindFlags *flags,
 	gboolean *backwards);
 static void search_studio_replace_action_activate(GtkButton *button, gpointer user_data);
+static void search_studio_replace_preview_document(GtkButton *button, gpointer user_data);
+static void search_studio_replace_preview_session(GtkButton *button, gpointer user_data);
+static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const gchar *query,
+	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint limit);
+static guint search_studio_append_replace_preview_session_rows(const gchar *query,
+	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint per_doc_limit);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
@@ -918,6 +924,68 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 		if (!DOC_VALID(doc))
 			continue;
 		total += search_studio_append_match_rows(action, doc, query, flags, mode, per_doc_limit);
+	}
+	return total;
+}
+
+
+static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const gchar *query,
+	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint limit)
+{
+	struct Sci_TextToFind ttf;
+	GSList *match, *matches;
+	guint count = 0;
+
+	if (!DOC_VALID(doc) || EMPTY(query))
+		return 0;
+
+	ttf.chrg.cpMin = 0;
+	ttf.chrg.cpMax = sci_get_length(doc->editor->sci);
+	ttf.lpstrText = (gchar *) query;
+	matches = find_range(doc->editor->sci, flags, &ttf);
+	foreach_slist(match, matches)
+	{
+		GeanyMatchInfo *info = match->data;
+
+		if (count < limit)
+		{
+			gchar *line_text = sci_get_line(doc->editor->sci,
+				sci_get_line_from_position(doc->editor->sci, info->start));
+			gchar *summary;
+			gchar *escaped_replace = g_strescape(replace_preview, NULL);
+
+			g_strstrip(line_text);
+			summary = g_strdup_printf("Would replace line %d match with: %s | context: %s",
+				sci_get_line_from_position(doc->editor->sci, info->start) + 1,
+				escaped_replace != NULL ? escaped_replace : replace_preview, line_text);
+			search_studio_result_append_match("Replace Preview", doc, query, mode, info->start, summary);
+			g_free(escaped_replace);
+			g_free(summary);
+			g_free(line_text);
+		}
+		count++;
+		geany_match_info_free(info);
+	}
+	g_slist_free(matches);
+	return count;
+}
+
+
+static guint search_studio_append_replace_preview_session_rows(const gchar *query,
+	GeanyFindFlags flags, const gchar *mode, const gchar *replace_preview, guint per_doc_limit)
+{
+	guint page_count;
+	guint n;
+	guint total = 0;
+
+	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
+	for (n = 0; n < page_count; n++)
+	{
+		GeanyDocument *doc = document_get_from_page(n);
+
+		if (!DOC_VALID(doc))
+			continue;
+		total += search_studio_append_replace_preview_rows(doc, query, flags, mode, replace_preview, per_doc_limit);
 	}
 	return total;
 }
@@ -2705,6 +2773,66 @@ static void search_studio_open_fif_dialog_activate(GtkButton *button, gpointer u
 }
 
 
+static void search_studio_replace_preview_document(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GeanyDocument *doc = document_get_current();
+	gchar *find = NULL, *replace = NULL, *original_find = NULL, *original_replace = NULL;
+	GeanyFindFlags flags;
+	gboolean backwards = FALSE;
+	guint count;
+
+	if (!DOC_VALID(doc) || !search_studio_prepare_replace(page, &find, &replace,
+			&original_find, &original_replace, &flags, &backwards))
+		return;
+
+	count = search_studio_append_replace_preview_rows(doc, find, flags,
+		search_studio_mode_name(page), original_replace, 250);
+	search_studio_activity_append("[Replace Preview] Document | find=%s | replace=%s | matches=%u | mode=%s",
+		original_find, original_replace, count, search_studio_mode_name(page));
+	{
+		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
+		gchar *summary = g_strdup_printf("Would replace %u matches in the active document.", count);
+		search_studio_result_append("Replace Preview", target, original_find, search_studio_mode_name(page), summary);
+		g_free(summary);
+		g_free(target);
+	}
+	g_free(find);
+	g_free(replace);
+	g_free(original_find);
+	g_free(original_replace);
+}
+
+
+static void search_studio_replace_preview_session(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	gchar *find = NULL, *replace = NULL, *original_find = NULL, *original_replace = NULL;
+	GeanyFindFlags flags;
+	gboolean backwards = FALSE;
+	guint count;
+
+	if (!search_studio_prepare_replace(page, &find, &replace,
+			&original_find, &original_replace, &flags, &backwards))
+		return;
+
+	count = search_studio_append_replace_preview_session_rows(find, flags,
+		search_studio_mode_name(page), original_replace, 100);
+	search_studio_activity_append("[Replace Preview] Session | find=%s | replace=%s | matches=%u | mode=%s",
+		original_find, original_replace, count, search_studio_mode_name(page));
+	{
+		gchar *summary = g_strdup_printf("Would replace %u matches across open documents.", count);
+		search_studio_result_append("Replace Preview Session", "Open Documents", original_find,
+			search_studio_mode_name(page), summary);
+		g_free(summary);
+	}
+	g_free(find);
+	g_free(replace);
+	g_free(original_find);
+	g_free(original_replace);
+}
+
+
 static void search_studio_replace_action_activate(GtkButton *button, gpointer user_data)
 {
 	GtkWidget *page = GTK_WIDGET(user_data);
@@ -2997,6 +3125,12 @@ static GtkWidget *search_studio_create_replace_page(void)
 	g_object_set_data(G_OBJECT(button), "studio-replace-action", GINT_TO_POINTER(GEANY_RESPONSE_REPLACE_IN_SESSION));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_action_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Preview in _Document"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_preview_document), page);
+	button = gtk_button_new_with_mnemonic(_("Preview in S_ession"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_preview_session), page);
 	button = gtk_button_new_with_mnemonic(_("Open classic _Replace dialog"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_open_replace_dialog_activate), page);

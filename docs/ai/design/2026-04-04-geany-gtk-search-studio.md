@@ -80,7 +80,7 @@ This is strategically useful because:
 - full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
 - complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing)
 - richer integrated results pane (today it supports current-document hits, open-document hits, and Search Studio-launched Find in Files ingestion, but is not yet a full universal hit-list viewer)
-- replace preview / dry-run workflow
+- replace preview / dry-run groundwork now exists inside the Replace tab
 
 ## Data-flow architecture
 

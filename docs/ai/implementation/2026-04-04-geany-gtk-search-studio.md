@@ -149,8 +149,11 @@ This reduces duplication and makes both the classic Find in Files dialog and Sea
 Introduced:
 - `search_studio_prepare_replace()`
 - `search_studio_replace_action_activate()`
+- `search_studio_replace_preview_document()`
+- `search_studio_replace_preview_session()`
+- preview-row collection helpers for replace candidates
 
-This moved Search Studio Replace beyond simple bridging into direct execution against the active document/session.
+This moved Search Studio Replace beyond simple bridging into direct execution against the active document/session, and added dry-run groundwork so users can inspect replacement candidate rows before modifying content.
 
 ### 11. Notebook activity logging
 Added helpers such as:
@@ -210,7 +213,7 @@ Callback:
 
 1. Find in Files tab is now executable and can ingest its own grep output into Search Studio results, but it is still not as dense as Notepad++ or Geany's classic advanced dialog.
 2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document/open-document hits while Find in Files can ingest launched results, but it is still not yet a full universal hit-list / navigation result viewer across every action.
-3. Replace operations do not yet offer preview/dry-run mode.
+3. Replace preview/dry-run groundwork exists, but it is still row-based and not yet a true before/after diff viewer.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 
 ## Why this was implemented this way

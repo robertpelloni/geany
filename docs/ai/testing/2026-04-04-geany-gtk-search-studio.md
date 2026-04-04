@@ -65,9 +65,12 @@
   - Replace in Document
   - Replace in Selection
   - Replace in Session
+  - Preview in Document
+  - Preview in Session
 - Confirm the Activity pane records a summary for each action
 - Confirm the Results pane gets structured rows for each action
 - For the Replace tab's Find-style operations, confirm navigable match rows appear when applicable
+- For preview actions, confirm candidate rows appear without modifying the document
 - Confirm classic Replace can still be opened with synced state
 
 ### Find in Files tab
