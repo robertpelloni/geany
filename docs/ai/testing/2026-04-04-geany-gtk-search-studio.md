@@ -34,6 +34,23 @@
 - Click `Clear marks`
 - Confirm both indicators and bookmarks are removed
 
+### Replace tab
+- Enter find/replace values
+- Verify these actions work directly from Search Studio:
+  - Find Next
+  - Replace
+  - Replace & Find
+  - Replace in Document
+  - Replace in Selection
+  - Replace in Session
+- Confirm classic Replace can still be opened with synced state
+
+### Find in Files tab
+- Enter search text and a valid directory
+- Verify `Find in Files now` starts a search directly from Search Studio
+- Verify file pattern validation works when non-`all` modes are selected
+- Verify classic Find in Files can still be opened with the text/directory prefilled
+
 ### Classic bridge buttons
 - From Find tab, click `Open classic Find dialog`
 - Confirm the classic Find dialog opens with synced text/settings

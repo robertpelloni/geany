@@ -63,8 +63,8 @@ This is strategically useful because:
 ### Implemented in GTK Search Studio
 - unified notebook dialog
 - Find tab
-- Replace tab (launcher/prefill bridge to classic dialog)
-- Find in Files tab (launcher/prefill bridge to classic dialog)
+- Replace tab with direct in-studio actions
+- Find in Files tab with direct search launch
 - Mark tab
 - explicit Normal / Extended / Regex mode radios
 - direct Count action
@@ -73,10 +73,10 @@ This is strategically useful because:
 - persistent window position
 
 ### Not yet complete
-- full self-contained Replace execution surface in Search Studio
-- full self-contained Find in Files option matrix in Search Studio
+- full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
 - complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing)
 - integrated results pane / preview pane inside the GTK Search Studio
+- replace preview / dry-run workflow
 
 ## Data-flow architecture
 

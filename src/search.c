@@ -200,7 +200,17 @@ on_find_in_files_dialog_response(GtkDialog *dialog, gint response, gpointer user
 
 static gboolean
 search_find_in_files(const gchar *utf8_search_text, const gchar *dir, const gchar *opts,
-	const gchar *enc);
+	const gchar *enc, gboolean recursive);
+static GString *build_grep_options(gboolean invert_results, gboolean case_sensitive,
+	gboolean match_whole_word, gboolean recursive, gboolean regexp,
+	gboolean use_extra_options, const gchar *extra_options, gint files_mode,
+	const gchar *files);
+static gboolean execute_find_in_files_request(const gchar *search_text, const gchar *utf8_dir,
+	gboolean invert_results, gboolean case_sensitive, gboolean match_whole_word,
+	gboolean recursive, gboolean regexp, gboolean use_extra_options,
+	const gchar *extra_options, gint files_mode, const gchar *files,
+	GeanyEncodingIndex enc_idx, GtkWidget *search_widget, GtkWidget *dir_widget,
+	GtkWidget *files_widget);
 static GtkWidget *search_studio_create_find_page(void);
 static GtkWidget *search_studio_create_replace_page(void);
 static GtkWidget *search_studio_create_fif_page(void);
@@ -212,6 +222,12 @@ static void search_studio_mode_toggled(GtkToggleButton *togglebutton, gpointer u
 static void search_studio_whole_word_toggled(GtkToggleButton *togglebutton, gpointer user_data);
 static gboolean search_studio_prepare_find(GtkWidget *page, const gchar *entry_name,
 	gchar **text, gchar **original_text, GeanyFindFlags *flags, gboolean *backwards);
+static gboolean search_studio_prepare_replace(GtkWidget *page, gchar **find, gchar **replace,
+	gchar **original_find, gchar **original_replace, GeanyFindFlags *flags,
+	gboolean *backwards);
+static void search_studio_replace_action_activate(GtkButton *button, gpointer user_data);
+static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
+static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static gint search_mark_all_with_options(GeanyDocument *doc, const gchar *search_text,
 	GeanyFindFlags flags, gboolean bookmark_lines, gboolean purge_bookmarks);
 static void search_clear_all_marks(GeanyDocument *doc);
@@ -624,6 +640,70 @@ fail:
 	g_free(*original_text);
 	*text = NULL;
 	*original_text = NULL;
+	return FALSE;
+}
+
+
+static gboolean search_studio_prepare_replace(GtkWidget *page, gchar **find, gchar **replace,
+	gchar **original_find, gchar **original_replace, GeanyFindFlags *flags,
+	gboolean *backwards)
+{
+	gboolean regexp;
+	gboolean escape_sequences;
+	GtkWidget *find_entry = ui_lookup_widget(page, "entry_search");
+	GtkWidget *replace_entry = ui_lookup_widget(page, "entry_replace");
+
+	*find = g_strdup(gtk_entry_get_text(GTK_ENTRY(find_entry)));
+	*replace = g_strdup(gtk_entry_get_text(GTK_ENTRY(replace_entry)));
+	*original_find = g_strdup(*find);
+	*original_replace = g_strdup(*replace);
+	search_studio_get_mode(page, &regexp, &escape_sequences);
+	search_prefs.always_wrap = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(
+		ui_lookup_widget(page, "check_wrap")));
+	*backwards = ui_lookup_widget(page, "check_back") &&
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_back")));
+
+	*flags = int_search_flags(
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_case"))),
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_word"))),
+		regexp,
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_multiline"))),
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_dotall"))),
+		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_wordstart"))));
+
+	if (EMPTY(*find))
+		goto fail;
+
+	if ((*flags & GEANY_FIND_REGEXP) != 0)
+	{
+		GRegex *regex = compile_regex(*find, *flags);
+		if (regex == NULL || !utils_str_replace_escape(*replace, TRUE))
+		{
+			if (regex)
+				g_regex_unref(regex);
+			goto fail;
+		}
+		g_regex_unref(regex);
+	}
+	else if (escape_sequences)
+	{
+		if (!utils_str_replace_escape(*find, FALSE) || !utils_str_replace_escape(*replace, FALSE))
+			goto fail;
+	}
+
+	return TRUE;
+
+fail:
+	utils_beep();
+	gtk_widget_grab_focus(find_entry);
+	g_free(*find);
+	g_free(*replace);
+	g_free(*original_find);
+	g_free(*original_replace);
+	*find = NULL;
+	*replace = NULL;
+	*original_find = NULL;
+	*original_replace = NULL;
 	return FALSE;
 }
 
@@ -2016,6 +2096,8 @@ static void search_studio_find_activate(GtkButton *button, gpointer user_data)
 		return;
 
 	search_studio_store_search_data(text, original_text, flags, backwards);
+	if (ui_lookup_widget(page, "combo_search"))
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), original_text, 0);
 	result = document_find_text(doc, text, original_text, flags, backwards, NULL, TRUE);
 	ui_set_search_entry_background(ui_lookup_widget(page, "entry_search"), (result > -1));
 	g_free(text);
@@ -2053,6 +2135,8 @@ static void search_studio_count_activate(GtkButton *button, gpointer user_data)
 	if (!DOC_VALID(doc) || !search_studio_prepare_find(page, "entry_search", &text, &original_text, &flags, &backwards))
 		return;
 
+	if (ui_lookup_widget(page, "combo_search"))
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), original_text, 0);
 	count = search_count_matches(doc, text, flags);
 	if (count == 0)
 		ui_set_statusbar(FALSE, _("No matches found for \"%s\"."), original_text);
@@ -2085,6 +2169,8 @@ static void search_studio_mark_activate(GtkButton *button, gpointer user_data)
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_bookmark")));
 	purge_bookmarks = ui_lookup_widget(page, "check_purge") &&
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_purge")));
+	if (ui_lookup_widget(page, "combo_search"))
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), original_text, 0);
 	count = search_mark_all_with_options(doc, text, flags, bookmark_lines, purge_bookmarks);
 
 	if (count == 0)
@@ -2138,6 +2224,137 @@ static void search_studio_open_fif_dialog_activate(GtkButton *button, gpointer u
 }
 
 
+static void search_studio_replace_action_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GeanyDocument *doc = document_get_current();
+	gchar *find = NULL, *replace = NULL, *original_find = NULL, *original_replace = NULL;
+	GeanyFindFlags flags;
+	gboolean backwards = FALSE;
+	gint action = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(button), "studio-replace-action"));
+
+	if (!DOC_VALID(doc) || !search_studio_prepare_replace(page, &find, &replace,
+			&original_find, &original_replace, &flags, &backwards))
+		return;
+
+	search_studio_store_search_data(find, original_find, flags, backwards);
+	ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), original_find, 0);
+	ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_replace")), original_replace, 0);
+
+	switch (action)
+	{
+		case GEANY_RESPONSE_FIND:
+		{
+			gint result = document_find_text(doc, find, original_find, flags, backwards, NULL, TRUE);
+			ui_set_search_entry_background(ui_lookup_widget(page, "entry_search"), (result > -1));
+			break;
+		}
+		case GEANY_RESPONSE_REPLACE:
+			document_replace_text(doc, find, original_find, replace, flags, backwards);
+			break;
+		case GEANY_RESPONSE_REPLACE_AND_FIND:
+			if (document_replace_text(doc, find, original_find, replace, flags, backwards) != -1)
+				document_find_text(doc, find, original_find, flags, backwards, NULL, TRUE);
+			break;
+		case GEANY_RESPONSE_REPLACE_IN_FILE:
+			if (!document_replace_all(doc, find, replace, original_find, original_replace, flags))
+				utils_beep();
+			break;
+		case GEANY_RESPONSE_REPLACE_IN_SEL:
+			document_replace_sel(doc, find, replace, original_find, original_replace, flags);
+			break;
+		case GEANY_RESPONSE_REPLACE_IN_SESSION:
+			if (!search_prefs.skip_confirmation_for_replace_in_session &&
+				!dialogs_show_question_full(studio_dlg.dialog, NULL, NULL,
+				_("This operation will modify all open files which contain the text to replace."),
+				_("Are you sure to replace in the whole session?")))
+				break;
+			replace_in_session(doc, flags, FALSE, find, replace, original_find, original_replace);
+			break;
+	}
+
+	g_free(find);
+	g_free(replace);
+	g_free(original_find);
+	g_free(original_replace);
+}
+
+
+static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GtkWidget *entry = ui_lookup_widget(page, "entry_files");
+	gint selection = gtk_combo_box_get_active(combo);
+
+	if (selection == FILES_MODE_ALL)
+	{
+		gtk_entry_set_text(GTK_ENTRY(entry), "");
+		gtk_widget_set_sensitive(entry, FALSE);
+	}
+	else if (selection == FILES_MODE_PROJECT)
+	{
+		if (app->project && !EMPTY(app->project->file_patterns))
+		{
+			gchar *patterns = g_strjoinv(" ", app->project->file_patterns);
+			gtk_entry_set_text(GTK_ENTRY(entry), patterns);
+			g_free(patterns);
+		}
+		else
+			gtk_entry_set_text(GTK_ENTRY(entry), "");
+		gtk_widget_set_sensitive(entry, FALSE);
+	}
+	else
+		gtk_widget_set_sensitive(entry, TRUE);
+}
+
+
+static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GtkWidget *search_entry = ui_lookup_widget(page, "entry_search");
+	GtkWidget *dir_entry = ui_lookup_widget(page, "entry_dir");
+	GtkWidget *files_entry = ui_lookup_widget(page, "entry_files");
+	GtkWidget *mode_combo = ui_lookup_widget(page, "combo_files_mode");
+	GtkWidget *enc_combo = ui_lookup_widget(page, "combo_encoding");
+	gboolean regexp;
+	gboolean escape_sequences;
+	gchar *search_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(search_entry)));
+	const gchar *utf8_dir = gtk_entry_get_text(GTK_ENTRY(dir_entry));
+	const gchar *files = gtk_entry_get_text(GTK_ENTRY(files_entry));
+	gboolean invert = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_invert")));
+	gboolean case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_case")));
+	gboolean whole_word = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_word")));
+	gboolean recursive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_recursive")));
+	gboolean use_extra = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_extra")));
+	const gchar *extra_options = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_extra")));
+	gint files_mode = gtk_combo_box_get_active(GTK_COMBO_BOX(mode_combo));
+	GeanyEncodingIndex enc_idx = ui_encodings_combo_box_get_active_encoding(GTK_COMBO_BOX(enc_combo));
+
+	search_studio_get_mode(page, &regexp, &escape_sequences);
+	if (!regexp && escape_sequences && !utils_str_replace_escape(search_text, FALSE))
+	{
+		utils_beep();
+		gtk_widget_grab_focus(search_entry);
+		g_free(search_text);
+		return;
+	}
+
+	if (execute_find_in_files_request(search_text, utf8_dir, invert, case_sensitive,
+			whole_word, recursive, regexp, use_extra, extra_options, files_mode, files,
+			enc_idx, search_entry, dir_entry, files_entry))
+	{
+		ui_set_search_entry_background(search_entry, TRUE);
+		ui_set_search_entry_background(dir_entry, TRUE);
+		ui_set_search_entry_background(files_entry, TRUE);
+		ui_set_statusbar(FALSE, _("Searching in files started from Search Studio."));
+	}
+	else
+		utils_beep();
+
+	g_free(search_text);
+}
+
+
 static GtkWidget *search_studio_create_find_page(void)
 {
 	GtkWidget *page = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
@@ -2173,7 +2390,10 @@ static GtkWidget *search_studio_create_find_page(void)
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_open_find_dialog_activate), page);
 
 	gtk_box_pack_start(GTK_BOX(page), actions, FALSE, FALSE, 0);
-	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "mode_normal")), page);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.find_regexp ? "mode_regex" : settings.find_escape_sequences ? "mode_extended" : "mode_normal")), TRUE);
+	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.find_regexp ? "mode_regex" : settings.find_escape_sequences ? "mode_extended" : "mode_normal")), page);
 	return page;
 }
 
@@ -2206,11 +2426,38 @@ static GtkWidget *search_studio_create_replace_page(void)
 	gtk_box_pack_start(GTK_BOX(page), grid, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(page), search_studio_create_common_options(page, TRUE, FALSE), FALSE, FALSE, 0);
 
+	button = ui_button_new_with_image(GTK_STOCK_FIND, _("Find _Next"));
+	g_object_set_data(G_OBJECT(button), "studio-replace-action", GINT_TO_POINTER(GEANY_RESPONSE_FIND));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_action_activate), page);
+	button = gtk_button_new_with_mnemonic(_("_Replace"));
+	g_object_set_data(G_OBJECT(button), "studio-replace-action", GINT_TO_POINTER(GEANY_RESPONSE_REPLACE));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_action_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Replace & Fi_nd"));
+	g_object_set_data(G_OBJECT(button), "studio-replace-action", GINT_TO_POINTER(GEANY_RESPONSE_REPLACE_AND_FIND));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_action_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Replace in _Document"));
+	g_object_set_data(G_OBJECT(button), "studio-replace-action", GINT_TO_POINTER(GEANY_RESPONSE_REPLACE_IN_FILE));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_action_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Replace in _Selection"));
+	g_object_set_data(G_OBJECT(button), "studio-replace-action", GINT_TO_POINTER(GEANY_RESPONSE_REPLACE_IN_SEL));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_action_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Replace in Sessi_on"));
+	g_object_set_data(G_OBJECT(button), "studio-replace-action", GINT_TO_POINTER(GEANY_RESPONSE_REPLACE_IN_SESSION));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_replace_action_activate), page);
 	button = gtk_button_new_with_mnemonic(_("Open classic _Replace dialog"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_open_replace_dialog_activate), page);
 	gtk_box_pack_start(GTK_BOX(page), actions, FALSE, FALSE, 0);
-	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "mode_normal")), page);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.replace_regexp ? "mode_regex" : settings.replace_escape_sequences ? "mode_extended" : "mode_normal")), TRUE);
+	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.replace_regexp ? "mode_regex" : settings.replace_escape_sequences ? "mode_extended" : "mode_normal")), page);
 	return page;
 }
 
@@ -2219,33 +2466,93 @@ static GtkWidget *search_studio_create_fif_page(void)
 {
 	GtkWidget *page = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
 	GtkWidget *grid = gtk_grid_new();
+	GtkWidget *options_grid = gtk_grid_new();
 	GtkWidget *label_find = gtk_label_new_with_mnemonic(_("_Find what:"));
 	GtkWidget *label_dir = gtk_label_new_with_mnemonic(_("_Directory:"));
+	GtkWidget *label_files = gtk_label_new_with_mnemonic(_("File _patterns:"));
+	GtkWidget *label_encoding = gtk_label_new_with_mnemonic(_("E_ncoding:"));
 	GtkWidget *entry_find = gtk_entry_new();
 	GtkWidget *entry_dir = gtk_entry_new();
-	GtkWidget *hint = gtk_label_new(_("Use the full Find in Files dialog for filters, recursion, encodings, and external grep options."));
+	GtkWidget *entry_files = gtk_entry_new();
+	GtkWidget *combo_files_mode = create_fif_file_mode_combo();
+	GtkWidget *encoding_combo = ui_create_encodings_combo_box(FALSE, GEANY_ENCODING_UTF_8);
+	GtkWidget *check_case = gtk_check_button_new_with_mnemonic(_("Match _case"));
+	GtkWidget *check_word = gtk_check_button_new_with_mnemonic(_("Whole _word"));
+	GtkWidget *check_invert = gtk_check_button_new_with_mnemonic(_("_Invert"));
+	GtkWidget *check_recursive = gtk_check_button_new_with_mnemonic(_("_Recursive"));
+	GtkWidget *check_extra = gtk_check_button_new_with_mnemonic(_("Use e_xtra grep options"));
+	GtkWidget *entry_extra = gtk_entry_new();
+	GtkWidget *hint = gtk_label_new(_("Search Studio can now launch file searches directly. The classic Find in Files dialog remains available for compatibility and future parity checks."));
 	GtkWidget *actions = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	GtkWidget *button;
 
 	gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 	gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+	gtk_grid_set_column_spacing(GTK_GRID(options_grid), 12);
+	gtk_grid_set_row_spacing(GTK_GRID(options_grid), 6);
 	ui_hookup_widget(page, entry_find, "entry_search");
 	ui_hookup_widget(page, entry_dir, "entry_dir");
+	ui_hookup_widget(page, entry_files, "entry_files");
+	ui_hookup_widget(page, combo_files_mode, "combo_files_mode");
+	ui_hookup_widget(page, encoding_combo, "combo_encoding");
+	ui_hookup_widget(page, check_case, "check_case");
+	ui_hookup_widget(page, check_word, "check_word");
+	ui_hookup_widget(page, check_invert, "check_invert");
+	ui_hookup_widget(page, check_recursive, "check_recursive");
+	ui_hookup_widget(page, check_extra, "check_extra");
+	ui_hookup_widget(page, entry_extra, "entry_extra");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_recursive), settings.fif_recursive);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_case), settings.fif_case_sensitive);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_word), settings.fif_match_whole_word);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_invert), settings.fif_invert_results);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_extra), settings.fif_use_extra_options);
+	gtk_entry_set_text(GTK_ENTRY(entry_extra), settings.fif_extra_options ? settings.fif_extra_options : "");
+	gtk_widget_set_sensitive(entry_extra, settings.fif_use_extra_options);
+	g_signal_connect(check_extra, "toggled", G_CALLBACK(on_widget_toggled_set_sensitive), entry_extra);
+	g_signal_connect(combo_files_mode, "changed", G_CALLBACK(search_studio_fif_file_mode_changed), page);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_files_mode), settings.fif_files_mode);
+	gtk_entry_set_text(GTK_ENTRY(entry_files), settings.fif_files ? settings.fif_files : "");
+
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label_find), entry_find);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label_dir), entry_dir);
+	gtk_label_set_mnemonic_widget(GTK_LABEL(label_files), combo_files_mode);
+	gtk_label_set_mnemonic_widget(GTK_LABEL(label_encoding), encoding_combo);
 	gtk_grid_attach(GTK_GRID(grid), label_find, 0, 0, 1, 1);
-	gtk_grid_attach(GTK_GRID(grid), entry_find, 1, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), entry_find, 1, 0, 2, 1);
 	gtk_grid_attach(GTK_GRID(grid), label_dir, 0, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(grid), entry_dir, 1, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), entry_dir, 1, 1, 2, 1);
+	gtk_grid_attach(GTK_GRID(grid), label_files, 0, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), combo_files_mode, 1, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), entry_files, 2, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), label_encoding, 0, 3, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), encoding_combo, 1, 3, 2, 1);
+
+	gtk_grid_attach(GTK_GRID(options_grid), check_case, 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), check_word, 1, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), check_invert, 2, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), check_recursive, 0, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), check_extra, 1, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), entry_extra, 2, 1, 1, 1);
+
 	gtk_label_set_xalign(GTK_LABEL(hint), 0.0f);
 	gtk_label_set_line_wrap(GTK_LABEL(hint), TRUE);
 	gtk_box_pack_start(GTK_BOX(page), grid, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(page), search_studio_create_mode_box(page), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(page), options_grid, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(page), hint, FALSE, FALSE, 0);
 
+	button = ui_button_new_with_image(GTK_STOCK_FIND, _("_Find in Files now"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_fif_find_activate), page);
 	button = ui_button_new_with_image(GTK_STOCK_FIND, _("Open full Find in F_iles"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_open_fif_dialog_activate), page);
 	gtk_box_pack_start(GTK_BOX(page), actions, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.fif_regexp ? "mode_regex" : "mode_normal")), TRUE);
+	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.fif_regexp ? "mode_regex" : "mode_normal")), page);
+	search_studio_fif_file_mode_changed(GTK_COMBO_BOX(combo_files_mode), page);
 	return page;
 }
 
@@ -2279,7 +2586,10 @@ static GtkWidget *search_studio_create_mark_page(void)
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_clear_marks_activate), page);
 	gtk_box_pack_start(GTK_BOX(page), actions, FALSE, FALSE, 0);
-	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "mode_normal")), page);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.find_regexp ? "mode_regex" : settings.find_escape_sequences ? "mode_extended" : "mode_normal")), TRUE);
+	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.find_regexp ? "mode_regex" : settings.find_escape_sequences ? "mode_extended" : "mode_normal")), page);
 	return page;
 }
 
@@ -2435,49 +2745,111 @@ static void reset_msgwin(void)
 }
 
 
-static GString *get_grep_options(void)
+static GString *build_grep_options(gboolean invert_results, gboolean case_sensitive,
+	gboolean match_whole_word, gboolean recursive, gboolean regexp,
+	gboolean use_extra_options, const gchar *extra_options, gint files_mode,
+	const gchar *files)
 {
 	GString *gstr = g_string_new("-nHI");	/* line numbers, filenames, ignore binaries */
+	gchar *extra_copy = g_strdup(extra_options != NULL ? extra_options : "");
+	gchar *files_copy = g_strdup(files != NULL ? files : "");
 
-	if (settings.fif_invert_results)
+	if (invert_results)
 		g_string_append_c(gstr, 'v');
-	if (! settings.fif_case_sensitive)
+	if (! case_sensitive)
 		g_string_append_c(gstr, 'i');
-	if (settings.fif_match_whole_word)
+	if (match_whole_word)
 		g_string_append_c(gstr, 'w');
-	if (settings.fif_recursive)
+	if (recursive)
 		g_string_append_c(gstr, 'r');
 
-	if (!settings.fif_regexp)
+	if (!regexp)
 		g_string_append_c(gstr, 'F');
 	else
 		g_string_append_c(gstr, 'E');
 
-	if (settings.fif_use_extra_options)
+	if (use_extra_options)
 	{
-		g_strstrip(settings.fif_extra_options);
+		g_strstrip(extra_copy);
 
-		if (*settings.fif_extra_options != 0)
+		if (*extra_copy != 0)
 		{
 			g_string_append_c(gstr, ' ');
-			g_string_append(gstr, settings.fif_extra_options);
+			g_string_append(gstr, extra_copy);
 		}
 	}
-	g_strstrip(settings.fif_files);
-	if (settings.fif_files_mode != FILES_MODE_ALL && *settings.fif_files)
+	g_strstrip(files_copy);
+	if (files_mode != FILES_MODE_ALL && *files_copy)
 	{
 		GString *tmp;
 
 		/* put --include= before each pattern */
-		tmp = g_string_new(settings.fif_files);
+		tmp = g_string_new(files_copy);
 		do {} while (utils_string_replace_all(tmp, "  ", " "));
 		g_string_prepend_c(tmp, ' ');
 		utils_string_replace_all(tmp, " ", " --include=");
 		g_string_append(gstr, tmp->str);
 		g_string_free(tmp, TRUE);
 	}
+
+	g_free(extra_copy);
+	g_free(files_copy);
 	return gstr;
 }
+
+
+static GString *get_grep_options(void)
+{
+	return build_grep_options(settings.fif_invert_results, settings.fif_case_sensitive,
+		settings.fif_match_whole_word, settings.fif_recursive, settings.fif_regexp,
+		settings.fif_use_extra_options, settings.fif_extra_options,
+		settings.fif_files_mode, settings.fif_files);
+}
+
+
+static gboolean execute_find_in_files_request(const gchar *search_text, const gchar *utf8_dir,
+	gboolean invert_results, gboolean case_sensitive, gboolean match_whole_word,
+	gboolean recursive, gboolean regexp, gboolean use_extra_options,
+	const gchar *extra_options, gint files_mode, const gchar *files,
+	GeanyEncodingIndex enc_idx, GtkWidget *search_widget, GtkWidget *dir_widget,
+	GtkWidget *files_widget)
+{
+	gchar *locale_dir = utils_get_locale_from_utf8(utf8_dir);
+	gboolean ok = FALSE;
+
+	if (!g_file_test(locale_dir, G_FILE_TEST_IS_DIR))
+	{
+		ui_set_statusbar(FALSE, _("Invalid directory for Find in Files."));
+		if (dir_widget != NULL)
+			ui_set_search_entry_background(dir_widget, FALSE);
+	}
+	else if (EMPTY(search_text))
+	{
+		ui_set_statusbar(FALSE, _("No text to find."));
+		if (search_widget != NULL)
+			ui_set_search_entry_background(search_widget, FALSE);
+	}
+	else if (files_mode != FILES_MODE_ALL && EMPTY(files))
+	{
+		ui_set_statusbar(FALSE, _("No file patterns specified for Find in Files."));
+		if (files_widget != NULL)
+			ui_set_search_entry_background(files_widget, FALSE);
+	}
+	else
+	{
+		GString *opts = build_grep_options(invert_results, case_sensitive, match_whole_word,
+			recursive, regexp, use_extra_options, extra_options, files_mode, files);
+		const gchar *enc = (enc_idx == GEANY_ENCODING_UTF_8) ? NULL :
+			encodings_get_charset_from_index(enc_idx);
+
+		ok = search_find_in_files(search_text, utf8_dir, opts->str, enc, recursive);
+		g_string_free(opts, TRUE);
+	}
+
+	g_free(locale_dir);
+	return ok;
+}
+
 
 
 static void
@@ -2496,36 +2868,22 @@ on_find_in_files_dialog_response(GtkDialog *dialog, gint response,
 		GtkWidget *dir_combo = fif_dlg.dir_combo;
 		const gchar *utf8_dir =
 			gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(dir_combo))));
-		gchar *locale_dir = utils_get_locale_from_utf8(utf8_dir);
 		GeanyEncodingIndex enc_idx =
 			ui_encodings_combo_box_get_active_encoding(GTK_COMBO_BOX(fif_dlg.encoding_combo));
 
-		if (!g_file_test(locale_dir, G_FILE_TEST_IS_DIR))
+		if (execute_find_in_files_request(search_text, utf8_dir,
+				settings.fif_invert_results, settings.fif_case_sensitive,
+				settings.fif_match_whole_word, settings.fif_recursive,
+				settings.fif_regexp, settings.fif_use_extra_options,
+				settings.fif_extra_options, settings.fif_files_mode,
+				settings.fif_files, enc_idx, search_combo, dir_combo,
+				fif_dlg.files_combo))
 		{
-			ui_set_statusbar(FALSE, _("Invalid directory for Find in Files."));
-			ui_set_search_entry_background(dir_combo, FALSE);
+			ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(search_combo), search_text, 0);
+			ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(fif_dlg.files_combo), NULL, 0);
+			ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(dir_combo), utf8_dir, 0);
+			gtk_widget_hide(fif_dlg.dialog);
 		}
-		else if (EMPTY(search_text))
-		{
-			ui_set_statusbar(FALSE, _("No text to find."));
-			ui_set_search_entry_background(search_combo, FALSE);
-		}
-		else
-		{
-			GString *opts = get_grep_options();
-			const gchar *enc = (enc_idx == GEANY_ENCODING_UTF_8) ? NULL :
-				encodings_get_charset_from_index(enc_idx);
-
-			if (search_find_in_files(search_text, utf8_dir, opts->str, enc))
-			{
-				ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(search_combo), search_text, 0);
-				ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(fif_dlg.files_combo), NULL, 0);
-				ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(dir_combo), utf8_dir, 0);
-				gtk_widget_hide(fif_dlg.dialog);
-			}
-			g_string_free(opts, TRUE);
-		}
-		g_free(locale_dir);
 	}
 	else
 		gtk_widget_hide(fif_dlg.dialog);
@@ -2534,7 +2892,7 @@ on_find_in_files_dialog_response(GtkDialog *dialog, gint response,
 
 static gboolean
 search_find_in_files(const gchar *utf8_search_text, const gchar *utf8_dir, const gchar *opts,
-	const gchar *enc)
+	const gchar *enc, gboolean recursive)
 {
 	gchar **argv_prefix, **argv;
 	gchar *command_grep;
@@ -2570,7 +2928,7 @@ search_find_in_files(const gchar *utf8_search_text, const gchar *utf8_dir, const
 	dir = utils_get_locale_from_utf8(utf8_dir);
 
 	/* finally add the arguments(files to be searched) */
-	if (settings.fif_recursive)	/* recursive option set */
+	if (recursive)	/* recursive option set */
 	{
 		/* Use '.' so we get relative paths in the output */
 		argv_prefix[1] = g_strdup(".");

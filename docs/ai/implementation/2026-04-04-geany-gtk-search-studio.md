@@ -73,6 +73,12 @@ Implemented GTK callbacks for:
 - count
 - mark/bookmark
 - clear marks
+- replace
+- replace and find
+- replace in document
+- replace in selection
+- replace in session
+- find in files launch from Search Studio
 
 These call Geany's existing search/document primitives rather than inventing a new backend.
 
@@ -93,6 +99,22 @@ Implemented page-to-dialog sync helpers:
 - `search_studio_sync_replace_dialog_from_page()`
 
 These let Search Studio open classic dialogs with synced text and option state.
+
+### 9. Direct Find in Files execution helpers
+Introduced shared helpers:
+- `build_grep_options()`
+- `execute_find_in_files_request()`
+
+This reduces duplication and makes both the classic Find in Files dialog and Search Studio use the same validation and launch path.
+
+### 10. Direct replace execution helpers
+Introduced:
+- `search_studio_prepare_replace()`
+- `search_studio_replace_action_activate()`
+
+This moved Search Studio Replace beyond simple bridging into direct execution against the active document/session.
+
+## What this improves versus previous Geany behavior
 
 ### 9. Menu integration
 Added a new Search menu entry:
@@ -118,9 +140,9 @@ Callback:
 
 ## Remaining technical debt
 
-1. Replace tab is still a bridge, not yet a full standalone executor.
-2. Find in Files tab is still a bridge, not yet a full advanced option surface.
-3. Search Studio currently has no integrated results/preview pane.
+1. Find in Files tab is now executable, but still not as dense as Notepad++ or Geany's classic advanced dialog.
+2. Search Studio currently has no integrated results/preview pane.
+3. Replace operations do not yet offer preview/dry-run mode.
 4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
 
 ## Why this was implemented this way
