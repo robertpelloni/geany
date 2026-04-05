@@ -19,6 +19,11 @@
 
 namespace {
 
+static QString qs(const char *text)
+{
+    return QString::fromUtf8(text);
+}
+
 struct ModeControls
 {
     QRadioButton *normal = nullptr;
@@ -172,7 +177,7 @@ private:
             "Query: %3\n"
             "Line: %4\n\n"
             "Context:\n%5")
-            .arg(kind, file, query, QString::number(line), context);
+            .formatArgs(kind, file, query, QString::number(line), context);
     }
 
     void appendActivity(const QString &message)
@@ -186,7 +191,7 @@ private:
 
     void setPreview(const QString &title, const QString &body)
     {
-        previewView_->setPlainText(QStringLiteral("%1\n\n%2").arg(title, body));
+        previewView_->setPlainText(QString("%1\n\n%2").formatArgs(title, body));
     }
 
     void appendResult(const QString &action, const QString &target, const QString &query,
@@ -217,17 +222,17 @@ private:
             const int line = sampleLineFor(query, index);
             const int count = sampleCountFor(query, index);
             const QString context = QString("line %1 contains a representative %2 hit for \"%3\".")
-                .arg(line)
-                .arg(action.toLower())
-                .arg(query);
+                .formatArg(line)
+                .formatArg(action.toLower())
+                .formatArg(query);
             appendResult(
                 action,
-                QString("%1:%2").arg(file).arg(line),
+                QString("%1:%2").formatArg(file).formatArg(line),
                 query,
                 mode,
-                QString("%1 %2 matches in this document.").arg(summaryPrefix).arg(count),
-                QString("%1 — %2:%3").arg(action, file).arg(line),
-                buildLinePreview(QString("%1 impact summary").arg(action), file, query, line, context),
+                QString("%1 %2 matches in this document.").formatArg(summaryPrefix).formatArg(count),
+                QString("%1 — %2:%3").formatArgs(action, file).formatArg(line),
+                buildLinePreview(QString("%1 impact summary").formatArg(action), file, query, line, context),
                 true);
         }
     }
@@ -243,26 +248,26 @@ private:
             const QString &file = docs.at(index);
             const int line = sampleLineFor(query, index);
             const QString originalLine = QString("const QString needle = \"%1\"; // line %2")
-                .arg(query)
-                .arg(line);
+                .formatArg(query)
+                .formatArg(line);
             const QString replacementLine = QString("const QString needle = \"%1\"; // line %2")
-                .arg(replaceText)
-                .arg(line);
+                .formatArg(replaceText)
+                .formatArg(line);
             const QString previewBody = QString(
                 "Original line:\n- %1\n\n"
                 "Replacement line:\n+ %2\n\n"
                 "Matched segment diff:\n- %3\n+ %4\n\n"
                 "Payload entered:\n%5\n\n"
                 "Actual replacement text:\n%6")
-                .arg(originalLine, replacementLine, query, replaceText, replaceText, replaceText);
+                .formatArgs(originalLine, replacementLine, query, replaceText, replaceText, replaceText);
 
             appendResult(
                 action,
-                QString("%1:%2").arg(file).arg(line),
+                QString("%1:%2").formatArg(file).formatArg(line),
                 query,
                 mode,
-                QString("Would replace the representative match on line %1.").arg(line),
-                QString("%1 — %2:%3").arg(action, file).arg(line),
+                QString("Would replace the representative match on line %1.").formatArg(line),
+                QString("%1 — %2:%3").formatArgs(action, file).formatArg(line),
                 previewBody,
                 true);
         }
@@ -319,11 +324,11 @@ private:
             if (!navigable)
             {
                 appendActivity(QString("[Results] %1 on %2 is informational in the prototype; inspect Diff Preview.")
-                    .arg(item->text(0), item->text(1)));
+                    .formatArgs(item->text(0), item->text(1)));
                 return;
             }
 
-            appendActivity(QString("[Results] Prototype navigation would jump to %1.").arg(item->text(1)));
+            appendActivity(QString("[Results] Prototype navigation would jump to %1.").formatArg(item->text(1)));
         });
         return resultsView_;
     }
@@ -364,16 +369,16 @@ private:
             connect(button, &QPushButton::clicked, this, [this, activity, summary]() {
                 const QString query = textOrPlaceholder(find_.query->currentText(), "current selection");
                 const QString mode = modeName(find_.mode);
-                appendActivity(QString("[Find] %1 | query=%2 | mode=%3").arg(activity, query, mode));
+                appendActivity(QString("[Find] %1 | query=%2 | mode=%3").formatArgs(activity, query, mode));
                 appendResult(
                     activity,
                     "Active Document",
                     query,
                     mode,
                     summary,
-                    QString("%1 — Active Document").arg(activity),
+                    QString("%1 — Active Document").formatArg(activity),
                     QString("Prototype action: %1\n\nQuery: %2\nMode: %3\n\nThis BTK surface mirrors the current Search Studio workflow but is not yet wired to Geany core services.")
-                        .arg(activity, query, mode),
+                        .formatArgs(activity, query, mode),
                     false);
             });
             actions->addWidget(button);
@@ -386,7 +391,7 @@ private:
         connect(countButton, &QPushButton::clicked, this, [this]() {
             const QString query = textOrPlaceholder(find_.query->currentText(), "needle");
             const QString mode = modeName(find_.mode);
-            appendActivity(QString("[Count] query=%1 | mode=%2 | scope=active document").arg(query, mode));
+            appendActivity(QString("[Count] query=%1 | mode=%2 | scope=active document").formatArgs(query, mode));
             appendResult(
                 "Count",
                 "Active Document",
@@ -404,7 +409,7 @@ private:
         connect(countSessionButton, &QPushButton::clicked, this, [this]() {
             const QString query = textOrPlaceholder(find_.query->currentText(), "needle");
             const QString mode = modeName(find_.mode);
-            appendActivity(QString("[Count] Session | query=%1 | mode=%2").arg(query, mode));
+            appendActivity(QString("[Count] Session | query=%1 | mode=%2").formatArgs(query, mode));
             appendImpactRows("Session Count Impact", query, mode, "Counted", true);
             appendResult(
                 "Count in Session",
@@ -429,7 +434,7 @@ private:
         connect(collectDocButton, &QPushButton::clicked, this, [this]() {
             const QString query = textOrPlaceholder(find_.query->currentText(), "needle");
             const QString mode = modeName(find_.mode);
-            appendActivity(QString("[Results] Collected current-document hits for %1.").arg(query));
+            appendActivity(QString("[Results] Collected current-document hits for %1.").formatArg(query));
             appendImpactRows("Document Hit", query, mode, "Collected", false);
         });
         actions->addWidget(collectDocButton);
@@ -438,7 +443,7 @@ private:
         connect(collectSessionButton, &QPushButton::clicked, this, [this]() {
             const QString query = textOrPlaceholder(find_.query->currentText(), "needle");
             const QString mode = modeName(find_.mode);
-            appendActivity(QString("[Results] Collected open-document hits for %1.").arg(query));
+            appendActivity(QString("[Results] Collected open-document hits for %1.").formatArg(query));
             appendImpactRows("Session Hit", query, mode, "Collected", true);
             appendResult(
                 "Collect Session Hits",
@@ -512,16 +517,16 @@ private:
                 const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
                 const QString mode = modeName(replace_.mode);
                 appendActivity(QString("[Replace] %1 | query=%2 | replacement=%3 | mode=%4")
-                    .arg(activity, query, replacement, mode));
+                    .formatArgs(activity, query, replacement, mode));
                 appendResult(
                     activity,
                     "Active Document",
                     query,
                     mode,
                     summary,
-                    QString("%1 — Active Document").arg(activity),
+                    QString("%1 — Active Document").formatArg(activity),
                     QString("Query: %1\nReplacement: %2\nMode: %3\n\nPrototype action coverage only; engine wiring comes next.")
-                        .arg(query, replacement, mode),
+                        .formatArgs(query, replacement, mode),
                     false);
             });
             actions->addWidget(button);
@@ -537,7 +542,7 @@ private:
             const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
             const QString mode = modeName(replace_.mode);
             appendActivity(QString("[Replace] Replace in document | query=%1 | replacement=%2 | mode=%3")
-                .arg(query, replacement, mode));
+                .formatArgs(query, replacement, mode));
             appendReplacePreviewRows("Replace Impact", query, replacement, mode, false);
             appendResult(
                 "Replace in Document",
@@ -547,7 +552,7 @@ private:
                 "Prototype replace-in-document summary with impact rows above.",
                 "Replace in Document",
                 QString("Replacement payload: %1\nMode: %2\n\nImpact rows above mirror the current Search Studio model.")
-                    .arg(replacement, mode),
+                    .formatArgs(replacement, mode),
                 false);
         });
         actions->addWidget(replaceDocButton);
@@ -558,7 +563,7 @@ private:
             const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
             const QString mode = modeName(replace_.mode);
             appendActivity(QString("[Replace] Replace in session | query=%1 | replacement=%2 | mode=%3")
-                .arg(query, replacement, mode));
+                .formatArgs(query, replacement, mode));
             appendReplacePreviewRows("Session Replace Impact", query, replacement, mode, true);
             appendResult(
                 "Replace in Session",
@@ -568,7 +573,7 @@ private:
                 "Prototype replace-in-session summary with per-document impact rows above.",
                 "Replace in Session",
                 QString("Replacement payload: %1\nMode: %2\n\nPer-document impact rows above would be driven by Geany core later.")
-                    .arg(replacement, mode),
+                    .formatArgs(replacement, mode),
                 false);
         });
         actions->addWidget(replaceSessionButton);
@@ -636,7 +641,7 @@ private:
             const QString query = textOrPlaceholder(fif_.query->currentText(), "needle");
             const QString directory = textOrPlaceholder(fif_.directory->currentText(), ".");
             const QString mode = modeName(fif_.mode);
-            appendActivity(QString("[Find in Files] query=%1 | directory=%2 | mode=%3").arg(query, directory, mode));
+            appendActivity(QString("[Find in Files] query=%1 | directory=%2 | mode=%3").formatArgs(query, directory, mode));
             appendImpactRows("Find in Files Hit", query, mode, "Captured", true);
             appendResult(
                 "Find in Files",
@@ -646,7 +651,7 @@ private:
                 "Prototype directory search launched with structured hit ingestion.",
                 "Find in Files",
                 QString("Directory: %1\nMode: %2\n\nResults above mirror a future structured ripgrep-style ingestion path.")
-                    .arg(directory, mode),
+                    .formatArgs(directory, mode),
                 false);
         });
         actions->addWidget(findAllButton);
@@ -702,10 +707,10 @@ private:
         connect(markNowButton, &QPushButton::clicked, this, [this]() {
             const QString query = textOrPlaceholder(mark_.query->currentText(), "needle");
             const QString mode = modeName(mark_.mode);
-            const QString bookmark = mark_.bookmarkLines->isChecked() ? "on" : "off";
-            const QString purge = mark_.purgeBookmarks->isChecked() ? "on" : "off";
+            const QString bookmark = mark_.bookmarkLines->isChecked() ? qs("on") : qs("off");
+            const QString purge = mark_.purgeBookmarks->isChecked() ? qs("on") : qs("off");
             appendActivity(QString("[Mark] query=%1 | mode=%2 | bookmarks=%3 | purge=%4")
-                .arg(query, mode, bookmark, purge));
+                .formatArgs(query, mode, bookmark, purge));
             appendImpactRows("Mark Impact", query, mode, "Marked", false);
             appendResult(
                 "Mark",
@@ -713,7 +718,7 @@ private:
                 query,
                 mode,
                 QString("Marked representative matches; bookmark-lines=%1; purge-first=%2.")
-                    .arg(bookmark, purge),
+                    .formatArgs(bookmark, purge),
                 "Mark",
                 "Prototype active-document mark summary.",
                 false);
@@ -724,7 +729,7 @@ private:
         connect(markSessionButton, &QPushButton::clicked, this, [this]() {
             const QString query = textOrPlaceholder(mark_.query->currentText(), "needle");
             const QString mode = modeName(mark_.mode);
-            appendActivity(QString("[Mark] Session | query=%1 | mode=%2").arg(query, mode));
+            appendActivity(QString("[Mark] Session | query=%1 | mode=%2").formatArgs(query, mode));
             appendImpactRows("Session Mark Impact", query, mode, "Marked", true);
             appendResult(
                 "Mark in Session",

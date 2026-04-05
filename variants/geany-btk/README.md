@@ -36,6 +36,19 @@ The prototype is written against BTK's Qt-style widget stack and is expected to 
 
 - `../../subprojects/btk`
 
+At the moment, the most reliable Windows/MSVC path is:
+1. configure and build BTK standalone from `../../subprojects/btk`
+2. configure this variant against the resulting BTK CMake package/build tree
+
+The variant CMake currently looks for BTK in common local install/build-tree locations such as:
+- `../../build/btk-install/lib/cmake`
+- `../../build/btk-install/cmake`
+- `../../build/btk-ninja-fixes`
+- `../../build/btk-ninja`
+- `../../build/btk`
+
+or any BTK installation discoverable by `find_package(BTK CONFIG ...)`.
+
 ## Why a separate variant exists
 
 Geany's main codebase is still strongly shaped by the current toolkit and plugin-facing contracts. A separate BTK variant allows faster experimentation with:

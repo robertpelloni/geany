@@ -97,7 +97,7 @@ This variant gives the project a place to explore:
 
 ### What is in the variant now
 - `README.md` explaining the role of the variant
-- `CMakeLists.txt` wiring against `subprojects/btk`
+- `CMakeLists.txt` wiring against BTK CMake package/config discovery, with local hints for standalone BTK build/install trees
 - `src/main.cpp` implementing a **Search Studio prototype** with tabs:
   - Find
   - Replace
@@ -111,6 +111,14 @@ The prototype no longer stops at four static forms. It now mirrors more of the m
 - informational vs navigable row behavior on row activation
 - prototype session-aware actions such as `Count Session` and `Mark Session`
 - prototype replace preview / impact rows with richer preview text
+
+A Windows/MSVC build-enablement pass also landed for the BTK path:
+- BTK was updated to newer upstream MSVC-oriented fixes
+- a BTK-side CMake fix was applied so BTK resolves its own `cmake/modules` from its current source directory instead of assuming it is always the top-level source tree
+- the Geany BTK variant no longer tries to consume BTK via `add_subdirectory(...)`; it now prefers a standalone BTK build/install tree via `find_package(BTK CONFIG ...)`
+- the BTK variant itself was updated for the current BTK string API (`formatArg` / `formatArgs`, `QString::fromUtf8(...)`, and C++20)
+
+This produced a successful standalone BTK build and a successful BTK variant executable build on Windows/MSVC, while the main GTK Geany tree remains blocked by missing Meson/native GTK build plumbing in this environment.
 
 ### Prototype goals
 The prototype intentionally models the **control density** and **workflow rhythm** of Notepad++ while leaving room for “better than N++” capabilities:
