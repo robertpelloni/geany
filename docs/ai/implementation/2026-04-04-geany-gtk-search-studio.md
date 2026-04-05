@@ -149,6 +149,11 @@ Find-family session actions use this directly for count/mark/session-hit style f
 
 In addition, replace-session row planning is converging around a shared rows-action context/callback path: session preview rows and session replace-impact rows are no longer modeled as completely separate orchestration styles. They now share a common replace-session rows action seam that decides whether to emit preview rows or impact rows while still flowing through the same replace-session action execution helper.
 
+Replace execution planning is also starting to become explicit as its own step. Replace-in-document and Replace-in-session flows now build small plan results before mutation so the code more clearly separates:
+- impact-row planning
+- aggregate planned-doc/planned-match reporting
+- actual replacement execution
+
 This is still intentionally small, but it starts shaping session execution as an explicit action object rather than only as manually coordinated local variables.
 
 This is another meaningful backend-boundary step because session-scope work is increasingly described as:

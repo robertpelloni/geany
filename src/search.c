@@ -297,6 +297,14 @@ typedef struct SearchStudioReplaceSessionRowsActionContext
 SearchStudioReplaceSessionRowsActionContext;
 
 
+typedef struct SearchStudioReplacePlanResult
+{
+	guint planned_matches;
+	guint planned_docs;
+}
+SearchStudioReplacePlanResult;
+
+
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
 
@@ -396,6 +404,10 @@ static SearchStudioSessionRunResult search_studio_execute_replace_session_rows_a
 	GtkWidget *page, const SearchStudioReplaceSpec *spec,
 	SearchStudioReplaceSessionRowsActionContext *ctx, gboolean add_history,
 	gboolean store_find_spec);
+static SearchStudioReplacePlanResult search_studio_plan_replace_document(
+	GeanyDocument *doc, const SearchStudioReplaceSpec *spec);
+static SearchStudioReplacePlanResult search_studio_plan_replace_session(GtkWidget *page,
+	const SearchStudioReplaceSpec *spec);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
@@ -1727,6 +1739,47 @@ static SearchStudioSessionRunResult search_studio_execute_replace_session_rows_a
 	action.add_history = add_history;
 	action.store_find_spec = store_find_spec;
 	return search_studio_execute_replace_session_action(page, &action);
+}
+
+
+static SearchStudioReplacePlanResult search_studio_plan_replace_document(
+	GeanyDocument *doc, const SearchStudioReplaceSpec *spec)
+{
+	SearchStudioReplacePlanResult result = { 0, 0 };
+
+	if (spec == NULL)
+		return result;
+	result.planned_matches = search_studio_append_replace_impact_rows("Replace Impact", doc,
+		spec->find.text, spec->find.flags, spec->find.mode, spec->replace,
+		spec->original_replace);
+	result.planned_docs = result.planned_matches > 0 ? 1 : 0;
+	return result;
+}
+
+
+static SearchStudioReplacePlanResult search_studio_plan_replace_session(GtkWidget *page,
+	const SearchStudioReplaceSpec *spec)
+{
+	SearchStudioReplaceSessionRowsActionContext ctx;
+	SearchStudioSessionRunResult session_result;
+	SearchStudioReplacePlanResult result = { 0, 0 };
+
+	if (spec == NULL)
+		return result;
+
+	ctx.kind = SEARCH_STUDIO_REPLACE_SESSION_ROWS_IMPACT;
+	ctx.action = "Session Replace Impact";
+	ctx.query = spec->find.text;
+	ctx.flags = spec->find.flags;
+	ctx.mode = spec->find.mode;
+	ctx.replace_text = spec->replace;
+	ctx.replace_display = spec->original_replace;
+	ctx.per_doc_limit = 0;
+	session_result = search_studio_execute_replace_session_rows_action(page, spec, &ctx,
+		FALSE, FALSE);
+	result.planned_matches = session_result.total_results;
+	result.planned_docs = session_result.docs_with_results;
+	return result;
 }
 
 
@@ -3863,16 +3916,16 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 		}
 		case GEANY_RESPONSE_REPLACE_IN_FILE:
 		{
-			guint planned = search_studio_append_replace_impact_rows("Replace Impact", doc,
-				spec.find.text, spec.find.flags, spec.find.mode, spec.replace, spec.original_replace);
+			SearchStudioReplacePlanResult plan = search_studio_plan_replace_document(doc, &spec);
 			gint reps = document_replace_all(doc, spec.find.text, spec.replace,
 				spec.find.original_text, spec.original_replace, spec.find.flags);
 			if (!reps)
 				utils_beep();
 			search_studio_activity_append("[Replace] Replace in document | find=%s | replace=%s | replacements=%d | planned=%u",
-				spec.find.original_text, spec.original_replace, reps, planned);
+				spec.find.original_text, spec.original_replace, reps, plan.planned_matches);
 			search_studio_append_document_resultf("Replace in Document", doc, spec.find.original_text,
-				spec.find.mode, "Replaced %d matches in the active document (planned hits: %u).", reps, planned);
+				spec.find.mode, "Replaced %d matches in the active document (planned hits: %u).",
+				reps, plan.planned_matches);
 			break;
 		}
 		case GEANY_RESPONSE_REPLACE_IN_SEL:
@@ -3892,27 +3945,16 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 				_("Are you sure to replace in the whole session?")))
 				break;
 			{
-				SearchStudioReplaceSessionRowsActionContext ctx;
-				SearchStudioSessionRunResult plan;
+				SearchStudioReplacePlanResult plan = search_studio_plan_replace_session(page, &spec);
 
-				ctx.kind = SEARCH_STUDIO_REPLACE_SESSION_ROWS_IMPACT;
-				ctx.action = "Session Replace Impact";
-				ctx.query = spec.find.text;
-				ctx.flags = spec.find.flags;
-				ctx.mode = spec.find.mode;
-				ctx.replace_text = spec.replace;
-				ctx.replace_display = spec.original_replace;
-				ctx.per_doc_limit = 0;
-				plan = search_studio_execute_replace_session_rows_action(page, &spec, &ctx,
-					FALSE, FALSE);
 				replace_in_session(doc, spec.find.flags, FALSE, spec.find.text, spec.replace,
 					spec.find.original_text, spec.original_replace);
 				search_studio_activity_append("[Replace] Replace in session | find=%s | replace=%s | mode=%s | planned-docs=%u | planned-matches=%u",
 					spec.find.original_text, spec.original_replace, spec.find.mode,
-					plan.docs_with_results, plan.total_results);
+					plan.planned_docs, plan.planned_matches);
 				search_studio_result_appendf("Replace in Session", "Session", spec.find.original_text, spec.find.mode,
 					"Applied replacement across open documents (planned docs: %u, planned matches: %u).",
-					plan.docs_with_results, plan.total_results);
+					plan.planned_docs, plan.planned_matches);
 			}
 			break;
 	}
