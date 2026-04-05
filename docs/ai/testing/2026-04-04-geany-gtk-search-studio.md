@@ -128,6 +128,7 @@
 - Active-document Find/Count/Mark/Replace summary rows still target the correct document after the shared action-layer helper passes
 - Session-level Count/Mark/Replace Preview/Replace summary rows still report the correct scope/summary text after formatted summary helper extraction
 - Session-oriented actions still behave correctly after open-document visitor normalization (no missing affected-doc counts, no missing session rows, and no obvious regression in session-hit/session-mark/session-replace-preview/session-replace-impact/clear-session-mark collection)
+- Aggregate session totals/docs-with-results remain correct after `SearchStudioSessionRunResult` normalization
 - Count/Mark status bar messaging still reports the correct active-document vs open-document scope after shared status-report helper extraction
 
 ## Environment limitation

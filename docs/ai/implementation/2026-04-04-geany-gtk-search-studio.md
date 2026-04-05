@@ -135,10 +135,15 @@ This means several Search Studio callbacks now read more like small orchestratio
 
 Session-oriented helpers are now also converging around a shared open-document visitor path. Match collection, replace-preview session rows, replace-impact session rows, count session, mark session, and clear-session marks all benefit from that normalization direction.
 
+That traversal work now also has a lightweight aggregate result model (`SearchStudioSessionRunResult`) so session-oriented callbacks can share the same notion of:
+- total results
+- affected/open documents with results
+
 This is another meaningful backend-boundary step because session-scope work is increasingly described as:
 - a shared prepared request
 - a reusable open-document traversal helper
 - per-document callbacks that emit rows or mutate state
+- a shared aggregate session result
 - shared summary/status reporting on top
 
 This is still not a full backend split, but it makes the remaining execution code less repetitive and clarifies which pieces are generic enough to move behind a frontend-independent boundary later.

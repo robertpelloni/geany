@@ -242,6 +242,14 @@ typedef struct SearchStudioReplaceSpec
 SearchStudioReplaceSpec;
 
 
+typedef struct SearchStudioSessionRunResult
+{
+	guint total_results;
+	guint docs_with_results;
+}
+SearchStudioSessionRunResult;
+
+
 typedef guint (*SearchStudioOpenDocumentFunc)(GeanyDocument *doc, gpointer user_data);
 
 
@@ -369,6 +377,8 @@ static guint search_studio_append_match_rows(const gchar *action, GeanyDocument 
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint limit);
 static guint search_studio_visit_open_documents(SearchStudioOpenDocumentFunc func,
 	gpointer user_data, guint *docs_with_results);
+static SearchStudioSessionRunResult search_studio_run_session_action(
+	SearchStudioOpenDocumentFunc func, gpointer user_data);
 static guint search_studio_append_session_match_rows(const gchar *action,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit);
 static void search_studio_clear_results(GtkButton *button, gpointer user_data);
@@ -1354,6 +1364,17 @@ static guint search_studio_visit_open_documents(SearchStudioOpenDocumentFunc fun
 }
 
 
+static SearchStudioSessionRunResult search_studio_run_session_action(
+	SearchStudioOpenDocumentFunc func, gpointer user_data)
+{
+	SearchStudioSessionRunResult result = { 0, 0 };
+
+	result.total_results = search_studio_visit_open_documents(func, user_data,
+		&result.docs_with_results);
+	return result;
+}
+
+
 typedef struct SearchStudioSessionMatchRowsContext
 {
 	const gchar *action;
@@ -1378,9 +1399,10 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit)
 {
 	SearchStudioSessionMatchRowsContext ctx = { action, query, flags, mode, per_doc_limit };
+	SearchStudioSessionRunResult result = search_studio_run_session_action(
+		search_studio_append_session_match_rows_cb, &ctx);
 
-	return search_studio_visit_open_documents(search_studio_append_session_match_rows_cb,
-		&ctx, NULL);
+	return result.total_results;
 }
 
 
@@ -1565,9 +1587,10 @@ static guint search_studio_append_replace_preview_session_rows(const gchar *quer
 		replace_display,
 		per_doc_limit
 	};
+	SearchStudioSessionRunResult result = search_studio_run_session_action(
+		search_studio_append_replace_preview_session_rows_cb, &ctx);
 
-	return search_studio_visit_open_documents(
-		search_studio_append_replace_preview_session_rows_cb, &ctx, NULL);
+	return result.total_results;
 }
 
 
@@ -1670,9 +1693,12 @@ static guint search_studio_append_replace_impact_session_rows(const gchar *actio
 		replace_text,
 		replace_display
 	};
+	SearchStudioSessionRunResult result = search_studio_run_session_action(
+		search_studio_append_replace_impact_session_rows_cb, &ctx);
 
-	return search_studio_visit_open_documents(
-		search_studio_append_replace_impact_session_rows_cb, &ctx, doc_count);
+	if (doc_count != NULL)
+		*doc_count = result.docs_with_results;
+	return result.total_results;
 }
 
 
@@ -3535,8 +3561,7 @@ static void search_studio_count_session_activate(GtkButton *button, gpointer use
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioFindSpec spec = { 0 };
 	SearchStudioCountSessionContext ctx;
-	guint docs_counted = 0;
-	guint total_matches;
+	SearchStudioSessionRunResult result;
 
 	if (!search_studio_build_find_spec(page, "entry_search", &spec))
 		return;
@@ -3545,14 +3570,15 @@ static void search_studio_count_session_activate(GtkButton *button, gpointer use
 	ctx.query = spec.text;
 	ctx.flags = spec.flags;
 	ctx.mode = spec.mode;
-	total_matches = search_studio_visit_open_documents(search_studio_count_session_cb, &ctx,
-		&docs_counted);
-	search_studio_report_count_status(spec.original_text, total_matches, TRUE, docs_counted);
+	result = search_studio_run_session_action(search_studio_count_session_cb, &ctx);
+	search_studio_report_count_status(spec.original_text, result.total_results, TRUE,
+		result.docs_with_results);
 
 	search_studio_activity_append("[Count] Session | query=%s | mode=%s | matches=%u | docs=%u",
-		spec.original_text, spec.mode, total_matches, docs_counted);
+		spec.original_text, spec.mode, result.total_results, result.docs_with_results);
 	search_studio_result_appendf("Count in Session", "Open Documents", spec.original_text,
-		spec.mode, "Counted %u matches across %u open documents.", total_matches, docs_counted);
+		spec.mode, "Counted %u matches across %u open documents.",
+		result.total_results, result.docs_with_results);
 	search_studio_store_find_spec(&spec);
 	search_studio_find_spec_clear(&spec);
 }
@@ -3603,8 +3629,7 @@ static void search_studio_mark_session_activate(GtkButton *button, gpointer user
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioFindSpec spec = { 0 };
 	SearchStudioMarkSessionContext ctx;
-	guint docs_marked = 0;
-	guint total_matches;
+	SearchStudioSessionRunResult result;
 
 	if (!search_studio_build_find_spec(page, "entry_search", &spec))
 		return;
@@ -3617,17 +3642,16 @@ static void search_studio_mark_session_activate(GtkButton *button, gpointer user
 	ctx.query = spec.text;
 	ctx.flags = spec.flags;
 	ctx.mode = spec.mode;
-	total_matches = search_studio_visit_open_documents(search_studio_mark_session_cb, &ctx,
-		&docs_marked);
-	search_studio_report_mark_status(spec.original_text, total_matches, ctx.bookmark_lines,
-		TRUE, docs_marked);
+	result = search_studio_run_session_action(search_studio_mark_session_cb, &ctx);
+	search_studio_report_mark_status(spec.original_text, result.total_results, ctx.bookmark_lines,
+		TRUE, result.docs_with_results);
 
 	search_studio_activity_append("[Mark] Session | query=%s | mode=%s | matches=%u | docs=%u | bookmarks=%s | purge=%s",
-		spec.original_text, spec.mode, total_matches, docs_marked,
+		spec.original_text, spec.mode, result.total_results, result.docs_with_results,
 		ctx.bookmark_lines ? "on" : "off", ctx.purge_bookmarks ? "on" : "off");
 	search_studio_result_appendf("Mark in Session", "Open Documents", spec.original_text,
 		spec.mode, "Marked %u matches across %u open documents; bookmark-lines=%s; purge-first=%s.",
-		total_matches, docs_marked, ctx.bookmark_lines ? "yes" : "no", ctx.purge_bookmarks ? "yes" : "no");
+		result.total_results, result.docs_with_results, ctx.bookmark_lines ? "yes" : "no", ctx.purge_bookmarks ? "yes" : "no");
 	search_studio_store_find_spec(&spec);
 	search_studio_find_spec_clear(&spec);
 }
@@ -3643,17 +3667,15 @@ static guint search_studio_clear_session_marks_cb(GeanyDocument *doc, gpointer u
 
 static void search_studio_clear_session_marks_activate(GtkButton *button, gpointer user_data)
 {
-	guint cleared_docs;
-
-	cleared_docs = search_studio_visit_open_documents(search_studio_clear_session_marks_cb,
-		NULL, NULL);
+	SearchStudioSessionRunResult result = search_studio_run_session_action(
+		search_studio_clear_session_marks_cb, NULL);
 
 	ui_set_statusbar(FALSE, _("Cleared search highlights and bookmarks across %u open documents."),
-		cleared_docs);
+		result.total_results);
 	search_studio_activity_append("[Mark] Cleared search highlights and bookmarks across %u open documents.",
-		cleared_docs);
+		result.total_results);
 	search_studio_result_appendf("Mark in Session", "Open Documents", "Clear", "N/A",
-		"Cleared search highlights and bookmarks across %u open documents.", cleared_docs);
+		"Cleared search highlights and bookmarks across %u open documents.", result.total_results);
 }
 
 
