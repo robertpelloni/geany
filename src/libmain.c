@@ -210,9 +210,9 @@ static void apply_settings(void)
 	}
 
 	/* set the tab placements of the notebooks */
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_widgets.notebook), interface_prefs.tab_pos_editor);
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(msgwindow.notebook), interface_prefs.tab_pos_msgwin);
-	gtk_notebook_set_tab_pos(GTK_NOTEBOOK(main_widgets.sidebar_notebook), interface_prefs.tab_pos_sidebar);
+	geany_notebook_set_tab_position(GTK_NOTEBOOK(main_widgets.notebook), interface_prefs.tab_pos_editor);
+	geany_notebook_set_tab_position(GTK_NOTEBOOK(msgwindow.notebook), interface_prefs.tab_pos_msgwin);
+	geany_notebook_set_tab_position(GTK_NOTEBOOK(main_widgets.sidebar_notebook), interface_prefs.tab_pos_sidebar);
 
 	/* whether to show notebook tabs or not */
 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(main_widgets.notebook), interface_prefs.show_notebook_tabs);
@@ -225,7 +225,7 @@ static void apply_settings(void)
 			ui_lookup_widget(main_widgets.window, "send_selection_to_vte1"), FALSE);
 	}
 
-	if (interface_prefs.sidebar_pos != GTK_POS_LEFT)
+	if (interface_prefs.sidebar_pos != GEANY_TAB_POS_LEFT)
 		ui_swap_sidebar_pos();
 
 	gtk_orientable_set_orientation(GTK_ORIENTABLE(ui_lookup_widget(main_widgets.window, "vpaned1")),
@@ -290,12 +290,12 @@ static void main_init(void)
 	osx_ui_init();
 #endif
 
-	/* set widget names for matching with GTK CSS */
-	gtk_widget_set_name(main_widgets.window, "GeanyMainWindow");
-	gtk_widget_set_name(ui_widgets.toolbar_menu, "GeanyToolbarMenu");
-	gtk_widget_set_name(main_widgets.editor_menu, "GeanyEditMenu");
-	gtk_widget_set_name(ui_lookup_widget(main_widgets.window, "menubar1"), "GeanyMenubar");
-	gtk_widget_set_name(main_widgets.toolbar, "GeanyToolbar");
+	/* set widget names for matching with application CSS */
+	geany_widget_set_css_name(main_widgets.window, "GeanyMainWindow");
+	geany_widget_set_css_name(ui_widgets.toolbar_menu, "GeanyToolbarMenu");
+	geany_widget_set_css_name(main_widgets.editor_menu, "GeanyEditMenu");
+	geany_widget_set_css_name(ui_lookup_widget(main_widgets.window, "menubar1"), "GeanyMenubar");
+	geany_widget_set_css_name(main_widgets.toolbar, "GeanyToolbar");
 
 	gtk_window_set_default_size(GTK_WINDOW(main_widgets.window),
 		GEANY_WINDOW_DEFAULT_WIDTH, GEANY_WINDOW_DEFAULT_HEIGHT);

@@ -35,6 +35,7 @@ Verify:
 
 - Meson configure + compile smoke test
 - Grep check to ensure direct `#include <gtk/gtk.h>` use in core sources stays centralized via `gtkcompat.h`
+- Grep check to ensure recently normalized seams (tab-position application and CSS-provider attachment) continue flowing through `gtkcompat.h` helpers rather than growing fresh raw toolkit calls in parallel
 - Config load/save test for `ui_theme`
 
 ## Known limitation in this pass

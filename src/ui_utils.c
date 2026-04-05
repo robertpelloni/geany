@@ -1012,7 +1012,7 @@ void ui_sidebar_show_hide(void)
 
 		gtk_widget_get_allocation(GTK_WIDGET(hpaned), &allocation);
 
-		if (interface_prefs.sidebar_pos == GTK_POS_LEFT && gtk_paned_get_position(hpaned) < 10)
+		if (interface_prefs.sidebar_pos == GEANY_TAB_POS_LEFT && gtk_paned_get_position(hpaned) < 10)
 			gtk_paned_set_position(hpaned, 300);
 		else if (interface_prefs.sidebar_pos == GTK_POS_RIGHT &&
 				allocation.width - gtk_paned_get_position(hpaned) < 10)
@@ -1141,7 +1141,7 @@ void ui_set_search_entry_background(GtkWidget *widget, gboolean success)
 	if (GTK_IS_COMBO_BOX(widget))
 		widget = gtk_bin_get_child(GTK_BIN(widget));
 
-	gtk_widget_set_name(widget, success ? NULL : "geany-search-entry-no-match");
+	geany_widget_set_css_name(widget, success ? NULL : "geany-search-entry-no-match");
 }
 
 
@@ -2557,10 +2557,10 @@ void ui_init_builder(void)
 
 static GtkCssProvider *load_css_theme_provider(const gchar *fn)
 {
-	GtkCssProvider *provider = gtk_css_provider_new();
+	GtkCssProvider *provider = geany_css_provider_new();
 	GError *error = NULL;
 
-	if (! gtk_css_provider_load_from_path(provider, fn, &error))
+	if (! geany_css_provider_load_from_path(provider, fn, &error))
 	{
 		g_warning("Failed to load custom CSS: %s", error->message);
 		g_error_free(error);
@@ -2568,7 +2568,7 @@ static GtkCssProvider *load_css_theme_provider(const gchar *fn)
 		return NULL;
 	}
 
-	geany_debug("Loaded GTK+ CSS theme '%s'", fn);
+	geany_debug("Loaded application CSS theme '%s'", fn);
 	return provider;
 }
 
@@ -2580,8 +2580,7 @@ static void load_css_theme(const gchar *fn, guint priority)
 	if (provider == NULL)
 		return;
 
-	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
-		GTK_STYLE_PROVIDER(provider), priority);
+	geany_style_context_add_provider_for_default_screen(GTK_STYLE_PROVIDER(provider), priority);
 	g_object_unref(provider);
 }
 
@@ -2620,14 +2619,13 @@ void ui_set_app_theme(const gchar *theme_name)
 
 	if (ui_theme_provider != NULL)
 	{
-		gtk_style_context_remove_provider_for_screen(gdk_screen_get_default(),
-			GTK_STYLE_PROVIDER(ui_theme_provider));
+		geany_style_context_remove_provider_for_default_screen(GTK_STYLE_PROVIDER(ui_theme_provider));
 		g_object_unref(ui_theme_provider);
 	}
 
 	ui_theme_provider = provider;
-	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
-		GTK_STYLE_PROVIDER(ui_theme_provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
+	geany_style_context_add_provider_for_default_screen(GTK_STYLE_PROVIDER(ui_theme_provider),
+		GTK_STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
 
 	if (g_strcmp0(interface_prefs.ui_theme, selected_theme) != 0)
 		SETPTR(interface_prefs.ui_theme, g_strdup(selected_theme));

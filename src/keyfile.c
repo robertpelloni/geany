@@ -227,12 +227,12 @@ static void init_pref_groups(void)
 		"notebook_double_click_hides_widgets", FALSE, "check_double_click_hides_widgets");
 	stash_group_add_toggle_button(group, &file_prefs.tab_close_switch_to_mru,
 		"tab_close_switch_to_mru", FALSE, "check_tab_close_switch_to_mru");
-	stash_group_add_integer(group, &interface_prefs.tab_pos_sidebar, "tab_pos_sidebar", GTK_POS_TOP);
+	stash_group_add_integer(group, &interface_prefs.tab_pos_sidebar, "tab_pos_sidebar", GEANY_TAB_POS_TOP);
 	stash_group_add_integer(group, &interface_prefs.openfiles_path_mode, "openfiles_path_mode", -1);
 	stash_group_add_radio_buttons(group, &interface_prefs.sidebar_pos,
-		"sidebar_pos", GTK_POS_LEFT,
-		"radio_sidebar_left", GTK_POS_LEFT,
-		"radio_sidebar_right", GTK_POS_RIGHT,
+		"sidebar_pos", GEANY_TAB_POS_LEFT,
+		"radio_sidebar_left", GEANY_TAB_POS_LEFT,
+		"radio_sidebar_right", GEANY_TAB_POS_RIGHT,
 		NULL);
 	stash_group_add_radio_buttons(group, &interface_prefs.symbols_sort_mode,
 		"symbols_sort_mode", SYMBOLS_SORT_BY_NAME,
@@ -891,8 +891,8 @@ static void load_dialog_prefs(GKeyFile *config)
 	prefs.auto_focus = utils_get_setting_boolean(config, PACKAGE, "auto_focus", FALSE);
 
 	/* interface */
-	interface_prefs.tab_pos_editor = utils_get_setting_integer(config, PACKAGE, "tab_pos_editor", GTK_POS_LEFT);
-	interface_prefs.tab_pos_msgwin = utils_get_setting_integer(config, PACKAGE, "tab_pos_msgwin",GTK_POS_LEFT);
+	interface_prefs.tab_pos_editor = utils_get_setting_integer(config, PACKAGE, "tab_pos_editor", GEANY_TAB_POS_LEFT);
+	interface_prefs.tab_pos_msgwin = utils_get_setting_integer(config, PACKAGE, "tab_pos_msgwin", GEANY_TAB_POS_LEFT);
 	interface_prefs.sidebar_symbol_visible = utils_get_setting_boolean(config, PACKAGE, "sidebar_symbol_visible", TRUE);
 	interface_prefs.sidebar_openfiles_visible = utils_get_setting_boolean(config, PACKAGE, "sidebar_openfiles_visible", TRUE);
 	interface_prefs.statusbar_visible = utils_get_setting_boolean(config, PACKAGE, "statusbar_visible", TRUE);

@@ -25,6 +25,12 @@
  * repeatedly.  Geany still targets the GTK3 API surface today, so this header
  * currently exposes GTK while acting as the integration seam for future
  * BTK-backed compatibility work.
+ *
+ * First-wave facade helpers live here for the highest-friction cross-toolkit
+ * seams already touched by recent work:
+ * - notebook/tab positioning
+ * - widget CSS naming
+ * - application CSS provider attachment/removal
  */
 
 #ifndef GTK_COMPAT_H
@@ -32,5 +38,48 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms-compat.h>
+
+#define GEANY_TAB_POS_LEFT GTK_POS_LEFT
+#define GEANY_TAB_POS_RIGHT GTK_POS_RIGHT
+#define GEANY_TAB_POS_TOP GTK_POS_TOP
+#define GEANY_TAB_POS_BOTTOM GTK_POS_BOTTOM
+
+static inline void geany_notebook_set_tab_position(GtkNotebook *notebook, gint position)
+{
+	gtk_notebook_set_tab_pos(notebook, (GtkPositionType) position);
+}
+
+
+static inline void geany_widget_set_css_name(GtkWidget *widget, const gchar *name)
+{
+	gtk_widget_set_name(widget, name);
+}
+
+
+static inline GtkCssProvider *geany_css_provider_new(void)
+{
+	return gtk_css_provider_new();
+}
+
+
+static inline gboolean geany_css_provider_load_from_path(GtkCssProvider *provider,
+	const gchar *path, GError **error)
+{
+	return gtk_css_provider_load_from_path(provider, path, error);
+}
+
+
+static inline void geany_style_context_add_provider_for_default_screen(
+	GtkStyleProvider *provider, guint priority)
+{
+	gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), provider, priority);
+}
+
+
+static inline void geany_style_context_remove_provider_for_default_screen(
+	GtkStyleProvider *provider)
+{
+	gtk_style_context_remove_provider_for_screen(gdk_screen_get_default(), provider);
+}
 
 #endif /* GTK_COMPAT_H */

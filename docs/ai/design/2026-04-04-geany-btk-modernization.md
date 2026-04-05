@@ -4,12 +4,13 @@
 
 1. **BTK added as a submodule** at `subprojects/btk` with upstream URL `https://github.com/robertpelloni/btk`.
 2. **Toolkit include centralization**: direct `#include <gtk/gtk.h>` usage in Geany core sources was routed through `src/gtkcompat.h` so future BTK migration work has a single integration seam.
-3. **Vertical editor tabs are now the default** by changing the fallback `tab_pos_editor` from `GTK_POS_TOP` to `GTK_POS_LEFT`.
-4. **Application-wide CSS UI themes** were added and wired to a new config key:
+3. **First-wave BTK compatibility facade helpers** now live in `src/gtkcompat.h` for tab positioning, widget CSS naming, and application CSS-provider attachment/removal so the migration can start from common UI seams instead of raw toolkit calls everywhere.
+4. **Vertical editor tabs are now the default** by changing the fallback `tab_pos_editor` from `GTK_POS_TOP` to `GTK_POS_LEFT`.
+5. **Application-wide CSS UI themes** were added and wired to a new config key:
    - `liquid-glass` (default)
    - `cyber-glass`
    - `aurora-forge` (custom house theme)
-5. **Matching editor colorschemes** were added for the same three themes.
+6. **Matching editor colorschemes** were added for the same three themes.
 
 ## Configuration
 
@@ -36,7 +37,7 @@ A full direct replacement of GTK in current Geany is **not a safe one-pass chang
 The practical path is staged:
 
 1. **Centralize toolkit includes and assumptions** — done in this pass.
-2. **Introduce a compatibility facade** for the most common widget/type/signal helpers.
+2. **Introduce a compatibility facade** for the most common widget/type/signal helpers — started in this pass for notebook positions, CSS names, and CSS providers.
 3. **Port the highest-friction widgets first**:
    - notebook/tab system
    - tree/list/sidebar views

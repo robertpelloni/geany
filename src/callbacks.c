@@ -2132,7 +2132,7 @@ static void on_hpaned1_position_notify(GObject *object, GParamSpec *pspec, gpoin
 
 	gtk_widget_get_allocation(GTK_WIDGET(hpaned), &allocation);
 
-	if (interface_prefs.sidebar_pos == GTK_POS_LEFT && gtk_paned_get_position(hpaned) < 10)
+	if (interface_prefs.sidebar_pos == GEANY_TAB_POS_LEFT && gtk_paned_get_position(hpaned) < 10)
 	{
 		ui_prefs.sidebar_visible = FALSE;
 		ui_sidebar_show_hide();
