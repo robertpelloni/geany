@@ -1250,7 +1250,7 @@ SearchStudioActionResult makeCountResult(const SearchStudioFindRequest &request)
         qs("Counted matches in the active document.");
     action.summaryPreviewTitle = request.sessionScope ? qs("Count in Session") : qs("Count — Active Document");
     action.summaryPreviewBody = request.sessionScope ?
-        qs("Checkout-backed count rows are used when available, with prototype fallback preserving the BTK workflow shape.") :
+        qs("Checkout-backed count rows are used when available, with prototype fallback preserving the BobUI workflow shape.") :
         qs("Checkout-backed count rows are used when available for the active document, with prototype fallback otherwise.");
     action.summaryScope = request.sessionScope ?
         SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;

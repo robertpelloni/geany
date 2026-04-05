@@ -35,6 +35,7 @@ The current BTK prototype now mirrors several of the matured Search Studio conce
 - simple Find and Replace action buttons are now routed through those action specs too, so even summary-only flows increasingly execute as request + action-spec + action-result rather than ad-hoc UI-local formatting
 - the backend now also owns a first explicit search-service seam (`SearchStudioSearchService`) with a hybrid default provider: it tries workspace-backed file scanning against the Geany checkout first and falls back to the older prototype provider when no live repo data is available, so impact/preview row generation can move toward real data without destabilizing the UI contract
 - backend execution now also normalizes service-run diagnostics via explicit run bundles (`SearchStudioImpactRun`, `SearchStudioReplacePreviewRun`), so invalid regex requests, zero-hit directory scans, and prototype-fallback cases can surface coherent activity/status rows instead of silently collapsing into generic summaries
+- those run bundles now also preserve source/provenance metadata (`sourceLabel`, `scopeLabel`, `targetLabel`, `scannedRootPath`), and BTK action execution emits explicit provenance rows so the navigator can distinguish live checkout data from prototype fallback paths more honestly
 
 ## Toolchain direction
 
