@@ -123,6 +123,13 @@ Search request preparation is also starting to normalize through internal query/
 - action execution
 - result-row routing
 
+Shared action-layer helpers are now also starting to reduce repeated execution-adjacent glue such as:
+- combo-history updates
+- active-document target labeling
+- summary-row emission for active-document actions
+
+This is still not a full backend split, but it makes the remaining execution code less repetitive and clarifies which pieces are generic enough to move behind a frontend-independent boundary later.
+
 This is now more than a summary-level results surface: for current-document operations it can append concrete match rows and respond to row activation by navigating to the stored match position. Selection changes can also update the Diff Preview pane with row-specific details.
 
 More result row types now carry preview payloads, including:

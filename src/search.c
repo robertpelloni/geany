@@ -304,11 +304,18 @@ static void search_studio_find_spec_clear(SearchStudioFindSpec *spec);
 static gboolean search_studio_build_find_spec(GtkWidget *page, const gchar *entry_name,
 	SearchStudioFindSpec *spec);
 static void search_studio_store_find_spec(const SearchStudioFindSpec *spec);
+static void search_studio_add_combo_history_text(GtkWidget *page, const gchar *combo_name,
+	const gchar *text);
+static void search_studio_add_find_history(GtkWidget *page, const SearchStudioFindSpec *spec);
 static gboolean search_studio_prepare_replace(GtkWidget *page, gchar **find, gchar **replace,
 	gchar **original_find, gchar **original_replace, GeanyFindFlags *flags,
 	gboolean *backwards);
 static void search_studio_replace_spec_clear(SearchStudioReplaceSpec *spec);
 static gboolean search_studio_build_replace_spec(GtkWidget *page, SearchStudioReplaceSpec *spec);
+static void search_studio_add_replace_history(GtkWidget *page, const SearchStudioReplaceSpec *spec);
+static gchar *search_studio_document_target(GeanyDocument *doc);
+static void search_studio_append_document_result(const gchar *action, GeanyDocument *doc,
+	const gchar *query, const gchar *mode, const gchar *summary);
 static void search_studio_store_search_data(const gchar *text, const gchar *original_text,
 	GeanyFindFlags flags, gboolean backwards);
 static void search_studio_replace_action_activate(GtkButton *button, gpointer user_data);
@@ -821,6 +828,25 @@ static void search_studio_store_find_spec(const SearchStudioFindSpec *spec)
 }
 
 
+static void search_studio_add_combo_history_text(GtkWidget *page, const gchar *combo_name,
+	const gchar *text)
+{
+	GtkWidget *combo = ui_lookup_widget(page, combo_name);
+
+	if (combo != NULL)
+		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(combo), text, 0);
+}
+
+
+static void search_studio_add_find_history(GtkWidget *page, const SearchStudioFindSpec *spec)
+{
+	if (spec == NULL)
+		return;
+
+	search_studio_add_combo_history_text(page, "combo_search", spec->original_text);
+}
+
+
 static gboolean search_studio_prepare_replace(GtkWidget *page, gchar **find, gchar **replace,
 	gchar **original_find, gchar **original_replace, GeanyFindFlags *flags,
 	gboolean *backwards)
@@ -908,6 +934,37 @@ static gboolean search_studio_build_replace_spec(GtkWidget *page, SearchStudioRe
 		return FALSE;
 	spec->find.mode = search_studio_mode_name(page);
 	return TRUE;
+}
+
+
+static void search_studio_add_replace_history(GtkWidget *page, const SearchStudioReplaceSpec *spec)
+{
+	if (spec == NULL)
+		return;
+
+	search_studio_add_find_history(page, &spec->find);
+	search_studio_add_combo_history_text(page, "combo_replace", spec->original_replace);
+}
+
+
+static gchar *search_studio_document_target(GeanyDocument *doc)
+{
+	g_return_val_if_fail(DOC_VALID(doc), g_strdup(_("(none)")));
+	return g_path_get_basename(DOC_FILENAME(doc));
+}
+
+
+static void search_studio_append_document_result(const gchar *action, GeanyDocument *doc,
+	const gchar *query, const gchar *mode, const gchar *summary)
+{
+	gchar *target;
+
+	if (!DOC_VALID(doc))
+		return;
+
+	target = search_studio_document_target(doc);
+	search_studio_result_append(action, target, query, mode, summary);
+	g_free(target);
 }
 
 
@@ -3211,21 +3268,16 @@ static void search_studio_find_activate(GtkButton *button, gpointer user_data)
 		return;
 
 	search_studio_store_find_spec(&spec);
-	if (ui_lookup_widget(page, "combo_search"))
-		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), spec.original_text, 0);
+	search_studio_add_find_history(page, &spec);
 	result = document_find_text(doc, spec.text, spec.original_text, spec.flags, spec.backwards, NULL, TRUE);
 	ui_set_search_entry_background(ui_lookup_widget(page, "entry_search"), (result > -1));
 	search_studio_activity_append("[Find] %s | mode=%s | wrap=%s | result=%s",
 		spec.original_text, spec.mode,
 		search_prefs.always_wrap ? "on" : "off", result > -1 ? "match found" : "not found");
-	{
-		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
-		search_studio_result_append("Find", target, spec.original_text, spec.mode,
-			result > -1 ? "Found next occurrence in current document." : "No occurrence found from the current position.");
-		if (result > -1)
-			search_studio_append_match_rows("Find Match", doc, spec.text, spec.flags, spec.mode, 1);
-		g_free(target);
-	}
+	search_studio_append_document_result("Find", doc, spec.original_text, spec.mode,
+		result > -1 ? "Found next occurrence in current document." : "No occurrence found from the current position.");
+	if (result > -1)
+		search_studio_append_match_rows("Find Match", doc, spec.text, spec.flags, spec.mode, 1);
 	search_studio_find_spec_clear(&spec);
 }
 
@@ -3258,8 +3310,7 @@ static void search_studio_count_activate(GtkButton *button, gpointer user_data)
 	if (!DOC_VALID(doc) || !search_studio_build_find_spec(page, "entry_search", &spec))
 		return;
 
-	if (ui_lookup_widget(page, "combo_search"))
-		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), spec.original_text, 0);
+	search_studio_add_find_history(page, &spec);
 	count = search_count_matches(doc, spec.text, spec.flags);
 	if (count == 0)
 		ui_set_statusbar(FALSE, _("No matches found for \"%s\"."), spec.original_text);
@@ -3271,13 +3322,11 @@ static void search_studio_count_activate(GtkButton *button, gpointer user_data)
 	search_studio_activity_append("[Count] %s | mode=%s | matches=%d",
 		spec.original_text, spec.mode, count);
 	{
-		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 		gchar *summary = g_strdup_printf("Counted %d matches in the active document.", count);
-		search_studio_result_append("Count", target, spec.original_text, spec.mode, summary);
+		search_studio_append_document_result("Count", doc, spec.original_text, spec.mode, summary);
 		search_studio_append_count_impact_row("Count Impact", doc, spec.text, spec.flags, spec.mode);
 		search_studio_append_match_rows("Count Match", doc, spec.text, spec.flags, spec.mode, 50);
 		g_free(summary);
-		g_free(target);
 	}
 	search_studio_store_find_spec(&spec);
 	search_studio_find_spec_clear(&spec);
@@ -3300,8 +3349,7 @@ static void search_studio_mark_activate(GtkButton *button, gpointer user_data)
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_bookmark")));
 	purge_bookmarks = ui_lookup_widget(page, "check_purge") &&
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_purge")));
-	if (ui_lookup_widget(page, "combo_search"))
-		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), spec.original_text, 0);
+	search_studio_add_find_history(page, &spec);
 	count = search_mark_all_with_options(doc, spec.text, spec.flags, bookmark_lines, purge_bookmarks);
 
 	if (count == 0)
@@ -3320,15 +3368,13 @@ static void search_studio_mark_activate(GtkButton *button, gpointer user_data)
 		spec.original_text, spec.mode, count,
 		bookmark_lines ? "on" : "off", purge_bookmarks ? "on" : "off");
 	{
-		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 		gchar *summary = g_strdup_printf("Marked %d matches; bookmark-lines=%s; purge-first=%s.",
 			count, bookmark_lines ? "yes" : "no", purge_bookmarks ? "yes" : "no");
-		search_studio_result_append("Mark", target, spec.original_text, spec.mode, summary);
+		search_studio_append_document_result("Mark", doc, spec.original_text, spec.mode, summary);
 		search_studio_append_mark_impact_row("Mark Impact", doc, spec.text, spec.flags,
 			spec.mode, bookmark_lines, purge_bookmarks);
 		search_studio_append_match_rows("Mark Match", doc, spec.text, spec.flags, spec.mode, 50);
 		g_free(summary);
-		g_free(target);
 	}
 	search_studio_store_find_spec(&spec);
 	search_studio_find_spec_clear(&spec);
@@ -3347,8 +3393,7 @@ static void search_studio_count_session_activate(GtkButton *button, gpointer use
 	if (!search_studio_build_find_spec(page, "entry_search", &spec))
 		return;
 
-	if (ui_lookup_widget(page, "combo_search"))
-		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), spec.original_text, 0);
+	search_studio_add_find_history(page, &spec);
 
 	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
 	for (n = 0; n < page_count; n++)
@@ -3423,8 +3468,7 @@ static void search_studio_mark_session_activate(GtkButton *button, gpointer user
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_bookmark")));
 	purge_bookmarks = ui_lookup_widget(page, "check_purge") &&
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_purge")));
-	if (ui_lookup_widget(page, "combo_search"))
-		ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), spec.original_text, 0);
+	search_studio_add_find_history(page, &spec);
 
 	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
 	for (n = 0; n < page_count; n++)
@@ -3540,11 +3584,9 @@ static void search_studio_replace_preview_document(GtkButton *button, gpointer u
 	search_studio_activity_append("[Replace Preview] Document | find=%s | replace=%s | matches=%u | mode=%s",
 		spec.find.original_text, spec.original_replace, count, spec.find.mode);
 	{
-		gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 		gchar *summary = g_strdup_printf("Would replace %u matches in the active document.", count);
-		search_studio_result_append("Replace Preview", target, spec.find.original_text, spec.find.mode, summary);
+		search_studio_append_document_result("Replace Preview", doc, spec.find.original_text, spec.find.mode, summary);
 		g_free(summary);
-		g_free(target);
 	}
 	search_studio_replace_spec_clear(&spec);
 }
@@ -3584,8 +3626,7 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 		return;
 
 	search_studio_store_find_spec(&spec.find);
-	ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_search")), spec.find.original_text, 0);
-	ui_combo_box_add_to_history(GTK_COMBO_BOX_TEXT(ui_lookup_widget(page, "combo_replace")), spec.original_replace, 0);
+	search_studio_add_replace_history(page, &spec);
 
 	switch (action)
 	{
@@ -3593,42 +3634,36 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 		{
 			gint result = document_find_text(doc, spec.find.text, spec.find.original_text,
 				spec.find.flags, spec.find.backwards, NULL, TRUE);
-			gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 			ui_set_search_entry_background(ui_lookup_widget(page, "entry_search"), (result > -1));
 			search_studio_activity_append("[Replace] Find next for %s | mode=%s | result=%s",
 				spec.find.original_text, spec.find.mode, result > -1 ? "match found" : "not found");
-			search_studio_result_append("Replace/Find", target, spec.find.original_text, spec.find.mode,
+			search_studio_append_document_result("Replace/Find", doc, spec.find.original_text, spec.find.mode,
 				result > -1 ? "Found next match from Replace tab." : "No further match found from Replace tab.");
 			if (result > -1)
 				search_studio_append_match_rows("Replace Match", doc, spec.find.text, spec.find.flags, spec.find.mode, 1);
-			g_free(target);
 			break;
 		}
 		case GEANY_RESPONSE_REPLACE:
 		{
 			gint rep = document_replace_text(doc, spec.find.text, spec.find.original_text,
 				spec.replace, spec.find.flags, spec.find.backwards);
-			gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 			search_studio_activity_append("[Replace] Single replace | find=%s | replace=%s | mode=%s | result=%s",
 				spec.find.original_text, spec.original_replace, spec.find.mode, rep != -1 ? "changed" : "no change");
-			search_studio_result_append("Replace", target, spec.find.original_text, spec.find.mode,
+			search_studio_append_document_result("Replace", doc, spec.find.original_text, spec.find.mode,
 				rep != -1 ? "Replaced current match in the active document." : "No current match to replace.");
-			g_free(target);
 			break;
 		}
 		case GEANY_RESPONSE_REPLACE_AND_FIND:
 		{
 			gint rep = document_replace_text(doc, spec.find.text, spec.find.original_text,
 				spec.replace, spec.find.flags, spec.find.backwards);
-			gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 			if (rep != -1)
 				document_find_text(doc, spec.find.text, spec.find.original_text,
 					spec.find.flags, spec.find.backwards, NULL, TRUE);
 			search_studio_activity_append("[Replace] Replace & Find | find=%s | replace=%s | mode=%s | result=%s",
 				spec.find.original_text, spec.original_replace, spec.find.mode, rep != -1 ? "changed" : "no change");
-			search_studio_result_append("Replace & Find", target, spec.find.original_text, spec.find.mode,
+			search_studio_append_document_result("Replace & Find", doc, spec.find.original_text, spec.find.mode,
 				rep != -1 ? "Replaced current match and advanced to the next one." : "No current match to replace before advancing.");
-			g_free(target);
 			break;
 		}
 		case GEANY_RESPONSE_REPLACE_IN_FILE:
@@ -3637,27 +3672,23 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 				spec.find.text, spec.find.flags, spec.find.mode, spec.replace, spec.original_replace);
 			gint reps = document_replace_all(doc, spec.find.text, spec.replace,
 				spec.find.original_text, spec.original_replace, spec.find.flags);
-			gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 			gchar *summary = g_strdup_printf("Replaced %d matches in the active document (planned hits: %u).", reps, planned);
 			if (!reps)
 				utils_beep();
 			search_studio_activity_append("[Replace] Replace in document | find=%s | replace=%s | replacements=%d | planned=%u",
 				spec.find.original_text, spec.original_replace, reps, planned);
-			search_studio_result_append("Replace in Document", target, spec.find.original_text, spec.find.mode, summary);
+			search_studio_append_document_result("Replace in Document", doc, spec.find.original_text, spec.find.mode, summary);
 			g_free(summary);
-			g_free(target);
 			break;
 		}
 		case GEANY_RESPONSE_REPLACE_IN_SEL:
 		{
-			gchar *target = g_path_get_basename(DOC_FILENAME(doc));
 			document_replace_sel(doc, spec.find.text, spec.replace, spec.find.original_text,
 				spec.original_replace, spec.find.flags);
 			search_studio_activity_append("[Replace] Replace in selection | find=%s | replace=%s | mode=%s",
 				spec.find.original_text, spec.original_replace, spec.find.mode);
-			search_studio_result_append("Replace in Selection", target, spec.find.original_text, spec.find.mode,
+			search_studio_append_document_result("Replace in Selection", doc, spec.find.original_text, spec.find.mode,
 				"Applied replace-all to the current selection.");
-			g_free(target);
 			break;
 		}
 		case GEANY_RESPONSE_REPLACE_IN_SESSION:
