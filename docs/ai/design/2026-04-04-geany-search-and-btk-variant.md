@@ -152,4 +152,10 @@ The next refinement after action specs is an explicit backend service boundary. 
 - replace preview/impact rows for Replace families
 - structured capture rows for Find in Files families
 
-A default prototype implementation can keep the current BTK variant working immediately, while a future Geany-backed implementation can be introduced later without forcing another UI-local rewrite. That is the right bridge between a pure prototype and a real frontend-independent Search Studio backend.
+That service boundary has now started to turn into a real migration bridge instead of only a placeholder abstraction. The default BTK provider can:
+- discover the Geany workspace root from the running BTK executable/current working directory
+- scan real checkout files like `src/search.c`, `src/document.c`, `src/prefs.c`, and `data/geany.glade`
+- produce impact and replace-preview rows from live repository content when possible
+- fall back to the older prototype provider when no live repo hit data is available
+
+This hybrid approach is strategically useful because it lets the BTK variant start consuming real repo-backed search data now without pretending that it is already wired directly into Geany core document/session services. It is the right bridge between a pure prototype and a real frontend-independent Search Studio backend.

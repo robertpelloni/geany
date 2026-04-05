@@ -1,5 +1,13 @@
 #include "search_studio_backend.h"
 
+#include <QCoreApplication>
+#include <QDir>
+#include <QDirIterator>
+#include <QFile>
+#include <QFileInfo>
+#include <QRegularExpression>
+#include <QTextStream>
+
 namespace {
 
 QString qs(const char *text)
@@ -134,6 +142,323 @@ QString impactTarget(const QString &file, int line)
     return QString("%1:%2").formatArg(file).formatArg(line);
 }
 
+QString decodeExtendedText(const QString &text)
+{
+    QString decoded;
+
+    for (int index = 0; index < text.size(); ++index)
+    {
+        const QChar current = text.at(index);
+        if (current != '\\' || index + 1 >= text.size())
+        {
+            decoded.append(current);
+            continue;
+        }
+
+        const QChar next = text.at(++index);
+        if (next == 'n')
+            decoded.append('\n');
+        else if (next == 'r')
+            decoded.append('\r');
+        else if (next == 't')
+            decoded.append('\t');
+        else if (next == '\\')
+            decoded.append('\\');
+        else
+        {
+            decoded.append('\\');
+            decoded.append(next);
+        }
+    }
+
+    return decoded;
+}
+
+QString normalizedPatternText(const QString &text, const QString &mode)
+{
+    if (mode == qs("Extended"))
+        return decodeExtendedText(text);
+    return text;
+}
+
+QString normalizedReplacementText(const QString &text, const QString &mode)
+{
+    if (mode == qs("Extended"))
+        return decodeExtendedText(text);
+    return text;
+}
+
+bool modeUsesRegex(const QString &mode)
+{
+    return mode == qs("Regex") || mode == qs("Regular expression");
+}
+
+bool looksLikeSearchableTextFile(const QFileInfo &info)
+{
+    const QString suffix = info.suffix().toLower();
+    const QStringList allowedSuffixes = {
+        qs("c"), qs("h"), qs("cpp"), qs("hpp"), qs("cc"), qs("hh"),
+        qs("txt"), qs("md"), qs("rst"), qs("glade"), qs("css"), qs("conf"),
+        qs("am"), qs("ac"), qs("cmake"), qs("bat"), qs("in"), qs("build")
+    };
+
+    return allowedSuffixes.contains(suffix) || info.fileName().contains('.');
+}
+
+bool looksLikeWorkspaceRoot(const QDir &directory)
+{
+    return QFileInfo(directory.filePath(qs("src/search.c"))).exists()
+        && QFileInfo(directory.filePath(qs("data/geany.glade"))).exists();
+}
+
+QString findWorkspaceRoot()
+{
+    QStringList seeds;
+    seeds.append(QDir::currentPath());
+    seeds.append(QCoreApplication::applicationDirPath());
+
+    for (const auto &seed : seeds)
+    {
+        QDir probe(seed);
+        while (probe.exists())
+        {
+            if (looksLikeWorkspaceRoot(probe))
+                return probe.absolutePath();
+            if (! probe.cdUp())
+                break;
+        }
+    }
+
+    return QString();
+}
+
+QString relativePathForDisplay(const QString &rootPath, const QString &absolutePath)
+{
+    if (rootPath.isEmpty())
+        return absolutePath;
+
+    const QDir root(rootPath);
+    return root.relativeFilePath(absolutePath);
+}
+
+QStringList readFileLines(const QString &path)
+{
+    QFile file(path);
+    if (! file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return {};
+
+    QTextStream stream(&file);
+    QStringList lines;
+    while (! stream.atEnd())
+        lines.append(stream.readLine());
+    return lines;
+}
+
+struct SearchLineMatch
+{
+    bool found = false;
+    int count = 0;
+    QString matchedText;
+    QString replacementLine;
+    QString replacementText;
+};
+
+SearchLineMatch matchLine(const QString &line, const QString &query,
+    const QString &replacement, const QString &mode)
+{
+    SearchLineMatch result;
+    const QString patternText = normalizedPatternText(query, mode);
+    const QString replacementText = normalizedReplacementText(replacement, mode);
+
+    if (patternText.isEmpty())
+        return result;
+
+    if (modeUsesRegex(mode))
+    {
+        const QRegularExpression expression(patternText);
+        if (! expression.isValid())
+            return result;
+
+        const auto matches = expression.globalMatch(line);
+        if (matches.isEmpty())
+            return result;
+
+        result.found = true;
+        result.count = matches.size();
+        result.matchedText = matches.first().captured();
+        result.replacementLine = QString(line).replace(expression, replacementText);
+        result.replacementText = replacementText;
+        return result;
+    }
+
+    int position = 0;
+    while (position >= 0)
+    {
+        position = line.indexOf(patternText, position);
+        if (position < 0)
+            break;
+
+        ++result.count;
+        if (! result.found)
+        {
+            result.found = true;
+            result.matchedText = patternText;
+            result.replacementLine = line;
+            result.replacementLine.replace(position, patternText.size(), replacementText);
+            result.replacementText = replacementText;
+        }
+        position += qMax(1, patternText.size());
+    }
+
+    return result;
+}
+
+QList<SearchStudioDocumentImpact> scanDocumentImpacts(const QStringList &relativeFiles,
+    const QString &rootPath, const QString &query, const QString &mode)
+{
+    QList<SearchStudioDocumentImpact> impacts;
+
+    for (const auto &relativeFile : relativeFiles)
+    {
+        const QString absolutePath = QDir(rootPath).filePath(relativeFile);
+        const QStringList lines = readFileLines(absolutePath);
+        if (lines.isEmpty())
+            continue;
+
+        SearchStudioDocumentImpact impact;
+        impact.file = relativeFile;
+
+        for (int index = 0; index < lines.size(); ++index)
+        {
+            const SearchLineMatch match = matchLine(lines.at(index), query, QString(), mode);
+            if (! match.found)
+                continue;
+
+            if (impact.line == 0)
+            {
+                impact.line = index + 1;
+                impact.context = lines.at(index).trimmed();
+                if (impact.context.isEmpty())
+                    impact.context = qs("(blank line)");
+            }
+            impact.count += match.count;
+        }
+
+        if (impact.line != 0)
+            impacts.append(impact);
+    }
+
+    return impacts;
+}
+
+QList<SearchStudioReplacePreviewImpact> scanReplacePreviewImpacts(
+    const QStringList &relativeFiles, const QString &rootPath,
+    const SearchStudioReplaceRequest &request)
+{
+    QList<SearchStudioReplacePreviewImpact> impacts;
+
+    for (const auto &relativeFile : relativeFiles)
+    {
+        const QString absolutePath = QDir(rootPath).filePath(relativeFile);
+        const QStringList lines = readFileLines(absolutePath);
+        if (lines.isEmpty())
+            continue;
+
+        for (int index = 0; index < lines.size(); ++index)
+        {
+            const QString &line = lines.at(index);
+            const SearchLineMatch match = matchLine(line, request.query,
+                request.replacement, request.mode);
+            if (! match.found)
+                continue;
+
+            SearchStudioReplacePreviewImpact impact;
+            impact.file = relativeFile;
+            impact.line = index + 1;
+            impact.originalLine = line;
+            impact.replacementLine = match.replacementLine;
+            impact.matchedText = match.matchedText;
+            impact.replacementText = match.replacementText;
+            impacts.append(impact);
+            break;
+        }
+    }
+
+    return impacts;
+}
+
+QStringList collectDirectoryFiles(const QString &rootPath, const QString &directory)
+{
+    QString resolvedPath = directory.trimmed();
+    if (resolvedPath.isEmpty() || resolvedPath == qs("."))
+        resolvedPath = rootPath;
+    else if (! QFileInfo(resolvedPath).isAbsolute())
+        resolvedPath = QDir(rootPath).filePath(resolvedPath);
+
+    QFileInfo info(resolvedPath);
+    if (! info.exists())
+        return {};
+
+    QStringList files;
+    if (info.isFile())
+    {
+        if (looksLikeSearchableTextFile(info))
+            files.append(info.absoluteFilePath());
+        return files;
+    }
+
+    QDirIterator iterator(resolvedPath, QDir::Files, QDirIterator::Subdirectories);
+    while (iterator.hasNext())
+    {
+        iterator.next();
+        const QFileInfo fileInfo = iterator.fileInfo();
+        if (! looksLikeSearchableTextFile(fileInfo))
+            continue;
+        files.append(fileInfo.absoluteFilePath());
+    }
+
+    return files;
+}
+
+QList<SearchStudioDocumentImpact> scanDirectoryImpacts(const QString &rootPath,
+    const SearchStudioFindInFilesRequest &request)
+{
+    QList<SearchStudioDocumentImpact> impacts;
+    const QStringList files = collectDirectoryFiles(rootPath, request.directory);
+
+    for (const auto &absolutePath : files)
+    {
+        const QStringList lines = readFileLines(absolutePath);
+        if (lines.isEmpty())
+            continue;
+
+        SearchStudioDocumentImpact impact;
+        impact.file = relativePathForDisplay(rootPath, absolutePath);
+
+        for (int index = 0; index < lines.size(); ++index)
+        {
+            const SearchLineMatch match = matchLine(lines.at(index), request.query,
+                QString(), request.mode);
+            if (! match.found)
+                continue;
+
+            if (impact.line == 0)
+            {
+                impact.line = index + 1;
+                impact.context = lines.at(index).trimmed();
+                if (impact.context.isEmpty())
+                    impact.context = qs("(blank line)");
+            }
+            impact.count += match.count;
+        }
+
+        if (impact.line != 0)
+            impacts.append(impact);
+    }
+
+    return impacts;
+}
+
 void appendImpactRows(SearchStudioActionResult &result,
     SearchStudioActionKind actionKind, const QString &action,
     const QString &query, const QString &mode, const QString &summaryPrefix,
@@ -263,13 +588,110 @@ private:
     }
 };
 
+class WorkspaceSearchStudioSearchService final : public SearchStudioSearchService
+{
+public:
+    QList<SearchStudioDocumentImpact> buildFindImpactRows(
+        const SearchStudioFindRequest &request) const override
+    {
+        const QString rootPath = findWorkspaceRoot();
+        if (rootPath.isEmpty())
+            return {};
+
+        QStringList files = prototypeDocuments();
+        if (! request.sessionScope && ! files.isEmpty())
+            files = {files.first()};
+        return scanDocumentImpacts(files, rootPath, request.query, request.mode);
+    }
+
+    QList<SearchStudioDocumentImpact> buildMarkImpactRows(
+        const SearchStudioMarkRequest &request) const override
+    {
+        const QString rootPath = findWorkspaceRoot();
+        if (rootPath.isEmpty())
+            return {};
+
+        QStringList files = prototypeDocuments();
+        if (! request.sessionScope && ! files.isEmpty())
+            files = {files.first()};
+        return scanDocumentImpacts(files, rootPath, request.query, request.mode);
+    }
+
+    QList<SearchStudioDocumentImpact> buildFindInFilesCaptureRows(
+        const SearchStudioFindInFilesRequest &request) const override
+    {
+        const QString rootPath = findWorkspaceRoot();
+        if (rootPath.isEmpty())
+            return {};
+        return scanDirectoryImpacts(rootPath, request);
+    }
+
+    QList<SearchStudioReplacePreviewImpact> buildReplacePreviewRows(
+        const SearchStudioReplaceRequest &request) const override
+    {
+        const QString rootPath = findWorkspaceRoot();
+        if (rootPath.isEmpty())
+            return {};
+
+        QStringList files = prototypeDocuments();
+        if (! request.sessionScope && ! files.isEmpty())
+            files = {files.first()};
+        return scanReplacePreviewImpacts(files, rootPath, request);
+    }
+};
+
+class HybridSearchStudioSearchService final : public SearchStudioSearchService
+{
+public:
+    QList<SearchStudioDocumentImpact> buildFindImpactRows(
+        const SearchStudioFindRequest &request) const override
+    {
+        return preferWorkspaceData(workspace_.buildFindImpactRows(request),
+            prototype_.buildFindImpactRows(request));
+    }
+
+    QList<SearchStudioDocumentImpact> buildMarkImpactRows(
+        const SearchStudioMarkRequest &request) const override
+    {
+        return preferWorkspaceData(workspace_.buildMarkImpactRows(request),
+            prototype_.buildMarkImpactRows(request));
+    }
+
+    QList<SearchStudioDocumentImpact> buildFindInFilesCaptureRows(
+        const SearchStudioFindInFilesRequest &request) const override
+    {
+        return preferWorkspaceData(workspace_.buildFindInFilesCaptureRows(request),
+            prototype_.buildFindInFilesCaptureRows(request));
+    }
+
+    QList<SearchStudioReplacePreviewImpact> buildReplacePreviewRows(
+        const SearchStudioReplaceRequest &request) const override
+    {
+        return preferWorkspaceData(workspace_.buildReplacePreviewRows(request),
+            prototype_.buildReplacePreviewRows(request));
+    }
+
+private:
+    template <typename T>
+    QList<T> preferWorkspaceData(const QList<T> &preferred,
+        const QList<T> &fallback) const
+    {
+        if (! preferred.isEmpty())
+            return preferred;
+        return fallback;
+    }
+
+    WorkspaceSearchStudioSearchService workspace_;
+    PrototypeSearchStudioSearchService prototype_;
+};
+
 } // namespace
 
 namespace SearchStudioBackend {
 
 const SearchStudioSearchService &defaultSearchService()
 {
-    static const PrototypeSearchStudioSearchService service;
+    static const HybridSearchStudioSearchService service;
     return service;
 }
 
@@ -426,8 +848,8 @@ SearchStudioActionResult makeCountResult(const SearchStudioFindRequest &request)
         qs("Counted matches in the active document.");
     action.summaryPreviewTitle = request.sessionScope ? qs("Count in Session") : qs("Count — Active Document");
     action.summaryPreviewBody = request.sessionScope ?
-        qs("Prototype aggregate count across open documents with per-document impact rows above.") :
-        qs("Prototype count summary for the active document.");
+        qs("Checkout-backed count rows are used when available, with prototype fallback preserving the BTK workflow shape.") :
+        qs("Checkout-backed count rows are used when available for the active document, with prototype fallback otherwise.");
     action.summaryScope = request.sessionScope ?
         SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;
     action.includeImpactRows = true;
@@ -447,7 +869,7 @@ SearchStudioActionResult makeCollectedHitsResult(const SearchStudioFindRequest &
     action.summaryAction = request.sessionScope ? qs("Collect Session Hits") : QString();
     action.summaryText = qs("Collected representative open-document hits.");
     action.summaryPreviewTitle = qs("Collect Session Hits");
-    action.summaryPreviewBody = qs("Prototype open-document hit collection summary.");
+    action.summaryPreviewBody = qs("Open-document hit collection now prefers live checkout data and falls back to prototype rows only when needed.");
     action.summaryScope = SearchStudioTargetScope::OpenDocuments;
     action.includeImpactRows = true;
     return executeFindAction(request, action);
@@ -460,8 +882,8 @@ SearchStudioActionResult makeReplacePreviewResult(const SearchStudioReplaceReque
 
     spec.actionKind = SearchStudioActionKind::ReplacePreview;
     spec.activityMessage = request.sessionScope ?
-        qs("[Replace Preview] Prototype session preview generated.") :
-        qs("[Replace Preview] Prototype document preview generated.");
+        qs("[Replace Preview] Session preview generated from checkout-backed rows when available.") :
+        qs("[Replace Preview] Document preview generated from checkout-backed rows when available.");
     spec.rowAction = action;
     spec.previewRows = true;
     return executeReplaceAction(request, spec);
@@ -482,13 +904,13 @@ SearchStudioActionResult makeReplaceImpactResult(const SearchStudioReplaceReques
     spec.rowAction = action;
     spec.summaryAction = summaryActionLabel;
     spec.summaryText = request.sessionScope ?
-        qs("Prototype replace-in-session summary with per-document impact rows above.") :
-        qs("Prototype replace-in-document summary with impact rows above.");
+        qs("Exploratory replace-in-session summary with per-document impact rows above.") :
+        qs("Exploratory replace-in-document summary with impact rows above.");
     spec.summaryPreviewTitle = request.sessionScope ? qs("Replace in Session") : qs("Replace in Document");
     spec.summaryPreviewBody = request.sessionScope ?
-        QString("Replacement payload: %1\nMode: %2\nTarget: %3\n\nPer-document impact rows above would be driven by Geany core later.")
+        QString("Replacement payload: %1\nMode: %2\nTarget: %3\n\nPer-document impact rows above now prefer live checkout data, with future Geany-core services replacing the fallback path later.")
             .formatArgs(request.replacement, request.mode, summaryTarget) :
-        QString("Replacement payload: %1\nMode: %2\nTarget: %3\n\nImpact rows above mirror the current Search Studio model.")
+        QString("Replacement payload: %1\nMode: %2\nTarget: %3\n\nImpact rows above now prefer live checkout data while mirroring the current Search Studio model.")
             .formatArgs(request.replacement, request.mode, summaryTarget);
     spec.summaryScope = request.sessionScope ?
         SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;
@@ -506,9 +928,9 @@ SearchStudioActionResult makeFindInFilesResult(const SearchStudioFindInFilesRequ
     action.captureAction = qs("Find in Files Hit");
     action.captureSummaryPrefix = qs("Captured");
     action.summaryAction = qs("Find in Files");
-    action.summaryText = qs("Prototype directory search launched with structured hit ingestion.");
+    action.summaryText = qs("Exploratory directory search launched with structured hit ingestion.");
     action.summaryPreviewTitle = qs("Find in Files");
-    action.summaryPreviewBody = QString("Directory: %1\nMode: %2\n\nResults above mirror a future structured ripgrep-style ingestion path.")
+    action.summaryPreviewBody = QString("Directory: %1\nMode: %2\n\nResults above now prefer live checkout scanning while still mirroring a future structured ripgrep-style ingestion path.")
         .formatArgs(request.directory, request.mode);
     action.summaryScope = SearchStudioTargetScope::Directory;
     action.includeCaptureRows = true;
@@ -533,14 +955,14 @@ SearchStudioActionResult makeMarkResult(const SearchStudioMarkRequest &request,
     spec.impactSummaryPrefix = qs("Marked");
     spec.summaryAction = summaryActionLabel;
     spec.summaryText = request.sessionScope ?
-        QString("Prototype session mark summary for %1 with per-document impact rows above.")
+        QString("Exploratory session mark summary for %1 with per-document impact rows above.")
             .formatArg(summaryTarget) :
         QString("Marked representative matches in %1; bookmark-lines=%2; purge-first=%3.")
             .formatArgs(summaryTarget, bookmark, purge);
     spec.summaryPreviewTitle = request.sessionScope ? qs("Mark in Session") : qs("Mark");
     spec.summaryPreviewBody = request.sessionScope ?
-        qs("Session mark impact rows above mirror the matured Search Studio behavior from the main tree.") :
-        QString("Prototype active-document mark summary for %1.")
+        qs("Session mark impact rows above mirror the matured Search Studio behavior from the main tree while preferring live checkout data.") :
+        QString("Exploratory active-document mark summary for %1 using checkout-backed rows when available.")
             .formatArg(summaryTarget);
     spec.summaryScope = request.sessionScope ?
         SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;

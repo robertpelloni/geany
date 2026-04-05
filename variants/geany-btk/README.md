@@ -33,7 +33,7 @@ The current BTK prototype now mirrors several of the matured Search Studio conce
 - BTK-side result specs now explicitly track action kind / result kind / target scope concepts, bringing the prototype closer to the GTK Search Studio normalization direction
 - BTK-side execution now also has first-wave action specs for Find / Replace / Mark / Find-in-Files families, reducing string-driven backend branching at call sites
 - simple Find and Replace action buttons are now routed through those action specs too, so even summary-only flows increasingly execute as request + action-spec + action-result rather than ad-hoc UI-local formatting
-- the backend now also owns a first explicit search-service seam (`SearchStudioSearchService`) with a default prototype implementation, so impact/preview row generation can later be swapped from prototype data to real Geany-backed services without rewriting the UI contract again
+- the backend now also owns a first explicit search-service seam (`SearchStudioSearchService`) with a hybrid default provider: it tries workspace-backed file scanning against the Geany checkout first and falls back to the older prototype provider when no live repo data is available, so impact/preview row generation can move toward real data without destabilizing the UI contract
 
 ## Toolchain direction
 
@@ -96,7 +96,9 @@ The package target also refreshes the staged runtime tree first, so packaging st
 A generated helper also points at the latest staged bundle directory:
 - `../../build/geany-btk-package3/run-geany-btk-bundle.bat`
 
-That helper is now refreshed by the stage script on each build/package run instead of being frozen to a configure-time bundle path. This matters because timestamped bundle names are created at staging time, so repeated package runs can keep producing fresh bundle directories without requiring a manual CMake reconfigure between runs.
+That helper is now refreshed by the stage script on each build/package run instead of being frozen to a configure-time bundle path. It also changes into the newest staged bundle directory before invoking the bundle-local launcher, which avoids a Windows/CopperSpice platform-plugin resolution failure when launching from the build root while older staged bundles remain active.
+
+This matters because timestamped bundle names are created at staging time, so repeated package runs can keep producing fresh bundle directories without requiring a manual CMake reconfigure between runs.
 
 The timestamped bundle directory name avoids clobbering an older already-running staged executable from previous smoke tests, which makes iterative Windows validation safer without having to kill running processes.
 
@@ -121,4 +123,4 @@ without forcing an all-at-once migration of the production application.
 2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BTK-native presentation
-5. replace more of the remaining UI-local prototype behavior with shared backend data/models and then begin wiring those models to real Geany search/document services through the new `SearchStudioSearchService` seam
+5. replace more of the remaining UI-local prototype behavior with shared backend data/models and then continue upgrading the `SearchStudioSearchService` seam from checkout-backed scanning toward real Geany search/document services

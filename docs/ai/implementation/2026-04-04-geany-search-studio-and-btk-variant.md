@@ -152,6 +152,8 @@ A follow-up systems fix was required after the first timestamped version landed:
 
 This is a better architecture for iterative Windows/MSVC validation because the bundle timestamp now advances with each staging run rather than only with each CMake configure pass.
 
+One more Windows launcher detail surfaced during validation after that change: simply chaining from the build-root helper into the newest bundle-local launcher was not always enough. Launching the top-level helper from the build root could still produce a CopperSpice platform-plugin resolution failure even though the bundle itself was staged correctly. The stage script now rewrites `run-geany-btk-bundle.bat` so it first changes into the newest bundle directory and only then calls the bundle-local launcher. That keeps the top-level helper aligned with the deployment-shaped bundle layout and preserves reliable launch behavior while older staged bundles are still running.
+
 This is intentionally still a developer-facing staging layout, not a polished package, but it is a meaningful step because it turns the successful build into a more portable local runtime artifact instead of only a build-tree executable plus PATH instructions.
 
 ### Prototype goals
@@ -187,7 +189,7 @@ The next backend-boundary step has now landed too. `variants/geany-btk/src/searc
 - `SearchStudioReplacePreviewImpact`
 - `SearchStudioSearchService`
 
-`SearchStudioSearchService` is the first explicit BTK-side provider seam for backend data generation. The current implementation keeps a default prototype provider behind `SearchStudioBackend::defaultSearchService()`, but the execution helpers can now also accept an injected service explicitly:
+`SearchStudioSearchService` is the first explicit BTK-side provider seam for backend data generation. The execution helpers can now accept an injected service explicitly:
 - `executeFindAction(..., const SearchStudioSearchService &service)`
 - `executeReplaceAction(..., const SearchStudioSearchService &service)`
 - `executeMarkAction(..., const SearchStudioSearchService &service)`
@@ -196,10 +198,16 @@ The next backend-boundary step has now landed too. `variants/geany-btk/src/searc
 That changes the architecture in an important way:
 - action execution is no longer coupled directly to the anonymous prototype document helpers
 - impact/preview row generation is now mediated by an explicit provider contract
-- the default prototype behavior remains intact for the current standalone BTK variant
-- a future Geany-backed service can replace the prototype provider without forcing the UI to go back to widget-local row construction
+- a future Geany-backed service can replace the current provider without forcing the UI to go back to widget-local row construction
 
-This still uses prototype data rather than real Geany search/document services, but it is a much more meaningful architecture step because the BTK UI is now increasingly a consumer of action results produced from a swappable backend service rather than the sole place where those rows are invented. It also brings the BTK variant conceptually closer to the GTK Search Studio normalization path, where explicit request/result models and metadata-rich result specs are becoming the core backend seam.
+The default provider behind `SearchStudioBackend::defaultSearchService()` has also moved forward again. It is now a hybrid service:
+- first it tries a workspace-backed implementation that discovers the Geany checkout root and scans real repository files
+- for Find/Count/Mark families it can build impact rows from actual matches in files like `src/search.c`, `src/document.c`, `src/prefs.c`, and `data/geany.glade`
+- for Replace Preview / Replace Impact it can build before/after rows from actual matching lines in those files
+- for Find in Files it can walk a requested directory, scan likely text files recursively, and emit structured capture rows from live repo content
+- if no workspace root is available or no live hits are found, it falls back to the older prototype provider so the BTK variant still shows rich result behavior instead of regressing into emptiness
+
+This is a more meaningful architecture step than the earlier pure-prototype seam because the BTK UI is now increasingly a consumer of action results produced from a swappable backend service that can already consume real checkout data. It still is not wired to true Geany editor/session services, but it is conceptually and structurally much closer to that future than the earlier all-prototype model. It also brings the BTK variant conceptually closer to the GTK Search Studio normalization path, where explicit request/result models and metadata-rich result specs are becoming the core backend seam.
 
 ## BTK submodule
 

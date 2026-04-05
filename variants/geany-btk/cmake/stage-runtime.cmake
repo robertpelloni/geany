@@ -70,6 +70,7 @@ file(WRITE "${GEANY_BTK_STAGE_MARKER}" "${GEANY_BTK_STAGE_DIR}\n")
 file(WRITE "${GEANY_BTK_BUNDLE_LAUNCHER}"
     "@echo off\r\n"
     "setlocal\r\n"
-    "\"${GEANY_BTK_STAGE_DIR}/run-geany-btk-search-studio.bat\" %*\r\n")
+    "cd /d \"${GEANY_BTK_STAGE_DIR}\"\r\n"
+    "call \"${GEANY_BTK_STAGE_DIR}/run-geany-btk-search-studio.bat\" %*\r\n")
 
 message(STATUS "Staged BTK runtime bundle: ${GEANY_BTK_STAGE_DIR}")

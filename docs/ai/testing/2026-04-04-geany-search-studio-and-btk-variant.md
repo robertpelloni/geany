@@ -120,6 +120,9 @@ Using the built BTK runtime directory on `PATH`:
 - confirm first-wave action specs exist for Find / Replace / Mark / Find in Files execution families in the BTK backend layer
 - confirm the BTK backend also defines a first explicit provider seam via `SearchStudioSearchService`, with payload structs such as `SearchStudioDocumentImpact` and `SearchStudioReplacePreviewImpact`
 - confirm `SearchStudioBackend::defaultSearchService()` exists and the family execution helpers also expose overloads that accept an injected `SearchStudioSearchService`
+- confirm the default BTK provider now attempts workspace-backed scanning against the Geany checkout before falling back to the older prototype provider
+- when using queries known to exist in the repo (for example terms in `src/search.c` or `data/geany.glade`), confirm Find / Count / Mark / Replace Preview / Replace Impact rows can reflect live repository lines rather than only synthetic placeholder text
+- confirm queries with no live workspace hits still fall back gracefully to the prototype provider so the BTK navigator remains populated instead of collapsing into blank behavior
 - confirm simple summary-oriented Find and Replace button flows still behave correctly after being routed through BTK action specs/execution helpers instead of only ad-hoc UI-local formatting
 - confirm several BTK UI actions still append activity lines and structured rows after the backend-layer extraction rather than regressing to blank/no-op behavior
 
@@ -143,6 +146,8 @@ Using the built BTK runtime directory on `PATH`:
 - the BTK backend-shaped helper layer (`src/search_studio_backend.h/.cpp`) still builds cleanly and the UI still consumes its action-result bundles/specs correctly
 - iterative rebuild/package flows still work while older staged runtime executables are running because the current staged output now uses timestamped `runtime-bundle-*` directories instead of the earlier fixed runtime path
 - repeated `geany-btk-stage-runtime` / `geany-btk-runtime-package` runs can produce fresh bundle/package timestamps without requiring a manual CMake reconfigure in between
+- launching `run-geany-btk-bundle.bat` while older staged bundle processes are still running should still start a responsive newer process from the latest staged bundle path without requiring any process termination
+- confirm the top-level helper succeeds specifically when launched from the build directory too, not only when launching the bundle-local batch file directly; this guards the Windows/CopperSpice platform-plugin working-directory pitfall
 - the produced `geany-btk-search-studio.exe` launches and still presents the expected Search Studio tabs and lower navigator panes
 
 ## Current environment limitation
