@@ -125,7 +125,9 @@ private:
     {
         PreviewTitleRole = Qt::UserRole,
         PreviewBodyRole,
-        NavigableRole
+        NavigableRole,
+        ResultKindRole,
+        TargetScopeRole
     };
 
     QTabWidget *topTabs_ = nullptr;
@@ -184,10 +186,21 @@ private:
         lowerTabs_->setCurrentWidget(resultsView_);
     }
 
-    void appendResult(const SearchStudioResultRow &row)
+    void appendResult(const SearchStudioResultSpec &row)
     {
-        appendResult(row.action, row.target, row.query, row.mode, row.summary,
-            row.previewTitle, row.previewBody, row.navigable);
+        auto *item = new QTreeWidgetItem();
+        item->setText(0, row.action);
+        item->setText(1, row.target);
+        item->setText(2, row.query);
+        item->setText(3, row.mode);
+        item->setText(4, row.summary);
+        item->setData(0, PreviewTitleRole, row.previewTitle);
+        item->setData(0, PreviewBodyRole, row.previewBody);
+        item->setData(0, NavigableRole, row.navigable);
+        item->setData(0, ResultKindRole, static_cast<int>(row.kind));
+        item->setData(0, TargetScopeRole, static_cast<int>(row.scope));
+        resultsView_->insertTopLevelItem(0, item);
+        lowerTabs_->setCurrentWidget(resultsView_);
     }
 
     void applyActionResult(const SearchStudioActionResult &result)

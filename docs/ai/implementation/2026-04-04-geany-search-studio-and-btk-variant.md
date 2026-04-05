@@ -125,23 +125,23 @@ A runtime smoke pass after the build also clarified one more Windows concern: th
 To reduce that manual runtime step further, the variant CMake now derives the BTK runtime directory from the discovered BTK package location and generates a build-directory launcher batch file automatically. That keeps the package-based BTK integration model while making the common local Windows/MSVC run path much more direct.
 
 That launcher work has now been pushed one step further into a lightweight local deploy-style layout. The BTK variant build stages:
-- the variant executable into `runtime/bin/`
-- BTK runtime DLLs into `runtime/bin/`
+- the variant executable into `runtime-stage/bin/`
+- BTK runtime DLLs into `runtime-stage/bin/`
 - plugin DLLs into deployment-shaped subdirectories such as:
-  - `runtime/platforms/`
-  - `runtime/imageformats/`
-  - `runtime/mediaservices/`
-  - `runtime/playlistformats/`
-  - `runtime/printerdrivers/`
-  - `runtime/sqldrivers/`
-- a launcher batch file into `runtime/`
+  - `runtime-stage/platforms/`
+  - `runtime-stage/imageformats/`
+  - `runtime-stage/mediaservices/`
+  - `runtime-stage/playlistformats/`
+  - `runtime-stage/printerdrivers/`
+  - `runtime-stage/sqldrivers/`
+- a launcher batch file into `runtime-stage/`
 
-This staging was also tightened so the local runtime/package layout now carries only the executable plus relevant runtime/plugin DLLs rather than also dragging along BTK import libraries, CMake package metadata, and extra build-time helper binaries.
+This staging was also tightened so the local runtime/package layout now carries only the executable plus relevant runtime/plugin DLLs rather than also dragging along BTK import libraries, CMake package metadata, and extra build-time helper binaries. Plugin DLLs are staged into deployment-shaped directories (`platforms/`, `imageformats/`, `mediaservices/`, `playlistformats/`, `printerdrivers/`, `sqldrivers/`) so runtime behavior keeps matching BTK/CopperSpice plugin-loading expectations.
 
 On top of that, the variant CMake now exposes a lightweight runtime package target (`geany-btk-runtime-package`) which archives the staged runtime tree into a zip file. In the validated local workflow this produces:
 - `build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
 
-The package target now also depends on an explicit runtime-refresh target, so packaging still reconstructs the staged runtime tree even if `runtime/` was deleted between builds.
+The package target now also depends on an explicit runtime-refresh target, so packaging still reconstructs the staged runtime tree even if the staged runtime directory was deleted between builds.
 
 This is intentionally still a developer-facing staging layout, not a polished package, but it is a meaningful step because it turns the successful build into a more portable local runtime artifact instead of only a build-tree executable plus PATH instructions.
 
@@ -160,11 +160,11 @@ A backend-boundary pass has now started inside the BTK variant itself too. The p
 
 That layer currently provides:
 - request structs for Find / Replace / Mark / Find in Files prototype flows
-- structured result-row objects
+- structured result specs carrying result kind / target scope metadata in addition to row text
 - action-result bundles carrying both activity messages and result rows
 - backend helpers for count, hit collection, replace preview/impact routing, mark routing, and Find in Files result generation
 
-This still uses prototype data rather than real Geany search/document services, but it is a meaningful architecture step because the BTK UI is now increasingly a consumer of action results instead of the sole place where those rows are invented.
+This still uses prototype data rather than real Geany search/document services, but it is a meaningful architecture step because the BTK UI is now increasingly a consumer of action results instead of the sole place where those rows are invented. It also brings the BTK variant conceptually closer to the GTK Search Studio normalization path, where explicit request/result models and metadata-rich result specs are becoming the core backend seam.
 
 ## BTK submodule
 

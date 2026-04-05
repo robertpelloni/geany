@@ -4,8 +4,27 @@
 #include <QString>
 #include <QStringList>
 
-struct SearchStudioResultRow
+enum class SearchStudioResultKind
 {
+    Summary,
+    Impact,
+    Preview,
+    Capture
+};
+
+enum class SearchStudioTargetScope
+{
+    SearchStudio,
+    ActiveDocument,
+    OpenDocuments,
+    Directory,
+    ExplicitTarget
+};
+
+struct SearchStudioResultSpec
+{
+    SearchStudioResultKind kind = SearchStudioResultKind::Summary;
+    SearchStudioTargetScope scope = SearchStudioTargetScope::ExplicitTarget;
     QString action;
     QString target;
     QString query;
@@ -19,7 +38,7 @@ struct SearchStudioResultRow
 struct SearchStudioActionResult
 {
     QStringList activity;
-    QList<SearchStudioResultRow> rows;
+    QList<SearchStudioResultSpec> rows;
 };
 
 struct SearchStudioFindRequest

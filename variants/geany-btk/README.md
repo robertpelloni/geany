@@ -30,6 +30,7 @@ The current BTK prototype now mirrors several of the matured Search Studio conce
 - preview-oriented replace and impact routing
 - informational vs navigable result-row behavior
 - an emerging backend-shaped action/result layer in `src/search_studio_backend.h/.cpp` so the UI is no longer the only place where prototype result generation lives
+- BTK-side result specs now explicitly track result kind / target scope concepts, bringing the prototype closer to the GTK Search Studio normalization direction
 
 ## Toolchain direction
 
@@ -67,7 +68,7 @@ The CMake build now also generates a build-directory launcher with the resolved 
 - `../../build/geany-btk-package3/run-geany-btk-search-studio.bat`
 
 In addition, the build now stages a self-contained local runtime layout under:
-- `../../build/geany-btk-package3/runtime/`
+- `../../build/geany-btk-package3/runtime-stage/`
   - `bin/geany-btk-search-studio.exe`
   - BTK core runtime DLLs in `bin/`
   - plugin directories such as:
@@ -87,7 +88,9 @@ The build can also package that staged layout into a zip archive via the custom 
 Validated local package artifact:
 - `../../build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
 
-The package target also refreshes the staged runtime tree first, so packaging still works even if the local `runtime/` directory was removed between builds.
+The package target also refreshes the staged runtime tree first, so packaging still works even if the local staged runtime directory was removed between builds.
+
+The staged/package layout was also trimmed and normalized so plugin DLLs live in deployment-shaped directories (`platforms/`, `imageformats/`, `mediaservices/`, `playlistformats/`, `printerdrivers/`, `sqldrivers/`) rather than a flat dump or a developer-oriented `lib/` copy.
 
 This makes the local Windows/MSVC runtime path less manual after configuration/build succeeds and gives the project an initial deploy-style handoff without requiring a full installer.
 
