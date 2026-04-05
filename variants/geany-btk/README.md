@@ -65,7 +65,14 @@ That launcher prepends the local BTK runtime directory to `PATH` and starts the 
 The CMake build now also generates a build-directory launcher with the resolved BTK runtime path baked in:
 - `../../build/geany-btk-package3/run-geany-btk-search-studio.bat`
 
-This makes the local Windows/MSVC runtime path less manual after configuration/build succeeds.
+In addition, the build now stages a self-contained local runtime layout under:
+- `../../build/geany-btk-package3/runtime/`
+  - `bin/geany-btk-search-studio.exe`
+  - BTK runtime DLLs in `bin/`
+  - BTK plugin/runtime-support DLLs in `lib/`
+  - `run-geany-btk-search-studio.bat`
+
+This makes the local Windows/MSVC runtime path less manual after configuration/build succeeds and gives the project an initial deploy-style handoff without requiring a full installer.
 
 ## Why a separate variant exists
 
@@ -84,4 +91,4 @@ without forcing an all-at-once migration of the production application.
 2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BTK-native presentation
-5. package or automate BTK runtime deployment so the prototype launches without manual `PATH` setup
+5. trim the staged BTK runtime layout to only the files actually needed by the prototype, or evolve it into a more formal package/install step

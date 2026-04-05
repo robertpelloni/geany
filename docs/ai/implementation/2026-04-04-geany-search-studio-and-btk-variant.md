@@ -124,6 +124,14 @@ A runtime smoke pass after the build also clarified one more Windows concern: th
 
 To reduce that manual runtime step further, the variant CMake now derives the BTK runtime directory from the discovered BTK package location and generates a build-directory launcher batch file automatically. That keeps the package-based BTK integration model while making the common local Windows/MSVC run path much more direct.
 
+That launcher work has now been pushed one step further into a lightweight local deploy-style layout. The BTK variant build stages:
+- the variant executable into `runtime/bin/`
+- BTK runtime DLLs into `runtime/bin/`
+- BTK plugin/support DLLs into `runtime/lib/`
+- a launcher batch file into `runtime/`
+
+This is intentionally still a developer-facing staging layout, not a polished package, but it is a meaningful step because it turns the successful build into a more portable local runtime artifact instead of only a build-tree executable plus PATH instructions.
+
 ### Prototype goals
 The prototype intentionally models the **control density** and **workflow rhythm** of Notepad++ while leaving room for “better than N++” capabilities:
 - preview panes

@@ -96,6 +96,16 @@ Using the built BTK runtime directory on `PATH`:
 - reconfigure the BTK variant build and confirm the generated launcher exists beside the built executable
 - confirm the generated launcher contains the resolved local BTK runtime directory
 
+### Lightweight staged runtime validation
+- confirm `build/geany-btk-package3/runtime/` exists after rebuilding the variant
+- confirm it contains:
+  - `bin/geany-btk-search-studio.exe`
+  - BTK runtime DLLs in `bin/`
+  - BTK support/plugin DLLs in `lib/`
+  - `runtime/run-geany-btk-search-studio.bat`
+- launch `build/geany-btk-package3/runtime/run-geany-btk-search-studio.bat`
+- confirm the staged executable launches and the process remains responsive without manually editing global `PATH`
+
 ### Regressions to watch after the build-enablement pass
 - BTK still builds standalone after the `CMAKE_CURRENT_SOURCE_DIR` CMake-module-path fix
 - the Geany BTK variant still finds BTK via local install/build-tree hints and no longer depends on `add_subdirectory(...)`
