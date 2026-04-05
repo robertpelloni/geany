@@ -305,6 +305,15 @@ typedef struct SearchStudioReplacePlanResult
 SearchStudioReplacePlanResult;
 
 
+typedef struct SearchStudioReplaceExecutionResult
+{
+	SearchStudioReplacePlanResult plan;
+	guint applied_matches;
+	guint affected_docs;
+}
+SearchStudioReplaceExecutionResult;
+
+
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
 
@@ -408,6 +417,10 @@ static SearchStudioReplacePlanResult search_studio_plan_replace_document(
 	GeanyDocument *doc, const SearchStudioReplaceSpec *spec);
 static SearchStudioReplacePlanResult search_studio_plan_replace_session(GtkWidget *page,
 	const SearchStudioReplaceSpec *spec);
+static SearchStudioReplaceExecutionResult search_studio_execute_replace_document(
+	GeanyDocument *doc, const SearchStudioReplaceSpec *spec);
+static SearchStudioReplaceExecutionResult search_studio_execute_replace_session(
+	GtkWidget *page, GeanyDocument *doc, const SearchStudioReplaceSpec *spec);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
@@ -1779,6 +1792,58 @@ static SearchStudioReplacePlanResult search_studio_plan_replace_session(GtkWidge
 		FALSE, FALSE);
 	result.planned_matches = session_result.total_results;
 	result.planned_docs = session_result.docs_with_results;
+	return result;
+}
+
+
+static SearchStudioReplaceExecutionResult search_studio_execute_replace_document(
+	GeanyDocument *doc, const SearchStudioReplaceSpec *spec)
+{
+	SearchStudioReplaceExecutionResult result = { { 0, 0 }, 0, 0 };
+
+	if (spec == NULL)
+		return result;
+
+	result.plan = search_studio_plan_replace_document(doc, spec);
+	result.applied_matches = document_replace_all(doc, spec->find.text, spec->replace,
+		spec->find.original_text, spec->original_replace, spec->find.flags);
+	result.affected_docs = result.applied_matches > 0 ? 1 : 0;
+	return result;
+}
+
+
+static SearchStudioReplaceExecutionResult search_studio_execute_replace_session(
+	GtkWidget *page, GeanyDocument *doc, const SearchStudioReplaceSpec *spec)
+{
+	SearchStudioReplaceExecutionResult result = { { 0, 0 }, 0, 0 };
+	guint n, page_count;
+
+	if (spec == NULL)
+		return result;
+
+	result.plan = search_studio_plan_replace_session(page, spec);
+	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
+	for (n = 0; n < page_count; n++)
+	{
+		GeanyDocument *tmp_doc = document_get_from_page(n);
+		gint reps = document_replace_all(tmp_doc, spec->find.text, spec->replace,
+			spec->find.original_text, spec->original_replace, spec->find.flags);
+
+		result.applied_matches += reps;
+		if (reps)
+			result.affected_docs++;
+	}
+	if (result.affected_docs == 0)
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No matches found for \"%s\"."), spec->find.original_text);
+		return result;
+	}
+	if (result.affected_docs > 1)
+		ui_set_statusbar(FALSE, _("Replaced %u matches in %u documents."),
+			result.applied_matches, result.affected_docs);
+	gtk_notebook_set_current_page(GTK_NOTEBOOK(msgwindow.notebook), MSG_STATUS);
+	ui_save_buttons_toggle(doc->changed);
 	return result;
 }
 
@@ -3916,16 +3981,17 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 		}
 		case GEANY_RESPONSE_REPLACE_IN_FILE:
 		{
-			SearchStudioReplacePlanResult plan = search_studio_plan_replace_document(doc, &spec);
-			gint reps = document_replace_all(doc, spec.find.text, spec.replace,
-				spec.find.original_text, spec.original_replace, spec.find.flags);
-			if (!reps)
+			SearchStudioReplaceExecutionResult execution =
+				search_studio_execute_replace_document(doc, &spec);
+			if (!execution.applied_matches)
 				utils_beep();
-			search_studio_activity_append("[Replace] Replace in document | find=%s | replace=%s | replacements=%d | planned=%u",
-				spec.find.original_text, spec.original_replace, reps, plan.planned_matches);
+			search_studio_activity_append("[Replace] Replace in document | find=%s | replace=%s | replacements=%u | planned=%u",
+				spec.find.original_text, spec.original_replace, execution.applied_matches,
+				execution.plan.planned_matches);
 			search_studio_append_document_resultf("Replace in Document", doc, spec.find.original_text,
-				spec.find.mode, "Replaced %d matches in the active document (planned hits: %u).",
-				reps, plan.planned_matches);
+				spec.find.mode,
+				"Replaced %u matches in the active document (planned hits: %u).",
+				execution.applied_matches, execution.plan.planned_matches);
 			break;
 		}
 		case GEANY_RESPONSE_REPLACE_IN_SEL:
@@ -3945,16 +4011,17 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 				_("Are you sure to replace in the whole session?")))
 				break;
 			{
-				SearchStudioReplacePlanResult plan = search_studio_plan_replace_session(page, &spec);
+				SearchStudioReplaceExecutionResult execution =
+					search_studio_execute_replace_session(page, doc, &spec);
 
-				replace_in_session(doc, spec.find.flags, FALSE, spec.find.text, spec.replace,
-					spec.find.original_text, spec.original_replace);
-				search_studio_activity_append("[Replace] Replace in session | find=%s | replace=%s | mode=%s | planned-docs=%u | planned-matches=%u",
+				search_studio_activity_append("[Replace] Replace in session | find=%s | replace=%s | mode=%s | planned-docs=%u | planned-matches=%u | applied-docs=%u | applied-matches=%u",
 					spec.find.original_text, spec.original_replace, spec.find.mode,
-					plan.planned_docs, plan.planned_matches);
+					execution.plan.planned_docs, execution.plan.planned_matches,
+					execution.affected_docs, execution.applied_matches);
 				search_studio_result_appendf("Replace in Session", "Session", spec.find.original_text, spec.find.mode,
-					"Applied replacement across open documents (planned docs: %u, planned matches: %u).",
-					plan.planned_docs, plan.planned_matches);
+					"Applied replacement across open documents (planned docs: %u, planned matches: %u; applied docs: %u, applied matches: %u).",
+					execution.plan.planned_docs, execution.plan.planned_matches,
+					execution.affected_docs, execution.applied_matches);
 			}
 			break;
 	}

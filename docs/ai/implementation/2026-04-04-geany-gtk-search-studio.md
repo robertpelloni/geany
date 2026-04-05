@@ -154,6 +154,13 @@ Replace execution planning is also starting to become explicit as its own step. 
 - aggregate planned-doc/planned-match reporting
 - actual replacement execution
 
+A lightweight replace-execution result layer is now emerging as well. Replace execution can now be described in terms of:
+- a prepared replace request
+- a pre-mutation plan result
+- actual applied match/document counts after execution
+
+This gives replace callbacks a cleaner orchestration shape and begins separating planning results from execution results instead of forcing one local block to stand in for both.
+
 This is still intentionally small, but it starts shaping session execution as an explicit action object rather than only as manually coordinated local variables.
 
 This is another meaningful backend-boundary step because session-scope work is increasingly described as:

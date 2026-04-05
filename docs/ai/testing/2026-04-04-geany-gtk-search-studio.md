@@ -133,6 +133,7 @@
 - Replace-family session actions still behave correctly after lightweight session-action spec extraction (replace history persistence, stored find-state behavior, and session preview traversal remain correct)
 - Replace-session preview rows and replace-session impact planning still behave correctly after shared rows-action normalization (preview still respects per-document limits, impact rows still report planned docs/matches correctly, and both still use the shared session action pathway)
 - Replace-in-document and Replace-in-session still report correct planned-hit / planned-document numbers after lightweight replace-plan result extraction, and those plan values still line up with the impact rows emitted before mutation
+- Replace execution summaries still report sensible applied match/document counts after lightweight replace-execution result extraction, and the no-match / multi-document status behavior remains correct for session replacement
 - Count/Mark status bar messaging still reports the correct active-document vs open-document scope after shared status-report helper extraction
 
 ## Environment limitation
