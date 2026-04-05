@@ -127,6 +127,9 @@ Shared action-layer helpers are now also starting to reduce repeated execution-a
 - combo-history updates
 - active-document target labeling
 - summary-row emission for active-document actions
+- formatted summary-row emission for session and document actions
+
+This means several Search Studio callbacks now read more like small orchestration functions, while reusable helper paths own the repetitive document/session summary plumbing.
 
 This is still not a full backend split, but it makes the remaining execution code less repetitive and clarifies which pieces are generic enough to move behind a frontend-independent boundary later.
 
