@@ -182,7 +182,24 @@ That action-spec direction is now being used more directly by the BTK UI too. Ev
 
 This is a useful step because it means the BTK variant is no longer using action specs only for the more complex preview/impact/session cases; even simpler action families are starting to conform to the same execution shape.
 
-This still uses prototype data rather than real Geany search/document services, but it is a meaningful architecture step because the BTK UI is now increasingly a consumer of action results instead of the sole place where those rows are invented. It also brings the BTK variant conceptually closer to the GTK Search Studio normalization path, where explicit request/result models and metadata-rich result specs are becoming the core backend seam.
+The next backend-boundary step has now landed too. `variants/geany-btk/src/search_studio_backend.h` introduces:
+- `SearchStudioDocumentImpact`
+- `SearchStudioReplacePreviewImpact`
+- `SearchStudioSearchService`
+
+`SearchStudioSearchService` is the first explicit BTK-side provider seam for backend data generation. The current implementation keeps a default prototype provider behind `SearchStudioBackend::defaultSearchService()`, but the execution helpers can now also accept an injected service explicitly:
+- `executeFindAction(..., const SearchStudioSearchService &service)`
+- `executeReplaceAction(..., const SearchStudioSearchService &service)`
+- `executeMarkAction(..., const SearchStudioSearchService &service)`
+- `executeFindInFilesAction(..., const SearchStudioSearchService &service)`
+
+That changes the architecture in an important way:
+- action execution is no longer coupled directly to the anonymous prototype document helpers
+- impact/preview row generation is now mediated by an explicit provider contract
+- the default prototype behavior remains intact for the current standalone BTK variant
+- a future Geany-backed service can replace the prototype provider without forcing the UI to go back to widget-local row construction
+
+This still uses prototype data rather than real Geany search/document services, but it is a much more meaningful architecture step because the BTK UI is now increasingly a consumer of action results produced from a swappable backend service rather than the sole place where those rows are invented. It also brings the BTK variant conceptually closer to the GTK Search Studio normalization path, where explicit request/result models and metadata-rich result specs are becoming the core backend seam.
 
 ## BTK submodule
 

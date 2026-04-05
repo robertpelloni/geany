@@ -142,6 +142,14 @@ The BTK prototype should now also keep pushing behavior into backend-shaped requ
 - action-result bundles carrying activity lines plus structured result rows
 - result specs that explicitly track action kind, result kind, and target scope instead of only raw strings
 - backend helpers that generate preview/impact/session rows independently of the widget tree
+- an explicit search-service seam so backend execution can depend on a swappable provider contract rather than hardcoding prototype row generation forever
 - runtime staging/package helpers that create fresh timestamped deployment bundles at stage time rather than only at configure time, so iterative Windows validation remains safe even when older staged executables are still running
 
 That does not yet wire the BTK variant to Geany core, but it makes the intended frontend/backend seam more explicit and keeps the UI from remaining a monolith of direct row-construction logic.
+
+The next refinement after action specs is an explicit backend service boundary. In practice that means the BTK backend should depend on a `SearchStudioSearchService`-style contract that can provide:
+- document/session impact rows for Find/Count/Mark families
+- replace preview/impact rows for Replace families
+- structured capture rows for Find in Files families
+
+A default prototype implementation can keep the current BTK variant working immediately, while a future Geany-backed implementation can be introduced later without forcing another UI-local rewrite. That is the right bridge between a pure prototype and a real frontend-independent Search Studio backend.

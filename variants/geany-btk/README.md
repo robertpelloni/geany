@@ -33,6 +33,7 @@ The current BTK prototype now mirrors several of the matured Search Studio conce
 - BTK-side result specs now explicitly track action kind / result kind / target scope concepts, bringing the prototype closer to the GTK Search Studio normalization direction
 - BTK-side execution now also has first-wave action specs for Find / Replace / Mark / Find-in-Files families, reducing string-driven backend branching at call sites
 - simple Find and Replace action buttons are now routed through those action specs too, so even summary-only flows increasingly execute as request + action-spec + action-result rather than ad-hoc UI-local formatting
+- the backend now also owns a first explicit search-service seam (`SearchStudioSearchService`) with a default prototype implementation, so impact/preview row generation can later be swapped from prototype data to real Geany-backed services without rewriting the UI contract again
 
 ## Toolchain direction
 
@@ -120,4 +121,4 @@ without forcing an all-at-once migration of the production application.
 2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BTK-native presentation
-5. replace more of the remaining UI-local prototype behavior with shared backend data/models and then begin wiring those models to real Geany search/document services
+5. replace more of the remaining UI-local prototype behavior with shared backend data/models and then begin wiring those models to real Geany search/document services through the new `SearchStudioSearchService` seam

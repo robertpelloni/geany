@@ -54,6 +54,24 @@ struct SearchStudioActionResult
     QList<SearchStudioResultSpec> rows;
 };
 
+struct SearchStudioDocumentImpact
+{
+    QString file;
+    int line = 0;
+    int count = 0;
+    QString context;
+};
+
+struct SearchStudioReplacePreviewImpact
+{
+    QString file;
+    int line = 0;
+    QString originalLine;
+    QString replacementLine;
+    QString matchedText;
+    QString replacementText;
+};
+
 struct SearchStudioFindRequest
 {
     QString query;
@@ -140,7 +158,24 @@ struct SearchStudioFindInFilesActionSpec
     bool includeCaptureRows = false;
 };
 
+class SearchStudioSearchService
+{
+public:
+    virtual ~SearchStudioSearchService() = default;
+
+    virtual QList<SearchStudioDocumentImpact> buildFindImpactRows(
+        const SearchStudioFindRequest &request) const = 0;
+    virtual QList<SearchStudioDocumentImpact> buildMarkImpactRows(
+        const SearchStudioMarkRequest &request) const = 0;
+    virtual QList<SearchStudioDocumentImpact> buildFindInFilesCaptureRows(
+        const SearchStudioFindInFilesRequest &request) const = 0;
+    virtual QList<SearchStudioReplacePreviewImpact> buildReplacePreviewRows(
+        const SearchStudioReplaceRequest &request) const = 0;
+};
+
 namespace SearchStudioBackend {
+
+const SearchStudioSearchService &defaultSearchService();
 
 SearchStudioActionResult makeActiveDocumentSummary(const QString &activityMessage,
     const QString &action, const QString &query, const QString &mode,
@@ -154,13 +189,29 @@ SearchStudioActionResult makeSessionSummary(const QString &activityMessage,
 
 SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &request,
     const SearchStudioFindActionSpec &action);
+SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &request,
+    const SearchStudioFindActionSpec &action,
+    const SearchStudioSearchService &service);
+
 SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &request,
     const SearchStudioReplaceActionSpec &action);
+SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &request,
+    const SearchStudioReplaceActionSpec &action,
+    const SearchStudioSearchService &service);
+
 SearchStudioActionResult executeMarkAction(const SearchStudioMarkRequest &request,
     const SearchStudioMarkActionSpec &action);
+SearchStudioActionResult executeMarkAction(const SearchStudioMarkRequest &request,
+    const SearchStudioMarkActionSpec &action,
+    const SearchStudioSearchService &service);
+
 SearchStudioActionResult executeFindInFilesAction(
     const SearchStudioFindInFilesRequest &request,
     const SearchStudioFindInFilesActionSpec &action);
+SearchStudioActionResult executeFindInFilesAction(
+    const SearchStudioFindInFilesRequest &request,
+    const SearchStudioFindInFilesActionSpec &action,
+    const SearchStudioSearchService &service);
 
 SearchStudioActionResult makeCountResult(const SearchStudioFindRequest &request);
 SearchStudioActionResult makeCollectedHitsResult(const SearchStudioFindRequest &request);

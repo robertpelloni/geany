@@ -129,80 +129,159 @@ SearchStudioResultSpec makeResultSpec(SearchStudioActionKind actionKind,
         target, query, mode, summary, previewTitle, previewBody, navigable);
 }
 
+QString impactTarget(const QString &file, int line)
+{
+    return QString("%1:%2").formatArg(file).formatArg(line);
+}
+
 void appendImpactRows(SearchStudioActionResult &result,
     SearchStudioActionKind actionKind, const QString &action,
     const QString &query, const QString &mode, const QString &summaryPrefix,
-    bool sessionScope)
+    const QList<SearchStudioDocumentImpact> &impacts)
 {
-    const auto docs = prototypeDocuments();
-    const int limit = sessionScope ? docs.size() : 1;
-
-    for (int index = 0; index < limit; ++index)
+    for (const auto &impact : impacts)
     {
-        const QString &file = docs.at(index);
-        const int line = sampleLineFor(query, index);
-        const int count = sampleCountFor(query, index);
-        const QString context = QString("line %1 contains a representative %2 hit for \"%3\".")
-            .formatArg(line)
-            .formatArg(action.toLower())
-            .formatArg(query);
-
         result.rows.append(makeResultSpec(actionKind,
             action,
-            QString("%1:%2").formatArg(file).formatArg(line),
+            impactTarget(impact.file, impact.line),
             query,
             mode,
-            QString("%1 %2 matches in this document.").formatArg(summaryPrefix).formatArg(count),
-            QString("%1 — %2:%3").formatArgs(action, file).formatArg(line),
-            buildLinePreview(QString("%1 impact summary").formatArg(action), file, query, line, context),
+            QString("%1 %2 matches in this document.").formatArg(summaryPrefix).formatArg(impact.count),
+            QString("%1 — %2:%3").formatArgs(action, impact.file).formatArg(impact.line),
+            buildLinePreview(QString("%1 impact summary").formatArg(action),
+                impact.file, query, impact.line, impact.context),
             true));
     }
 }
 
 void appendReplacePreviewRows(SearchStudioActionResult &result,
     SearchStudioActionKind actionKind, const QString &action,
-    const QString &query, const QString &replaceText, const QString &mode,
-    bool sessionScope)
+    const QString &query, const QString &mode,
+    const QList<SearchStudioReplacePreviewImpact> &impacts)
 {
-    const auto docs = prototypeDocuments();
-    const int limit = sessionScope ? docs.size() : 1;
-
-    for (int index = 0; index < limit; ++index)
+    for (const auto &impact : impacts)
     {
-        const QString &file = docs.at(index);
-        const int line = sampleLineFor(query, index);
-        const QString originalLine = QString("const QString needle = \"%1\"; // line %2")
-            .formatArg(query)
-            .formatArg(line);
-        const QString replacementLine = QString("const QString needle = \"%1\"; // line %2")
-            .formatArg(replaceText)
-            .formatArg(line);
         const QString previewBody = QString(
             "Original line:\n- %1\n\n"
             "Replacement line:\n+ %2\n\n"
             "Matched segment diff:\n- %3\n+ %4\n\n"
             "Payload entered:\n%5\n\n"
             "Actual replacement text:\n%6")
-            .formatArgs(originalLine, replacementLine, query, replaceText, replaceText, replaceText);
+            .formatArgs(impact.originalLine, impact.replacementLine,
+                impact.matchedText, impact.replacementText,
+                impact.replacementText, impact.replacementText);
 
         result.rows.append(makeResultSpec(actionKind,
             action,
-            QString("%1:%2").formatArg(file).formatArg(line),
+            impactTarget(impact.file, impact.line),
             query,
             mode,
-            QString("Would replace the representative match on line %1.").formatArg(line),
-            QString("%1 — %2:%3").formatArgs(action, file).formatArg(line),
+            QString("Would replace the representative match on line %1.").formatArg(impact.line),
+            QString("%1 — %2:%3").formatArgs(action, impact.file).formatArg(impact.line),
             previewBody,
             true));
     }
 }
 
+class PrototypeSearchStudioSearchService final : public SearchStudioSearchService
+{
+public:
+    QList<SearchStudioDocumentImpact> buildFindImpactRows(
+        const SearchStudioFindRequest &request) const override
+    {
+        return buildDocumentImpacts(request.query, request.sessionScope,
+            qs("representative find"));
+    }
+
+    QList<SearchStudioDocumentImpact> buildMarkImpactRows(
+        const SearchStudioMarkRequest &request) const override
+    {
+        return buildDocumentImpacts(request.query, request.sessionScope,
+            qs("representative mark"));
+    }
+
+    QList<SearchStudioDocumentImpact> buildFindInFilesCaptureRows(
+        const SearchStudioFindInFilesRequest &request) const override
+    {
+        return buildDocumentImpacts(request.query, true,
+            qs("representative directory-search"));
+    }
+
+    QList<SearchStudioReplacePreviewImpact> buildReplacePreviewRows(
+        const SearchStudioReplaceRequest &request) const override
+    {
+        QList<SearchStudioReplacePreviewImpact> impacts;
+        const auto docs = prototypeDocuments();
+        const int limit = request.sessionScope ? docs.size() : 1;
+
+        for (int index = 0; index < limit; ++index)
+        {
+            const QString &file = docs.at(index);
+            const int line = sampleLineFor(request.query, index);
+            SearchStudioReplacePreviewImpact impact;
+
+            impact.file = file;
+            impact.line = line;
+            impact.originalLine = QString("const QString needle = \"%1\"; // line %2")
+                .formatArg(request.query)
+                .formatArg(line);
+            impact.replacementLine = QString("const QString needle = \"%1\"; // line %2")
+                .formatArg(request.replacement)
+                .formatArg(line);
+            impact.matchedText = request.query;
+            impact.replacementText = request.replacement;
+            impacts.append(impact);
+        }
+
+        return impacts;
+    }
+
+private:
+    QList<SearchStudioDocumentImpact> buildDocumentImpacts(const QString &query,
+        bool sessionScope, const QString &contextLabel) const
+    {
+        QList<SearchStudioDocumentImpact> impacts;
+        const auto docs = prototypeDocuments();
+        const int limit = sessionScope ? docs.size() : 1;
+
+        for (int index = 0; index < limit; ++index)
+        {
+            const QString &file = docs.at(index);
+            SearchStudioDocumentImpact impact;
+
+            impact.file = file;
+            impact.line = sampleLineFor(query, index);
+            impact.count = sampleCountFor(query, index);
+            impact.context = QString("line %1 contains a %2 hit for \"%3\".")
+                .formatArg(impact.line)
+                .formatArg(contextLabel)
+                .formatArg(query);
+            impacts.append(impact);
+        }
+
+        return impacts;
+    }
+};
+
 } // namespace
 
 namespace SearchStudioBackend {
 
+const SearchStudioSearchService &defaultSearchService()
+{
+    static const PrototypeSearchStudioSearchService service;
+    return service;
+}
+
 SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &request,
     const SearchStudioFindActionSpec &action)
+{
+    return executeFindAction(request, action, defaultSearchService());
+}
+
+SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &request,
+    const SearchStudioFindActionSpec &action,
+    const SearchStudioSearchService &service)
 {
     SearchStudioActionResult result;
 
@@ -211,7 +290,7 @@ SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &reques
     if (action.includeImpactRows)
         appendImpactRows(result, action.actionKind, action.impactAction,
             request.query, request.mode, action.impactSummaryPrefix,
-            request.sessionScope);
+            service.buildFindImpactRows(request));
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, QString(), request.query,
@@ -224,13 +303,20 @@ SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &reques
 SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &request,
     const SearchStudioReplaceActionSpec &action)
 {
+    return executeReplaceAction(request, action, defaultSearchService());
+}
+
+SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &request,
+    const SearchStudioReplaceActionSpec &action,
+    const SearchStudioSearchService &service)
+{
     SearchStudioActionResult result;
 
     if (! action.activityMessage.isEmpty())
         result.activity.append(action.activityMessage);
     if (action.previewRows)
         appendReplacePreviewRows(result, action.actionKind, action.rowAction,
-            request.query, request.replacement, request.mode, request.sessionScope);
+            request.query, request.mode, service.buildReplacePreviewRows(request));
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, QString(), request.query,
@@ -243,6 +329,13 @@ SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &
 SearchStudioActionResult executeMarkAction(const SearchStudioMarkRequest &request,
     const SearchStudioMarkActionSpec &action)
 {
+    return executeMarkAction(request, action, defaultSearchService());
+}
+
+SearchStudioActionResult executeMarkAction(const SearchStudioMarkRequest &request,
+    const SearchStudioMarkActionSpec &action,
+    const SearchStudioSearchService &service)
+{
     SearchStudioActionResult result;
 
     if (! action.activityMessage.isEmpty())
@@ -250,7 +343,7 @@ SearchStudioActionResult executeMarkAction(const SearchStudioMarkRequest &reques
     if (action.includeImpactRows)
         appendImpactRows(result, action.actionKind, action.impactAction,
             request.query, request.mode, action.impactSummaryPrefix,
-            request.sessionScope);
+            service.buildMarkImpactRows(request));
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, QString(), request.query,
@@ -264,13 +357,22 @@ SearchStudioActionResult executeFindInFilesAction(
     const SearchStudioFindInFilesRequest &request,
     const SearchStudioFindInFilesActionSpec &action)
 {
+    return executeFindInFilesAction(request, action, defaultSearchService());
+}
+
+SearchStudioActionResult executeFindInFilesAction(
+    const SearchStudioFindInFilesRequest &request,
+    const SearchStudioFindInFilesActionSpec &action,
+    const SearchStudioSearchService &service)
+{
     SearchStudioActionResult result;
 
     if (! action.activityMessage.isEmpty())
         result.activity.append(action.activityMessage);
     if (action.includeCaptureRows)
         appendImpactRows(result, action.actionKind, action.captureAction,
-            request.query, request.mode, action.captureSummaryPrefix, TRUE);
+            request.query, request.mode, action.captureSummaryPrefix,
+            service.buildFindInFilesCaptureRows(request));
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, request.directory,
@@ -384,10 +486,10 @@ SearchStudioActionResult makeReplaceImpactResult(const SearchStudioReplaceReques
         qs("Prototype replace-in-document summary with impact rows above.");
     spec.summaryPreviewTitle = request.sessionScope ? qs("Replace in Session") : qs("Replace in Document");
     spec.summaryPreviewBody = request.sessionScope ?
-        QString("Replacement payload: %1\nMode: %2\n\nPer-document impact rows above would be driven by Geany core later.")
-            .formatArgs(request.replacement, request.mode) :
-        QString("Replacement payload: %1\nMode: %2\n\nImpact rows above mirror the current Search Studio model.")
-            .formatArgs(request.replacement, request.mode);
+        QString("Replacement payload: %1\nMode: %2\nTarget: %3\n\nPer-document impact rows above would be driven by Geany core later.")
+            .formatArgs(request.replacement, request.mode, summaryTarget) :
+        QString("Replacement payload: %1\nMode: %2\nTarget: %3\n\nImpact rows above mirror the current Search Studio model.")
+            .formatArgs(request.replacement, request.mode, summaryTarget);
     spec.summaryScope = request.sessionScope ?
         SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;
     spec.previewRows = true;
@@ -431,13 +533,15 @@ SearchStudioActionResult makeMarkResult(const SearchStudioMarkRequest &request,
     spec.impactSummaryPrefix = qs("Marked");
     spec.summaryAction = summaryActionLabel;
     spec.summaryText = request.sessionScope ?
-        qs("Prototype session mark summary with per-document impact rows above.") :
-        QString("Marked representative matches; bookmark-lines=%1; purge-first=%2.")
-            .formatArgs(bookmark, purge);
+        QString("Prototype session mark summary for %1 with per-document impact rows above.")
+            .formatArg(summaryTarget) :
+        QString("Marked representative matches in %1; bookmark-lines=%2; purge-first=%3.")
+            .formatArgs(summaryTarget, bookmark, purge);
     spec.summaryPreviewTitle = request.sessionScope ? qs("Mark in Session") : qs("Mark");
     spec.summaryPreviewBody = request.sessionScope ?
         qs("Session mark impact rows above mirror the matured Search Studio behavior from the main tree.") :
-        qs("Prototype active-document mark summary.");
+        QString("Prototype active-document mark summary for %1.")
+            .formatArg(summaryTarget);
     spec.summaryScope = request.sessionScope ?
         SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;
     spec.includeImpactRows = true;

@@ -118,6 +118,8 @@ Using the built BTK runtime directory on `PATH`:
 - confirm the BTK backend layer now owns request/result models for Find / Replace / Mark / Find in Files flows
 - confirm result specs carry action kind / result kind / target scope metadata in addition to row text payloads
 - confirm first-wave action specs exist for Find / Replace / Mark / Find in Files execution families in the BTK backend layer
+- confirm the BTK backend also defines a first explicit provider seam via `SearchStudioSearchService`, with payload structs such as `SearchStudioDocumentImpact` and `SearchStudioReplacePreviewImpact`
+- confirm `SearchStudioBackend::defaultSearchService()` exists and the family execution helpers also expose overloads that accept an injected `SearchStudioSearchService`
 - confirm simple summary-oriented Find and Replace button flows still behave correctly after being routed through BTK action specs/execution helpers instead of only ad-hoc UI-local formatting
 - confirm several BTK UI actions still append activity lines and structured rows after the backend-layer extraction rather than regressing to blank/no-op behavior
 
