@@ -428,7 +428,7 @@ static void configure_plugins(Plugin *current_plugin)
 		GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
 	nb = gtk_notebook_new();

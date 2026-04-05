@@ -1986,7 +1986,7 @@ static gchar *run_file_chooser(const gchar *title, GtkFileChooserAction action,
 			GTK_WINDOW(main_widgets.window), action,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL));
-		gtk_widget_set_name(GTK_WIDGET(dialog), "GeanyDialog");
+		geany_dialog_set_css_name(GTK_WIDGET(dialog));
 	}
 
 	locale_path = utils_get_locale_from_utf8(utf8_path);

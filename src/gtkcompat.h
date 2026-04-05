@@ -56,6 +56,30 @@ static inline void geany_widget_set_css_name(GtkWidget *widget, const gchar *nam
 }
 
 
+static inline void geany_dialog_set_css_name(GtkWidget *widget)
+{
+	geany_widget_set_css_name(widget, "GeanyDialog");
+}
+
+
+static inline void geany_search_dialog_set_css_name(GtkWidget *widget)
+{
+	geany_widget_set_css_name(widget, "GeanyDialogSearch");
+}
+
+
+static inline void geany_project_dialog_set_css_name(GtkWidget *widget)
+{
+	geany_widget_set_css_name(widget, "GeanyDialogProject");
+}
+
+
+static inline void geany_prefs_dialog_set_css_name(GtkWidget *widget)
+{
+	geany_widget_set_css_name(widget, "GeanyPrefsDialog");
+}
+
+
 static inline GtkCssProvider *geany_css_provider_new(void)
 {
 	return gtk_css_provider_new();

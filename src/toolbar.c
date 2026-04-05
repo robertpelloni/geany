@@ -944,7 +944,7 @@ static TBEditorWidget *tb_editor_create_dialog(GtkWindow *parent)
 				GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
 	gtk_box_set_spacing(GTK_BOX(vbox), 6);
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 	gtk_window_set_default_size(GTK_WINDOW(dialog), -1, 400);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_CLOSE);
 

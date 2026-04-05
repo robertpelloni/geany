@@ -1815,7 +1815,7 @@ static void create_find_dialog(void)
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(find_dlg.dialog), TRUE);
 
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(find_dlg.dialog));
-	gtk_widget_set_name(find_dlg.dialog, "GeanyDialogSearch");
+	geany_search_dialog_set_css_name(find_dlg.dialog);
 	gtk_box_set_spacing(GTK_BOX(vbox), 9);
 
 	button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
@@ -1996,7 +1996,7 @@ static void create_replace_dialog(void)
 
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(replace_dlg.dialog));
 	gtk_box_set_spacing(GTK_BOX(vbox), 9);
-	gtk_widget_set_name(replace_dlg.dialog, "GeanyDialogSearch");
+	geany_search_dialog_set_css_name(replace_dlg.dialog);
 
 	button = gtk_button_new_from_stock(GTK_STOCK_CLOSE);
 	gtk_widget_set_size_request(button, MIN_DLG_BUTTON_SIZE, -1);
@@ -2263,7 +2263,7 @@ static void create_fif_dialog(void)
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(fif_dlg.dialog));
 	gtk_box_set_spacing(GTK_BOX(vbox), 9);
-	gtk_widget_set_name(fif_dlg.dialog, "GeanyDialogSearch");
+	geany_search_dialog_set_css_name(fif_dlg.dialog);
 
 	gtk_dialog_add_button(GTK_DIALOG(fif_dlg.dialog), GTK_STOCK_FIND, GTK_RESPONSE_ACCEPT);
 	gtk_dialog_set_default_response(GTK_DIALOG(fif_dlg.dialog),
@@ -2560,7 +2560,7 @@ gboolean search_show_wrap_dialog(const gchar *search_text)
 	dialog = gtk_message_dialog_new(GTK_WINDOW(main_widgets.window),
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_NONE, "%s", question_text);
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Question"));
 	gtk_window_set_icon_name(GTK_WINDOW(dialog), "geany");
 
@@ -3979,7 +3979,7 @@ static void create_search_studio_dialog(void)
 	gtk_window_set_title(GTK_WINDOW(studio_dlg.dialog), _("Search Studio"));
 	gtk_window_set_transient_for(GTK_WINDOW(studio_dlg.dialog), GTK_WINDOW(main_widgets.window));
 	gtk_window_set_destroy_with_parent(GTK_WINDOW(studio_dlg.dialog), TRUE);
-	gtk_widget_set_name(studio_dlg.dialog, "GeanyDialogSearch");
+	geany_search_dialog_set_css_name(studio_dlg.dialog);
 	gtk_window_set_default_size(GTK_WINDOW(studio_dlg.dialog), 900, 420);
 	g_signal_connect(studio_dlg.dialog, "delete-event", G_CALLBACK(search_studio_hide_on_delete), NULL);
 	g_signal_connect(studio_dlg.dialog, "response", G_CALLBACK(search_studio_on_response), NULL);

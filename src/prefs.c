@@ -1776,7 +1776,7 @@ void prefs_show_dialog(void)
 		GtkWidget *label;
 
 		ui_widgets.prefs_dialog = create_prefs_dialog();
-		gtk_widget_set_name(ui_widgets.prefs_dialog, "GeanyPrefsDialog");
+		geany_prefs_dialog_set_css_name(ui_widgets.prefs_dialog);
 		gtk_window_set_transient_for(GTK_WINDOW(ui_widgets.prefs_dialog), GTK_WINDOW(main_widgets.window));
 
 		/* init the file encoding combo boxes */

@@ -357,7 +357,7 @@ static void cc_show_dialog_custom_commands(void)
 	gtk_window_set_default_size(GTK_WINDOW(dialog), 300, 300); /* give a reasonable minimal default size */
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
 	gtk_box_set_spacing(GTK_BOX(vbox), 6);
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 
 	label = gtk_label_new(_("You can send the current selection to any of these commands and the output of the command replaces the current selection."));
 	gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
@@ -694,7 +694,7 @@ void tools_word_count(void)
 										 GTK_DIALOG_DESTROY_WITH_PARENT,
 										 GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL, NULL);
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 
 	if (sci_has_selection(doc->editor->sci))
 	{
@@ -836,7 +836,7 @@ void tools_color_chooser(const gchar *color)
 		gtk_dialog_add_button(GTK_DIALOG(ui_widgets.open_colorsel), GTK_STOCK_APPLY, GTK_RESPONSE_APPLY);
 		ui_dialog_set_primary_button_order(GTK_DIALOG(ui_widgets.open_colorsel),
 				GTK_RESPONSE_APPLY, GTK_RESPONSE_CANCEL, GTK_RESPONSE_OK, -1);
-		gtk_widget_set_name(ui_widgets.open_colorsel, "GeanyDialog");
+		geany_dialog_set_css_name(ui_widgets.open_colorsel);
 		gtk_window_set_transient_for(GTK_WINDOW(ui_widgets.open_colorsel), GTK_WINDOW(main_widgets.window));
 		colorsel = gtk_color_selection_dialog_get_color_selection(GTK_COLOR_SELECTION_DIALOG(ui_widgets.open_colorsel));
 		gtk_color_selection_set_has_palette(GTK_COLOR_SELECTION(colorsel), TRUE);

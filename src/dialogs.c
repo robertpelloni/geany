@@ -414,7 +414,7 @@ static GtkFileChooser *create_open_file_dialog(void)
 	{
 		dialog = GTK_FILE_CHOOSER(gtk_file_chooser_dialog_new(_("Open File"), GTK_WINDOW(main_widgets.window),
 				GTK_FILE_CHOOSER_ACTION_OPEN, NULL, NULL));
-		gtk_widget_set_name(GTK_WIDGET(dialog), "GeanyDialog");
+		geany_dialog_set_css_name(GTK_WIDGET(dialog));
 
 		viewbtn = gtk_dialog_add_button(GTK_DIALOG(dialog), C_("Open dialog action", "_View"), GEANY_RESPONSE_VIEW);
 		gtk_widget_set_tooltip_text(viewbtn,
@@ -634,7 +634,7 @@ static GtkFileChooser *create_save_file_dialog(GeanyDocument *doc)
 		gtk_window_set_skip_taskbar_hint(GTK_WINDOW(dialog), FALSE);
 		gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
 		gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(main_widgets.window));
-		gtk_widget_set_name(GTK_WIDGET(dialog), "GeanyDialog");
+		geany_dialog_set_css_name(GTK_WIDGET(dialog));
 
 		rename_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), _("R_ename"), GEANY_RESPONSE_RENAME);
 		gtk_widget_set_tooltip_text(rename_btn, _("Save the file and rename it"));
@@ -763,7 +763,7 @@ static void show_msgbox_dialog(GtkWidget *dialog, GtkMessageType type, GtkWindow
 	}
 	gtk_window_set_title(GTK_WINDOW(dialog), title);
 	gtk_window_set_icon_name(GTK_WINDOW(dialog), "geany");
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
@@ -912,7 +912,7 @@ void dialogs_show_open_font(void)
 		gtk_window_set_destroy_with_parent(GTK_WINDOW(ui_widgets.open_fontsel), TRUE);
 		gtk_window_set_skip_taskbar_hint(GTK_WINDOW(ui_widgets.open_fontsel), TRUE);
 		gtk_window_set_type_hint(GTK_WINDOW(ui_widgets.open_fontsel), GDK_WINDOW_TYPE_HINT_DIALOG);
-		gtk_widget_set_name(ui_widgets.open_fontsel, "GeanyDialog");
+		geany_dialog_set_css_name(ui_widgets.open_fontsel);
 
 		apply_button = gtk_dialog_get_widget_for_response(GTK_DIALOG(ui_widgets.open_fontsel), GTK_RESPONSE_APPLY);
 
@@ -999,7 +999,7 @@ dialogs_show_input_full(const gchar *title, GtkWindow *parent,
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 	gtk_box_set_spacing(GTK_BOX(vbox), 6);
 
 	data->combo = NULL;
@@ -1141,7 +1141,7 @@ gboolean dialogs_show_input_numeric(const gchar *title, const gchar *label_text,
 										GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 	gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL);
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 
 	label = gtk_label_new(label_text);
 	gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
@@ -1240,7 +1240,7 @@ void dialogs_show_file_properties(GeanyDocument *doc)
 	gtk_window_set_title(GTK_WINDOW(dialog), title);
 	g_free(short_name);
 	g_free(title);
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 
 	label = ui_lookup_widget(dialog, "file_name_label");
 	gtk_label_set_text(GTK_LABEL(label), base_name);
@@ -1338,7 +1338,7 @@ static gint show_prompt(GtkWidget *parent,
 	dialog = gtk_message_dialog_new(GTK_WINDOW(parent),
 		GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_NONE, "%s", question_text);
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 	gtk_window_set_title(GTK_WINDOW(dialog), _("Question"));
 	gtk_window_set_icon_name(GTK_WINDOW(dialog), "geany");
 

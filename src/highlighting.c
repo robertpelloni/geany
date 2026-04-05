@@ -1410,7 +1410,7 @@ void highlighting_show_color_scheme_dialog(void)
 		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 	vbox = ui_dialog_vbox_new(GTK_DIALOG(dialog));
 	gtk_box_set_spacing(GTK_BOX(vbox), 6);
-	gtk_widget_set_name(dialog, "GeanyDialog");
+	geany_dialog_set_css_name(dialog);
 	gtk_window_set_default_size(GTK_WINDOW(dialog),
 		GEANY_DEFAULT_DIALOG_HEIGHT * 7/4, GEANY_DEFAULT_DIALOG_HEIGHT);
 

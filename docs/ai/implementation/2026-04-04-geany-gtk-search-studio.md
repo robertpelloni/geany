@@ -255,4 +255,4 @@ A direct rewrite of all search surfaces would have been riskier and harder to va
 - improving Mark semantics
 - creating a practical path for future BTK parity work
 
-That BTK path is now slightly better grounded by first-wave compatibility helpers in `src/gtkcompat.h` for notebook positioning and CSS-related seams, which are the kinds of high-touch UI calls Search Studio will likely stress during a future toolkit transition.
+That BTK path is now slightly better grounded by first-wave compatibility helpers in `src/gtkcompat.h` for notebook positioning, dialog/widget CSS naming, and CSS-provider seams, which are the kinds of high-touch UI calls Search Studio will likely stress during a future toolkit transition.

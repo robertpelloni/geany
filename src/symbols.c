@@ -1344,7 +1344,7 @@ void symbols_show_load_tags_dialog(void)
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 			NULL));
-		gtk_widget_set_name(GTK_WIDGET(dialog), "GeanyDialog");
+		geany_dialog_set_css_name(GTK_WIDGET(dialog));
 	}
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name(filter, _("Geany tags file (*.*.tags)"));

@@ -177,7 +177,7 @@ void project_new(gboolean from_folder)
 										 GTK_DIALOG_DESTROY_WITH_PARENT,
 										 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 
-	gtk_widget_set_name(e.dialog, "GeanyDialogProject");
+	geany_project_dialog_set_css_name(e.dialog);
 	button = ui_button_new_with_image(GTK_STOCK_NEW, _("C_reate"));
 	gtk_widget_set_can_default(button, TRUE);
 	gtk_window_set_default(GTK_WINDOW(e.dialog), button);
@@ -354,7 +354,7 @@ void project_open(void)
 				GTK_FILE_CHOOSER_ACTION_OPEN,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL));
-		gtk_widget_set_name(GTK_WIDGET(dialog), "GeanyDialogProject");
+		geany_project_dialog_set_css_name(GTK_WIDGET(dialog));
 
 		/* set default Open, so pressing enter can open multiple files */
 		gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
@@ -953,7 +953,7 @@ static void on_file_save_button_clicked(GtkButton *button, PropertyDialogElement
 						GTK_FILE_CHOOSER_ACTION_SAVE,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL));
-		gtk_widget_set_name(GTK_WIDGET(dialog), "GeanyDialogProject");
+		geany_project_dialog_set_css_name(GTK_WIDGET(dialog));
 		gtk_window_set_destroy_with_parent(GTK_WINDOW(dialog), TRUE);
 		gtk_window_set_skip_taskbar_hint(GTK_WINDOW(dialog), TRUE);
 		gtk_window_set_type_hint(GTK_WINDOW(dialog), GDK_WINDOW_TYPE_HINT_DIALOG);
