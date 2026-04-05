@@ -20,11 +20,11 @@
 
 /* Compatibility header for the UI toolkit.
  *
- * All direct toolkit includes should flow through this file so the BobGUI
+ * All direct toolkit includes should flow through this file so the BTK
  * migration can be staged centrally instead of touching every source file
  * repeatedly.  Geany still targets the GTK3 API surface today, so this header
  * currently exposes GTK while acting as the integration seam for future
- * BobGUI-backed compatibility work.
+ * BTK-backed compatibility work.
  */
 
 #ifndef GTK_COMPAT_H

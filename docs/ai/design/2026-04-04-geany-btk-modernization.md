@@ -1,9 +1,9 @@
-# Geany Modernization Pass: BobGUI foundation, vertical tabs, and TextFX parity analysis
+# Geany Modernization Pass: BTK foundation, vertical tabs, and TextFX parity analysis
 
 ## What shipped in this pass
 
-1. **BobGUI added as a submodule** at `subprojects/bobgui` with upstream URL `https://github.com/robertpelloni/bobgui`.
-2. **Toolkit include centralization**: direct `#include <gtk/gtk.h>` usage in Geany core sources was routed through `src/gtkcompat.h` so future BobGUI migration work has a single integration seam.
+1. **BTK added as a submodule** at `subprojects/btk` with upstream URL `https://github.com/robertpelloni/btk`.
+2. **Toolkit include centralization**: direct `#include <gtk/gtk.h>` usage in Geany core sources was routed through `src/gtkcompat.h` so future BTK migration work has a single integration seam.
 3. **Vertical editor tabs are now the default** by changing the fallback `tab_pos_editor` from `GTK_POS_TOP` to `GTK_POS_LEFT`.
 4. **Application-wide CSS UI themes** were added and wired to a new config key:
    - `liquid-glass` (default)
@@ -21,9 +21,9 @@ Geany now reads `ui_theme` from the main config group. Supported values:
 
 If the theme is unknown, Geany falls back to `liquid-glass`.
 
-## BobGUI migration reality check
+## BTK migration reality check
 
-A full direct replacement of GTK in current Geany is **not a safe one-pass change**. The local `bobgui` repository is a renamed/forked toolkit with a different API surface and a more modern widget model than the GTK3 API Geany currently targets. Geany still relies heavily on GTK3-era patterns, including:
+A full direct replacement of GTK in current Geany is **not a safe one-pass change**. The local `btk` repository is a renamed/forked toolkit with a different API surface and a more modern widget model than the GTK3 API Geany currently targets. Geany still relies heavily on GTK3-era patterns, including:
 
 - classic `GtkBuilder`/widget construction flow
 - legacy widgets and APIs (for example old-style notebook, tree, misc/table usage, RC-era behaviors, and deprecated signal patterns)
@@ -43,7 +43,7 @@ The practical path is staged:
    - dialogs and file choosers
    - menu/toolbar/action plumbing
 4. **Isolate plugin API exposure** so Geany core can evolve without breaking plugins on every step.
-5. **Only then** switch build configuration from GTK3-targeted compilation to BobGUI-backed compilation.
+5. **Only then** switch build configuration from GTK3-targeted compilation to BTK-backed compilation.
 
 Attempting to rename every `gtk_*` symbol immediately would create a large uncompilable fork with broken plugins and brittle UI behavior.
 
@@ -220,5 +220,5 @@ TextFX is powerful, but much of it is implemented as a monolithic plugin with a 
 
 1. Add a first-class **UI theme selector** to Preferences instead of relying on config editing.
 2. Build the **TextLab transform registry** and land the first transform family (case, trim, tabs/spaces, sort).
-3. Audit plugin-facing GTK assumptions before any BobGUI API swap.
+3. Audit plugin-facing GTK assumptions before any BTK API swap.
 4. Add build-time backend experiments only after the compatibility facade exists.

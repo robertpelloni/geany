@@ -1,4 +1,4 @@
-# Design: Notepad++-inspired Search Studio evolution and BobUI alternate frontend
+# Design: Notepad++-inspired Search Studio evolution and BTK alternate frontend
 
 ## Context
 
@@ -15,7 +15,7 @@ This document captures the design rationale for the current pass.
 1. Increase search power-user discoverability without destabilizing existing workflows.
 2. Close concrete Notepad++ parity gaps first.
 3. Keep Geany's core search engine reusable from future frontends.
-4. Use a separate BobUI variant to explore a richer future frontend.
+4. Use a separate BTK variant to explore a richer future frontend.
 
 ## Search parity architecture
 
@@ -58,7 +58,7 @@ Controls whether `.` in regex can consume newline characters.
 
 This distinction matters because many users mentally model these as different settings, and Notepad++ exposes that difference directly.
 
-## BobUI alternate frontend design
+## BTK alternate frontend design
 
 ### Why not replace the main GTK tree immediately?
 Because the production Geany tree is still strongly shaped by:
@@ -68,7 +68,7 @@ Because the production Geany tree is still strongly shaped by:
 
 A one-shot alternate toolkit migration would create too much simultaneous risk.
 
-### Why create `variants/geany-bobui`?
+### Why create `variants/geany-btk`?
 Because a separate variant can optimize for experimentation:
 - faster iteration
 - richer UI layout experiments
@@ -77,7 +77,7 @@ Because a separate variant can optimize for experimentation:
 
 ## Variant responsibilities
 
-The BobUI variant should focus on:
+The BTK variant should focus on:
 - search studio UI exploration
 - transform/palette UX exploration
 - high-density workflow design
@@ -94,7 +94,7 @@ The production GTK tree should focus on:
 flowchart LR
     A[Geany search state] --> B[Current GTK dialogs]
     A --> C[Future unified Search Studio]
-    A --> D[BobUI experimental frontend]
+    A --> D[BTK experimental frontend]
     B --> E[Search engine / document operations]
     C --> E
     D --> E
@@ -117,15 +117,15 @@ The project should migrate **behavior first, surface second**:
 - saved search presets
 - command palette entry points
 
-### BobUI variant enhancements
+### BTK variant enhancements
 - dockable finder pane
 - preview-aware replace workflows
 - transform tool integration
 - keyboard-first command routing
 
-## BobUI prototype evolution
+## BTK prototype evolution
 
-The BobUI variant should now mirror the **matured Search Studio interaction model**, not just the earliest tab shell.
+The BTK variant should now mirror the **matured Search Studio interaction model**, not just the earliest tab shell.
 
 That means the prototype should increasingly preserve these concepts even before backend wiring exists:
 - lower navigator tabs for Activity / Results / Diff Preview
@@ -134,4 +134,4 @@ That means the prototype should increasingly preserve these concepts even before
 - replace-preview and impact-style result routing
 - explicit distinction between informational rows and navigable rows
 
-This is strategically important because it lets the BobUI frontend validate the intended workflow rhythm before the backend boundary is finalized.
+This is strategically important because it lets the BTK frontend validate the intended workflow rhythm before the backend boundary is finalized.

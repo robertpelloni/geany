@@ -1,4 +1,4 @@
-# Testing notes: search parity upgrades and BobUI variant
+# Testing notes: search parity upgrades and BTK variant
 
 ## GTK-based Geany search dialog checks
 
@@ -40,17 +40,17 @@ Use a multi-line sample document and search with regex enabled:
 - Confirm the application skin updates immediately
 - Reopen Preferences and confirm the active selection persists
 
-## BobUI variant checks
+## BTK variant checks
 
 ### Filesystem
 Confirm these exist:
-- `variants/geany-bobui/README.md`
-- `variants/geany-bobui/CMakeLists.txt`
-- `variants/geany-bobui/src/main.cpp`
-- `subprojects/bobui`
+- `variants/geany-btk/README.md`
+- `variants/geany-btk/CMakeLists.txt`
+- `variants/geany-btk/src/main.cpp`
+- `subprojects/btk`
 
 ### Content guard
-- Confirm `variants/geany-bobui/` contains no `bobgui` references
+- Confirm `variants/geany-btk/` contains no legacy `bobgui` or `bobui` references
 - Confirm the prototype models Find / Replace / Find in Files / Mark tabs
 - Confirm a lower navigator exists with tabs for:
   - Activity
@@ -62,5 +62,5 @@ Confirm these exist:
 - Activate both informational and navigable rows and confirm the prototype logs different behaviors in Activity
 
 ## Current environment limitation
-- Full compile validation for both the GTK tree and the BobUI variant still depends on external toolchain availability.
+- Full compile validation for both the GTK tree and the BTK variant still depends on external toolchain availability.
 - Meson was not available in the current environment during this pass.

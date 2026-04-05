@@ -60,14 +60,14 @@ class SearchStudioDialog final : public QDialog
 public:
     SearchStudioDialog()
     {
-        setWindowTitle("Geany Search Studio (BobUI Experimental)");
+        setWindowTitle("Geany Search Studio (BTK Experimental)");
         resize(1240, 820);
 
         auto *layout = new QVBoxLayout(this);
 
         auto *hero = new QLabel(
             "<h2>Geany Search Studio</h2>"
-            "<p>Experimental BobUI/Qt-native search surface mirroring the matured GTK Search Studio model: "
+            "<p>Experimental BTK-native search surface mirroring the matured Search Studio model from the main tree: "
             "dense actions, session-aware workflows, structured results, and a lower Activity / Results / Diff Preview navigator.</p>");
         hero->setWordWrap(true);
         layout->addWidget(hero);
@@ -100,7 +100,7 @@ public:
         footer->addWidget(closeButton);
         layout->addLayout(footer);
 
-        appendActivity("[Studio] BobUI Search Studio initialized with lower Activity / Results / Diff Preview navigation.");
+        appendActivity("[Studio] BTK Search Studio initialized with lower Activity / Results / Diff Preview navigation.");
         appendResult(
             "Studio",
             "Search Studio",
@@ -108,7 +108,7 @@ public:
             "N/A",
             "Prototype shell is ready with session-aware Find / Replace / Mark action coverage.",
             "Search Studio",
-            "Select a result row to inspect richer preview text. This BobUI prototype mirrors the GTK Search Studio navigator model.",
+            "Select a result row to inspect richer preview text. This BTK prototype mirrors the current Search Studio navigator model.",
             false);
         setPreview("Diff Preview", "Select a result row to inspect preview details.");
     }
@@ -372,7 +372,7 @@ private:
                     mode,
                     summary,
                     QString("%1 — Active Document").arg(activity),
-                    QString("Prototype action: %1\n\nQuery: %2\nMode: %3\n\nThis BobUI surface mirrors the GTK Search Studio workflow but is not yet wired to Geany core services.")
+                    QString("Prototype action: %1\n\nQuery: %2\nMode: %3\n\nThis BTK surface mirrors the current Search Studio workflow but is not yet wired to Geany core services.")
                         .arg(activity, query, mode),
                     false);
             });
@@ -546,7 +546,7 @@ private:
                 mode,
                 "Prototype replace-in-document summary with impact rows above.",
                 "Replace in Document",
-                QString("Replacement payload: %1\nMode: %2\n\nImpact rows above mirror the GTK Search Studio model.")
+                QString("Replacement payload: %1\nMode: %2\n\nImpact rows above mirror the current Search Studio model.")
                     .arg(replacement, mode),
                 false);
         });
@@ -733,7 +733,7 @@ private:
                 mode,
                 "Prototype session mark summary with per-document impact rows above.",
                 "Mark in Session",
-                "Session mark impact rows above mirror the matured GTK Search Studio behavior.",
+                "Session mark impact rows above mirror the matured Search Studio behavior from the main tree.",
                 false);
         });
         actions->addWidget(markSessionButton);

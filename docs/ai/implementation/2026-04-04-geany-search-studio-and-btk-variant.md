@@ -1,4 +1,4 @@
-# Implementation notes: Search Studio parity work and BobUI alternate variant
+# Implementation notes: Search Studio parity work and BTK alternate variant
 
 ## Search dialog modernization work landed in the GTK-based Geany tree
 
@@ -79,25 +79,25 @@ Instead of replacing the current dialogs in one pass, the recommended path is:
 4. Add preview/result panes and richer scope controls
 5. Retire old dialogs only when parity is comfortably exceeded
 
-## BobUI alternate variant
+## BTK alternate variant
 
 A new experimental alternate frontend folder was added at:
 
-- `variants/geany-bobui`
+- `variants/geany-btk`
 
 ### Why it exists
-The BobUI stack is a better fit for a **greenfield alternate frontend** than for an all-at-once replacement inside current GTK-oriented Geany.
+The BTK stack is a better fit for a **greenfield alternate frontend** than for an all-at-once replacement inside current GTK-oriented Geany.
 
 This variant gives the project a place to explore:
 - tabbed search UX
 - denser command surfaces
 - richer previews
-- Qt/BobUI-native layout behavior
+- BTK-native layout behavior
 - a future high-end Geany frontend without destabilizing the production tree
 
 ### What is in the variant now
 - `README.md` explaining the role of the variant
-- `CMakeLists.txt` wiring against `subprojects/bobui`
+- `CMakeLists.txt` wiring against `subprojects/btk`
 - `src/main.cpp` implementing a **Search Studio prototype** with tabs:
   - Find
   - Replace
@@ -119,16 +119,16 @@ The prototype intentionally models the **control density** and **workflow rhythm
 - future command-palette integration
 - future transform-tooling integration
 
-This evolution is important because it tests the emerging frontend contract before engine wiring is complete. The BobUI variant can now validate that the intended cockpit is not just tabbed, but also navigator-driven.
+This evolution is important because it tests the emerging frontend contract before engine wiring is complete. The BTK variant can now validate that the intended cockpit is not just tabbed, but also navigator-driven.
 
-## BobUI submodule
+## BTK submodule
 
 A second UI toolkit submodule was added:
-- `subprojects/bobui`
+- `subprojects/btk`
 
-This is separate from the BobGUI exploratory path and allows the repo to compare:
+This is separate from the earlier Bob toolkit exploratory path and allows the repo to compare:
 - staged compatibility migration in the GTK production tree
-- greenfield alternate UI exploration in a BobUI-native folder
+- greenfield alternate UI exploration in a BTK-native folder
 
 ## Recommendation for next pass
 
@@ -138,7 +138,7 @@ This is separate from the BobGUI exploratory path and allows the repo to compare
 3. Add **Mark** options beyond highlight-only behavior
 4. Add preview/count summaries for replace-all operations
 
-### BobUI variant
+### BTK variant
 1. Wire the prototype to real Geany search logic
 2. Replace prototype-generated result rows with backend-driven document/session/search rows
 3. Add command palette entry points

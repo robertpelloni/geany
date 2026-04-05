@@ -3,8 +3,8 @@
 ## Manual verification checklist
 
 ### Submodule
-- `git submodule status` shows `subprojects/bobgui`
-- `.gitmodules` points at `https://github.com/robertpelloni/bobgui`
+- `git submodule status` shows `subprojects/btk`
+- `.gitmodules` points at `https://github.com/robertpelloni/btk`
 
 ### Vertical tabs
 - Start Geany with a fresh config
@@ -39,4 +39,4 @@ Verify:
 
 ## Known limitation in this pass
 
-This pass does **not** complete a BobGUI-native build. It prepares the repository for a staged migration and documents the safer path instead of forcing an uncompilable one-shot swap.
+This pass does **not** complete a BTK-native build. It prepares the repository for a staged migration and documents the safer path instead of forcing an uncompilable one-shot swap.

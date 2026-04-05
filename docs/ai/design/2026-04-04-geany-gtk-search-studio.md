@@ -22,7 +22,7 @@ Instead of replacing the classic dialogs outright, this pass introduces a **GTK 
 - keeps current search code paths alive and stable
 - creates a higher-density front door for advanced users
 - allows gradual parity improvements without a dangerous all-at-once rewrite
-- provides a blueprint for the BobUI alternate frontend
+- provides a blueprint for the BTK alternate frontend
 
 ## Design principles
 
@@ -106,7 +106,7 @@ flowchart TD
 
 This pass does three things at once:
 1. improves Geany immediately
-2. reduces future BobUI duplication by clarifying the intended unified search model
+2. reduces future BTK duplication by clarifying the intended unified search model
 3. creates a safe migration path from fragmented dialogs to a richer single search cockpit
 
 ## Recommended next steps
@@ -115,4 +115,4 @@ This pass does three things at once:
 2. add a true Find in Files advanced options matrix directly in Search Studio
 3. add a result / preview pane
 4. add preset scopes and persistent search profiles
-5. mirror the same model in the BobUI variant with shared backend logic
+5. mirror the same model in the BTK variant with shared backend logic
