@@ -139,6 +139,14 @@ That traversal work now also has a lightweight aggregate result model (`SearchSt
 - total results
 - affected/open documents with results
 
+A lightweight session-action spec layer is now beginning to emerge too. Find-family session actions can be described in terms of:
+- a prepared find spec
+- an open-document callback
+- callback data/context
+- whether history/search-state should be persisted
+
+This is still intentionally small, but it starts shaping session execution as an explicit action object rather than only as manually coordinated local variables.
+
 This is another meaningful backend-boundary step because session-scope work is increasingly described as:
 - a shared prepared request
 - a reusable open-document traversal helper

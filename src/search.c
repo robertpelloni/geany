@@ -253,6 +253,17 @@ SearchStudioSessionRunResult;
 typedef guint (*SearchStudioOpenDocumentFunc)(GeanyDocument *doc, gpointer user_data);
 
 
+typedef struct SearchStudioFindSessionActionSpec
+{
+	const SearchStudioFindSpec *find;
+	SearchStudioOpenDocumentFunc open_document_func;
+	gpointer open_document_data;
+	gboolean add_history;
+	gboolean store_find_spec;
+}
+SearchStudioFindSessionActionSpec;
+
+
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
 
@@ -379,6 +390,8 @@ static guint search_studio_visit_open_documents(SearchStudioOpenDocumentFunc fun
 	gpointer user_data, guint *docs_with_results);
 static SearchStudioSessionRunResult search_studio_run_session_action(
 	SearchStudioOpenDocumentFunc func, gpointer user_data);
+static SearchStudioSessionRunResult search_studio_execute_find_session_action(GtkWidget *page,
+	const SearchStudioFindSessionActionSpec *action);
 static guint search_studio_append_session_match_rows(const gchar *action,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit);
 static void search_studio_clear_results(GtkButton *button, gpointer user_data);
@@ -1375,6 +1388,23 @@ static SearchStudioSessionRunResult search_studio_run_session_action(
 }
 
 
+static SearchStudioSessionRunResult search_studio_execute_find_session_action(GtkWidget *page,
+	const SearchStudioFindSessionActionSpec *action)
+{
+	SearchStudioSessionRunResult result = { 0, 0 };
+
+	if (action == NULL || action->find == NULL || action->open_document_func == NULL)
+		return result;
+	if (action->add_history)
+		search_studio_add_find_history(page, action->find);
+	result = search_studio_run_session_action(action->open_document_func,
+		action->open_document_data);
+	if (action->store_find_spec)
+		search_studio_store_find_spec(action->find);
+	return result;
+}
+
+
 typedef struct SearchStudioSessionMatchRowsContext
 {
 	const gchar *action;
@@ -1837,16 +1867,28 @@ static void search_studio_collect_session_hits(GtkButton *button, gpointer user_
 {
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioFindSpec spec = { 0 };
-	guint count;
+	SearchStudioSessionMatchRowsContext ctx;
+	SearchStudioFindSessionActionSpec action;
+	SearchStudioSessionRunResult result;
 
 	if (!search_studio_build_find_spec(page, "entry_search", &spec))
 		return;
 
-	count = search_studio_append_session_match_rows("Session Hit", spec.text, spec.flags,
-		spec.mode, 100);
-	search_studio_activity_append("[Results] Collected %u open-document hits for %s.", count, spec.original_text);
+	ctx.action = "Session Hit";
+	ctx.query = spec.text;
+	ctx.flags = spec.flags;
+	ctx.mode = spec.mode;
+	ctx.per_doc_limit = 100;
+	action.find = &spec;
+	action.open_document_func = search_studio_append_session_match_rows_cb;
+	action.open_document_data = &ctx;
+	action.add_history = FALSE;
+	action.store_find_spec = FALSE;
+	result = search_studio_execute_find_session_action(page, &action);
+	search_studio_activity_append("[Results] Collected %u open-document hits for %s.",
+		result.total_results, spec.original_text);
 	search_studio_result_appendf("Collect Session Hits", "Open Documents", spec.original_text,
-		spec.mode, "Collected %u navigable hits across open documents.", count);
+		spec.mode, "Collected %u navigable hits across open documents.", result.total_results);
 	search_studio_find_spec_clear(&spec);
 }
 
@@ -3561,16 +3603,21 @@ static void search_studio_count_session_activate(GtkButton *button, gpointer use
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioFindSpec spec = { 0 };
 	SearchStudioCountSessionContext ctx;
+	SearchStudioFindSessionActionSpec action;
 	SearchStudioSessionRunResult result;
 
 	if (!search_studio_build_find_spec(page, "entry_search", &spec))
 		return;
 
-	search_studio_add_find_history(page, &spec);
 	ctx.query = spec.text;
 	ctx.flags = spec.flags;
 	ctx.mode = spec.mode;
-	result = search_studio_run_session_action(search_studio_count_session_cb, &ctx);
+	action.find = &spec;
+	action.open_document_func = search_studio_count_session_cb;
+	action.open_document_data = &ctx;
+	action.add_history = TRUE;
+	action.store_find_spec = TRUE;
+	result = search_studio_execute_find_session_action(page, &action);
 	search_studio_report_count_status(spec.original_text, result.total_results, TRUE,
 		result.docs_with_results);
 
@@ -3629,6 +3676,7 @@ static void search_studio_mark_session_activate(GtkButton *button, gpointer user
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioFindSpec spec = { 0 };
 	SearchStudioMarkSessionContext ctx;
+	SearchStudioFindSessionActionSpec action;
 	SearchStudioSessionRunResult result;
 
 	if (!search_studio_build_find_spec(page, "entry_search", &spec))
@@ -3638,11 +3686,15 @@ static void search_studio_mark_session_activate(GtkButton *button, gpointer user
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_bookmark")));
 	ctx.purge_bookmarks = ui_lookup_widget(page, "check_purge") &&
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_purge")));
-	search_studio_add_find_history(page, &spec);
 	ctx.query = spec.text;
 	ctx.flags = spec.flags;
 	ctx.mode = spec.mode;
-	result = search_studio_run_session_action(search_studio_mark_session_cb, &ctx);
+	action.find = &spec;
+	action.open_document_func = search_studio_mark_session_cb;
+	action.open_document_data = &ctx;
+	action.add_history = TRUE;
+	action.store_find_spec = TRUE;
+	result = search_studio_execute_find_session_action(page, &action);
 	search_studio_report_mark_status(spec.original_text, result.total_results, ctx.bookmark_lines,
 		TRUE, result.docs_with_results);
 
