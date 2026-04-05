@@ -57,42 +57,38 @@ target_compile_definitions(geany-btk-search-studio PRIVATE GEANY_BTK_EXPERIMENTA
 if (WIN32 AND GEANY_BTK_RUNTIME_DIR)
     set(GEANY_BTK_RUNTIME_STAGE_DIR "${CMAKE_CURRENT_BINARY_DIR}/runtime")
     set(GEANY_BTK_RUNTIME_PACKAGE "${CMAKE_CURRENT_BINARY_DIR}/geany-btk-search-studio-runtime.zip")
+    set(GEANY_BTK_STAGE_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/stage-runtime.cmake")
 
     add_custom_command(TARGET geany-btk-search-studio POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${GEANY_BTK_RUNTIME_STAGE_DIR}/bin"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "$<TARGET_FILE:geany-btk-search-studio>"
-            "${GEANY_BTK_RUNTIME_STAGE_DIR}/bin/"
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${GEANY_BTK_RUNTIME_DIR}"
-            "${GEANY_BTK_RUNTIME_STAGE_DIR}/bin"
-        COMMENT "Staging BTK runtime binaries for geany-btk-search-studio"
+        COMMAND ${CMAKE_COMMAND}
+            -DGEANY_BTK_STAGE_DIR="${GEANY_BTK_RUNTIME_STAGE_DIR}"
+            -DGEANY_BTK_RUNTIME_DIR="${GEANY_BTK_RUNTIME_DIR}"
+            -DGEANY_BTK_PLUGIN_DIR="${GEANY_BTK_PLUGIN_DIR}"
+            -DGEANY_BTK_TARGET_EXE="$<TARGET_FILE:geany-btk-search-studio>"
+            -P "${GEANY_BTK_STAGE_SCRIPT}"
+        COMMENT "Staging minimized BTK runtime layout for geany-btk-search-studio"
     )
 
-    if (GEANY_BTK_PLUGIN_DIR)
-        add_custom_command(TARGET geany-btk-search-studio POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory "${GEANY_BTK_RUNTIME_STAGE_DIR}/lib"
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${GEANY_BTK_PLUGIN_DIR}"
-                "${GEANY_BTK_RUNTIME_STAGE_DIR}/lib"
-            COMMENT "Staging BTK runtime plugins for geany-btk-search-studio"
-        )
-    endif()
+    add_custom_target(geany-btk-stage-runtime
+        COMMAND ${CMAKE_COMMAND}
+            -DGEANY_BTK_STAGE_DIR="${GEANY_BTK_RUNTIME_STAGE_DIR}"
+            -DGEANY_BTK_RUNTIME_DIR="${GEANY_BTK_RUNTIME_DIR}"
+            -DGEANY_BTK_PLUGIN_DIR="${GEANY_BTK_PLUGIN_DIR}"
+            -DGEANY_BTK_TARGET_EXE="$<TARGET_FILE:geany-btk-search-studio>"
+            -P "${GEANY_BTK_STAGE_SCRIPT}"
+        DEPENDS geany-btk-search-studio
+        COMMENT "Refreshing staged geany-btk-search-studio runtime layout"
+    )
 
     file(GENERATE
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/run-geany-btk-search-studio.bat"
         CONTENT "@echo off\r\nsetlocal\r\nset \"PATH=${GEANY_BTK_RUNTIME_DIR};%PATH%\"\r\n\"$<TARGET_FILE:geany-btk-search-studio>\" %*\r\n")
 
-    file(GENERATE
-        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/runtime/run-geany-btk-search-studio.bat"
-        CONTENT "@echo off\r\nsetlocal\r\nset \"PATH=%~dp0bin;%PATH%\"\r\n\"%~dp0bin\\geany-btk-search-studio.exe\" %*\r\n")
-
     add_custom_target(geany-btk-runtime-package
         COMMAND ${CMAKE_COMMAND} -E rm -f "${GEANY_BTK_RUNTIME_PACKAGE}"
         COMMAND ${CMAKE_COMMAND} -E chdir "${GEANY_BTK_RUNTIME_STAGE_DIR}"
-            ${CMAKE_COMMAND} -E tar "cf" "${GEANY_BTK_RUNTIME_PACKAGE}" --format=zip
-            bin lib run-geany-btk-search-studio.bat
-        DEPENDS geany-btk-search-studio
+            ${CMAKE_COMMAND} -E tar "cf" "${GEANY_BTK_RUNTIME_PACKAGE}" --format=zip .
+        DEPENDS geany-btk-stage-runtime
         COMMENT "Packaging staged geany-btk-search-studio runtime layout"
     )
 endif()

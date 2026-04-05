@@ -101,21 +101,30 @@ Using the built BTK runtime directory on `PATH`:
 - confirm it contains:
   - `bin/geany-btk-search-studio.exe`
   - BTK runtime DLLs in `bin/`
-  - BTK support/plugin DLLs in `lib/`
+  - plugin subdirectories such as:
+    - `platforms/`
+    - `imageformats/`
+    - `mediaservices/`
+    - `playlistformats/`
+    - `printerdrivers/`
+    - `sqldrivers/`
   - `runtime/run-geany-btk-search-studio.bat`
+- confirm the staged runtime layout is trimmed to DLLs needed for runtime rather than also containing BTK `.lib` files, CMake package metadata, or auxiliary BTK developer executables
 - launch `build/geany-btk-package3/runtime/run-geany-btk-search-studio.bat`
 - confirm the staged executable launches and the process remains responsive without manually editing global `PATH`
 
 ### Runtime package validation
 - build the custom target:
   - `geany-btk-runtime-package`
+- if desired, delete `build/geany-btk-package3/runtime/` first and confirm the package target still refreshes the staged runtime tree before archiving
 - confirm the archive exists:
   - `build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
 - inspect the zip and confirm it contains:
   - `bin/geany-btk-search-studio.exe`
   - BTK runtime DLLs in `bin/`
-  - BTK support/plugin DLLs in `lib/`
+  - plugin subdirectories like `platforms/`, `imageformats/`, `mediaservices/`, `playlistformats/`, `printerdrivers/`, and `sqldrivers/`
   - `run-geany-btk-search-studio.bat`
+- confirm the zip no longer carries BTK import libraries or CMake package metadata in the runtime payload
 
 ### Regressions to watch after the build-enablement pass
 - BTK still builds standalone after the `CMAKE_CURRENT_SOURCE_DIR` CMake-module-path fix

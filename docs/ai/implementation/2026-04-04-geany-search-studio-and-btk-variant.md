@@ -127,11 +127,21 @@ To reduce that manual runtime step further, the variant CMake now derives the BT
 That launcher work has now been pushed one step further into a lightweight local deploy-style layout. The BTK variant build stages:
 - the variant executable into `runtime/bin/`
 - BTK runtime DLLs into `runtime/bin/`
-- BTK plugin/support DLLs into `runtime/lib/`
+- plugin DLLs into deployment-shaped subdirectories such as:
+  - `runtime/platforms/`
+  - `runtime/imageformats/`
+  - `runtime/mediaservices/`
+  - `runtime/playlistformats/`
+  - `runtime/printerdrivers/`
+  - `runtime/sqldrivers/`
 - a launcher batch file into `runtime/`
+
+This staging was also tightened so the local runtime/package layout now carries only the executable plus relevant runtime/plugin DLLs rather than also dragging along BTK import libraries, CMake package metadata, and extra build-time helper binaries.
 
 On top of that, the variant CMake now exposes a lightweight runtime package target (`geany-btk-runtime-package`) which archives the staged runtime tree into a zip file. In the validated local workflow this produces:
 - `build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
+
+The package target now also depends on an explicit runtime-refresh target, so packaging still reconstructs the staged runtime tree even if `runtime/` was deleted between builds.
 
 This is intentionally still a developer-facing staging layout, not a polished package, but it is a meaningful step because it turns the successful build into a more portable local runtime artifact instead of only a build-tree executable plus PATH instructions.
 

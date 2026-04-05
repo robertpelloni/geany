@@ -68,15 +68,25 @@ The CMake build now also generates a build-directory launcher with the resolved 
 In addition, the build now stages a self-contained local runtime layout under:
 - `../../build/geany-btk-package3/runtime/`
   - `bin/geany-btk-search-studio.exe`
-  - BTK runtime DLLs in `bin/`
-  - BTK plugin/runtime-support DLLs in `lib/`
+  - BTK core runtime DLLs in `bin/`
+  - plugin directories such as:
+    - `platforms/`
+    - `imageformats/`
+    - `mediaservices/`
+    - `playlistformats/`
+    - `printerdrivers/`
+    - `sqldrivers/`
   - `run-geany-btk-search-studio.bat`
+
+The staged runtime is now trimmed to the executable plus runtime DLLs/plugin DLLs actually needed by the local prototype flow, instead of copying BTK import libraries, CMake package metadata, and auxiliary developer tools into the deploy-style layout.
 
 The build can also package that staged layout into a zip archive via the custom target:
 - `geany-btk-runtime-package`
 
 Validated local package artifact:
 - `../../build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
+
+The package target also refreshes the staged runtime tree first, so packaging still works even if the local `runtime/` directory was removed between builds.
 
 This makes the local Windows/MSVC runtime path less manual after configuration/build succeeds and gives the project an initial deploy-style handoff without requiring a full installer.
 
@@ -97,4 +107,4 @@ without forcing an all-at-once migration of the production application.
 2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BTK-native presentation
-5. trim the staged BTK runtime/package layout to only the files actually needed by the prototype, or evolve the zip output into a more formal install/release step
+5. evolve the trimmed staged/package layout into a more formal install/release step, or begin wiring the BTK prototype to real Geany backend data
