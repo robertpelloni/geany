@@ -34,6 +34,7 @@ The current BTK prototype now mirrors several of the matured Search Studio conce
 - BTK-side execution now also has first-wave action specs for Find / Replace / Mark / Find-in-Files families, reducing string-driven backend branching at call sites
 - simple Find and Replace action buttons are now routed through those action specs too, so even summary-only flows increasingly execute as request + action-spec + action-result rather than ad-hoc UI-local formatting
 - the backend now also owns a first explicit search-service seam (`SearchStudioSearchService`) with a hybrid default provider: it tries workspace-backed file scanning against the Geany checkout first and falls back to the older prototype provider when no live repo data is available, so impact/preview row generation can move toward real data without destabilizing the UI contract
+- backend execution now also normalizes service-run diagnostics via explicit run bundles (`SearchStudioImpactRun`, `SearchStudioReplacePreviewRun`), so invalid regex requests, zero-hit directory scans, and prototype-fallback cases can surface coherent activity/status rows instead of silently collapsing into generic summaries
 
 ## Toolchain direction
 
@@ -123,4 +124,4 @@ without forcing an all-at-once migration of the production application.
 2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BTK-native presentation
-5. replace more of the remaining UI-local prototype behavior with shared backend data/models and then continue upgrading the `SearchStudioSearchService` seam from checkout-backed scanning toward real Geany search/document services
+5. replace more of the remaining UI-local prototype behavior with shared backend data/models and then continue upgrading the `SearchStudioSearchService` seam from checkout-backed scanning toward real Geany search/document services, preserving the newer run-bundle diagnostic model along the way

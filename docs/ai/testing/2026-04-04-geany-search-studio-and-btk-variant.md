@@ -119,10 +119,13 @@ Using the built BTK runtime directory on `PATH`:
 - confirm result specs carry action kind / result kind / target scope metadata in addition to row text payloads
 - confirm first-wave action specs exist for Find / Replace / Mark / Find in Files execution families in the BTK backend layer
 - confirm the BTK backend also defines a first explicit provider seam via `SearchStudioSearchService`, with payload structs such as `SearchStudioDocumentImpact` and `SearchStudioReplacePreviewImpact`
+- confirm the BTK backend now also defines explicit run bundles such as `SearchStudioImpactRun` and `SearchStudioReplacePreviewRun`
 - confirm `SearchStudioBackend::defaultSearchService()` exists and the family execution helpers also expose overloads that accept an injected `SearchStudioSearchService`
 - confirm the default BTK provider now attempts workspace-backed scanning against the Geany checkout before falling back to the older prototype provider
 - when using queries known to exist in the repo (for example terms in `src/search.c` or `data/geany.glade`), confirm Find / Count / Mark / Replace Preview / Replace Impact rows can reflect live repository lines rather than only synthetic placeholder text
 - confirm queries with no live workspace hits still fall back gracefully to the prototype provider so the BTK navigator remains populated instead of collapsing into blank behavior
+- use an intentionally invalid regex pattern (for example `(` in Regex mode) and confirm the BTK backend emits explicit status/activity diagnostics rather than only a silent empty result set
+- use a directory/path with no searchable files or no hits and confirm Find in Files emits a coherent status row/activity message for the zero-hit case
 - confirm simple summary-oriented Find and Replace button flows still behave correctly after being routed through BTK action specs/execution helpers instead of only ad-hoc UI-local formatting
 - confirm several BTK UI actions still append activity lines and structured rows after the backend-layer extraction rather than regressing to blank/no-op behavior
 

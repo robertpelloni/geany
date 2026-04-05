@@ -209,6 +209,28 @@ The default provider behind `SearchStudioBackend::defaultSearchService()` has al
 
 This is a more meaningful architecture step than the earlier pure-prototype seam because the BTK UI is now increasingly a consumer of action results produced from a swappable backend service that can already consume real checkout data. It still is not wired to true Geany editor/session services, but it is conceptually and structurally much closer to that future than the earlier all-prototype model. It also brings the BTK variant conceptually closer to the GTK Search Studio normalization path, where explicit request/result models and metadata-rich result specs are becoming the core backend seam.
 
+A further normalization pass has now landed on top of that service seam too. The BTK backend now defines explicit run bundles in `variants/geany-btk/src/search_studio_backend.h`:
+- `SearchStudioImpactRun`
+- `SearchStudioReplacePreviewRun`
+
+These run bundles carry more than rows alone:
+- result rows
+- scanned file count
+- matched document count
+- total match count
+- whether workspace lookup was attempted
+- whether workspace-backed data was used
+- whether prototype fallback was used
+- invalid-pattern state and diagnostic text
+
+The `SearchStudioSearchService` contract now returns those run bundles instead of only raw row lists. That lets BTK action execution normalize backend outcomes much better:
+- invalid regex requests now surface explicit activity/status diagnostics instead of silently producing generic empty summaries
+- zero-hit directory scans can emit clearer status text
+- workspace-miss / no-live-hit cases can state that prototype fallback rows were shown intentionally
+- summary rows can now be adjusted based on real execution state instead of always echoing the same static prototype sentence
+
+This is important because it moves the BTK variant another step toward a real backend contract: execution returns both payload rows and structured explanation of what happened.
+
 ## BTK submodule
 
 A second UI toolkit submodule was added:

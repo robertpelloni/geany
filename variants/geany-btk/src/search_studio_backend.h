@@ -72,6 +72,32 @@ struct SearchStudioReplacePreviewImpact
     QString replacementText;
 };
 
+struct SearchStudioImpactRun
+{
+    QList<SearchStudioDocumentImpact> impacts;
+    int scannedFileCount = 0;
+    int matchedDocumentCount = 0;
+    int totalMatchCount = 0;
+    bool workspaceAttempted = false;
+    bool workspaceDataUsed = false;
+    bool prototypeFallbackUsed = false;
+    bool invalidPattern = false;
+    QString diagnosticText;
+};
+
+struct SearchStudioReplacePreviewRun
+{
+    QList<SearchStudioReplacePreviewImpact> impacts;
+    int scannedFileCount = 0;
+    int matchedDocumentCount = 0;
+    int totalMatchCount = 0;
+    bool workspaceAttempted = false;
+    bool workspaceDataUsed = false;
+    bool prototypeFallbackUsed = false;
+    bool invalidPattern = false;
+    QString diagnosticText;
+};
+
 struct SearchStudioFindRequest
 {
     QString query;
@@ -163,13 +189,13 @@ class SearchStudioSearchService
 public:
     virtual ~SearchStudioSearchService() = default;
 
-    virtual QList<SearchStudioDocumentImpact> buildFindImpactRows(
+    virtual SearchStudioImpactRun buildFindImpactRows(
         const SearchStudioFindRequest &request) const = 0;
-    virtual QList<SearchStudioDocumentImpact> buildMarkImpactRows(
+    virtual SearchStudioImpactRun buildMarkImpactRows(
         const SearchStudioMarkRequest &request) const = 0;
-    virtual QList<SearchStudioDocumentImpact> buildFindInFilesCaptureRows(
+    virtual SearchStudioImpactRun buildFindInFilesCaptureRows(
         const SearchStudioFindInFilesRequest &request) const = 0;
-    virtual QList<SearchStudioReplacePreviewImpact> buildReplacePreviewRows(
+    virtual SearchStudioReplacePreviewRun buildReplacePreviewRows(
         const SearchStudioReplaceRequest &request) const = 0;
 };
 

@@ -159,3 +159,10 @@ That service boundary has now started to turn into a real migration bridge inste
 - fall back to the older prototype provider when no live repo hit data is available
 
 This hybrid approach is strategically useful because it lets the BTK variant start consuming real repo-backed search data now without pretending that it is already wired directly into Geany core document/session services. It is the right bridge between a pure prototype and a real frontend-independent Search Studio backend.
+
+Once the provider seam exists, the next design need is explicit execution diagnostics rather than only row payloads. The BTK backend now benefits from lightweight run-bundle concepts such as:
+- impact-run results carrying rows plus counts, workspace/fallback provenance, and invalid-pattern state
+- replace-preview runs carrying preview rows plus counts and diagnostics
+- normalized activity/status emission for invalid regex requests, zero-hit directory scans, and workspace-to-prototype fallback cases
+
+That keeps the future Geany-backed service direction honest: backend execution should return not only rows, but also structured status information explaining what happened.

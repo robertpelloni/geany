@@ -10,6 +10,12 @@
 
 namespace {
 
+struct SearchPatternValidation
+{
+    bool invalid = false;
+    QString diagnosticText;
+};
+
 QString qs(const char *text)
 {
     return QString::fromUtf8(text);
@@ -193,6 +199,25 @@ bool modeUsesRegex(const QString &mode)
     return mode == qs("Regex") || mode == qs("Regular expression");
 }
 
+SearchPatternValidation validatePattern(const QString &query, const QString &mode)
+{
+    SearchPatternValidation validation;
+    const QString patternText = normalizedPatternText(query, mode);
+
+    if (patternText.isEmpty() || ! modeUsesRegex(mode))
+        return validation;
+
+    const QRegularExpression expression(patternText);
+    if (! expression.isValid())
+    {
+        validation.invalid = true;
+        validation.diagnosticText = QString("Invalid regular expression: %1")
+            .formatArg(expression.errorString());
+    }
+
+    return validation;
+}
+
 bool looksLikeSearchableTextFile(const QFileInfo &info)
 {
     const QString suffix = info.suffix().toLower();
@@ -313,10 +338,33 @@ SearchLineMatch matchLine(const QString &line, const QString &query,
     return result;
 }
 
-QList<SearchStudioDocumentImpact> scanDocumentImpacts(const QStringList &relativeFiles,
+SearchStudioImpactRun makeInvalidImpactRun(const QString &diagnosticText)
+{
+    SearchStudioImpactRun run;
+    run.invalidPattern = true;
+    run.diagnosticText = diagnosticText;
+    return run;
+}
+
+SearchStudioReplacePreviewRun makeInvalidPreviewRun(const QString &diagnosticText)
+{
+    SearchStudioReplacePreviewRun run;
+    run.invalidPattern = true;
+    run.diagnosticText = diagnosticText;
+    return run;
+}
+
+SearchStudioImpactRun scanDocumentImpacts(const QStringList &relativeFiles,
     const QString &rootPath, const QString &query, const QString &mode)
 {
-    QList<SearchStudioDocumentImpact> impacts;
+    const SearchPatternValidation validation = validatePattern(query, mode);
+    if (validation.invalid)
+        return makeInvalidImpactRun(validation.diagnosticText);
+
+    SearchStudioImpactRun run;
+    run.workspaceAttempted = true;
+    run.workspaceDataUsed = true;
+    run.scannedFileCount = relativeFiles.size();
 
     for (const auto &relativeFile : relativeFiles)
     {
@@ -342,20 +390,29 @@ QList<SearchStudioDocumentImpact> scanDocumentImpacts(const QStringList &relativ
                     impact.context = qs("(blank line)");
             }
             impact.count += match.count;
+            run.totalMatchCount += match.count;
         }
 
         if (impact.line != 0)
-            impacts.append(impact);
+            run.impacts.append(impact);
     }
 
-    return impacts;
+    run.matchedDocumentCount = run.impacts.size();
+    return run;
 }
 
-QList<SearchStudioReplacePreviewImpact> scanReplacePreviewImpacts(
+SearchStudioReplacePreviewRun scanReplacePreviewImpacts(
     const QStringList &relativeFiles, const QString &rootPath,
     const SearchStudioReplaceRequest &request)
 {
-    QList<SearchStudioReplacePreviewImpact> impacts;
+    const SearchPatternValidation validation = validatePattern(request.query, request.mode);
+    if (validation.invalid)
+        return makeInvalidPreviewRun(validation.diagnosticText);
+
+    SearchStudioReplacePreviewRun run;
+    run.workspaceAttempted = true;
+    run.workspaceDataUsed = true;
+    run.scannedFileCount = relativeFiles.size();
 
     for (const auto &relativeFile : relativeFiles)
     {
@@ -379,12 +436,14 @@ QList<SearchStudioReplacePreviewImpact> scanReplacePreviewImpacts(
             impact.replacementLine = match.replacementLine;
             impact.matchedText = match.matchedText;
             impact.replacementText = match.replacementText;
-            impacts.append(impact);
+            run.impacts.append(impact);
+            run.totalMatchCount += match.count;
             break;
         }
     }
 
-    return impacts;
+    run.matchedDocumentCount = run.impacts.size();
+    return run;
 }
 
 QStringList collectDirectoryFiles(const QString &rootPath, const QString &directory)
@@ -420,11 +479,19 @@ QStringList collectDirectoryFiles(const QString &rootPath, const QString &direct
     return files;
 }
 
-QList<SearchStudioDocumentImpact> scanDirectoryImpacts(const QString &rootPath,
+SearchStudioImpactRun scanDirectoryImpacts(const QString &rootPath,
     const SearchStudioFindInFilesRequest &request)
 {
-    QList<SearchStudioDocumentImpact> impacts;
+    const SearchPatternValidation validation = validatePattern(request.query, request.mode);
+    if (validation.invalid)
+        return makeInvalidImpactRun(validation.diagnosticText);
+
+    SearchStudioImpactRun run;
+    run.workspaceAttempted = true;
+    run.workspaceDataUsed = true;
+
     const QStringList files = collectDirectoryFiles(rootPath, request.directory);
+    run.scannedFileCount = files.size();
 
     for (const auto &absolutePath : files)
     {
@@ -450,19 +517,24 @@ QList<SearchStudioDocumentImpact> scanDirectoryImpacts(const QString &rootPath,
                     impact.context = qs("(blank line)");
             }
             impact.count += match.count;
+            run.totalMatchCount += match.count;
         }
 
         if (impact.line != 0)
-            impacts.append(impact);
+            run.impacts.append(impact);
     }
 
-    return impacts;
+    run.matchedDocumentCount = run.impacts.size();
+    if (run.scannedFileCount == 0)
+        run.diagnosticText = QString("No searchable files found under %1.")
+            .formatArg(request.directory);
+    return run;
 }
 
 void appendImpactRows(SearchStudioActionResult &result,
     SearchStudioActionKind actionKind, const QString &action,
-    const QString &query, const QString &mode, const QString &summaryPrefix,
-    const QList<SearchStudioDocumentImpact> &impacts)
+    const QString &query, const QString &mode,
+    const QList<SearchStudioDocumentImpact> &impacts, const QString &summaryPrefix)
 {
     for (const auto &impact : impacts)
     {
@@ -508,36 +580,111 @@ void appendReplacePreviewRows(SearchStudioActionResult &result,
     }
 }
 
+template <typename Run>
+QString normalizedRunSummary(const QString &defaultSummary, const Run &run,
+    const QString &zeroHitSummary)
+{
+    if (run.invalidPattern)
+        return qs("Search request is invalid; no result rows were generated.");
+    if (run.prototypeFallbackUsed)
+        return QString("%1 Showing prototype fallback rows after missing live checkout hits.")
+            .formatArg(defaultSummary);
+    if (run.workspaceDataUsed)
+    {
+        if (run.totalMatchCount == 0)
+            return zeroHitSummary;
+        return QString("%1 Matched %2 hits across %3 documents.")
+            .formatArgs(defaultSummary, QString::number(run.totalMatchCount),
+                QString::number(run.matchedDocumentCount));
+    }
+    return defaultSummary;
+}
+
+template <typename Run>
+QString normalizedRunPreviewBody(const QString &defaultBody, const Run &run)
+{
+    if (run.diagnosticText.isEmpty())
+        return defaultBody;
+
+    if (defaultBody.isEmpty())
+        return run.diagnosticText;
+
+    return QString("%1\n\nStatus:\n%2").formatArgs(defaultBody, run.diagnosticText);
+}
+
+template <typename Run>
+void appendRunDiagnostics(SearchStudioActionResult &result,
+    SearchStudioActionKind actionKind, SearchStudioTargetScope summaryScope,
+    const QString &query, const QString &mode, const QString &statusAction,
+    const Run &run)
+{
+    if (run.diagnosticText.isEmpty())
+        return;
+
+    result.activity.append(run.diagnosticText);
+    result.rows.append(makeResultSpec(actionKind,
+        SearchStudioResultKind::Summary,
+        summaryScope,
+        statusAction,
+        QString(),
+        query,
+        mode,
+        run.diagnosticText,
+        QString("%1 Status").formatArg(statusAction),
+        run.diagnosticText,
+        false));
+}
+
+QString statusActionLabel(const QString &preferred, const QString &fallback)
+{
+    if (! preferred.isEmpty())
+        return preferred;
+    if (! fallback.isEmpty())
+        return fallback;
+    return qs("Search Status");
+}
+
 class PrototypeSearchStudioSearchService final : public SearchStudioSearchService
 {
 public:
-    QList<SearchStudioDocumentImpact> buildFindImpactRows(
+    SearchStudioImpactRun buildFindImpactRows(
         const SearchStudioFindRequest &request) const override
     {
-        return buildDocumentImpacts(request.query, request.sessionScope,
-            qs("representative find"));
+        return buildDocumentImpacts(request.query, request.mode,
+            request.sessionScope, qs("representative find"));
     }
 
-    QList<SearchStudioDocumentImpact> buildMarkImpactRows(
+    SearchStudioImpactRun buildMarkImpactRows(
         const SearchStudioMarkRequest &request) const override
     {
-        return buildDocumentImpacts(request.query, request.sessionScope,
-            qs("representative mark"));
+        return buildDocumentImpacts(request.query, request.mode,
+            request.sessionScope, qs("representative mark"));
     }
 
-    QList<SearchStudioDocumentImpact> buildFindInFilesCaptureRows(
+    SearchStudioImpactRun buildFindInFilesCaptureRows(
         const SearchStudioFindInFilesRequest &request) const override
     {
-        return buildDocumentImpacts(request.query, true,
-            qs("representative directory-search"));
+        return buildDocumentImpacts(request.query, request.mode,
+            true, qs("representative directory-search"));
     }
 
-    QList<SearchStudioReplacePreviewImpact> buildReplacePreviewRows(
+    SearchStudioReplacePreviewRun buildReplacePreviewRows(
         const SearchStudioReplaceRequest &request) const override
     {
-        QList<SearchStudioReplacePreviewImpact> impacts;
+        const SearchPatternValidation validation = validatePattern(request.query, request.mode);
+        if (validation.invalid)
+        {
+            auto run = makeInvalidPreviewRun(validation.diagnosticText);
+            run.prototypeFallbackUsed = true;
+            return run;
+        }
+
+        SearchStudioReplacePreviewRun run;
         const auto docs = prototypeDocuments();
         const int limit = request.sessionScope ? docs.size() : 1;
+
+        run.prototypeFallbackUsed = true;
+        run.scannedFileCount = limit;
 
         for (int index = 0; index < limit; ++index)
         {
@@ -554,20 +701,33 @@ public:
                 .formatArg(request.replacement)
                 .formatArg(line);
             impact.matchedText = request.query;
-            impact.replacementText = request.replacement;
-            impacts.append(impact);
+            impact.replacementText = normalizedReplacementText(request.replacement, request.mode);
+            run.impacts.append(impact);
+            run.totalMatchCount += sampleCountFor(request.query, index);
         }
 
-        return impacts;
+        run.matchedDocumentCount = run.impacts.size();
+        return run;
     }
 
 private:
-    QList<SearchStudioDocumentImpact> buildDocumentImpacts(const QString &query,
-        bool sessionScope, const QString &contextLabel) const
+    SearchStudioImpactRun buildDocumentImpacts(const QString &query,
+        const QString &mode, bool sessionScope, const QString &contextLabel) const
     {
-        QList<SearchStudioDocumentImpact> impacts;
+        const SearchPatternValidation validation = validatePattern(query, mode);
+        if (validation.invalid)
+        {
+            auto run = makeInvalidImpactRun(validation.diagnosticText);
+            run.prototypeFallbackUsed = true;
+            return run;
+        }
+
+        SearchStudioImpactRun run;
         const auto docs = prototypeDocuments();
         const int limit = sessionScope ? docs.size() : 1;
+
+        run.prototypeFallbackUsed = true;
+        run.scannedFileCount = limit;
 
         for (int index = 0; index < limit; ++index)
         {
@@ -581,17 +741,19 @@ private:
                 .formatArg(impact.line)
                 .formatArg(contextLabel)
                 .formatArg(query);
-            impacts.append(impact);
+            run.totalMatchCount += impact.count;
+            run.impacts.append(impact);
         }
 
-        return impacts;
+        run.matchedDocumentCount = run.impacts.size();
+        return run;
     }
 };
 
 class WorkspaceSearchStudioSearchService final : public SearchStudioSearchService
 {
 public:
-    QList<SearchStudioDocumentImpact> buildFindImpactRows(
+    SearchStudioImpactRun buildFindImpactRows(
         const SearchStudioFindRequest &request) const override
     {
         const QString rootPath = findWorkspaceRoot();
@@ -600,11 +762,15 @@ public:
 
         QStringList files = prototypeDocuments();
         if (! request.sessionScope && ! files.isEmpty())
-            files = {files.first()};
+        {
+            const QString activeFile = files.first();
+            files.clear();
+            files.append(activeFile);
+        }
         return scanDocumentImpacts(files, rootPath, request.query, request.mode);
     }
 
-    QList<SearchStudioDocumentImpact> buildMarkImpactRows(
+    SearchStudioImpactRun buildMarkImpactRows(
         const SearchStudioMarkRequest &request) const override
     {
         const QString rootPath = findWorkspaceRoot();
@@ -613,11 +779,15 @@ public:
 
         QStringList files = prototypeDocuments();
         if (! request.sessionScope && ! files.isEmpty())
-            files = {files.first()};
+        {
+            const QString activeFile = files.first();
+            files.clear();
+            files.append(activeFile);
+        }
         return scanDocumentImpacts(files, rootPath, request.query, request.mode);
     }
 
-    QList<SearchStudioDocumentImpact> buildFindInFilesCaptureRows(
+    SearchStudioImpactRun buildFindInFilesCaptureRows(
         const SearchStudioFindInFilesRequest &request) const override
     {
         const QString rootPath = findWorkspaceRoot();
@@ -626,7 +796,7 @@ public:
         return scanDirectoryImpacts(rootPath, request);
     }
 
-    QList<SearchStudioReplacePreviewImpact> buildReplacePreviewRows(
+    SearchStudioReplacePreviewRun buildReplacePreviewRows(
         const SearchStudioReplaceRequest &request) const override
     {
         const QString rootPath = findWorkspaceRoot();
@@ -635,7 +805,11 @@ public:
 
         QStringList files = prototypeDocuments();
         if (! request.sessionScope && ! files.isEmpty())
-            files = {files.first()};
+        {
+            const QString activeFile = files.first();
+            files.clear();
+            files.append(activeFile);
+        }
         return scanReplacePreviewImpacts(files, rootPath, request);
     }
 };
@@ -643,42 +817,84 @@ public:
 class HybridSearchStudioSearchService final : public SearchStudioSearchService
 {
 public:
-    QList<SearchStudioDocumentImpact> buildFindImpactRows(
+    SearchStudioImpactRun buildFindImpactRows(
         const SearchStudioFindRequest &request) const override
     {
-        return preferWorkspaceData(workspace_.buildFindImpactRows(request),
+        return preferWorkspaceImpact(workspace_.buildFindImpactRows(request),
             prototype_.buildFindImpactRows(request));
     }
 
-    QList<SearchStudioDocumentImpact> buildMarkImpactRows(
+    SearchStudioImpactRun buildMarkImpactRows(
         const SearchStudioMarkRequest &request) const override
     {
-        return preferWorkspaceData(workspace_.buildMarkImpactRows(request),
+        return preferWorkspaceImpact(workspace_.buildMarkImpactRows(request),
             prototype_.buildMarkImpactRows(request));
     }
 
-    QList<SearchStudioDocumentImpact> buildFindInFilesCaptureRows(
+    SearchStudioImpactRun buildFindInFilesCaptureRows(
         const SearchStudioFindInFilesRequest &request) const override
     {
-        return preferWorkspaceData(workspace_.buildFindInFilesCaptureRows(request),
+        return preferWorkspaceImpact(workspace_.buildFindInFilesCaptureRows(request),
             prototype_.buildFindInFilesCaptureRows(request));
     }
 
-    QList<SearchStudioReplacePreviewImpact> buildReplacePreviewRows(
+    SearchStudioReplacePreviewRun buildReplacePreviewRows(
         const SearchStudioReplaceRequest &request) const override
     {
-        return preferWorkspaceData(workspace_.buildReplacePreviewRows(request),
+        return preferWorkspacePreview(workspace_.buildReplacePreviewRows(request),
             prototype_.buildReplacePreviewRows(request));
     }
 
 private:
-    template <typename T>
-    QList<T> preferWorkspaceData(const QList<T> &preferred,
-        const QList<T> &fallback) const
+    SearchStudioImpactRun preferWorkspaceImpact(const SearchStudioImpactRun &workspaceRun,
+        const SearchStudioImpactRun &prototypeRun) const
     {
-        if (! preferred.isEmpty())
-            return preferred;
-        return fallback;
+        if (workspaceRun.invalidPattern)
+            return workspaceRun;
+        if (! workspaceRun.impacts.isEmpty())
+            return workspaceRun;
+        if (! workspaceRun.workspaceAttempted)
+        {
+            SearchStudioImpactRun run = prototypeRun;
+            run.diagnosticText = qs("Workspace checkout not detected; showing prototype fallback rows.");
+            run.prototypeFallbackUsed = true;
+            return run;
+        }
+        if (workspaceRun.scannedFileCount == 0)
+            return workspaceRun;
+
+        SearchStudioImpactRun run = prototypeRun;
+        run.workspaceAttempted = true;
+        run.prototypeFallbackUsed = true;
+        run.diagnosticText = QString("No live checkout hits were found across %1 scanned files; showing prototype fallback rows.")
+            .formatArg(workspaceRun.scannedFileCount);
+        return run;
+    }
+
+    SearchStudioReplacePreviewRun preferWorkspacePreview(
+        const SearchStudioReplacePreviewRun &workspaceRun,
+        const SearchStudioReplacePreviewRun &prototypeRun) const
+    {
+        if (workspaceRun.invalidPattern)
+            return workspaceRun;
+        if (! workspaceRun.impacts.isEmpty())
+            return workspaceRun;
+        if (! workspaceRun.workspaceAttempted)
+        {
+            SearchStudioReplacePreviewRun run = prototypeRun;
+            run.diagnosticText = qs("Workspace checkout not detected; showing prototype fallback preview rows.");
+            run.prototypeFallbackUsed = true;
+            return run;
+        }
+        if (workspaceRun.scannedFileCount == 0)
+            return workspaceRun;
+
+        SearchStudioReplacePreviewRun run = prototypeRun;
+        run.workspaceAttempted = true;
+        run.prototypeFallbackUsed = true;
+        run.diagnosticText = QString("No live checkout replace-preview hits were found across %1 scanned files; showing prototype fallback preview rows.")
+            .formatArg(workspaceRun.scannedFileCount);
+        return run;
     }
 
     WorkspaceSearchStudioSearchService workspace_;
@@ -706,18 +922,25 @@ SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &reques
     const SearchStudioSearchService &service)
 {
     SearchStudioActionResult result;
+    const SearchStudioImpactRun run = service.buildFindImpactRows(request);
 
     if (! action.activityMessage.isEmpty())
         result.activity.append(action.activityMessage);
+    appendRunDiagnostics(result, action.actionKind, action.summaryScope,
+        request.query, request.mode,
+        statusActionLabel(action.summaryAction, action.impactAction), run);
     if (action.includeImpactRows)
         appendImpactRows(result, action.actionKind, action.impactAction,
-            request.query, request.mode, action.impactSummaryPrefix,
-            service.buildFindImpactRows(request));
+            request.query, request.mode, run.impacts, action.impactSummaryPrefix);
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, QString(), request.query,
-            request.mode, action.summaryText, action.summaryPreviewTitle,
-            action.summaryPreviewBody, false));
+            request.mode,
+            normalizedRunSummary(action.summaryText, run,
+                qs("No live matches were found for this request.")),
+            action.summaryPreviewTitle,
+            normalizedRunPreviewBody(action.summaryPreviewBody, run),
+            false));
 
     return result;
 }
@@ -733,17 +956,25 @@ SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &
     const SearchStudioSearchService &service)
 {
     SearchStudioActionResult result;
+    const SearchStudioReplacePreviewRun run = service.buildReplacePreviewRows(request);
 
     if (! action.activityMessage.isEmpty())
         result.activity.append(action.activityMessage);
+    appendRunDiagnostics(result, action.actionKind, action.summaryScope,
+        request.query, request.mode,
+        statusActionLabel(action.summaryAction, action.rowAction), run);
     if (action.previewRows)
         appendReplacePreviewRows(result, action.actionKind, action.rowAction,
-            request.query, request.mode, service.buildReplacePreviewRows(request));
+            request.query, request.mode, run.impacts);
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, QString(), request.query,
-            request.mode, action.summaryText, action.summaryPreviewTitle,
-            action.summaryPreviewBody, false));
+            request.mode,
+            normalizedRunSummary(action.summaryText, run,
+                qs("No live replace-preview candidates were found for this request.")),
+            action.summaryPreviewTitle,
+            normalizedRunPreviewBody(action.summaryPreviewBody, run),
+            false));
 
     return result;
 }
@@ -759,18 +990,25 @@ SearchStudioActionResult executeMarkAction(const SearchStudioMarkRequest &reques
     const SearchStudioSearchService &service)
 {
     SearchStudioActionResult result;
+    const SearchStudioImpactRun run = service.buildMarkImpactRows(request);
 
     if (! action.activityMessage.isEmpty())
         result.activity.append(action.activityMessage);
+    appendRunDiagnostics(result, action.actionKind, action.summaryScope,
+        request.query, request.mode,
+        statusActionLabel(action.summaryAction, action.impactAction), run);
     if (action.includeImpactRows)
         appendImpactRows(result, action.actionKind, action.impactAction,
-            request.query, request.mode, action.impactSummaryPrefix,
-            service.buildMarkImpactRows(request));
+            request.query, request.mode, run.impacts, action.impactSummaryPrefix);
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, QString(), request.query,
-            request.mode, action.summaryText, action.summaryPreviewTitle,
-            action.summaryPreviewBody, false));
+            request.mode,
+            normalizedRunSummary(action.summaryText, run,
+                qs("No live mark candidates were found for this request.")),
+            action.summaryPreviewTitle,
+            normalizedRunPreviewBody(action.summaryPreviewBody, run),
+            false));
 
     return result;
 }
@@ -788,18 +1026,25 @@ SearchStudioActionResult executeFindInFilesAction(
     const SearchStudioSearchService &service)
 {
     SearchStudioActionResult result;
+    const SearchStudioImpactRun run = service.buildFindInFilesCaptureRows(request);
 
     if (! action.activityMessage.isEmpty())
         result.activity.append(action.activityMessage);
+    appendRunDiagnostics(result, action.actionKind, action.summaryScope,
+        request.query, request.mode,
+        statusActionLabel(action.summaryAction, action.captureAction), run);
     if (action.includeCaptureRows)
         appendImpactRows(result, action.actionKind, action.captureAction,
-            request.query, request.mode, action.captureSummaryPrefix,
-            service.buildFindInFilesCaptureRows(request));
+            request.query, request.mode, run.impacts, action.captureSummaryPrefix);
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, request.directory,
-            request.query, request.mode, action.summaryText,
-            action.summaryPreviewTitle, action.summaryPreviewBody, false));
+            request.query, request.mode,
+            normalizedRunSummary(action.summaryText, run,
+                qs("No live directory-search hits were found for this request.")),
+            action.summaryPreviewTitle,
+            normalizedRunPreviewBody(action.summaryPreviewBody, run),
+            false));
 
     return result;
 }
