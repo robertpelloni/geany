@@ -126,6 +126,7 @@ private:
         PreviewTitleRole = Qt::UserRole,
         PreviewBodyRole,
         NavigableRole,
+        ActionKindRole,
         ResultKindRole,
         TargetScopeRole
     };
@@ -197,6 +198,7 @@ private:
         item->setData(0, PreviewTitleRole, row.previewTitle);
         item->setData(0, PreviewBodyRole, row.previewBody);
         item->setData(0, NavigableRole, row.navigable);
+        item->setData(0, ActionKindRole, static_cast<int>(row.actionKind));
         item->setData(0, ResultKindRole, static_cast<int>(row.kind));
         item->setData(0, TargetScopeRole, static_cast<int>(row.scope));
         resultsView_->insertTopLevelItem(0, item);

@@ -4,6 +4,18 @@
 #include <QString>
 #include <QStringList>
 
+enum class SearchStudioActionKind
+{
+    Studio,
+    Find,
+    Count,
+    CollectHits,
+    Replace,
+    ReplacePreview,
+    FindInFiles,
+    Mark
+};
+
 enum class SearchStudioResultKind
 {
     Summary,
@@ -23,6 +35,7 @@ enum class SearchStudioTargetScope
 
 struct SearchStudioResultSpec
 {
+    SearchStudioActionKind actionKind = SearchStudioActionKind::Studio;
     SearchStudioResultKind kind = SearchStudioResultKind::Summary;
     SearchStudioTargetScope scope = SearchStudioTargetScope::ExplicitTarget;
     QString action;

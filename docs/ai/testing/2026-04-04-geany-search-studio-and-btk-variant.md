@@ -97,7 +97,7 @@ Using the built BTK runtime directory on `PATH`:
 - confirm the generated launcher contains the resolved local BTK runtime directory
 
 ### Lightweight staged runtime validation
-- confirm `build/geany-btk-package3/runtime-stage/` exists after rebuilding the variant
+- confirm `build/geany-btk-package3/runtime-bundle/` exists after rebuilding the variant
 - confirm it contains:
   - `bin/geany-btk-search-studio.exe`
   - BTK runtime DLLs in `bin/`
@@ -108,21 +108,21 @@ Using the built BTK runtime directory on `PATH`:
     - `playlistformats/`
     - `printerdrivers/`
     - `sqldrivers/`
-  - `runtime-stage/run-geany-btk-search-studio.bat`
+  - `runtime-bundle/run-geany-btk-search-studio.bat`
 - confirm the staged runtime layout is trimmed to DLLs needed for runtime rather than also containing BTK `.lib` files, CMake package metadata, or auxiliary BTK developer executables
-- launch `build/geany-btk-package3/runtime-stage/run-geany-btk-search-studio.bat`
+- launch `build/geany-btk-package3/runtime-bundle/run-geany-btk-search-studio.bat`
 - confirm the staged executable launches and the process remains responsive without manually editing global `PATH`
 
 ### BTK backend-layer validation
 - confirm `variants/geany-btk/src/search_studio_backend.h` and `variants/geany-btk/src/search_studio_backend.cpp` exist
 - confirm the BTK backend layer now owns request/result models for Find / Replace / Mark / Find in Files flows
-- confirm result specs carry result kind / target scope metadata in addition to row text payloads
+- confirm result specs carry action kind / result kind / target scope metadata in addition to row text payloads
 - confirm several BTK UI actions still append activity lines and structured rows after the backend-layer extraction rather than regressing to blank/no-op behavior
 
 ### Runtime package validation
 - build the custom target:
   - `geany-btk-runtime-package`
-- if desired, delete `build/geany-btk-package3/runtime-stage/` first and confirm the package target still refreshes the staged runtime tree before archiving
+- if desired, delete `build/geany-btk-package3/runtime-bundle/` first and confirm the package target still refreshes the staged runtime tree before archiving
 - confirm the archive exists:
   - `build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
 - inspect the zip and confirm it contains:
@@ -137,6 +137,7 @@ Using the built BTK runtime directory on `PATH`:
 - the Geany BTK variant still finds BTK via local install/build-tree hints and no longer depends on `add_subdirectory(...)`
 - the BTK variant still compiles against current BTK string APIs (`formatArg` / `formatArgs`, `QString::fromUtf8(...)`) with `CMAKE_CXX_STANDARD 20`
 - the BTK backend-shaped helper layer (`src/search_studio_backend.h/.cpp`) still builds cleanly and the UI still consumes its action-result bundles/specs correctly
+- iterative rebuild/package flows still work while older staged runtime executables are running because the current staged output now uses `runtime-bundle/` instead of the earlier fixed runtime path
 - the produced `geany-btk-search-studio.exe` launches and still presents the expected Search Studio tabs and lower navigator panes
 
 ## Current environment limitation

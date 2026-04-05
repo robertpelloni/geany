@@ -56,7 +56,7 @@ target_link_libraries(geany-btk-search-studio
 target_compile_definitions(geany-btk-search-studio PRIVATE GEANY_BTK_EXPERIMENTAL=1)
 
 if (WIN32 AND GEANY_BTK_RUNTIME_DIR)
-    set(GEANY_BTK_RUNTIME_STAGE_DIR "${CMAKE_CURRENT_BINARY_DIR}/runtime-stage")
+    set(GEANY_BTK_RUNTIME_STAGE_DIR "${CMAKE_CURRENT_BINARY_DIR}/runtime-bundle")
     set(GEANY_BTK_RUNTIME_PACKAGE "${CMAKE_CURRENT_BINARY_DIR}/geany-btk-search-studio-runtime.zip")
     set(GEANY_BTK_STAGE_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/cmake/stage-runtime.cmake")
 
