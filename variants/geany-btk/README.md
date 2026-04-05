@@ -49,6 +49,19 @@ The variant CMake currently looks for BTK in common local install/build-tree loc
 
 or any BTK installation discoverable by `find_package(BTK CONFIG ...)`.
 
+## Windows launch notes
+
+After building BTK standalone and the Geany BTK variant, the executable needs BTK runtime DLLs on `PATH`.
+
+The validated local layout in this repo is:
+- BTK install/runtime: `../../build/btk-install/bin`
+- variant executable: `../../build/geany-btk-package3/geany-btk-search-studio.exe`
+
+A convenience launcher is included for this workflow:
+- `run-windows-msvc.bat`
+
+That launcher prepends the local BTK runtime directory to `PATH` and starts the built variant executable.
+
 ## Why a separate variant exists
 
 Geany's main codebase is still strongly shaped by the current toolkit and plugin-facing contracts. A separate BTK variant allows faster experimentation with:
@@ -66,3 +79,4 @@ without forcing an all-at-once migration of the production application.
 2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BTK-native presentation
+5. package or automate BTK runtime deployment so the prototype launches without manual `PATH` setup

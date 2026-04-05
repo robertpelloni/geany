@@ -75,6 +75,21 @@ Using the standalone BTK install tree as a package source:
 - build succeeded for:
   - `build/geany-btk-package3/geany-btk-search-studio.exe`
 
+### Successful BTK variant runtime smoke check
+Using the built BTK runtime directory on `PATH`:
+- prepended runtime path:
+  - `build/btk-install/bin`
+- launched executable:
+  - `build/geany-btk-package3/geany-btk-search-studio.exe`
+- verified process remained running and responsive after startup
+- verified main window title resolved as:
+  - `geany-btk-search-studio`
+
+### Runtime caveat discovered
+- launching the BTK variant executable without the BTK runtime DLL directory on `PATH` exited immediately in this environment
+- a convenience launcher was added at:
+  - `variants/geany-btk/run-windows-msvc.bat`
+
 ### Regressions to watch after the build-enablement pass
 - BTK still builds standalone after the `CMAKE_CURRENT_SOURCE_DIR` CMake-module-path fix
 - the Geany BTK variant still finds BTK via local install/build-tree hints and no longer depends on `add_subdirectory(...)`

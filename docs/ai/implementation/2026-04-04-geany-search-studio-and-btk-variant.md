@@ -120,6 +120,8 @@ A Windows/MSVC build-enablement pass also landed for the BTK path:
 
 This produced a successful standalone BTK build and a successful BTK variant executable build on Windows/MSVC, while the main GTK Geany tree remains blocked by missing Meson/native GTK build plumbing in this environment.
 
+A runtime smoke pass after the build also clarified one more Windows concern: the variant executable currently depends on BTK runtime DLLs being discoverable on `PATH`. Launching the executable directly without the BTK runtime directory available caused immediate process exit in this environment, while launching it with `build/btk-install/bin` prepended to `PATH` successfully produced a responsive `geany-btk-search-studio` window. A small Windows launcher batch file was added to make that local workflow repeatable.
+
 ### Prototype goals
 The prototype intentionally models the **control density** and **workflow rhythm** of Notepad++ while leaving room for “better than N++” capabilities:
 - preview panes
