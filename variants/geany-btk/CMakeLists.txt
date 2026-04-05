@@ -22,6 +22,17 @@ if (NOT BTK_FOUND)
     find_package(BTK CONFIG REQUIRED)
 endif()
 
+set(GEANY_BTK_RUNTIME_DIR "")
+if (DEFINED BTK_DIR)
+    if (EXISTS "${BTK_DIR}/../../../bin")
+        get_filename_component(GEANY_BTK_RUNTIME_DIR "${BTK_DIR}/../../../bin" ABSOLUTE)
+    elseif (EXISTS "${BTK_DIR}/../../bin")
+        get_filename_component(GEANY_BTK_RUNTIME_DIR "${BTK_DIR}/../../bin" ABSOLUTE)
+    elseif (EXISTS "${BTK_DIR}/bin")
+        get_filename_component(GEANY_BTK_RUNTIME_DIR "${BTK_DIR}/bin" ABSOLUTE)
+    endif()
+endif()
+
 add_executable(geany-btk-search-studio
     src/main.cpp
 )
@@ -33,3 +44,9 @@ target_link_libraries(geany-btk-search-studio
 )
 
 target_compile_definitions(geany-btk-search-studio PRIVATE GEANY_BTK_EXPERIMENTAL=1)
+
+if (WIN32 AND GEANY_BTK_RUNTIME_DIR)
+    file(GENERATE
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/run-geany-btk-search-studio.bat"
+        CONTENT "@echo off\r\nsetlocal\r\nset \"PATH=${GEANY_BTK_RUNTIME_DIR};%PATH%\"\r\n\"$<TARGET_FILE:geany-btk-search-studio>\" %*\r\n")
+endif()

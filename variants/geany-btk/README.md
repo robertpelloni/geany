@@ -58,9 +58,14 @@ The validated local layout in this repo is:
 - variant executable: `../../build/geany-btk-package3/geany-btk-search-studio.exe`
 
 A convenience launcher is included for this workflow:
-- `run-windows-msvc.bat`
+- source-tree helper: `run-windows-msvc.bat`
 
 That launcher prepends the local BTK runtime directory to `PATH` and starts the built variant executable.
+
+The CMake build now also generates a build-directory launcher with the resolved BTK runtime path baked in:
+- `../../build/geany-btk-package3/run-geany-btk-search-studio.bat`
+
+This makes the local Windows/MSVC runtime path less manual after configuration/build succeeds.
 
 ## Why a separate variant exists
 

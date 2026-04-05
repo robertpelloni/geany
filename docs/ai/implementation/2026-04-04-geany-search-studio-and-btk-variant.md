@@ -122,6 +122,8 @@ This produced a successful standalone BTK build and a successful BTK variant exe
 
 A runtime smoke pass after the build also clarified one more Windows concern: the variant executable currently depends on BTK runtime DLLs being discoverable on `PATH`. Launching the executable directly without the BTK runtime directory available caused immediate process exit in this environment, while launching it with `build/btk-install/bin` prepended to `PATH` successfully produced a responsive `geany-btk-search-studio` window. A small Windows launcher batch file was added to make that local workflow repeatable.
 
+To reduce that manual runtime step further, the variant CMake now derives the BTK runtime directory from the discovered BTK package location and generates a build-directory launcher batch file automatically. That keeps the package-based BTK integration model while making the common local Windows/MSVC run path much more direct.
+
 ### Prototype goals
 The prototype intentionally models the **control density** and **workflow rhythm** of Notepad++ while leaving room for “better than N++” capabilities:
 - preview panes

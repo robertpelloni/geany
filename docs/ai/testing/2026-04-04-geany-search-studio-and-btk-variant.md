@@ -89,6 +89,12 @@ Using the built BTK runtime directory on `PATH`:
 - launching the BTK variant executable without the BTK runtime DLL directory on `PATH` exited immediately in this environment
 - a convenience launcher was added at:
   - `variants/geany-btk/run-windows-msvc.bat`
+- the CMake build now also generates a launcher with the resolved BTK runtime path baked in:
+  - `build/geany-btk-package3/run-geany-btk-search-studio.bat`
+
+### Additional regression check after launcher automation
+- reconfigure the BTK variant build and confirm the generated launcher exists beside the built executable
+- confirm the generated launcher contains the resolved local BTK runtime directory
 
 ### Regressions to watch after the build-enablement pass
 - BTK still builds standalone after the `CMAKE_CURRENT_SOURCE_DIR` CMake-module-path fix
