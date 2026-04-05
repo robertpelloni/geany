@@ -118,6 +118,11 @@ Additional hidden metadata columns store navigation and preview context such as:
 
 The internal result-routing code is now also partially normalized through a shared `SearchStudioResultSpec` model object in `src/search.c`. This reduces parameter soup in row append helpers and gives the GTK implementation a cleaner stepping stone toward a future frontend-independent Search Studio backend model.
 
+Search request preparation is also starting to normalize through internal query/replace spec helpers (`SearchStudioFindSpec` and `SearchStudioReplaceSpec`). The GTK code still owns execution directly, but it now has a clearer seam between:
+- request extraction from the UI
+- action execution
+- result-row routing
+
 This is now more than a summary-level results surface: for current-document operations it can append concrete match rows and respond to row activation by navigating to the stored match position. Selection changes can also update the Diff Preview pane with row-specific details.
 
 More result row types now carry preview payloads, including:
