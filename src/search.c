@@ -316,6 +316,10 @@ static gboolean search_studio_prepare_replace(GtkWidget *page, gchar **find, gch
 static void search_studio_replace_spec_clear(SearchStudioReplaceSpec *spec);
 static gboolean search_studio_build_replace_spec(GtkWidget *page, SearchStudioReplaceSpec *spec);
 static void search_studio_add_replace_history(GtkWidget *page, const SearchStudioReplaceSpec *spec);
+static void search_studio_report_count_status(const gchar *query, guint count,
+	gboolean session_scope, guint doc_count);
+static void search_studio_report_mark_status(const gchar *query, guint count,
+	gboolean bookmark_lines, gboolean session_scope, guint doc_count);
 static gchar *search_studio_document_target(GeanyDocument *doc);
 static void search_studio_append_document_result(const gchar *action, GeanyDocument *doc,
 	const gchar *query, const gchar *mode, const gchar *summary);
@@ -953,6 +957,55 @@ static void search_studio_add_replace_history(GtkWidget *page, const SearchStudi
 
 	search_studio_add_find_history(page, &spec->find);
 	search_studio_add_combo_history_text(page, "combo_replace", spec->original_replace);
+}
+
+
+static void search_studio_report_count_status(const gchar *query, guint count,
+	gboolean session_scope, guint doc_count)
+{
+	if (session_scope)
+	{
+		if (count == 0)
+			ui_set_statusbar(FALSE, _("No matches found for \"%s\" across open documents."), query);
+		else
+			ui_set_statusbar(FALSE, _("Counted %u matches across %u open documents for \"%s\"."),
+				count, doc_count, query);
+		return;
+	}
+
+	if (count == 0)
+		ui_set_statusbar(FALSE, _("No matches found for \"%s\"."), query);
+	else
+		ui_set_statusbar(FALSE,
+			ngettext("Counted %d match for \"%s\".", "Counted %d matches for \"%s\".", count),
+			count, query);
+}
+
+
+static void search_studio_report_mark_status(const gchar *query, guint count,
+	gboolean bookmark_lines, gboolean session_scope, guint doc_count)
+{
+	if (session_scope)
+	{
+		if (count == 0)
+			ui_set_statusbar(FALSE, _("No matches found for \"%s\" across open documents."), query);
+		else
+			ui_set_statusbar(FALSE, _("Marked %u matches across %u open documents for \"%s\"."),
+				count, doc_count, query);
+		return;
+	}
+
+	if (count == 0)
+		ui_set_statusbar(FALSE, _("No matches found for \"%s\"."), query);
+	else if (bookmark_lines)
+		ui_set_statusbar(FALSE,
+			ngettext("Marked %d match for \"%s\" and bookmarked its line.",
+				"Marked %d matches for \"%s\" and bookmarked their lines.", count),
+			count, query);
+	else
+		ui_set_statusbar(FALSE,
+			ngettext("Marked %d match for \"%s\".", "Marked %d matches for \"%s\".", count),
+			count, query);
 }
 
 
@@ -3412,12 +3465,7 @@ static void search_studio_count_activate(GtkButton *button, gpointer user_data)
 
 	search_studio_add_find_history(page, &spec);
 	count = search_count_matches(doc, spec.text, spec.flags);
-	if (count == 0)
-		ui_set_statusbar(FALSE, _("No matches found for \"%s\"."), spec.original_text);
-	else
-		ui_set_statusbar(FALSE,
-			ngettext("Counted %d match for \"%s\".", "Counted %d matches for \"%s\".", count),
-			count, spec.original_text);
+	search_studio_report_count_status(spec.original_text, count, FALSE, 0);
 
 	search_studio_activity_append("[Count] %s | mode=%s | matches=%d",
 		spec.original_text, spec.mode, count);
@@ -3448,18 +3496,7 @@ static void search_studio_mark_activate(GtkButton *button, gpointer user_data)
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_purge")));
 	search_studio_add_find_history(page, &spec);
 	count = search_mark_all_with_options(doc, spec.text, spec.flags, bookmark_lines, purge_bookmarks);
-
-	if (count == 0)
-		ui_set_statusbar(FALSE, _("No matches found for \"%s\"."), spec.original_text);
-	else if (bookmark_lines)
-		ui_set_statusbar(FALSE,
-			ngettext("Marked %d match for \"%s\" and bookmarked its line.",
-				"Marked %d matches for \"%s\" and bookmarked their lines.", count),
-			count, spec.original_text);
-	else
-		ui_set_statusbar(FALSE,
-			ngettext("Marked %d match for \"%s\".", "Marked %d matches for \"%s\".", count),
-			count, spec.original_text);
+	search_studio_report_mark_status(spec.original_text, count, bookmark_lines, FALSE, 0);
 
 	search_studio_activity_append("[Mark] %s | mode=%s | matches=%d | bookmarks=%s | purge=%s",
 		spec.original_text, spec.mode, count,
@@ -3510,12 +3547,7 @@ static void search_studio_count_session_activate(GtkButton *button, gpointer use
 	ctx.mode = spec.mode;
 	total_matches = search_studio_visit_open_documents(search_studio_count_session_cb, &ctx,
 		&docs_counted);
-
-	if (total_matches == 0)
-		ui_set_statusbar(FALSE, _("No matches found for \"%s\" across open documents."), spec.original_text);
-	else
-		ui_set_statusbar(FALSE, _("Counted %u matches across %u open documents for \"%s\"."),
-			total_matches, docs_counted, spec.original_text);
+	search_studio_report_count_status(spec.original_text, total_matches, TRUE, docs_counted);
 
 	search_studio_activity_append("[Count] Session | query=%s | mode=%s | matches=%u | docs=%u",
 		spec.original_text, spec.mode, total_matches, docs_counted);
@@ -3587,12 +3619,8 @@ static void search_studio_mark_session_activate(GtkButton *button, gpointer user
 	ctx.mode = spec.mode;
 	total_matches = search_studio_visit_open_documents(search_studio_mark_session_cb, &ctx,
 		&docs_marked);
-
-	if (total_matches == 0)
-		ui_set_statusbar(FALSE, _("No matches found for \"%s\" across open documents."), spec.original_text);
-	else
-		ui_set_statusbar(FALSE, _("Marked %u matches across %u open documents for \"%s\"."),
-			total_matches, docs_marked, spec.original_text);
+	search_studio_report_mark_status(spec.original_text, total_matches, ctx.bookmark_lines,
+		TRUE, docs_marked);
 
 	search_studio_activity_append("[Mark] Session | query=%s | mode=%s | matches=%u | docs=%u | bookmarks=%s | purge=%s",
 		spec.original_text, spec.mode, total_matches, docs_marked,

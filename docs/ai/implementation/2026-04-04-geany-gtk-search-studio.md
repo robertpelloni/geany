@@ -128,6 +128,7 @@ Shared action-layer helpers are now also starting to reduce repeated execution-a
 - active-document target labeling
 - summary-row emission for active-document actions
 - formatted summary-row emission for session and document actions
+- shared statusbar reporting for count/mark families
 - open-document iteration for session-oriented actions
 
 This means several Search Studio callbacks now read more like small orchestration functions, while reusable helper paths own the repetitive document/session summary plumbing.
