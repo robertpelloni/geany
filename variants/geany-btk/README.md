@@ -72,6 +72,12 @@ In addition, the build now stages a self-contained local runtime layout under:
   - BTK plugin/runtime-support DLLs in `lib/`
   - `run-geany-btk-search-studio.bat`
 
+The build can also package that staged layout into a zip archive via the custom target:
+- `geany-btk-runtime-package`
+
+Validated local package artifact:
+- `../../build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
+
 This makes the local Windows/MSVC runtime path less manual after configuration/build succeeds and gives the project an initial deploy-style handoff without requiring a full installer.
 
 ## Why a separate variant exists
@@ -91,4 +97,4 @@ without forcing an all-at-once migration of the production application.
 2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BTK-native presentation
-5. trim the staged BTK runtime layout to only the files actually needed by the prototype, or evolve it into a more formal package/install step
+5. trim the staged BTK runtime/package layout to only the files actually needed by the prototype, or evolve the zip output into a more formal install/release step

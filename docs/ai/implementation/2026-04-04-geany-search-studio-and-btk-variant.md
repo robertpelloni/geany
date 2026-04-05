@@ -130,6 +130,9 @@ That launcher work has now been pushed one step further into a lightweight local
 - BTK plugin/support DLLs into `runtime/lib/`
 - a launcher batch file into `runtime/`
 
+On top of that, the variant CMake now exposes a lightweight runtime package target (`geany-btk-runtime-package`) which archives the staged runtime tree into a zip file. In the validated local workflow this produces:
+- `build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
+
 This is intentionally still a developer-facing staging layout, not a polished package, but it is a meaningful step because it turns the successful build into a more portable local runtime artifact instead of only a build-tree executable plus PATH instructions.
 
 ### Prototype goals
