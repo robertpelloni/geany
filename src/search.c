@@ -275,6 +275,28 @@ typedef struct SearchStudioReplaceSessionActionSpec
 SearchStudioReplaceSessionActionSpec;
 
 
+typedef enum SearchStudioReplaceSessionRowsKind
+{
+	SEARCH_STUDIO_REPLACE_SESSION_ROWS_PREVIEW,
+	SEARCH_STUDIO_REPLACE_SESSION_ROWS_IMPACT
+}
+SearchStudioReplaceSessionRowsKind;
+
+
+typedef struct SearchStudioReplaceSessionRowsActionContext
+{
+	SearchStudioReplaceSessionRowsKind kind;
+	const gchar *action;
+	const gchar *query;
+	GeanyFindFlags flags;
+	const gchar *mode;
+	const gchar *replace_text;
+	const gchar *replace_display;
+	guint per_doc_limit;
+}
+SearchStudioReplaceSessionRowsActionContext;
+
+
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
 
@@ -368,9 +390,12 @@ static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
 static guint search_studio_append_replace_impact_rows(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
 	const gchar *replace_display);
-static guint search_studio_append_replace_impact_session_rows(const gchar *action,
-	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
-	const gchar *replace_display, guint *doc_count);
+static guint search_studio_replace_session_rows_action_cb(GeanyDocument *doc,
+	gpointer user_data);
+static SearchStudioSessionRunResult search_studio_execute_replace_session_rows_action(
+	GtkWidget *page, const SearchStudioReplaceSpec *spec,
+	SearchStudioReplaceSessionRowsActionContext *ctx, gboolean add_history,
+	gboolean store_find_spec);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
@@ -1676,46 +1701,32 @@ static guint search_studio_append_replace_impact_rows(const gchar *action, Geany
 }
 
 
-typedef struct SearchStudioReplaceImpactSessionContext
-{
-	const gchar *action;
-	const gchar *query;
-	GeanyFindFlags flags;
-	const gchar *mode;
-	const gchar *replace_text;
-	const gchar *replace_display;
-}
-SearchStudioReplaceImpactSessionContext;
-
-
-static guint search_studio_append_replace_impact_session_rows_cb(GeanyDocument *doc,
+static guint search_studio_replace_session_rows_action_cb(GeanyDocument *doc,
 	gpointer user_data)
 {
-	SearchStudioReplaceImpactSessionContext *ctx = user_data;
+	SearchStudioReplaceSessionRowsActionContext *ctx = user_data;
 
+	if (ctx->kind == SEARCH_STUDIO_REPLACE_SESSION_ROWS_PREVIEW)
+		return search_studio_append_replace_preview_rows(doc, ctx->query, ctx->flags,
+			ctx->mode, ctx->replace_text, ctx->replace_display, ctx->per_doc_limit);
 	return search_studio_append_replace_impact_rows(ctx->action, doc, ctx->query,
 		ctx->flags, ctx->mode, ctx->replace_text, ctx->replace_display);
 }
 
 
-static guint search_studio_append_replace_impact_session_rows(const gchar *action,
-	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
-	const gchar *replace_display, guint *doc_count)
+static SearchStudioSessionRunResult search_studio_execute_replace_session_rows_action(
+	GtkWidget *page, const SearchStudioReplaceSpec *spec,
+	SearchStudioReplaceSessionRowsActionContext *ctx, gboolean add_history,
+	gboolean store_find_spec)
 {
-	SearchStudioReplaceImpactSessionContext ctx = {
-		action,
-		query,
-		flags,
-		mode,
-		replace_text,
-		replace_display
-	};
-	SearchStudioSessionRunResult result = search_studio_run_session_action(
-		search_studio_append_replace_impact_session_rows_cb, &ctx);
+	SearchStudioReplaceSessionActionSpec action = { 0 };
 
-	if (doc_count != NULL)
-		*doc_count = result.docs_with_results;
-	return result.total_results;
+	action.replace = spec;
+	action.open_document_func = search_studio_replace_session_rows_action_cb;
+	action.open_document_data = ctx;
+	action.add_history = add_history;
+	action.store_find_spec = store_find_spec;
+	return search_studio_execute_replace_session_action(page, &action);
 }
 
 
@@ -3766,51 +3777,26 @@ static void search_studio_replace_preview_document(GtkButton *button, gpointer u
 }
 
 
-typedef struct SearchStudioReplacePreviewSessionActionContext
-{
-	const gchar *query;
-	GeanyFindFlags flags;
-	const gchar *mode;
-	const gchar *replace_text;
-	const gchar *replace_display;
-	guint per_doc_limit;
-}
-SearchStudioReplacePreviewSessionActionContext;
-
-
-static guint search_studio_replace_preview_session_action_cb(GeanyDocument *doc,
-	gpointer user_data)
-{
-	SearchStudioReplacePreviewSessionActionContext *ctx = user_data;
-
-	return search_studio_append_replace_preview_rows(doc, ctx->query, ctx->flags, ctx->mode,
-		ctx->replace_text, ctx->replace_display, ctx->per_doc_limit);
-}
-
-
 static void search_studio_replace_preview_session(GtkButton *button, gpointer user_data)
 {
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioReplaceSpec spec = { 0 };
-	SearchStudioReplacePreviewSessionActionContext ctx;
-	SearchStudioReplaceSessionActionSpec action;
+	SearchStudioReplaceSessionRowsActionContext ctx;
 	SearchStudioSessionRunResult result;
 
 	if (!search_studio_build_replace_spec(page, &spec))
 		return;
 
+	ctx.kind = SEARCH_STUDIO_REPLACE_SESSION_ROWS_PREVIEW;
+	ctx.action = "Replace Preview";
 	ctx.query = spec.find.text;
 	ctx.flags = spec.find.flags;
 	ctx.mode = spec.find.mode;
 	ctx.replace_text = spec.replace;
 	ctx.replace_display = spec.original_replace;
 	ctx.per_doc_limit = 100;
-	action.replace = &spec;
-	action.open_document_func = search_studio_replace_preview_session_action_cb;
-	action.open_document_data = &ctx;
-	action.add_history = FALSE;
-	action.store_find_spec = FALSE;
-	result = search_studio_execute_replace_session_action(page, &action);
+	result = search_studio_execute_replace_session_rows_action(page, &spec, &ctx,
+		FALSE, FALSE);
 	search_studio_activity_append("[Replace Preview] Session | find=%s | replace=%s | matches=%u | mode=%s",
 		spec.find.original_text, spec.original_replace, result.total_results, spec.find.mode);
 	search_studio_result_appendf("Replace Preview Session", "Open Documents", spec.find.original_text,
@@ -3906,16 +3892,27 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 				_("Are you sure to replace in the whole session?")))
 				break;
 			{
-				guint planned_docs = 0;
-				guint planned_matches = search_studio_append_replace_impact_session_rows("Session Replace Impact",
-					spec.find.text, spec.find.flags, spec.find.mode, spec.replace, spec.original_replace, &planned_docs);
+				SearchStudioReplaceSessionRowsActionContext ctx;
+				SearchStudioSessionRunResult plan;
+
+				ctx.kind = SEARCH_STUDIO_REPLACE_SESSION_ROWS_IMPACT;
+				ctx.action = "Session Replace Impact";
+				ctx.query = spec.find.text;
+				ctx.flags = spec.find.flags;
+				ctx.mode = spec.find.mode;
+				ctx.replace_text = spec.replace;
+				ctx.replace_display = spec.original_replace;
+				ctx.per_doc_limit = 0;
+				plan = search_studio_execute_replace_session_rows_action(page, &spec, &ctx,
+					FALSE, FALSE);
 				replace_in_session(doc, spec.find.flags, FALSE, spec.find.text, spec.replace,
 					spec.find.original_text, spec.original_replace);
 				search_studio_activity_append("[Replace] Replace in session | find=%s | replace=%s | mode=%s | planned-docs=%u | planned-matches=%u",
-					spec.find.original_text, spec.original_replace, spec.find.mode, planned_docs, planned_matches);
+					spec.find.original_text, spec.original_replace, spec.find.mode,
+					plan.docs_with_results, plan.total_results);
 				search_studio_result_appendf("Replace in Session", "Session", spec.find.original_text, spec.find.mode,
 					"Applied replacement across open documents (planned docs: %u, planned matches: %u).",
-					planned_docs, planned_matches);
+					plan.docs_with_results, plan.total_results);
 			}
 			break;
 	}

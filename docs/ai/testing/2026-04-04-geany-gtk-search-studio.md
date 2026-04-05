@@ -131,6 +131,7 @@
 - Aggregate session totals/docs-with-results remain correct after `SearchStudioSessionRunResult` normalization
 - Find-family session actions still behave correctly after lightweight session-action spec extraction (history behavior, stored search state where intended, and session callback execution remain correct)
 - Replace-family session actions still behave correctly after lightweight session-action spec extraction (replace history persistence, stored find-state behavior, and session preview traversal remain correct)
+- Replace-session preview rows and replace-session impact planning still behave correctly after shared rows-action normalization (preview still respects per-document limits, impact rows still report planned docs/matches correctly, and both still use the shared session action pathway)
 - Count/Mark status bar messaging still reports the correct active-document vs open-document scope after shared status-report helper extraction
 
 ## Environment limitation

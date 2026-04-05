@@ -145,7 +145,11 @@ A lightweight session-action spec layer is now beginning to emerge too. Session 
 - callback data/context
 - whether history/search-state should be persisted
 
-Find-family session actions use this directly for count/mark/session-hit style flows, and replace-family session actions now also use the same idea for session replace-preview execution and replace-state persistence. This is still intentionally small, but it starts shaping session execution as an explicit action object rather than only as manually coordinated local variables.
+Find-family session actions use this directly for count/mark/session-hit style flows, and replace-family session actions now also use the same idea for session replace-preview execution and replace-state persistence.
+
+In addition, replace-session row planning is converging around a shared rows-action context/callback path: session preview rows and session replace-impact rows are no longer modeled as completely separate orchestration styles. They now share a common replace-session rows action seam that decides whether to emit preview rows or impact rows while still flowing through the same replace-session action execution helper.
+
+This is still intentionally small, but it starts shaping session execution as an explicit action object rather than only as manually coordinated local variables.
 
 This is another meaningful backend-boundary step because session-scope work is increasingly described as:
 - a shared prepared request
