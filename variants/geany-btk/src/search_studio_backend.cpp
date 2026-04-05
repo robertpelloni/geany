@@ -228,8 +228,9 @@ SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &
 
     if (! action.activityMessage.isEmpty())
         result.activity.append(action.activityMessage);
-    appendReplacePreviewRows(result, action.actionKind, action.rowAction,
-        request.query, request.replacement, request.mode, request.sessionScope);
+    if (action.previewRows)
+        appendReplacePreviewRows(result, action.actionKind, action.rowAction,
+            request.query, request.replacement, request.mode, request.sessionScope);
     if (! action.summaryAction.isEmpty())
         result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
             action.summaryScope, action.summaryAction, QString(), request.query,
@@ -389,6 +390,7 @@ SearchStudioActionResult makeReplaceImpactResult(const SearchStudioReplaceReques
             .formatArgs(request.replacement, request.mode);
     spec.summaryScope = request.sessionScope ?
         SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;
+    spec.previewRows = true;
     return executeReplaceAction(request, spec);
 }
 

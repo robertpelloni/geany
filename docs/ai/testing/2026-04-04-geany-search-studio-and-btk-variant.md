@@ -118,6 +118,7 @@ Using the built BTK runtime directory on `PATH`:
 - confirm the BTK backend layer now owns request/result models for Find / Replace / Mark / Find in Files flows
 - confirm result specs carry action kind / result kind / target scope metadata in addition to row text payloads
 - confirm first-wave action specs exist for Find / Replace / Mark / Find in Files execution families in the BTK backend layer
+- confirm simple summary-oriented Find and Replace button flows still behave correctly after being routed through BTK action specs/execution helpers instead of only ad-hoc UI-local formatting
 - confirm several BTK UI actions still append activity lines and structured rows after the backend-layer extraction rather than regressing to blank/no-op behavior
 
 ### Runtime package validation
@@ -139,6 +140,7 @@ Using the built BTK runtime directory on `PATH`:
 - the BTK variant still compiles against current BTK string APIs (`formatArg` / `formatArgs`, `QString::fromUtf8(...)`) with `CMAKE_CXX_STANDARD 20`
 - the BTK backend-shaped helper layer (`src/search_studio_backend.h/.cpp`) still builds cleanly and the UI still consumes its action-result bundles/specs correctly
 - iterative rebuild/package flows still work while older staged runtime executables are running because the current staged output now uses timestamped `runtime-bundle-*` directories instead of the earlier fixed runtime path
+- repeated `geany-btk-stage-runtime` / `geany-btk-runtime-package` runs can produce fresh bundle/package timestamps without requiring a manual CMake reconfigure in between
 - the produced `geany-btk-search-studio.exe` launches and still presents the expected Search Studio tabs and lower navigator panes
 
 ## Current environment limitation

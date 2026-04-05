@@ -309,15 +309,20 @@ private:
             connect(button, &QPushButton::clicked, this, [this, activity, summary]() {
                 const QString query = textOrPlaceholder(find_.query->currentText(), "current selection");
                 const QString mode = modeName(find_.mode);
-                applyActionResult(SearchStudioBackend::makeActiveDocumentSummary(
-                    QString("[Find] %1 | query=%2 | mode=%3").formatArgs(activity, query, mode),
-                    activity,
-                    query,
-                    mode,
-                    summary,
-                    QString("%1 — Active Document").formatArg(activity),
-                    QString("Prototype action: %1\n\nQuery: %2\nMode: %3\n\nThis BTK surface mirrors the current Search Studio workflow but is not yet wired to Geany core services.")
-                        .formatArgs(activity, query, mode)));
+                SearchStudioFindRequest request;
+                SearchStudioFindActionSpec action;
+
+                request.query = query;
+                request.mode = mode;
+                action.actionKind = SearchStudioActionKind::Find;
+                action.activityMessage = QString("[Find] %1 | query=%2 | mode=%3").formatArgs(activity, query, mode);
+                action.summaryAction = activity;
+                action.summaryText = summary;
+                action.summaryPreviewTitle = QString("%1 — Active Document").formatArg(activity);
+                action.summaryPreviewBody = QString("Prototype action: %1\n\nQuery: %2\nMode: %3\n\nThis BTK surface mirrors the current Search Studio workflow but is not yet wired to Geany core services.")
+                    .formatArgs(activity, query, mode);
+                action.summaryScope = SearchStudioTargetScope::ActiveDocument;
+                applyActionResult(SearchStudioBackend::executeFindAction(request, action));
             });
             actions->addWidget(button);
         };
@@ -429,16 +434,23 @@ private:
                 const QString query = textOrPlaceholder(replace_.query->currentText(), "needle");
                 const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
                 const QString mode = modeName(replace_.mode);
-                applyActionResult(SearchStudioBackend::makeActiveDocumentSummary(
-                    QString("[Replace] %1 | query=%2 | replacement=%3 | mode=%4")
-                        .formatArgs(activity, query, replacement, mode),
-                    activity,
-                    query,
-                    mode,
-                    summary,
-                    QString("%1 — Active Document").formatArg(activity),
-                    QString("Query: %1\nReplacement: %2\nMode: %3\n\nPrototype action coverage only; engine wiring comes next.")
-                        .formatArgs(query, replacement, mode)));
+                SearchStudioReplaceRequest request;
+                SearchStudioReplaceActionSpec action;
+
+                request.query = query;
+                request.replacement = replacement;
+                request.mode = mode;
+                action.actionKind = SearchStudioActionKind::Replace;
+                action.activityMessage = QString("[Replace] %1 | query=%2 | replacement=%3 | mode=%4")
+                    .formatArgs(activity, query, replacement, mode);
+                action.summaryAction = activity;
+                action.summaryText = summary;
+                action.summaryPreviewTitle = QString("%1 — Active Document").formatArg(activity);
+                action.summaryPreviewBody = QString("Query: %1\nReplacement: %2\nMode: %3\n\nPrototype action coverage only; engine wiring comes next.")
+                    .formatArgs(query, replacement, mode);
+                action.summaryScope = SearchStudioTargetScope::ActiveDocument;
+                action.previewRows = false;
+                applyActionResult(SearchStudioBackend::executeReplaceAction(request, action));
             });
             actions->addWidget(button);
         };

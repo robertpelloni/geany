@@ -32,6 +32,7 @@ The current BTK prototype now mirrors several of the matured Search Studio conce
 - an emerging backend-shaped action/result layer in `src/search_studio_backend.h/.cpp` so the UI is no longer the only place where prototype result generation lives
 - BTK-side result specs now explicitly track action kind / result kind / target scope concepts, bringing the prototype closer to the GTK Search Studio normalization direction
 - BTK-side execution now also has first-wave action specs for Find / Replace / Mark / Find-in-Files families, reducing string-driven backend branching at call sites
+- simple Find and Replace action buttons are now routed through those action specs too, so even summary-only flows increasingly execute as request + action-spec + action-result rather than ad-hoc UI-local formatting
 
 ## Toolchain direction
 
@@ -91,8 +92,10 @@ Validated local package artifact pattern:
 
 The package target also refreshes the staged runtime tree first, so packaging still works even if the local staged runtime directory was removed between builds.
 
-A generated helper also points at the current bundle directory for the active configure pass:
+A generated helper also points at the latest staged bundle directory:
 - `../../build/geany-btk-package3/run-geany-btk-bundle.bat`
+
+That helper is now refreshed by the stage script on each build/package run instead of being frozen to a configure-time bundle path. This matters because timestamped bundle names are created at staging time, so repeated package runs can keep producing fresh bundle directories without requiring a manual CMake reconfigure between runs.
 
 The timestamped bundle directory name avoids clobbering an older already-running staged executable from previous smoke tests, which makes iterative Windows validation safer without having to kill running processes.
 

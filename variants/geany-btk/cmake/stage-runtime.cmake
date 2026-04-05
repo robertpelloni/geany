@@ -1,5 +1,5 @@
-if (NOT DEFINED GEANY_BTK_STAGE_DIR)
-    message(FATAL_ERROR "GEANY_BTK_STAGE_DIR is required")
+if (NOT DEFINED GEANY_BTK_STAGE_ROOT)
+    message(FATAL_ERROR "GEANY_BTK_STAGE_ROOT is required")
 endif()
 
 if (NOT DEFINED GEANY_BTK_RUNTIME_DIR)
@@ -9,6 +9,11 @@ endif()
 if (NOT DEFINED GEANY_BTK_TARGET_EXE)
     message(FATAL_ERROR "GEANY_BTK_TARGET_EXE is required")
 endif()
+
+string(TIMESTAMP GEANY_BTK_RUNTIME_TOKEN "%Y%m%d-%H%M%S")
+set(GEANY_BTK_STAGE_DIR "${GEANY_BTK_STAGE_ROOT}/runtime-bundle-${GEANY_BTK_RUNTIME_TOKEN}")
+set(GEANY_BTK_STAGE_MARKER "${GEANY_BTK_STAGE_ROOT}/latest-runtime-bundle.txt")
+set(GEANY_BTK_BUNDLE_LAUNCHER "${GEANY_BTK_STAGE_ROOT}/run-geany-btk-bundle.bat")
 
 get_filename_component(GEANY_BTK_TARGET_NAME "${GEANY_BTK_TARGET_EXE}" NAME)
 
@@ -60,3 +65,11 @@ file(WRITE "${GEANY_BTK_STAGE_DIR}/run-geany-btk-search-studio.bat"
     "setlocal\r\n"
     "set \"PATH=%~dp0bin;%PATH%\"\r\n"
     "\"%~dp0bin\\${GEANY_BTK_TARGET_NAME}\" %*\r\n")
+
+file(WRITE "${GEANY_BTK_STAGE_MARKER}" "${GEANY_BTK_STAGE_DIR}\n")
+file(WRITE "${GEANY_BTK_BUNDLE_LAUNCHER}"
+    "@echo off\r\n"
+    "setlocal\r\n"
+    "\"${GEANY_BTK_STAGE_DIR}/run-geany-btk-search-studio.bat\" %*\r\n")
+
+message(STATUS "Staged BTK runtime bundle: ${GEANY_BTK_STAGE_DIR}")

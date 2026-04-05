@@ -138,9 +138,10 @@ This is strategically important because it lets the BTK frontend validate the in
 
 The BTK prototype should now also keep pushing behavior into backend-shaped request/result models even while it still runs on prototype data. A useful near-term structure is:
 - request structs for Find / Replace / Mark / Find-in-Files flows
-- first-wave action specs for those families so the backend is not only string-driven
+- first-wave action specs for those families so the backend is not only string-driven, with even simple summary-oriented flows increasingly routed through the same execution shape
 - action-result bundles carrying activity lines plus structured result rows
 - result specs that explicitly track action kind, result kind, and target scope instead of only raw strings
 - backend helpers that generate preview/impact/session rows independently of the widget tree
+- runtime staging/package helpers that create fresh timestamped deployment bundles at stage time rather than only at configure time, so iterative Windows validation remains safe even when older staged executables are still running
 
 That does not yet wire the BTK variant to Geany core, but it makes the intended frontend/backend seam more explicit and keeps the UI from remaining a monolith of direct row-construction logic.

@@ -145,6 +145,13 @@ The package target now also depends on an explicit runtime-refresh target, so pa
 
 The staged runtime directory now uses a timestamped `runtime-bundle-<timestamp>/` naming scheme specifically so iterative Windows smoke tests do not have to overwrite an older already-running staged executable from a previous bundle pass. That keeps build/package iteration safer without violating the no-process-killing constraint.
 
+A follow-up systems fix was required after the first timestamped version landed: generating the timestamp only at CMake configure time still left the active build tree pinned to one bundle directory until the next reconfigure. That meant a later package run could still collide with a locked executable if it tried to refresh the same timestamped bundle path. The runtime staging flow now fixes that by moving timestamp creation into the stage script itself:
+- `geany-btk-stage-runtime` now passes the build directory as a stage root instead of a single precomputed bundle path
+- `stage-runtime.cmake` computes a fresh timestamp at execution time, stages into a new `runtime-bundle-<timestamp>/` directory, and rewrites a `latest-runtime-bundle.txt` marker plus the top-level `run-geany-btk-bundle.bat` helper
+- `package-runtime.cmake` now reads that marker to package the newest staged bundle into a matching `geany-btk-search-studio-runtime-<timestamp>.zip`
+
+This is a better architecture for iterative Windows/MSVC validation because the bundle timestamp now advances with each staging run rather than only with each CMake configure pass.
+
 This is intentionally still a developer-facing staging layout, not a polished package, but it is a meaningful step because it turns the successful build into a more portable local runtime artifact instead of only a build-tree executable plus PATH instructions.
 
 ### Prototype goals
@@ -166,6 +173,14 @@ That layer currently provides:
 - structured result specs carrying action kind / result kind / target scope metadata in addition to row text
 - action-result bundles carrying both activity messages and result rows
 - backend helpers for count, hit collection, replace preview/impact routing, mark routing, and Find in Files result generation
+
+That action-spec direction is now being used more directly by the BTK UI too. Even simple summary-oriented Find/Replace button flows are starting to execute as:
+- prepared request
+- prepared action spec
+- shared backend execution helper
+- structured action result consumed by the widget layer
+
+This is a useful step because it means the BTK variant is no longer using action specs only for the more complex preview/impact/session cases; even simpler action families are starting to conform to the same execution shape.
 
 This still uses prototype data rather than real Geany search/document services, but it is a meaningful architecture step because the BTK UI is now increasingly a consumer of action results instead of the sole place where those rows are invented. It also brings the BTK variant conceptually closer to the GTK Search Studio normalization path, where explicit request/result models and metadata-rich result specs are becoming the core backend seam.
 
