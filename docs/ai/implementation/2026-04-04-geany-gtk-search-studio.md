@@ -116,6 +116,8 @@ Additional hidden metadata columns store navigation and preview context such as:
 - preview title
 - preview body
 
+The internal result-routing code is now also partially normalized through a shared `SearchStudioResultSpec` model object in `src/search.c`. This reduces parameter soup in row append helpers and gives the GTK implementation a cleaner stepping stone toward a future frontend-independent Search Studio backend model.
+
 This is now more than a summary-level results surface: for current-document operations it can append concrete match rows and respond to row activation by navigating to the stored match position. Selection changes can also update the Diff Preview pane with row-specific details.
 
 More result row types now carry preview payloads, including:
@@ -245,7 +247,7 @@ Callback:
 1. Find in Files tab is now executable and can ingest its own grep output into Search Studio results, but it is still not as dense as Notepad++ or Geany's classic advanced dialog.
 2. Search Studio now has both activity and structured results panes, and the Find tab can collect active-document/open-document hits while Find in Files can ingest launched results. Count now also has active-document/session impact rows, bulk replace actions emit richer document-impact rows, and Mark can operate across the open-document set with session-mark impact rows. Lower-pane focus and informational-row handling are more navigator-like now, but it is still not yet a full universal hit-list / navigation result viewer across every action.
 3. Replace preview/dry-run groundwork exists and now feeds a dedicated Diff Preview pane, and more row types provide richer previews. It now resolves actual replacement text more accurately, but it is still a lightweight text preview rather than a true semantic diff viewer.
-4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object.
+4. Search Studio state is not yet fully normalized into a reusable frontend-independent model object, though result-row metadata is now partially normalized through an internal `SearchStudioResultSpec`.
 
 ## Why this was implemented this way
 

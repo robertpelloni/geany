@@ -124,6 +124,7 @@
   - Replace
   - Find in Files
 - Existing classic dialogs still open and operate normally
+- Structured result routing still works for summary rows, navigable match rows, replace preview rows, count impact rows, mark impact rows, and ingested Find in Files rows after the internal result-spec normalization pass
 
 ## Environment limitation
 - Full compile validation was not performed here if the required toolchain is unavailable in the current environment.

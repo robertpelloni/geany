@@ -85,7 +85,7 @@ This is strategically useful because:
 ### Not yet complete
 - full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
 - complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing), though session-wide marking/bookmarking now meaningfully reduces the gap for multi-document workflows
-- richer integrated results pane (today it supports current-document hits, open-document hits, Search Studio-launched Find in Files ingestion, count/mark/replace impact rows, and more row types now drive the Diff Preview pane; lower-pane focus behaves more like a navigator, but it is not yet a full universal hit-list viewer)
+- richer integrated results pane (today it supports current-document hits, open-document hits, Search Studio-launched Find in Files ingestion, count/mark/replace impact rows, and more row types now drive the Diff Preview pane; lower-pane focus behaves more like a navigator, and internal result metadata is starting to normalize around a shared row-spec model, but it is not yet a full universal hit-list viewer)
 - replace preview / dry-run groundwork now exists inside the Replace tab, now with a dedicated lower Diff Preview surface
 
 ## Data-flow architecture
@@ -114,5 +114,6 @@ This pass does three things at once:
 1. make the GTK Search Studio Replace page fully executable without falling back to the classic dialog
 2. add a true Find in Files advanced options matrix directly in Search Studio
 3. add a result / preview pane
-4. add preset scopes and persistent search profiles
-5. mirror the same model in the BTK variant with shared backend logic
+4. normalize Search Studio result/action state into a more reusable backend model object
+5. add preset scopes and persistent search profiles
+6. mirror the same model in the BTK variant with shared backend logic

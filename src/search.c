@@ -205,6 +205,23 @@ static struct
 studio_fif_capture = { FALSE, NULL, NULL, NULL, 0 };
 
 
+typedef struct SearchStudioResultSpec
+{
+	const gchar *action;
+	const gchar *target;
+	const gchar *query;
+	const gchar *mode;
+	const gchar *summary;
+	const gchar *filename;
+	gint line;
+	gint pos;
+	gboolean can_navigate;
+	const gchar *preview_title;
+	const gchar *preview_body;
+}
+SearchStudioResultSpec;
+
+
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
 
@@ -292,6 +309,7 @@ static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreeP
 static void search_studio_results_selection_changed(GtkTreeSelection *selection, gpointer user_data);
 static void search_studio_activity_append(const gchar *format, ...) G_GNUC_PRINTF(1, 2);
 static void search_studio_set_preview(const gchar *title, const gchar *body);
+static void search_studio_result_append_spec(const SearchStudioResultSpec *spec);
 static void search_studio_result_append(const gchar *action, const gchar *target,
 	const gchar *query, const gchar *mode, const gchar *summary);
 static gchar *search_studio_build_line_preview_body(GeanyDocument *doc, gint pos,
@@ -879,38 +897,57 @@ static void search_studio_set_preview(const gchar *title, const gchar *body)
 }
 
 
-static void search_studio_result_append(const gchar *action, const gchar *target,
-	const gchar *query, const gchar *mode, const gchar *summary)
+static void search_studio_result_append_spec(const SearchStudioResultSpec *spec)
 {
 	GtkTreeIter iter;
-	gchar *preview_body;
+	gchar *fallback_preview = NULL;
+	const gchar *preview_title;
+	const gchar *preview_body;
 
-	if (studio_dlg.results_store == NULL)
+	if (studio_dlg.results_store == NULL || spec == NULL)
 		return;
 
-	preview_body = g_strdup_printf("Action: %s\nTarget: %s\nQuery: %s\nMode: %s\n\nSummary:\n%s",
-		action != NULL ? action : _("(none)"),
-		target != NULL ? target : _("(none)"),
-		query != NULL ? query : _("(none)"),
-		mode != NULL ? mode : _("(none)"),
-		summary != NULL ? summary : _("(none)"));
+	fallback_preview = g_strdup_printf("Action: %s\nTarget: %s\nQuery: %s\nMode: %s\n\nSummary:\n%s",
+		spec->action != NULL ? spec->action : _("(none)"),
+		spec->target != NULL ? spec->target : _("(none)"),
+		spec->query != NULL ? spec->query : _("(none)"),
+		spec->mode != NULL ? spec->mode : _("(none)"),
+		spec->summary != NULL ? spec->summary : _("(none)"));
+	preview_title = !EMPTY(spec->preview_title) ? spec->preview_title : spec->target;
+	preview_body = !EMPTY(spec->preview_body) ? spec->preview_body : fallback_preview;
 
 	gtk_list_store_prepend(studio_dlg.results_store, &iter);
 	gtk_list_store_set(studio_dlg.results_store, &iter,
-		STUDIO_RESULT_ACTION, action,
-		STUDIO_RESULT_TARGET, target,
-		STUDIO_RESULT_QUERY, query,
-		STUDIO_RESULT_MODE, mode,
-		STUDIO_RESULT_SUMMARY, summary,
-		STUDIO_RESULT_FILE, NULL,
-		STUDIO_RESULT_LINE, -1,
-		STUDIO_RESULT_POS, -1,
-		STUDIO_RESULT_CAN_NAVIGATE, FALSE,
-		STUDIO_RESULT_PREVIEW_TITLE, target,
+		STUDIO_RESULT_ACTION, spec->action,
+		STUDIO_RESULT_TARGET, spec->target,
+		STUDIO_RESULT_QUERY, spec->query,
+		STUDIO_RESULT_MODE, spec->mode,
+		STUDIO_RESULT_SUMMARY, spec->summary,
+		STUDIO_RESULT_FILE, spec->filename,
+		STUDIO_RESULT_LINE, spec->line,
+		STUDIO_RESULT_POS, spec->pos,
+		STUDIO_RESULT_CAN_NAVIGATE, spec->can_navigate,
+		STUDIO_RESULT_PREVIEW_TITLE, preview_title,
 		STUDIO_RESULT_PREVIEW_BODY, preview_body,
 		-1);
 	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
-	g_free(preview_body);
+	g_free(fallback_preview);
+}
+
+
+static void search_studio_result_append(const gchar *action, const gchar *target,
+	const gchar *query, const gchar *mode, const gchar *summary)
+{
+	SearchStudioResultSpec spec = { 0 };
+
+	spec.action = action;
+	spec.target = target;
+	spec.query = query;
+	spec.mode = mode;
+	spec.summary = summary;
+	spec.line = -1;
+	spec.pos = -1;
+	search_studio_result_append_spec(&spec);
 }
 
 
@@ -952,7 +989,7 @@ static gchar *search_studio_build_line_preview_body(GeanyDocument *doc, gint pos
 static void search_studio_result_append_match(const gchar *action, GeanyDocument *doc,
 	const gchar *query, const gchar *mode, gint pos, const gchar *summary)
 {
-	GtkTreeIter iter;
+	SearchStudioResultSpec spec = { 0 };
 	gchar *target;
 	gchar *preview_body;
 	gint line;
@@ -964,21 +1001,18 @@ static void search_studio_result_append_match(const gchar *action, GeanyDocument
 	target = g_strdup_printf("%s:%d", DOC_FILENAME(doc), line);
 	preview_body = search_studio_build_line_preview_body(doc, pos, query, action);
 
-	gtk_list_store_prepend(studio_dlg.results_store, &iter);
-	gtk_list_store_set(studio_dlg.results_store, &iter,
-		STUDIO_RESULT_ACTION, action,
-		STUDIO_RESULT_TARGET, target,
-		STUDIO_RESULT_QUERY, query,
-		STUDIO_RESULT_MODE, mode,
-		STUDIO_RESULT_SUMMARY, summary,
-		STUDIO_RESULT_FILE, DOC_FILENAME(doc),
-		STUDIO_RESULT_LINE, line,
-		STUDIO_RESULT_POS, pos,
-		STUDIO_RESULT_CAN_NAVIGATE, TRUE,
-		STUDIO_RESULT_PREVIEW_TITLE, target,
-		STUDIO_RESULT_PREVIEW_BODY, preview_body,
-		-1);
-	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
+	spec.action = action;
+	spec.target = target;
+	spec.query = query;
+	spec.mode = mode;
+	spec.summary = summary;
+	spec.filename = DOC_FILENAME(doc);
+	spec.line = line;
+	spec.pos = pos;
+	spec.can_navigate = TRUE;
+	spec.preview_title = target;
+	spec.preview_body = preview_body;
+	search_studio_result_append_spec(&spec);
 	g_free(preview_body);
 	g_free(target);
 }
@@ -988,7 +1022,7 @@ static void search_studio_result_append_preview_match(const gchar *action, Geany
 	const gchar *query, const gchar *mode, gint pos, const gchar *summary,
 	const gchar *preview_title, const gchar *preview_body)
 {
-	GtkTreeIter iter;
+	SearchStudioResultSpec spec = { 0 };
 	gchar *target;
 	gint line;
 
@@ -998,21 +1032,18 @@ static void search_studio_result_append_preview_match(const gchar *action, Geany
 	line = sci_get_line_from_position(doc->editor->sci, pos) + 1;
 	target = g_strdup_printf("%s:%d", DOC_FILENAME(doc), line);
 
-	gtk_list_store_prepend(studio_dlg.results_store, &iter);
-	gtk_list_store_set(studio_dlg.results_store, &iter,
-		STUDIO_RESULT_ACTION, action,
-		STUDIO_RESULT_TARGET, target,
-		STUDIO_RESULT_QUERY, query,
-		STUDIO_RESULT_MODE, mode,
-		STUDIO_RESULT_SUMMARY, summary,
-		STUDIO_RESULT_FILE, DOC_FILENAME(doc),
-		STUDIO_RESULT_LINE, line,
-		STUDIO_RESULT_POS, pos,
-		STUDIO_RESULT_CAN_NAVIGATE, TRUE,
-		STUDIO_RESULT_PREVIEW_TITLE, preview_title,
-		STUDIO_RESULT_PREVIEW_BODY, preview_body,
-		-1);
-	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
+	spec.action = action;
+	spec.target = target;
+	spec.query = query;
+	spec.mode = mode;
+	spec.summary = summary;
+	spec.filename = DOC_FILENAME(doc);
+	spec.line = line;
+	spec.pos = pos;
+	spec.can_navigate = TRUE;
+	spec.preview_title = preview_title;
+	spec.preview_body = preview_body;
+	search_studio_result_append_spec(&spec);
 	g_free(target);
 }
 
@@ -1408,28 +1439,25 @@ static void search_studio_capture_grep_result(const gchar *utf8_msg)
 	summary = g_strdup_printf("Find in Files hit at line %d: %s", line, g_strstrip(parts[2]));
 
 	{
-		GtkTreeIter iter;
+		SearchStudioResultSpec spec = { 0 };
 		gchar *preview_body = g_strdup_printf("Find in Files Hit\n\nFile: %s\nLine: %d\nQuery: %s\nMode: %s\n\nMatched line:\n%s",
 			full_path,
 			line,
 			studio_fif_capture.query != NULL ? studio_fif_capture.query : _("(none)"),
 			studio_fif_capture.mode != NULL ? studio_fif_capture.mode : _("(none)"),
 			g_strstrip(parts[2]));
-		gtk_list_store_prepend(studio_dlg.results_store, &iter);
-		gtk_list_store_set(studio_dlg.results_store, &iter,
-			STUDIO_RESULT_ACTION, "Find in Files Hit",
-			STUDIO_RESULT_TARGET, target,
-			STUDIO_RESULT_QUERY, studio_fif_capture.query,
-			STUDIO_RESULT_MODE, studio_fif_capture.mode,
-			STUDIO_RESULT_SUMMARY, summary,
-			STUDIO_RESULT_FILE, full_path,
-			STUDIO_RESULT_LINE, line,
-			STUDIO_RESULT_POS, -1,
-			STUDIO_RESULT_CAN_NAVIGATE, TRUE,
-			STUDIO_RESULT_PREVIEW_TITLE, target,
-			STUDIO_RESULT_PREVIEW_BODY, preview_body,
-			-1);
-		search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
+		spec.action = "Find in Files Hit";
+		spec.target = target;
+		spec.query = studio_fif_capture.query;
+		spec.mode = studio_fif_capture.mode;
+		spec.summary = summary;
+		spec.filename = full_path;
+		spec.line = line;
+		spec.pos = -1;
+		spec.can_navigate = TRUE;
+		spec.preview_title = target;
+		spec.preview_body = preview_body;
+		search_studio_result_append_spec(&spec);
 		g_free(preview_body);
 	}
 	studio_fif_capture.results_added++;
