@@ -138,6 +138,7 @@ This is strategically important because it lets the BTK frontend validate the in
 
 The BTK prototype should now also keep pushing behavior into backend-shaped request/result models even while it still runs on prototype data. A useful near-term structure is:
 - request structs for Find / Replace / Mark / Find-in-Files flows
+- first-wave action specs for those families so the backend is not only string-driven
 - action-result bundles carrying activity lines plus structured result rows
 - result specs that explicitly track action kind, result kind, and target scope instead of only raw strings
 - backend helpers that generate preview/impact/session rows independently of the widget tree

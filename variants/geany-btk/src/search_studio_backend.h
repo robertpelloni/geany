@@ -61,12 +61,39 @@ struct SearchStudioFindRequest
     bool sessionScope = false;
 };
 
+struct SearchStudioFindActionSpec
+{
+    SearchStudioActionKind actionKind = SearchStudioActionKind::Find;
+    QString activityMessage;
+    QString impactAction;
+    QString impactSummaryPrefix;
+    QString summaryAction;
+    QString summaryText;
+    QString summaryPreviewTitle;
+    QString summaryPreviewBody;
+    SearchStudioTargetScope summaryScope = SearchStudioTargetScope::ActiveDocument;
+    bool includeImpactRows = false;
+};
+
 struct SearchStudioReplaceRequest
 {
     QString query;
     QString replacement;
     QString mode;
     bool sessionScope = false;
+};
+
+struct SearchStudioReplaceActionSpec
+{
+    SearchStudioActionKind actionKind = SearchStudioActionKind::Replace;
+    QString activityMessage;
+    QString rowAction;
+    QString summaryAction;
+    QString summaryText;
+    QString summaryPreviewTitle;
+    QString summaryPreviewBody;
+    SearchStudioTargetScope summaryScope = SearchStudioTargetScope::ActiveDocument;
+    bool previewRows = false;
 };
 
 struct SearchStudioMarkRequest
@@ -78,11 +105,39 @@ struct SearchStudioMarkRequest
     bool sessionScope = false;
 };
 
+struct SearchStudioMarkActionSpec
+{
+    SearchStudioActionKind actionKind = SearchStudioActionKind::Mark;
+    QString activityMessage;
+    QString impactAction;
+    QString impactSummaryPrefix;
+    QString summaryAction;
+    QString summaryText;
+    QString summaryPreviewTitle;
+    QString summaryPreviewBody;
+    SearchStudioTargetScope summaryScope = SearchStudioTargetScope::ActiveDocument;
+    bool includeImpactRows = false;
+};
+
 struct SearchStudioFindInFilesRequest
 {
     QString query;
     QString directory;
     QString mode;
+};
+
+struct SearchStudioFindInFilesActionSpec
+{
+    SearchStudioActionKind actionKind = SearchStudioActionKind::FindInFiles;
+    QString activityMessage;
+    QString captureAction;
+    QString captureSummaryPrefix;
+    QString summaryAction;
+    QString summaryText;
+    QString summaryPreviewTitle;
+    QString summaryPreviewBody;
+    SearchStudioTargetScope summaryScope = SearchStudioTargetScope::Directory;
+    bool includeCaptureRows = false;
 };
 
 namespace SearchStudioBackend {
@@ -96,6 +151,16 @@ SearchStudioActionResult makeSessionSummary(const QString &activityMessage,
     const QString &action, const QString &query, const QString &mode,
     const QString &summary, const QString &previewTitle,
     const QString &previewBody);
+
+SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &request,
+    const SearchStudioFindActionSpec &action);
+SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &request,
+    const SearchStudioReplaceActionSpec &action);
+SearchStudioActionResult executeMarkAction(const SearchStudioMarkRequest &request,
+    const SearchStudioMarkActionSpec &action);
+SearchStudioActionResult executeFindInFilesAction(
+    const SearchStudioFindInFilesRequest &request,
+    const SearchStudioFindInFilesActionSpec &action);
 
 SearchStudioActionResult makeCountResult(const SearchStudioFindRequest &request);
 SearchStudioActionResult makeCollectedHitsResult(const SearchStudioFindRequest &request);

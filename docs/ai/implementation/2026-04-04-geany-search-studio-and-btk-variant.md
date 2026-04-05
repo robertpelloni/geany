@@ -125,25 +125,25 @@ A runtime smoke pass after the build also clarified one more Windows concern: th
 To reduce that manual runtime step further, the variant CMake now derives the BTK runtime directory from the discovered BTK package location and generates a build-directory launcher batch file automatically. That keeps the package-based BTK integration model while making the common local Windows/MSVC run path much more direct.
 
 That launcher work has now been pushed one step further into a lightweight local deploy-style layout. The BTK variant build stages:
-- the variant executable into `runtime-bundle/bin/`
-- BTK runtime DLLs into `runtime-bundle/bin/`
+- the variant executable into `runtime-bundle-<timestamp>/bin/`
+- BTK runtime DLLs into `runtime-bundle-<timestamp>/bin/`
 - plugin DLLs into deployment-shaped subdirectories such as:
-  - `runtime-bundle/platforms/`
-  - `runtime-bundle/imageformats/`
-  - `runtime-bundle/mediaservices/`
-  - `runtime-bundle/playlistformats/`
-  - `runtime-bundle/printerdrivers/`
-  - `runtime-bundle/sqldrivers/`
-- a launcher batch file into `runtime-bundle/`
+  - `runtime-bundle-<timestamp>/platforms/`
+  - `runtime-bundle-<timestamp>/imageformats/`
+  - `runtime-bundle-<timestamp>/mediaservices/`
+  - `runtime-bundle-<timestamp>/playlistformats/`
+  - `runtime-bundle-<timestamp>/printerdrivers/`
+  - `runtime-bundle-<timestamp>/sqldrivers/`
+- a launcher batch file into `runtime-bundle-<timestamp>/`
 
 This staging was also tightened so the local runtime/package layout now carries only the executable plus relevant runtime/plugin DLLs rather than also dragging along BTK import libraries, CMake package metadata, and extra build-time helper binaries. Plugin DLLs are staged into deployment-shaped directories (`platforms/`, `imageformats/`, `mediaservices/`, `playlistformats/`, `printerdrivers/`, `sqldrivers/`) so runtime behavior keeps matching BTK/CopperSpice plugin-loading expectations.
 
-On top of that, the variant CMake now exposes a lightweight runtime package target (`geany-btk-runtime-package`) which archives the staged runtime tree into a zip file. In the validated local workflow this produces:
-- `build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
+On top of that, the variant CMake now exposes a lightweight runtime package target (`geany-btk-runtime-package`) which archives the staged runtime tree into a zip file. In the validated local workflow this produces artifacts like:
+- `build/geany-btk-package3/geany-btk-search-studio-runtime-<timestamp>.zip`
 
 The package target now also depends on an explicit runtime-refresh target, so packaging still reconstructs the staged runtime tree even if the staged runtime directory was deleted between builds.
 
-The staged runtime directory now uses a `runtime-bundle/` name specifically so iterative Windows smoke tests do not have to overwrite an older already-running staged executable in a fixed `runtime/` or `runtime-stage/` path. That keeps build/package iteration safer without violating the no-process-killing constraint.
+The staged runtime directory now uses a timestamped `runtime-bundle-<timestamp>/` naming scheme specifically so iterative Windows smoke tests do not have to overwrite an older already-running staged executable from a previous bundle pass. That keeps build/package iteration safer without violating the no-process-killing constraint.
 
 This is intentionally still a developer-facing staging layout, not a polished package, but it is a meaningful step because it turns the successful build into a more portable local runtime artifact instead of only a build-tree executable plus PATH instructions.
 
@@ -162,6 +162,7 @@ A backend-boundary pass has now started inside the BTK variant itself too. The p
 
 That layer currently provides:
 - request structs for Find / Replace / Mark / Find in Files prototype flows
+- first-wave action specs for Find / Replace / Mark / Find in Files execution families
 - structured result specs carrying action kind / result kind / target scope metadata in addition to row text
 - action-result bundles carrying both activity messages and result rows
 - backend helpers for count, hit collection, replace preview/impact routing, mark routing, and Find in Files result generation

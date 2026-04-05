@@ -79,6 +79,25 @@ SearchStudioResultSpec makeResultSpec(SearchStudioActionKind actionKind,
     return row;
 }
 
+SearchStudioActionKind inferActionKind(const QString &action)
+{
+    if (action.contains(qs("Replace Preview")))
+        return SearchStudioActionKind::ReplacePreview;
+    if (action.contains(qs("Replace")))
+        return SearchStudioActionKind::Replace;
+    if (action.contains(qs("Find in Files")))
+        return SearchStudioActionKind::FindInFiles;
+    if (action.contains(qs("Count")))
+        return SearchStudioActionKind::Count;
+    if (action.contains(qs("Collect")) || action.contains(qs("Hit")))
+        return SearchStudioActionKind::CollectHits;
+    if (action.contains(qs("Mark")))
+        return SearchStudioActionKind::Mark;
+    if (action.contains(qs("Find")))
+        return SearchStudioActionKind::Find;
+    return SearchStudioActionKind::Studio;
+}
+
 SearchStudioTargetScope inferScope(const QString &target)
 {
     if (target == qs("Active Document"))
@@ -110,7 +129,8 @@ SearchStudioResultSpec makeResultSpec(SearchStudioActionKind actionKind,
         target, query, mode, summary, previewTitle, previewBody, navigable);
 }
 
-void appendImpactRows(SearchStudioActionResult &result, const QString &action,
+void appendImpactRows(SearchStudioActionResult &result,
+    SearchStudioActionKind actionKind, const QString &action,
     const QString &query, const QString &mode, const QString &summaryPrefix,
     bool sessionScope)
 {
@@ -127,7 +147,7 @@ void appendImpactRows(SearchStudioActionResult &result, const QString &action,
             .formatArg(action.toLower())
             .formatArg(query);
 
-        result.rows.append(makeResultSpec(SearchStudioActionKind::Count,
+        result.rows.append(makeResultSpec(actionKind,
             action,
             QString("%1:%2").formatArg(file).formatArg(line),
             query,
@@ -139,7 +159,8 @@ void appendImpactRows(SearchStudioActionResult &result, const QString &action,
     }
 }
 
-void appendReplacePreviewRows(SearchStudioActionResult &result, const QString &action,
+void appendReplacePreviewRows(SearchStudioActionResult &result,
+    SearchStudioActionKind actionKind, const QString &action,
     const QString &query, const QString &replaceText, const QString &mode,
     bool sessionScope)
 {
@@ -164,7 +185,7 @@ void appendReplacePreviewRows(SearchStudioActionResult &result, const QString &a
             "Actual replacement text:\n%6")
             .formatArgs(originalLine, replacementLine, query, replaceText, replaceText, replaceText);
 
-        result.rows.append(makeResultSpec(SearchStudioActionKind::ReplacePreview,
+        result.rows.append(makeResultSpec(actionKind,
             action,
             QString("%1:%2").formatArg(file).formatArg(line),
             query,
@@ -180,6 +201,84 @@ void appendReplacePreviewRows(SearchStudioActionResult &result, const QString &a
 
 namespace SearchStudioBackend {
 
+SearchStudioActionResult executeFindAction(const SearchStudioFindRequest &request,
+    const SearchStudioFindActionSpec &action)
+{
+    SearchStudioActionResult result;
+
+    if (! action.activityMessage.isEmpty())
+        result.activity.append(action.activityMessage);
+    if (action.includeImpactRows)
+        appendImpactRows(result, action.actionKind, action.impactAction,
+            request.query, request.mode, action.impactSummaryPrefix,
+            request.sessionScope);
+    if (! action.summaryAction.isEmpty())
+        result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
+            action.summaryScope, action.summaryAction, QString(), request.query,
+            request.mode, action.summaryText, action.summaryPreviewTitle,
+            action.summaryPreviewBody, false));
+
+    return result;
+}
+
+SearchStudioActionResult executeReplaceAction(const SearchStudioReplaceRequest &request,
+    const SearchStudioReplaceActionSpec &action)
+{
+    SearchStudioActionResult result;
+
+    if (! action.activityMessage.isEmpty())
+        result.activity.append(action.activityMessage);
+    appendReplacePreviewRows(result, action.actionKind, action.rowAction,
+        request.query, request.replacement, request.mode, request.sessionScope);
+    if (! action.summaryAction.isEmpty())
+        result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
+            action.summaryScope, action.summaryAction, QString(), request.query,
+            request.mode, action.summaryText, action.summaryPreviewTitle,
+            action.summaryPreviewBody, false));
+
+    return result;
+}
+
+SearchStudioActionResult executeMarkAction(const SearchStudioMarkRequest &request,
+    const SearchStudioMarkActionSpec &action)
+{
+    SearchStudioActionResult result;
+
+    if (! action.activityMessage.isEmpty())
+        result.activity.append(action.activityMessage);
+    if (action.includeImpactRows)
+        appendImpactRows(result, action.actionKind, action.impactAction,
+            request.query, request.mode, action.impactSummaryPrefix,
+            request.sessionScope);
+    if (! action.summaryAction.isEmpty())
+        result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
+            action.summaryScope, action.summaryAction, QString(), request.query,
+            request.mode, action.summaryText, action.summaryPreviewTitle,
+            action.summaryPreviewBody, false));
+
+    return result;
+}
+
+SearchStudioActionResult executeFindInFilesAction(
+    const SearchStudioFindInFilesRequest &request,
+    const SearchStudioFindInFilesActionSpec &action)
+{
+    SearchStudioActionResult result;
+
+    if (! action.activityMessage.isEmpty())
+        result.activity.append(action.activityMessage);
+    if (action.includeCaptureRows)
+        appendImpactRows(result, action.actionKind, action.captureAction,
+            request.query, request.mode, action.captureSummaryPrefix, TRUE);
+    if (! action.summaryAction.isEmpty())
+        result.rows.append(makeResultSpec(action.actionKind, SearchStudioResultKind::Summary,
+            action.summaryScope, action.summaryAction, request.directory,
+            request.query, request.mode, action.summaryText,
+            action.summaryPreviewTitle, action.summaryPreviewBody, false));
+
+    return result;
+}
+
 SearchStudioActionResult makeActiveDocumentSummary(const QString &activityMessage,
     const QString &action, const QString &query, const QString &mode,
     const QString &summary, const QString &previewTitle,
@@ -187,7 +286,7 @@ SearchStudioActionResult makeActiveDocumentSummary(const QString &activityMessag
 {
     SearchStudioActionResult result;
     result.activity.append(activityMessage);
-    result.rows.append(makeResultSpec(SearchStudioActionKind::Find,
+    result.rows.append(makeResultSpec(inferActionKind(action),
         SearchStudioResultKind::Summary,
         SearchStudioTargetScope::ActiveDocument, action, QString(), query, mode,
         summary, previewTitle, previewBody, false));
@@ -201,7 +300,7 @@ SearchStudioActionResult makeSessionSummary(const QString &activityMessage,
 {
     SearchStudioActionResult result;
     result.activity.append(activityMessage);
-    result.rows.append(makeResultSpec(SearchStudioActionKind::Find,
+    result.rows.append(makeResultSpec(inferActionKind(action),
         SearchStudioResultKind::Summary,
         SearchStudioTargetScope::OpenDocuments, action, QString(), query, mode,
         summary, previewTitle, previewBody, false));
@@ -210,181 +309,137 @@ SearchStudioActionResult makeSessionSummary(const QString &activityMessage,
 
 SearchStudioActionResult makeCountResult(const SearchStudioFindRequest &request)
 {
-    SearchStudioActionResult result;
+    SearchStudioFindActionSpec action;
 
-    if (request.sessionScope)
-    {
-        result.activity.append(QString("[Count] Session | query=%1 | mode=%2")
-            .formatArgs(request.query, request.mode));
-        appendImpactRows(result, qs("Session Count Impact"), request.query,
-            request.mode, qs("Counted"), true);
-        result.rows.append(makeResultSpec(SearchStudioActionKind::Count,
-            qs("Count in Session"), qs("Open Documents"),
-            request.query, request.mode,
-            qs("Counted representative matches across open documents."),
-            qs("Count in Session"),
-            qs("Prototype aggregate count across open documents with per-document impact rows above."),
-            false));
-    }
-    else
-    {
-        result.activity.append(QString("[Count] query=%1 | mode=%2 | scope=active document")
-            .formatArgs(request.query, request.mode));
-        result.rows.append(makeResultSpec(SearchStudioActionKind::Count,
-            qs("Count"), qs("Active Document"),
-            request.query, request.mode,
-            qs("Counted matches in the active document."),
-            qs("Count — Active Document"),
-            qs("Prototype count summary for the active document."),
-            false));
-        appendImpactRows(result, qs("Count Impact"), request.query,
-            request.mode, qs("Counted"), false);
-    }
-
-    return result;
+    action.actionKind = SearchStudioActionKind::Count;
+    action.activityMessage = request.sessionScope ?
+        QString("[Count] Session | query=%1 | mode=%2").formatArgs(request.query, request.mode) :
+        QString("[Count] query=%1 | mode=%2 | scope=active document").formatArgs(request.query, request.mode);
+    action.impactAction = request.sessionScope ? qs("Session Count Impact") : qs("Count Impact");
+    action.impactSummaryPrefix = qs("Counted");
+    action.summaryAction = request.sessionScope ? qs("Count in Session") : qs("Count");
+    action.summaryText = request.sessionScope ?
+        qs("Counted representative matches across open documents.") :
+        qs("Counted matches in the active document.");
+    action.summaryPreviewTitle = request.sessionScope ? qs("Count in Session") : qs("Count — Active Document");
+    action.summaryPreviewBody = request.sessionScope ?
+        qs("Prototype aggregate count across open documents with per-document impact rows above.") :
+        qs("Prototype count summary for the active document.");
+    action.summaryScope = request.sessionScope ?
+        SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;
+    action.includeImpactRows = true;
+    return executeFindAction(request, action);
 }
 
 SearchStudioActionResult makeCollectedHitsResult(const SearchStudioFindRequest &request)
 {
-    SearchStudioActionResult result;
+    SearchStudioFindActionSpec action;
 
-    if (request.sessionScope)
-    {
-        result.activity.append(QString("[Results] Collected open-document hits for %1.")
-            .formatArg(request.query));
-        appendImpactRows(result, qs("Session Hit"), request.query,
-            request.mode, qs("Collected"), true);
-        result.rows.append(makeResultSpec(SearchStudioActionKind::CollectHits,
-            qs("Collect Session Hits"), qs("Open Documents"),
-            request.query, request.mode,
-            qs("Collected representative open-document hits."),
-            qs("Collect Session Hits"),
-            qs("Prototype open-document hit collection summary."),
-            false));
-    }
-    else
-    {
-        result.activity.append(QString("[Results] Collected current-document hits for %1.")
-            .formatArg(request.query));
-        appendImpactRows(result, qs("Document Hit"), request.query,
-            request.mode, qs("Collected"), false);
-    }
-
-    return result;
+    action.actionKind = SearchStudioActionKind::CollectHits;
+    action.activityMessage = request.sessionScope ?
+        QString("[Results] Collected open-document hits for %1.").formatArg(request.query) :
+        QString("[Results] Collected current-document hits for %1.").formatArg(request.query);
+    action.impactAction = request.sessionScope ? qs("Session Hit") : qs("Document Hit");
+    action.impactSummaryPrefix = qs("Collected");
+    action.summaryAction = request.sessionScope ? qs("Collect Session Hits") : QString();
+    action.summaryText = qs("Collected representative open-document hits.");
+    action.summaryPreviewTitle = qs("Collect Session Hits");
+    action.summaryPreviewBody = qs("Prototype open-document hit collection summary.");
+    action.summaryScope = SearchStudioTargetScope::OpenDocuments;
+    action.includeImpactRows = true;
+    return executeFindAction(request, action);
 }
 
 SearchStudioActionResult makeReplacePreviewResult(const SearchStudioReplaceRequest &request,
     const QString &action)
 {
-    SearchStudioActionResult result;
+    SearchStudioReplaceActionSpec spec;
 
-    if (request.sessionScope)
-        result.activity.append(qs("[Replace Preview] Prototype session preview generated."));
-    else
-        result.activity.append(qs("[Replace Preview] Prototype document preview generated."));
-
-    appendReplacePreviewRows(result, action, request.query,
-        request.replacement, request.mode, request.sessionScope);
-    return result;
+    spec.actionKind = SearchStudioActionKind::ReplacePreview;
+    spec.activityMessage = request.sessionScope ?
+        qs("[Replace Preview] Prototype session preview generated.") :
+        qs("[Replace Preview] Prototype document preview generated.");
+    spec.rowAction = action;
+    spec.previewRows = true;
+    return executeReplaceAction(request, spec);
 }
 
 SearchStudioActionResult makeReplaceImpactResult(const SearchStudioReplaceRequest &request,
     const QString &action, const QString &summaryActionLabel,
     const QString &summaryTarget)
 {
-    SearchStudioActionResult result;
+    SearchStudioReplaceActionSpec spec;
 
-    if (request.sessionScope)
-    {
-        result.activity.append(QString("[Replace] Replace in session | query=%1 | replacement=%2 | mode=%3")
-            .formatArgs(request.query, request.replacement, request.mode));
-        appendReplacePreviewRows(result, action, request.query,
-            request.replacement, request.mode, true);
-        result.rows.append(makeResultSpec(SearchStudioActionKind::Replace,
-            summaryActionLabel, summaryTarget, request.query,
-            request.mode,
-            qs("Prototype replace-in-session summary with per-document impact rows above."),
-            qs("Replace in Session"),
-            QString("Replacement payload: %1\nMode: %2\n\nPer-document impact rows above would be driven by Geany core later.")
-                .formatArgs(request.replacement, request.mode),
-            false));
-    }
-    else
-    {
-        result.activity.append(QString("[Replace] Replace in document | query=%1 | replacement=%2 | mode=%3")
-            .formatArgs(request.query, request.replacement, request.mode));
-        appendReplacePreviewRows(result, action, request.query,
-            request.replacement, request.mode, false);
-        result.rows.append(makeResultSpec(SearchStudioActionKind::Replace,
-            summaryActionLabel, summaryTarget, request.query,
-            request.mode,
-            qs("Prototype replace-in-document summary with impact rows above."),
-            qs("Replace in Document"),
-            QString("Replacement payload: %1\nMode: %2\n\nImpact rows above mirror the current Search Studio model.")
-                .formatArgs(request.replacement, request.mode),
-            false));
-    }
-
-    return result;
+    spec.actionKind = SearchStudioActionKind::Replace;
+    spec.activityMessage = request.sessionScope ?
+        QString("[Replace] Replace in session | query=%1 | replacement=%2 | mode=%3")
+            .formatArgs(request.query, request.replacement, request.mode) :
+        QString("[Replace] Replace in document | query=%1 | replacement=%2 | mode=%3")
+            .formatArgs(request.query, request.replacement, request.mode);
+    spec.rowAction = action;
+    spec.summaryAction = summaryActionLabel;
+    spec.summaryText = request.sessionScope ?
+        qs("Prototype replace-in-session summary with per-document impact rows above.") :
+        qs("Prototype replace-in-document summary with impact rows above.");
+    spec.summaryPreviewTitle = request.sessionScope ? qs("Replace in Session") : qs("Replace in Document");
+    spec.summaryPreviewBody = request.sessionScope ?
+        QString("Replacement payload: %1\nMode: %2\n\nPer-document impact rows above would be driven by Geany core later.")
+            .formatArgs(request.replacement, request.mode) :
+        QString("Replacement payload: %1\nMode: %2\n\nImpact rows above mirror the current Search Studio model.")
+            .formatArgs(request.replacement, request.mode);
+    spec.summaryScope = request.sessionScope ?
+        SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;
+    return executeReplaceAction(request, spec);
 }
 
 SearchStudioActionResult makeFindInFilesResult(const SearchStudioFindInFilesRequest &request)
 {
-    SearchStudioActionResult result;
+    SearchStudioFindInFilesActionSpec action;
 
-    result.activity.append(QString("[Find in Files] query=%1 | directory=%2 | mode=%3")
-        .formatArgs(request.query, request.directory, request.mode));
-    appendImpactRows(result, qs("Find in Files Hit"), request.query,
-        request.mode, qs("Captured"), true);
-    result.rows.append(makeResultSpec(SearchStudioActionKind::FindInFiles,
-        qs("Find in Files"), request.directory,
-        request.query, request.mode,
-        qs("Prototype directory search launched with structured hit ingestion."),
-        qs("Find in Files"),
-        QString("Directory: %1\nMode: %2\n\nResults above mirror a future structured ripgrep-style ingestion path.")
-            .formatArgs(request.directory, request.mode),
-        false));
-
-    return result;
+    action.actionKind = SearchStudioActionKind::FindInFiles;
+    action.activityMessage = QString("[Find in Files] query=%1 | directory=%2 | mode=%3")
+        .formatArgs(request.query, request.directory, request.mode);
+    action.captureAction = qs("Find in Files Hit");
+    action.captureSummaryPrefix = qs("Captured");
+    action.summaryAction = qs("Find in Files");
+    action.summaryText = qs("Prototype directory search launched with structured hit ingestion.");
+    action.summaryPreviewTitle = qs("Find in Files");
+    action.summaryPreviewBody = QString("Directory: %1\nMode: %2\n\nResults above mirror a future structured ripgrep-style ingestion path.")
+        .formatArgs(request.directory, request.mode);
+    action.summaryScope = SearchStudioTargetScope::Directory;
+    action.includeCaptureRows = true;
+    return executeFindInFilesAction(request, action);
 }
 
 SearchStudioActionResult makeMarkResult(const SearchStudioMarkRequest &request,
     const QString &action, const QString &summaryActionLabel,
     const QString &summaryTarget)
 {
-    SearchStudioActionResult result;
+    SearchStudioMarkActionSpec spec;
+    const QString bookmark = request.bookmarkLines ? qs("on") : qs("off");
+    const QString purge = request.purgeBookmarks ? qs("on") : qs("off");
 
-    if (request.sessionScope)
-    {
-        result.activity.append(QString("[Mark] Session | query=%1 | mode=%2")
-            .formatArgs(request.query, request.mode));
-        appendImpactRows(result, action, request.query, request.mode, qs("Marked"), true);
-        result.rows.append(makeResultSpec(SearchStudioActionKind::Mark,
-            summaryActionLabel, summaryTarget, request.query,
-            request.mode,
-            qs("Prototype session mark summary with per-document impact rows above."),
-            qs("Mark in Session"),
-            qs("Session mark impact rows above mirror the matured Search Studio behavior from the main tree."),
-            false));
-    }
-    else
-    {
-        const QString bookmark = request.bookmarkLines ? qs("on") : qs("off");
-        const QString purge = request.purgeBookmarks ? qs("on") : qs("off");
-        result.activity.append(QString("[Mark] query=%1 | mode=%2 | bookmarks=%3 | purge=%4")
-            .formatArgs(request.query, request.mode, bookmark, purge));
-        appendImpactRows(result, action, request.query, request.mode, qs("Marked"), false);
-        result.rows.append(makeResultSpec(SearchStudioActionKind::Mark,
-            summaryActionLabel, summaryTarget, request.query,
-            request.mode,
-            QString("Marked representative matches; bookmark-lines=%1; purge-first=%2.")
-                .formatArgs(bookmark, purge),
-            qs("Mark"),
-            qs("Prototype active-document mark summary."),
-            false));
-    }
-
-    return result;
+    spec.actionKind = SearchStudioActionKind::Mark;
+    spec.activityMessage = request.sessionScope ?
+        QString("[Mark] Session | query=%1 | mode=%2")
+            .formatArgs(request.query, request.mode) :
+        QString("[Mark] query=%1 | mode=%2 | bookmarks=%3 | purge=%4")
+            .formatArgs(request.query, request.mode, bookmark, purge);
+    spec.impactAction = action;
+    spec.impactSummaryPrefix = qs("Marked");
+    spec.summaryAction = summaryActionLabel;
+    spec.summaryText = request.sessionScope ?
+        qs("Prototype session mark summary with per-document impact rows above.") :
+        QString("Marked representative matches; bookmark-lines=%1; purge-first=%2.")
+            .formatArgs(bookmark, purge);
+    spec.summaryPreviewTitle = request.sessionScope ? qs("Mark in Session") : qs("Mark");
+    spec.summaryPreviewBody = request.sessionScope ?
+        qs("Session mark impact rows above mirror the matured Search Studio behavior from the main tree.") :
+        qs("Prototype active-document mark summary.");
+    spec.summaryScope = request.sessionScope ?
+        SearchStudioTargetScope::OpenDocuments : SearchStudioTargetScope::ActiveDocument;
+    spec.includeImpactRows = true;
+    return executeMarkAction(request, spec);
 }
 
 } // namespace SearchStudioBackend

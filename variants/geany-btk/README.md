@@ -31,6 +31,7 @@ The current BTK prototype now mirrors several of the matured Search Studio conce
 - informational vs navigable result-row behavior
 - an emerging backend-shaped action/result layer in `src/search_studio_backend.h/.cpp` so the UI is no longer the only place where prototype result generation lives
 - BTK-side result specs now explicitly track action kind / result kind / target scope concepts, bringing the prototype closer to the GTK Search Studio normalization direction
+- BTK-side execution now also has first-wave action specs for Find / Replace / Mark / Find-in-Files families, reducing string-driven backend branching at call sites
 
 ## Toolchain direction
 
@@ -68,7 +69,7 @@ The CMake build now also generates a build-directory launcher with the resolved 
 - `../../build/geany-btk-package3/run-geany-btk-search-studio.bat`
 
 In addition, the build now stages a self-contained local runtime layout under:
-- `../../build/geany-btk-package3/runtime-bundle/`
+- `../../build/geany-btk-package3/runtime-bundle-<timestamp>/`
   - `bin/geany-btk-search-studio.exe`
   - BTK core runtime DLLs in `bin/`
   - plugin directories such as:
@@ -85,12 +86,15 @@ The staged runtime is now trimmed to the executable plus runtime DLLs/plugin DLL
 The build can also package that staged layout into a zip archive via the custom target:
 - `geany-btk-runtime-package`
 
-Validated local package artifact:
-- `../../build/geany-btk-package3/geany-btk-search-studio-runtime.zip`
+Validated local package artifact pattern:
+- `../../build/geany-btk-package3/geany-btk-search-studio-runtime-<timestamp>.zip`
 
 The package target also refreshes the staged runtime tree first, so packaging still works even if the local staged runtime directory was removed between builds.
 
-The bundle directory name also avoids clobbering an older already-running staged executable from previous smoke tests, which makes iterative Windows validation safer without having to kill running processes.
+A generated helper also points at the current bundle directory for the active configure pass:
+- `../../build/geany-btk-package3/run-geany-btk-bundle.bat`
+
+The timestamped bundle directory name avoids clobbering an older already-running staged executable from previous smoke tests, which makes iterative Windows validation safer without having to kill running processes.
 
 The staged/package layout was also trimmed and normalized so plugin DLLs live in deployment-shaped directories (`platforms/`, `imageformats/`, `mediaservices/`, `playlistformats/`, `printerdrivers/`, `sqldrivers/`) rather than a flat dump or a developer-oriented `lib/` copy.
 
