@@ -264,6 +264,17 @@ typedef struct SearchStudioFindSessionActionSpec
 SearchStudioFindSessionActionSpec;
 
 
+typedef struct SearchStudioReplaceSessionActionSpec
+{
+	const SearchStudioReplaceSpec *replace;
+	SearchStudioOpenDocumentFunc open_document_func;
+	gpointer open_document_data;
+	gboolean add_history;
+	gboolean store_find_spec;
+}
+SearchStudioReplaceSessionActionSpec;
+
+
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
 
@@ -354,9 +365,6 @@ static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const
 	const gchar *replace_display, guint limit);
 static gchar *search_studio_build_replace_preview_body(GeanyDocument *doc,
 	const GeanyMatchInfo *info, const gchar *replace_text, const gchar *replace_display);
-static guint search_studio_append_replace_preview_session_rows(const gchar *query,
-	GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
-	const gchar *replace_display, guint per_doc_limit);
 static guint search_studio_append_replace_impact_rows(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
 	const gchar *replace_display);
@@ -392,6 +400,8 @@ static SearchStudioSessionRunResult search_studio_run_session_action(
 	SearchStudioOpenDocumentFunc func, gpointer user_data);
 static SearchStudioSessionRunResult search_studio_execute_find_session_action(GtkWidget *page,
 	const SearchStudioFindSessionActionSpec *action);
+static SearchStudioSessionRunResult search_studio_execute_replace_session_action(GtkWidget *page,
+	const SearchStudioReplaceSessionActionSpec *action);
 static guint search_studio_append_session_match_rows(const gchar *action,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit);
 static void search_studio_clear_results(GtkButton *button, gpointer user_data);
@@ -1405,6 +1415,24 @@ static SearchStudioSessionRunResult search_studio_execute_find_session_action(Gt
 }
 
 
+static SearchStudioSessionRunResult search_studio_execute_replace_session_action(GtkWidget *page,
+	const SearchStudioReplaceSessionActionSpec *action)
+{
+	SearchStudioSessionRunResult result = { 0, 0 };
+
+	if (action == NULL || action->replace == NULL)
+		return result;
+	if (action->add_history)
+		search_studio_add_replace_history(page, action->replace);
+	if (action->open_document_func != NULL)
+		result = search_studio_run_session_action(action->open_document_func,
+			action->open_document_data);
+	if (action->store_find_spec)
+		search_studio_store_find_spec(&action->replace->find);
+	return result;
+}
+
+
 typedef struct SearchStudioSessionMatchRowsContext
 {
 	const gchar *action;
@@ -1580,47 +1608,6 @@ static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const
 	}
 	g_slist_free(matches);
 	return count;
-}
-
-
-typedef struct SearchStudioReplacePreviewSessionContext
-{
-	const gchar *query;
-	GeanyFindFlags flags;
-	const gchar *mode;
-	const gchar *replace_text;
-	const gchar *replace_display;
-	guint per_doc_limit;
-}
-SearchStudioReplacePreviewSessionContext;
-
-
-static guint search_studio_append_replace_preview_session_rows_cb(GeanyDocument *doc,
-	gpointer user_data)
-{
-	SearchStudioReplacePreviewSessionContext *ctx = user_data;
-
-	return search_studio_append_replace_preview_rows(doc, ctx->query, ctx->flags, ctx->mode,
-		ctx->replace_text, ctx->replace_display, ctx->per_doc_limit);
-}
-
-
-static guint search_studio_append_replace_preview_session_rows(const gchar *query,
-	GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
-	const gchar *replace_display, guint per_doc_limit)
-{
-	SearchStudioReplacePreviewSessionContext ctx = {
-		query,
-		flags,
-		mode,
-		replace_text,
-		replace_display,
-		per_doc_limit
-	};
-	SearchStudioSessionRunResult result = search_studio_run_session_action(
-		search_studio_append_replace_preview_session_rows_cb, &ctx);
-
-	return result.total_results;
 }
 
 
@@ -3626,7 +3613,6 @@ static void search_studio_count_session_activate(GtkButton *button, gpointer use
 	search_studio_result_appendf("Count in Session", "Open Documents", spec.original_text,
 		spec.mode, "Counted %u matches across %u open documents.",
 		result.total_results, result.docs_with_results);
-	search_studio_store_find_spec(&spec);
 	search_studio_find_spec_clear(&spec);
 }
 
@@ -3704,7 +3690,6 @@ static void search_studio_mark_session_activate(GtkButton *button, gpointer user
 	search_studio_result_appendf("Mark in Session", "Open Documents", spec.original_text,
 		spec.mode, "Marked %u matches across %u open documents; bookmark-lines=%s; purge-first=%s.",
 		result.total_results, result.docs_with_results, ctx.bookmark_lines ? "yes" : "no", ctx.purge_bookmarks ? "yes" : "no");
-	search_studio_store_find_spec(&spec);
 	search_studio_find_spec_clear(&spec);
 }
 
@@ -3781,21 +3766,55 @@ static void search_studio_replace_preview_document(GtkButton *button, gpointer u
 }
 
 
+typedef struct SearchStudioReplacePreviewSessionActionContext
+{
+	const gchar *query;
+	GeanyFindFlags flags;
+	const gchar *mode;
+	const gchar *replace_text;
+	const gchar *replace_display;
+	guint per_doc_limit;
+}
+SearchStudioReplacePreviewSessionActionContext;
+
+
+static guint search_studio_replace_preview_session_action_cb(GeanyDocument *doc,
+	gpointer user_data)
+{
+	SearchStudioReplacePreviewSessionActionContext *ctx = user_data;
+
+	return search_studio_append_replace_preview_rows(doc, ctx->query, ctx->flags, ctx->mode,
+		ctx->replace_text, ctx->replace_display, ctx->per_doc_limit);
+}
+
+
 static void search_studio_replace_preview_session(GtkButton *button, gpointer user_data)
 {
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioReplaceSpec spec = { 0 };
-	guint count;
+	SearchStudioReplacePreviewSessionActionContext ctx;
+	SearchStudioReplaceSessionActionSpec action;
+	SearchStudioSessionRunResult result;
 
 	if (!search_studio_build_replace_spec(page, &spec))
 		return;
 
-	count = search_studio_append_replace_preview_session_rows(spec.find.text, spec.find.flags,
-		spec.find.mode, spec.replace, spec.original_replace, 100);
+	ctx.query = spec.find.text;
+	ctx.flags = spec.find.flags;
+	ctx.mode = spec.find.mode;
+	ctx.replace_text = spec.replace;
+	ctx.replace_display = spec.original_replace;
+	ctx.per_doc_limit = 100;
+	action.replace = &spec;
+	action.open_document_func = search_studio_replace_preview_session_action_cb;
+	action.open_document_data = &ctx;
+	action.add_history = FALSE;
+	action.store_find_spec = FALSE;
+	result = search_studio_execute_replace_session_action(page, &action);
 	search_studio_activity_append("[Replace Preview] Session | find=%s | replace=%s | matches=%u | mode=%s",
-		spec.find.original_text, spec.original_replace, count, spec.find.mode);
+		spec.find.original_text, spec.original_replace, result.total_results, spec.find.mode);
 	search_studio_result_appendf("Replace Preview Session", "Open Documents", spec.find.original_text,
-		spec.find.mode, "Would replace %u matches across open documents.", count);
+		spec.find.mode, "Would replace %u matches across open documents.", result.total_results);
 	search_studio_replace_spec_clear(&spec);
 }
 
@@ -3810,8 +3829,13 @@ static void search_studio_replace_action_activate(GtkButton *button, gpointer us
 	if (!DOC_VALID(doc) || !search_studio_build_replace_spec(page, &spec))
 		return;
 
-	search_studio_store_find_spec(&spec.find);
-	search_studio_add_replace_history(page, &spec);
+	{
+		SearchStudioReplaceSessionActionSpec action_spec = { 0 };
+		action_spec.replace = &spec;
+		action_spec.add_history = TRUE;
+		action_spec.store_find_spec = TRUE;
+		search_studio_execute_replace_session_action(page, &action_spec);
+	}
 
 	switch (action)
 	{
