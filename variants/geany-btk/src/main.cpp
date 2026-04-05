@@ -17,6 +17,8 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+#include "search_studio_backend.h"
+
 namespace {
 
 static QString qs(const char *text)
@@ -151,35 +153,6 @@ private:
         return "Normal";
     }
 
-    QStringList prototypeDocuments() const
-    {
-        return {"src/search.c", "src/document.c", "src/prefs.c", "data/geany.glade"};
-    }
-
-    int sampleCountFor(const QString &query, int index) const
-    {
-        const int base = query.trimmed().isEmpty() ? 2 : query.trimmed().size();
-        return base + index + 1;
-    }
-
-    int sampleLineFor(const QString &query, int index) const
-    {
-        const int base = query.trimmed().isEmpty() ? 12 : query.trimmed().size() * 3;
-        return base + (index * 17);
-    }
-
-    QString buildLinePreview(const QString &kind, const QString &file, const QString &query,
-        int line, const QString &context) const
-    {
-        return QString(
-            "%1\n\n"
-            "File: %2\n"
-            "Query: %3\n"
-            "Line: %4\n\n"
-            "Context:\n%5")
-            .formatArgs(kind, file, query, QString::number(line), context);
-    }
-
     void appendActivity(const QString &message)
     {
         if (activityView_->toPlainText().isEmpty())
@@ -211,66 +184,18 @@ private:
         lowerTabs_->setCurrentWidget(resultsView_);
     }
 
-    void appendImpactRows(const QString &action, const QString &query, const QString &mode,
-        const QString &summaryPrefix, bool sessionScope)
+    void appendResult(const SearchStudioResultRow &row)
     {
-        const auto docs = prototypeDocuments();
-        const int limit = sessionScope ? docs.size() : 1;
-        for (int index = 0; index < limit; ++index)
-        {
-            const QString &file = docs.at(index);
-            const int line = sampleLineFor(query, index);
-            const int count = sampleCountFor(query, index);
-            const QString context = QString("line %1 contains a representative %2 hit for \"%3\".")
-                .formatArg(line)
-                .formatArg(action.toLower())
-                .formatArg(query);
-            appendResult(
-                action,
-                QString("%1:%2").formatArg(file).formatArg(line),
-                query,
-                mode,
-                QString("%1 %2 matches in this document.").formatArg(summaryPrefix).formatArg(count),
-                QString("%1 — %2:%3").formatArgs(action, file).formatArg(line),
-                buildLinePreview(QString("%1 impact summary").formatArg(action), file, query, line, context),
-                true);
-        }
+        appendResult(row.action, row.target, row.query, row.mode, row.summary,
+            row.previewTitle, row.previewBody, row.navigable);
     }
 
-    void appendReplacePreviewRows(const QString &action, const QString &query,
-        const QString &replaceText, const QString &mode, bool sessionScope)
+    void applyActionResult(const SearchStudioActionResult &result)
     {
-        const auto docs = prototypeDocuments();
-        const int limit = sessionScope ? docs.size() : 1;
-
-        for (int index = 0; index < limit; ++index)
-        {
-            const QString &file = docs.at(index);
-            const int line = sampleLineFor(query, index);
-            const QString originalLine = QString("const QString needle = \"%1\"; // line %2")
-                .formatArg(query)
-                .formatArg(line);
-            const QString replacementLine = QString("const QString needle = \"%1\"; // line %2")
-                .formatArg(replaceText)
-                .formatArg(line);
-            const QString previewBody = QString(
-                "Original line:\n- %1\n\n"
-                "Replacement line:\n+ %2\n\n"
-                "Matched segment diff:\n- %3\n+ %4\n\n"
-                "Payload entered:\n%5\n\n"
-                "Actual replacement text:\n%6")
-                .formatArgs(originalLine, replacementLine, query, replaceText, replaceText, replaceText);
-
-            appendResult(
-                action,
-                QString("%1:%2").formatArg(file).formatArg(line),
-                query,
-                mode,
-                QString("Would replace the representative match on line %1.").formatArg(line),
-                QString("%1 — %2:%3").formatArgs(action, file).formatArg(line),
-                previewBody,
-                true);
-        }
+        for (const auto &message : result.activity)
+            appendActivity(message);
+        for (const auto &row : result.rows)
+            appendResult(row);
     }
 
     QGroupBox *createModeGroup(ModeControls &mode)
@@ -369,17 +294,15 @@ private:
             connect(button, &QPushButton::clicked, this, [this, activity, summary]() {
                 const QString query = textOrPlaceholder(find_.query->currentText(), "current selection");
                 const QString mode = modeName(find_.mode);
-                appendActivity(QString("[Find] %1 | query=%2 | mode=%3").formatArgs(activity, query, mode));
-                appendResult(
+                applyActionResult(SearchStudioBackend::makeActiveDocumentSummary(
+                    QString("[Find] %1 | query=%2 | mode=%3").formatArgs(activity, query, mode),
                     activity,
-                    "Active Document",
                     query,
                     mode,
                     summary,
                     QString("%1 — Active Document").formatArg(activity),
                     QString("Prototype action: %1\n\nQuery: %2\nMode: %3\n\nThis BTK surface mirrors the current Search Studio workflow but is not yet wired to Geany core services.")
-                        .formatArgs(activity, query, mode),
-                    false);
+                        .formatArgs(activity, query, mode)));
             });
             actions->addWidget(button);
         };
@@ -389,37 +312,20 @@ private:
 
         auto *countButton = new QPushButton("Count");
         connect(countButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(find_.query->currentText(), "needle");
-            const QString mode = modeName(find_.mode);
-            appendActivity(QString("[Count] query=%1 | mode=%2 | scope=active document").formatArgs(query, mode));
-            appendResult(
-                "Count",
-                "Active Document",
-                query,
-                mode,
-                "Counted matches in the active document.",
-                "Count — Active Document",
-                "Prototype count summary for the active document.",
-                false);
-            appendImpactRows("Count Impact", query, mode, "Counted", false);
+            SearchStudioFindRequest request;
+            request.query = textOrPlaceholder(find_.query->currentText(), "needle");
+            request.mode = modeName(find_.mode);
+            applyActionResult(SearchStudioBackend::makeCountResult(request));
         });
         actions->addWidget(countButton);
 
         auto *countSessionButton = new QPushButton("Count Session");
         connect(countSessionButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(find_.query->currentText(), "needle");
-            const QString mode = modeName(find_.mode);
-            appendActivity(QString("[Count] Session | query=%1 | mode=%2").formatArgs(query, mode));
-            appendImpactRows("Session Count Impact", query, mode, "Counted", true);
-            appendResult(
-                "Count in Session",
-                "Open Documents",
-                query,
-                mode,
-                "Counted representative matches across open documents.",
-                "Count in Session",
-                "Prototype aggregate count across open documents with per-document impact rows above.",
-                false);
+            SearchStudioFindRequest request;
+            request.query = textOrPlaceholder(find_.query->currentText(), "needle");
+            request.mode = modeName(find_.mode);
+            request.sessionScope = true;
+            applyActionResult(SearchStudioBackend::makeCountResult(request));
         });
         actions->addWidget(countSessionButton);
 
@@ -432,28 +338,20 @@ private:
 
         auto *collectDocButton = new QPushButton("Collect Document Hits");
         connect(collectDocButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(find_.query->currentText(), "needle");
-            const QString mode = modeName(find_.mode);
-            appendActivity(QString("[Results] Collected current-document hits for %1.").formatArg(query));
-            appendImpactRows("Document Hit", query, mode, "Collected", false);
+            SearchStudioFindRequest request;
+            request.query = textOrPlaceholder(find_.query->currentText(), "needle");
+            request.mode = modeName(find_.mode);
+            applyActionResult(SearchStudioBackend::makeCollectedHitsResult(request));
         });
         actions->addWidget(collectDocButton);
 
         auto *collectSessionButton = new QPushButton("Collect Session Hits");
         connect(collectSessionButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(find_.query->currentText(), "needle");
-            const QString mode = modeName(find_.mode);
-            appendActivity(QString("[Results] Collected open-document hits for %1.").formatArg(query));
-            appendImpactRows("Session Hit", query, mode, "Collected", true);
-            appendResult(
-                "Collect Session Hits",
-                "Open Documents",
-                query,
-                mode,
-                "Collected representative open-document hits.",
-                "Collect Session Hits",
-                "Prototype open-document hit collection summary.",
-                false);
+            SearchStudioFindRequest request;
+            request.query = textOrPlaceholder(find_.query->currentText(), "needle");
+            request.mode = modeName(find_.mode);
+            request.sessionScope = true;
+            applyActionResult(SearchStudioBackend::makeCollectedHitsResult(request));
         });
         actions->addWidget(collectSessionButton);
 
@@ -516,18 +414,16 @@ private:
                 const QString query = textOrPlaceholder(replace_.query->currentText(), "needle");
                 const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
                 const QString mode = modeName(replace_.mode);
-                appendActivity(QString("[Replace] %1 | query=%2 | replacement=%3 | mode=%4")
-                    .formatArgs(activity, query, replacement, mode));
-                appendResult(
+                applyActionResult(SearchStudioBackend::makeActiveDocumentSummary(
+                    QString("[Replace] %1 | query=%2 | replacement=%3 | mode=%4")
+                        .formatArgs(activity, query, replacement, mode),
                     activity,
-                    "Active Document",
                     query,
                     mode,
                     summary,
                     QString("%1 — Active Document").formatArg(activity),
                     QString("Query: %1\nReplacement: %2\nMode: %3\n\nPrototype action coverage only; engine wiring comes next.")
-                        .formatArgs(query, replacement, mode),
-                    false);
+                        .formatArgs(query, replacement, mode)));
             });
             actions->addWidget(button);
         };
@@ -538,61 +434,47 @@ private:
 
         auto *replaceDocButton = new QPushButton("Replace in Document");
         connect(replaceDocButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(replace_.query->currentText(), "needle");
-            const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
-            const QString mode = modeName(replace_.mode);
-            appendActivity(QString("[Replace] Replace in document | query=%1 | replacement=%2 | mode=%3")
-                .formatArgs(query, replacement, mode));
-            appendReplacePreviewRows("Replace Impact", query, replacement, mode, false);
-            appendResult(
-                "Replace in Document",
-                "Active Document",
-                query,
-                mode,
-                "Prototype replace-in-document summary with impact rows above.",
-                "Replace in Document",
-                QString("Replacement payload: %1\nMode: %2\n\nImpact rows above mirror the current Search Studio model.")
-                    .formatArgs(replacement, mode),
-                false);
+            SearchStudioReplaceRequest request;
+            request.query = textOrPlaceholder(replace_.query->currentText(), "needle");
+            request.replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
+            request.mode = modeName(replace_.mode);
+            applyActionResult(SearchStudioBackend::makeReplaceImpactResult(request,
+                qs("Replace Impact"), qs("Replace in Document"), qs("Active Document")));
         });
         actions->addWidget(replaceDocButton);
 
         auto *replaceSessionButton = new QPushButton("Replace in Session");
         connect(replaceSessionButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(replace_.query->currentText(), "needle");
-            const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
-            const QString mode = modeName(replace_.mode);
-            appendActivity(QString("[Replace] Replace in session | query=%1 | replacement=%2 | mode=%3")
-                .formatArgs(query, replacement, mode));
-            appendReplacePreviewRows("Session Replace Impact", query, replacement, mode, true);
-            appendResult(
-                "Replace in Session",
-                "Open Documents",
-                query,
-                mode,
-                "Prototype replace-in-session summary with per-document impact rows above.",
-                "Replace in Session",
-                QString("Replacement payload: %1\nMode: %2\n\nPer-document impact rows above would be driven by Geany core later.")
-                    .formatArgs(replacement, mode),
-                false);
+            SearchStudioReplaceRequest request;
+            request.query = textOrPlaceholder(replace_.query->currentText(), "needle");
+            request.replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
+            request.mode = modeName(replace_.mode);
+            request.sessionScope = true;
+            applyActionResult(SearchStudioBackend::makeReplaceImpactResult(request,
+                qs("Session Replace Impact"), qs("Replace in Session"), qs("Open Documents")));
         });
         actions->addWidget(replaceSessionButton);
 
         auto *previewDocButton = new QPushButton("Preview in Document");
         connect(previewDocButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(replace_.query->currentText(), "needle");
-            const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
-            appendActivity("[Replace Preview] Prototype document preview generated.");
-            appendReplacePreviewRows("Replace Preview", query, replacement, modeName(replace_.mode), false);
+            SearchStudioReplaceRequest request;
+            request.query = textOrPlaceholder(replace_.query->currentText(), "needle");
+            request.replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
+            request.mode = modeName(replace_.mode);
+            applyActionResult(SearchStudioBackend::makeReplacePreviewResult(request,
+                qs("Replace Preview")));
         });
         actions->addWidget(previewDocButton);
 
         auto *previewSessionButton = new QPushButton("Preview in Session");
         connect(previewSessionButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(replace_.query->currentText(), "needle");
-            const QString replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
-            appendActivity("[Replace Preview] Prototype session preview generated.");
-            appendReplacePreviewRows("Replace Preview Session", query, replacement, modeName(replace_.mode), true);
+            SearchStudioReplaceRequest request;
+            request.query = textOrPlaceholder(replace_.query->currentText(), "needle");
+            request.replacement = textOrPlaceholder(replace_.replacement->currentText(), "replacement");
+            request.mode = modeName(replace_.mode);
+            request.sessionScope = true;
+            applyActionResult(SearchStudioBackend::makeReplacePreviewResult(request,
+                qs("Replace Preview Session")));
         });
         actions->addWidget(previewSessionButton);
 
@@ -638,21 +520,11 @@ private:
         auto *actions = new QHBoxLayout();
         auto *findAllButton = new QPushButton("Find All");
         connect(findAllButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(fif_.query->currentText(), "needle");
-            const QString directory = textOrPlaceholder(fif_.directory->currentText(), ".");
-            const QString mode = modeName(fif_.mode);
-            appendActivity(QString("[Find in Files] query=%1 | directory=%2 | mode=%3").formatArgs(query, directory, mode));
-            appendImpactRows("Find in Files Hit", query, mode, "Captured", true);
-            appendResult(
-                "Find in Files",
-                directory,
-                query,
-                mode,
-                "Prototype directory search launched with structured hit ingestion.",
-                "Find in Files",
-                QString("Directory: %1\nMode: %2\n\nResults above mirror a future structured ripgrep-style ingestion path.")
-                    .formatArgs(directory, mode),
-                false);
+            SearchStudioFindInFilesRequest request;
+            request.query = textOrPlaceholder(fif_.query->currentText(), "needle");
+            request.directory = textOrPlaceholder(fif_.directory->currentText(), ".");
+            request.mode = modeName(fif_.mode);
+            applyActionResult(SearchStudioBackend::makeFindInFilesResult(request));
         });
         actions->addWidget(findAllButton);
 
@@ -705,71 +577,50 @@ private:
         auto *actions = new QHBoxLayout();
         auto *markNowButton = new QPushButton("Mark now");
         connect(markNowButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(mark_.query->currentText(), "needle");
-            const QString mode = modeName(mark_.mode);
-            const QString bookmark = mark_.bookmarkLines->isChecked() ? qs("on") : qs("off");
-            const QString purge = mark_.purgeBookmarks->isChecked() ? qs("on") : qs("off");
-            appendActivity(QString("[Mark] query=%1 | mode=%2 | bookmarks=%3 | purge=%4")
-                .formatArgs(query, mode, bookmark, purge));
-            appendImpactRows("Mark Impact", query, mode, "Marked", false);
-            appendResult(
-                "Mark",
-                "Active Document",
-                query,
-                mode,
-                QString("Marked representative matches; bookmark-lines=%1; purge-first=%2.")
-                    .formatArgs(bookmark, purge),
-                "Mark",
-                "Prototype active-document mark summary.",
-                false);
+            SearchStudioMarkRequest request;
+            request.query = textOrPlaceholder(mark_.query->currentText(), "needle");
+            request.mode = modeName(mark_.mode);
+            request.bookmarkLines = mark_.bookmarkLines->isChecked();
+            request.purgeBookmarks = mark_.purgeBookmarks->isChecked();
+            applyActionResult(SearchStudioBackend::makeMarkResult(request,
+                qs("Mark Impact"), qs("Mark"), qs("Active Document")));
         });
         actions->addWidget(markNowButton);
 
         auto *markSessionButton = new QPushButton("Mark Session");
         connect(markSessionButton, &QPushButton::clicked, this, [this]() {
-            const QString query = textOrPlaceholder(mark_.query->currentText(), "needle");
-            const QString mode = modeName(mark_.mode);
-            appendActivity(QString("[Mark] Session | query=%1 | mode=%2").formatArgs(query, mode));
-            appendImpactRows("Session Mark Impact", query, mode, "Marked", true);
-            appendResult(
-                "Mark in Session",
-                "Open Documents",
-                query,
-                mode,
-                "Prototype session mark summary with per-document impact rows above.",
-                "Mark in Session",
-                "Session mark impact rows above mirror the matured Search Studio behavior from the main tree.",
-                false);
+            SearchStudioMarkRequest request;
+            request.query = textOrPlaceholder(mark_.query->currentText(), "needle");
+            request.mode = modeName(mark_.mode);
+            request.sessionScope = true;
+            applyActionResult(SearchStudioBackend::makeMarkResult(request,
+                qs("Session Mark Impact"), qs("Mark in Session"), qs("Open Documents")));
         });
         actions->addWidget(markSessionButton);
 
         auto *clearButton = new QPushButton("Clear Marks");
         connect(clearButton, &QPushButton::clicked, this, [this]() {
-            appendActivity("[Mark] Cleared active-document marks in the prototype.");
-            appendResult(
-                "Mark",
-                "Active Document",
-                "Clear",
-                "N/A",
-                "Cleared prototype active-document marks.",
-                "Mark",
-                "Prototype active-document mark state cleared.",
-                false);
+            applyActionResult(SearchStudioBackend::makeActiveDocumentSummary(
+                qs("[Mark] Cleared active-document marks in the prototype."),
+                qs("Mark"),
+                qs("Clear"),
+                qs("N/A"),
+                qs("Cleared prototype active-document marks."),
+                qs("Mark"),
+                qs("Prototype active-document mark state cleared.")));
         });
         actions->addWidget(clearButton);
 
         auto *clearSessionButton = new QPushButton("Clear Session Marks");
         connect(clearSessionButton, &QPushButton::clicked, this, [this]() {
-            appendActivity("[Mark] Cleared session marks in the prototype.");
-            appendResult(
-                "Mark in Session",
-                "Open Documents",
-                "Clear",
-                "N/A",
-                "Cleared prototype session marks across open documents.",
-                "Mark in Session",
-                "Prototype session mark state cleared.",
-                false);
+            applyActionResult(SearchStudioBackend::makeSessionSummary(
+                qs("[Mark] Cleared session marks in the prototype."),
+                qs("Mark in Session"),
+                qs("Clear"),
+                qs("N/A"),
+                qs("Cleared prototype session marks across open documents."),
+                qs("Mark in Session"),
+                qs("Prototype session mark state cleared.")));
         });
         actions->addWidget(clearSessionButton);
 

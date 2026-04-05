@@ -130,6 +130,7 @@ Using the built BTK runtime directory on `PATH`:
 - BTK still builds standalone after the `CMAKE_CURRENT_SOURCE_DIR` CMake-module-path fix
 - the Geany BTK variant still finds BTK via local install/build-tree hints and no longer depends on `add_subdirectory(...)`
 - the BTK variant still compiles against current BTK string APIs (`formatArg` / `formatArgs`, `QString::fromUtf8(...)`) with `CMAKE_CXX_STANDARD 20`
+- the BTK backend-shaped helper layer (`src/search_studio_backend.h/.cpp`) still builds cleanly and the UI still consumes its action-result bundles correctly
 - the produced `geany-btk-search-studio.exe` launches and still presents the expected Search Studio tabs and lower navigator panes
 
 ## Current environment limitation

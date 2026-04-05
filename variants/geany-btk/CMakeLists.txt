@@ -44,6 +44,7 @@ endif()
 
 add_executable(geany-btk-search-studio
     src/main.cpp
+    src/search_studio_backend.cpp
 )
 
 target_link_libraries(geany-btk-search-studio

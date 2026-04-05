@@ -29,6 +29,7 @@ The current BTK prototype now mirrors several of the matured Search Studio conce
 - session-aware actions like `Count Session` and `Mark Session`
 - preview-oriented replace and impact routing
 - informational vs navigable result-row behavior
+- an emerging backend-shaped action/result layer in `src/search_studio_backend.h/.cpp` so the UI is no longer the only place where prototype result generation lives
 
 ## Toolchain direction
 
@@ -107,4 +108,4 @@ without forcing an all-at-once migration of the production application.
 2. replace prototype result generation with real document/session/search backend data
 3. port command-palette and transform tooling into this variant
 4. define the boundary between reusable Geany core logic and BTK-native presentation
-5. evolve the trimmed staged/package layout into a more formal install/release step, or begin wiring the BTK prototype to real Geany backend data
+5. replace more of the remaining UI-local prototype behavior with shared backend data/models and then begin wiring those models to real Geany search/document services

@@ -135,3 +135,10 @@ That means the prototype should increasingly preserve these concepts even before
 - explicit distinction between informational rows and navigable rows
 
 This is strategically important because it lets the BTK frontend validate the intended workflow rhythm before the backend boundary is finalized.
+
+The BTK prototype should now also keep pushing behavior into backend-shaped request/result models even while it still runs on prototype data. A useful near-term structure is:
+- request structs for Find / Replace / Mark / Find-in-Files flows
+- action-result bundles carrying activity lines plus structured result rows
+- backend helpers that generate preview/impact/session rows independently of the widget tree
+
+That does not yet wire the BTK variant to Geany core, but it makes the intended frontend/backend seam more explicit and keeps the UI from remaining a monolith of direct row-construction logic.

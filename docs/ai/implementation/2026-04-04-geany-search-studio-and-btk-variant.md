@@ -154,6 +154,18 @@ The prototype intentionally models the **control density** and **workflow rhythm
 
 This evolution is important because it tests the emerging frontend contract before engine wiring is complete. The BTK variant can now validate that the intended cockpit is not just tabbed, but also navigator-driven.
 
+A backend-boundary pass has now started inside the BTK variant itself too. The prototype no longer relies only on direct widget-local row construction in `main.cpp`; it now also has a small backend-shaped layer in:
+- `variants/geany-btk/src/search_studio_backend.h`
+- `variants/geany-btk/src/search_studio_backend.cpp`
+
+That layer currently provides:
+- request structs for Find / Replace / Mark / Find in Files prototype flows
+- structured result-row objects
+- action-result bundles carrying both activity messages and result rows
+- backend helpers for count, hit collection, replace preview/impact routing, mark routing, and Find in Files result generation
+
+This still uses prototype data rather than real Geany search/document services, but it is a meaningful architecture step because the BTK UI is now increasingly a consumer of action results instead of the sole place where those rows are invented.
+
 ## BTK submodule
 
 A second UI toolkit submodule was added:
