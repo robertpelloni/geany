@@ -85,7 +85,8 @@ This is strategically useful because:
 ### Not yet complete
 - full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
 - complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing), though session-wide marking/bookmarking now meaningfully reduces the gap for multi-document workflows
-- richer integrated results pane (today it supports current-document hits, open-document hits, Search Studio-launched Find in Files ingestion, count/mark/replace impact rows, and more row types now drive the Diff Preview pane; lower-pane focus behaves more like a navigator, and internal request/result metadata plus more action-layer glue is starting to normalize around shared helper/spec models, but it is not yet a full universal hit-list viewer)
+- richer integrated results pane (today it supports current-document hits, open-document hits, Search Studio-launched Find in Files ingestion, count/mark/replace impact rows, and more row types now drive the Diff Preview pane; lower-pane focus behaves more like a navigator, and internal request/result metadata plus more action-layer glue is starting to normalize around shared helper/spec/visitor models, but it is not yet a full universal hit-list viewer)
+- session-scope work is increasingly structured around shared open-document traversal rather than one-off notebook loops, which is a practical step toward a reusable backend model
 - replace preview / dry-run groundwork now exists inside the Replace tab, now with a dedicated lower Diff Preview surface
 
 ## Data-flow architecture

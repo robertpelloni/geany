@@ -242,6 +242,9 @@ typedef struct SearchStudioReplaceSpec
 SearchStudioReplaceSpec;
 
 
+typedef guint (*SearchStudioOpenDocumentFunc)(GeanyDocument *doc, gpointer user_data);
+
+
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
 
@@ -360,6 +363,8 @@ static void search_studio_result_append_preview_match(const gchar *action, Geany
 	const gchar *preview_title, const gchar *preview_body);
 static guint search_studio_append_match_rows(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint limit);
+static guint search_studio_visit_open_documents(SearchStudioOpenDocumentFunc func,
+	gpointer user_data, guint *docs_with_results);
 static guint search_studio_append_session_match_rows(const gchar *action,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit);
 static void search_studio_clear_results(GtkButton *button, gpointer user_data);
@@ -1265,23 +1270,64 @@ static guint search_studio_append_match_rows(const gchar *action, GeanyDocument 
 }
 
 
-static guint search_studio_append_session_match_rows(const gchar *action,
-	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit)
+static guint search_studio_visit_open_documents(SearchStudioOpenDocumentFunc func,
+	gpointer user_data, guint *docs_with_results)
 {
 	guint page_count;
 	guint n;
 	guint total = 0;
+	guint docs = 0;
+
+	g_return_val_if_fail(func != NULL, 0);
 
 	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
 	for (n = 0; n < page_count; n++)
 	{
 		GeanyDocument *doc = document_get_from_page(n);
+		guint count;
 
 		if (!DOC_VALID(doc))
 			continue;
-		total += search_studio_append_match_rows(action, doc, query, flags, mode, per_doc_limit);
+		count = func(doc, user_data);
+		if (count > 0)
+		{
+			total += count;
+			docs++;
+		}
 	}
+	if (docs_with_results != NULL)
+		*docs_with_results = docs;
 	return total;
+}
+
+
+typedef struct SearchStudioSessionMatchRowsContext
+{
+	const gchar *action;
+	const gchar *query;
+	GeanyFindFlags flags;
+	const gchar *mode;
+	guint per_doc_limit;
+}
+SearchStudioSessionMatchRowsContext;
+
+
+static guint search_studio_append_session_match_rows_cb(GeanyDocument *doc, gpointer user_data)
+{
+	SearchStudioSessionMatchRowsContext *ctx = user_data;
+
+	return search_studio_append_match_rows(ctx->action, doc, ctx->query, ctx->flags,
+		ctx->mode, ctx->per_doc_limit);
+}
+
+
+static guint search_studio_append_session_match_rows(const gchar *action,
+	const gchar *query, GeanyFindFlags flags, const gchar *mode, guint per_doc_limit)
+{
+	SearchStudioSessionMatchRowsContext ctx = { action, query, flags, mode, per_doc_limit };
+
+	return search_studio_visit_open_documents(search_studio_append_session_match_rows_cb,
+		&ctx, NULL);
 }
 
 
@@ -1432,25 +1478,43 @@ static guint search_studio_append_replace_preview_rows(GeanyDocument *doc, const
 }
 
 
+typedef struct SearchStudioReplacePreviewSessionContext
+{
+	const gchar *query;
+	GeanyFindFlags flags;
+	const gchar *mode;
+	const gchar *replace_text;
+	const gchar *replace_display;
+	guint per_doc_limit;
+}
+SearchStudioReplacePreviewSessionContext;
+
+
+static guint search_studio_append_replace_preview_session_rows_cb(GeanyDocument *doc,
+	gpointer user_data)
+{
+	SearchStudioReplacePreviewSessionContext *ctx = user_data;
+
+	return search_studio_append_replace_preview_rows(doc, ctx->query, ctx->flags, ctx->mode,
+		ctx->replace_text, ctx->replace_display, ctx->per_doc_limit);
+}
+
+
 static guint search_studio_append_replace_preview_session_rows(const gchar *query,
 	GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
 	const gchar *replace_display, guint per_doc_limit)
 {
-	guint page_count;
-	guint n;
-	guint total = 0;
+	SearchStudioReplacePreviewSessionContext ctx = {
+		query,
+		flags,
+		mode,
+		replace_text,
+		replace_display,
+		per_doc_limit
+	};
 
-	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
-	for (n = 0; n < page_count; n++)
-	{
-		GeanyDocument *doc = document_get_from_page(n);
-
-		if (!DOC_VALID(doc))
-			continue;
-		total += search_studio_append_replace_preview_rows(doc, query, flags, mode,
-			replace_text, replace_display, per_doc_limit);
-	}
-	return total;
+	return search_studio_visit_open_documents(
+		search_studio_append_replace_preview_session_rows_cb, &ctx, NULL);
 }
 
 
@@ -1519,34 +1583,43 @@ static guint search_studio_append_replace_impact_rows(const gchar *action, Geany
 }
 
 
+typedef struct SearchStudioReplaceImpactSessionContext
+{
+	const gchar *action;
+	const gchar *query;
+	GeanyFindFlags flags;
+	const gchar *mode;
+	const gchar *replace_text;
+	const gchar *replace_display;
+}
+SearchStudioReplaceImpactSessionContext;
+
+
+static guint search_studio_append_replace_impact_session_rows_cb(GeanyDocument *doc,
+	gpointer user_data)
+{
+	SearchStudioReplaceImpactSessionContext *ctx = user_data;
+
+	return search_studio_append_replace_impact_rows(ctx->action, doc, ctx->query,
+		ctx->flags, ctx->mode, ctx->replace_text, ctx->replace_display);
+}
+
+
 static guint search_studio_append_replace_impact_session_rows(const gchar *action,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode, const gchar *replace_text,
 	const gchar *replace_display, guint *doc_count)
 {
-	guint page_count;
-	guint n;
-	guint total = 0;
-	guint docs = 0;
+	SearchStudioReplaceImpactSessionContext ctx = {
+		action,
+		query,
+		flags,
+		mode,
+		replace_text,
+		replace_display
+	};
 
-	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
-	for (n = 0; n < page_count; n++)
-	{
-		GeanyDocument *doc = document_get_from_page(n);
-		guint count;
-
-		if (!DOC_VALID(doc))
-			continue;
-		count = search_studio_append_replace_impact_rows(action, doc, query, flags, mode,
-			replace_text, replace_display);
-		if (count > 0)
-		{
-			total += count;
-			docs++;
-		}
-	}
-	if (doc_count != NULL)
-		*doc_count = docs;
-	return total;
+	return search_studio_visit_open_documents(
+		search_studio_append_replace_impact_session_rows_cb, &ctx, doc_count);
 }
 
 
@@ -3402,36 +3475,41 @@ static void search_studio_mark_activate(GtkButton *button, gpointer user_data)
 }
 
 
+typedef struct SearchStudioCountSessionContext
+{
+	const gchar *query;
+	GeanyFindFlags flags;
+	const gchar *mode;
+}
+SearchStudioCountSessionContext;
+
+
+static guint search_studio_count_session_cb(GeanyDocument *doc, gpointer user_data)
+{
+	SearchStudioCountSessionContext *ctx = user_data;
+
+	return search_studio_append_count_impact_row("Session Count Impact", doc, ctx->query,
+		ctx->flags, ctx->mode);
+}
+
+
 static void search_studio_count_session_activate(GtkButton *button, gpointer user_data)
 {
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioFindSpec spec = { 0 };
-	guint page_count;
-	guint n;
+	SearchStudioCountSessionContext ctx;
 	guint docs_counted = 0;
-	guint total_matches = 0;
+	guint total_matches;
 
 	if (!search_studio_build_find_spec(page, "entry_search", &spec))
 		return;
 
 	search_studio_add_find_history(page, &spec);
-
-	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
-	for (n = 0; n < page_count; n++)
-	{
-		GeanyDocument *doc = document_get_from_page(n);
-		guint count;
-
-		if (!DOC_VALID(doc))
-			continue;
-		count = search_studio_append_count_impact_row("Session Count Impact", doc, spec.text, spec.flags,
-			spec.mode);
-		if (count > 0)
-		{
-			docs_counted++;
-			total_matches += count;
-		}
-	}
+	ctx.query = spec.text;
+	ctx.flags = spec.flags;
+	ctx.mode = spec.mode;
+	total_matches = search_studio_visit_open_documents(search_studio_count_session_cb, &ctx,
+		&docs_counted);
 
 	if (total_matches == 0)
 		ui_set_statusbar(FALSE, _("No matches found for \"%s\" across open documents."), spec.original_text);
@@ -3463,43 +3541,52 @@ static void search_studio_clear_marks_activate(GtkButton *button, gpointer user_
 }
 
 
+typedef struct SearchStudioMarkSessionContext
+{
+	const gchar *query;
+	GeanyFindFlags flags;
+	const gchar *mode;
+	gboolean bookmark_lines;
+	gboolean purge_bookmarks;
+}
+SearchStudioMarkSessionContext;
+
+
+static guint search_studio_mark_session_cb(GeanyDocument *doc, gpointer user_data)
+{
+	SearchStudioMarkSessionContext *ctx = user_data;
+	guint count;
+
+	count = search_mark_all_with_options(doc, ctx->query, ctx->flags,
+		ctx->bookmark_lines, ctx->purge_bookmarks);
+	if (count > 0)
+		search_studio_append_mark_impact_row("Session Mark Impact", doc, ctx->query, ctx->flags,
+			ctx->mode, ctx->bookmark_lines, ctx->purge_bookmarks);
+	return count;
+}
+
+
 static void search_studio_mark_session_activate(GtkButton *button, gpointer user_data)
 {
 	GtkWidget *page = GTK_WIDGET(user_data);
 	SearchStudioFindSpec spec = { 0 };
-	gboolean bookmark_lines;
-	gboolean purge_bookmarks;
-	guint page_count;
-	guint n;
+	SearchStudioMarkSessionContext ctx;
 	guint docs_marked = 0;
-	guint total_matches = 0;
+	guint total_matches;
 
 	if (!search_studio_build_find_spec(page, "entry_search", &spec))
 		return;
 
-	bookmark_lines = ui_lookup_widget(page, "check_bookmark") &&
+	ctx.bookmark_lines = ui_lookup_widget(page, "check_bookmark") &&
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_bookmark")));
-	purge_bookmarks = ui_lookup_widget(page, "check_purge") &&
+	ctx.purge_bookmarks = ui_lookup_widget(page, "check_purge") &&
 		gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_purge")));
 	search_studio_add_find_history(page, &spec);
-
-	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
-	for (n = 0; n < page_count; n++)
-	{
-		GeanyDocument *doc = document_get_from_page(n);
-		guint count;
-
-		if (!DOC_VALID(doc))
-			continue;
-		count = search_mark_all_with_options(doc, spec.text, spec.flags, bookmark_lines, purge_bookmarks);
-		if (count > 0)
-		{
-			docs_marked++;
-			total_matches += count;
-			search_studio_append_mark_impact_row("Session Mark Impact", doc, spec.text, spec.flags,
-				spec.mode, bookmark_lines, purge_bookmarks);
-		}
-	}
+	ctx.query = spec.text;
+	ctx.flags = spec.flags;
+	ctx.mode = spec.mode;
+	total_matches = search_studio_visit_open_documents(search_studio_mark_session_cb, &ctx,
+		&docs_marked);
 
 	if (total_matches == 0)
 		ui_set_statusbar(FALSE, _("No matches found for \"%s\" across open documents."), spec.original_text);
@@ -3509,31 +3596,29 @@ static void search_studio_mark_session_activate(GtkButton *button, gpointer user
 
 	search_studio_activity_append("[Mark] Session | query=%s | mode=%s | matches=%u | docs=%u | bookmarks=%s | purge=%s",
 		spec.original_text, spec.mode, total_matches, docs_marked,
-		bookmark_lines ? "on" : "off", purge_bookmarks ? "on" : "off");
+		ctx.bookmark_lines ? "on" : "off", ctx.purge_bookmarks ? "on" : "off");
 	search_studio_result_appendf("Mark in Session", "Open Documents", spec.original_text,
 		spec.mode, "Marked %u matches across %u open documents; bookmark-lines=%s; purge-first=%s.",
-		total_matches, docs_marked, bookmark_lines ? "yes" : "no", purge_bookmarks ? "yes" : "no");
+		total_matches, docs_marked, ctx.bookmark_lines ? "yes" : "no", ctx.purge_bookmarks ? "yes" : "no");
 	search_studio_store_find_spec(&spec);
 	search_studio_find_spec_clear(&spec);
 }
 
 
+static guint search_studio_clear_session_marks_cb(GeanyDocument *doc, gpointer user_data)
+{
+	(void) user_data;
+	search_clear_all_marks(doc);
+	return 1;
+}
+
+
 static void search_studio_clear_session_marks_activate(GtkButton *button, gpointer user_data)
 {
-	guint page_count;
-	guint n;
-	guint cleared_docs = 0;
+	guint cleared_docs;
 
-	page_count = gtk_notebook_get_n_pages(GTK_NOTEBOOK(main_widgets.notebook));
-	for (n = 0; n < page_count; n++)
-	{
-		GeanyDocument *doc = document_get_from_page(n);
-
-		if (!DOC_VALID(doc))
-			continue;
-		search_clear_all_marks(doc);
-		cleared_docs++;
-	}
+	cleared_docs = search_studio_visit_open_documents(search_studio_clear_session_marks_cb,
+		NULL, NULL);
 
 	ui_set_statusbar(FALSE, _("Cleared search highlights and bookmarks across %u open documents."),
 		cleared_docs);

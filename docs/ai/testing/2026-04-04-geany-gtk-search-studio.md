@@ -127,6 +127,7 @@
 - Structured result routing still works for summary rows, navigable match rows, replace preview rows, count impact rows, mark impact rows, and ingested Find in Files rows after the internal request/result-spec normalization passes
 - Active-document Find/Count/Mark/Replace summary rows still target the correct document after the shared action-layer helper passes
 - Session-level Count/Mark/Replace Preview/Replace summary rows still report the correct scope/summary text after formatted summary helper extraction
+- Session-oriented actions still behave correctly after open-document visitor normalization (no missing affected-doc counts, no missing session rows, and no obvious regression in session-hit/session-mark/session-replace-preview/session-replace-impact/clear-session-mark collection)
 
 ## Environment limitation
 - Full compile validation was not performed here if the required toolchain is unavailable in the current environment.

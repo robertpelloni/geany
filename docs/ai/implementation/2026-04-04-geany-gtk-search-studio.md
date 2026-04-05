@@ -128,8 +128,17 @@ Shared action-layer helpers are now also starting to reduce repeated execution-a
 - active-document target labeling
 - summary-row emission for active-document actions
 - formatted summary-row emission for session and document actions
+- open-document iteration for session-oriented actions
 
 This means several Search Studio callbacks now read more like small orchestration functions, while reusable helper paths own the repetitive document/session summary plumbing.
+
+Session-oriented helpers are now also converging around a shared open-document visitor path. Match collection, replace-preview session rows, replace-impact session rows, count session, mark session, and clear-session marks all benefit from that normalization direction.
+
+This is another meaningful backend-boundary step because session-scope work is increasingly described as:
+- a shared prepared request
+- a reusable open-document traversal helper
+- per-document callbacks that emit rows or mutate state
+- shared summary/status reporting on top
 
 This is still not a full backend split, but it makes the remaining execution code less repetitive and clarifies which pieces are generic enough to move behind a frontend-independent boundary later.
 
