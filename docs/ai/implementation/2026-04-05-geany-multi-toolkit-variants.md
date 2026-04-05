@@ -15,6 +15,7 @@ This pass adds or restores these toolkit submodules:
 - continues to use BTK/CopperSpice-style APIs only inside that folder
 - still has the most mature backend, runtime staging, and packaging workflow
 - during this pass it also gained more explicit provenance-aware run metadata in the backend (`sourceLabel`, `scopeLabel`, `targetLabel`, `scannedRootPath`) so BTK result/status rows can distinguish workspace-backed data from prototype fallback more honestly
+- the staged Windows launcher was also hardened further by exporting plugin-related environment variables (`QT_PLUGIN_PATH`, `QT_QPA_PLATFORM_PLUGIN_PATH`, `CS_PLUGIN_PATH`) in the bundle-local batch file after a platform-plugin regression reappeared during validation
 
 ### BobUI
 - added directory: `variants/geany-bobui/`
@@ -25,6 +26,8 @@ This pass adds or restores these toolkit submodules:
   - `src/search_studio_backend.h`
   - `src/search_studio_backend.cpp`
 - this variant uses Qt6-compatible package discovery intended for BobUI-provided `Qt6` packages
+- hint paths now also cover more likely local BobUI build/install layouts such as `build/bobui-install/lib/cmake/Qt6` and `build/bobui/lib/cmake/Qt6`
+- on Windows it now also provides a source-tree helper `run-windows-msvc.bat`, and the CMake build can generate a build-dir launcher if a BobUI runtime directory can be derived from `Qt6_DIR`
 - it keeps the Search Studio shell and backend model in a BobUI-only folder so the code path can evolve independently from BTK
 
 ### BobGUI
@@ -33,8 +36,9 @@ This pass adds or restores these toolkit submodules:
   - `meson.build`
   - `README.md`
   - `src/main.c`
-- this variant is intentionally smaller right now: a BobGUI-only Search Studio shell with toolkit-exclusive pages and an activity surface
+- this variant is still lighter-weight than the BTK prototype, but it now has a more Search-Studio-like BobGUI shell with toolkit-exclusive top pages plus a lower navigator stack for Activity / Results / Diff Preview
 - it uses BobGUI/GObject-style APIs only
+- a small helper script `run-meson-dev.sh` was added for Meson-capable environments
 
 ## Build validation performed
 

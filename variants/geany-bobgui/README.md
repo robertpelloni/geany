@@ -16,9 +16,12 @@ This variant currently provides a BobGUI-only Search Studio shell with pages for
 - Replace
 - Find in Files
 - Mark
-- a lower activity-style text surface
+- a lower navigator area with:
+  - Activity
+  - Results
+  - Diff Preview
 
-The current focus is toolkit isolation and build wiring. This variant is intentionally minimal compared with the more evolved alternate frontend prototypes.
+The current focus is still toolkit isolation and build wiring, but the shell is now closer to the broader Search Studio cockpit shape than the original minimal placeholder.
 
 ## Toolchain direction
 
@@ -33,6 +36,9 @@ So a usable BobGUI development environment still needs:
 - Meson
 - Ninja
 - BobGUI development packages / pkg-config metadata
+
+A small helper is also included for Meson-capable environments:
+- `run-meson-dev.sh`
 
 ## Current validation status
 

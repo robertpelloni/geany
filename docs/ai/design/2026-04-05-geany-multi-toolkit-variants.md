@@ -46,8 +46,8 @@ The variants do not need to force one universal build system today.
 
 Instead:
 - BTK variant keeps its working CMake + runtime-staging path
-- BobUI variant uses a Qt6-compatible CMake discovery path aimed at BobUI package trees
-- BobGUI variant uses Meson with `dependency('bobgui4')`, which matches the BobGUI ecosystem more naturally
+- BobUI variant uses a Qt6-compatible CMake discovery path aimed at BobUI package trees, with Windows launcher generation when a runtime directory can be derived from `Qt6_DIR`
+- BobGUI variant uses Meson with `dependency('bobgui4')`, which matches the BobGUI ecosystem more naturally, plus a small helper script for Meson-capable environments
 
 ## Practical migration stance
 
@@ -57,4 +57,5 @@ BobUI and BobGUI are now restored as parallel experimental tracks rather than be
 This is a pragmatic design because it lets the repo:
 - validate multiple toolkit-exclusive shells
 - keep current BTK backend/search work moving
+- give BobUI and BobGUI clearer build/run entry points instead of leaving them as only raw source trees
 - avoid overclaiming build parity when local toolchains differ sharply

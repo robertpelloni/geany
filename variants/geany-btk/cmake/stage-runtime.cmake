@@ -63,7 +63,10 @@ endif()
 file(WRITE "${GEANY_BTK_STAGE_DIR}/run-geany-btk-search-studio.bat"
     "@echo off\r\n"
     "setlocal\r\n"
-    "set \"PATH=%~dp0bin;%PATH%\"\r\n"
+    "set \"PATH=%~dp0bin;%~dp0platforms;%PATH%\"\r\n"
+    "set \"QT_PLUGIN_PATH=%~dp0\"\r\n"
+    "set \"QT_QPA_PLATFORM_PLUGIN_PATH=%~dp0platforms\"\r\n"
+    "set \"CS_PLUGIN_PATH=%~dp0\"\r\n"
     "\"%~dp0bin\\${GEANY_BTK_TARGET_NAME}\" %*\r\n")
 
 file(WRITE "${GEANY_BTK_STAGE_MARKER}" "${GEANY_BTK_STAGE_DIR}\n")

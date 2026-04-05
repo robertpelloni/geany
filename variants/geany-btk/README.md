@@ -100,6 +100,8 @@ A generated helper also points at the latest staged bundle directory:
 
 That helper is now refreshed by the stage script on each build/package run instead of being frozen to a configure-time bundle path. It also changes into the newest staged bundle directory before invoking the bundle-local launcher, which avoids a Windows/CopperSpice platform-plugin resolution failure when launching from the build root while older staged bundles remain active.
 
+The bundle-local launcher now also exports plugin-oriented environment variables (`QT_PLUGIN_PATH`, `QT_QPA_PLATFORM_PLUGIN_PATH`, `CS_PLUGIN_PATH`) in addition to adjusting `PATH`, which fixed a later regression where a correctly staged bundle still failed to locate the Windows platform plugin during launch.
+
 This matters because timestamped bundle names are created at staging time, so repeated package runs can keep producing fresh bundle directories without requiring a manual CMake reconfigure between runs.
 
 The timestamped bundle directory name avoids clobbering an older already-running staged executable from previous smoke tests, which makes iterative Windows validation safer without having to kill running processes.

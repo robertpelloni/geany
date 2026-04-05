@@ -33,10 +33,19 @@ The variant is expected to build against the BobUI submodule at:
 
 The local CMake file looks for Qt6-compatible package metadata in common BobUI build/install locations such as:
 - `../../build/bobui-install/lib/cmake`
+- `../../build/bobui-install/lib/cmake/Qt6`
 - `../../build/bobui-install`
+- `../../build/bobui/lib/cmake`
+- `../../build/bobui/lib/cmake/Qt6`
 - `../../build/bobui`
 
 or any BobUI-provided `Qt6` package visible to `find_package(Qt6 CONFIG ...)`.
+
+On Windows, a source-tree helper is also available at:
+- `run-windows-msvc.bat`
+
+And if a usable BobUI runtime directory can be derived from `Qt6_DIR`, the build now generates:
+- `build/geany-bobui/run-geany-bobui-search-studio.bat`
 
 ## Current validation status
 

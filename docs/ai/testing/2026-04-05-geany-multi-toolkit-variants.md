@@ -36,13 +36,18 @@ Confirm these directories exist:
   - `geany-btk-runtime-package`
 - confirm latest staged runtime bundle launches responsively without killing older staged processes
 - confirm BTK provenance/status rows continue to surface source/scope/root metadata rather than regressing to anonymous summaries
+- confirm the bundle-local and top-level BTK launchers still work after the plugin-environment hardening (`QT_PLUGIN_PATH`, `QT_QPA_PLATFORM_PLUGIN_PATH`, `CS_PLUGIN_PATH`) and no longer regress into the earlier platform-plugin failure
 
 ### BobUI
 - configure with CMake against a BobUI-provided Qt6 package tree
 - confirm `geany-bobui-search-studio` links against BobUI-provided Qt6-compatible modules
+- if a runtime directory can be derived from `Qt6_DIR`, confirm the build generates `run-geany-bobui-search-studio.bat`
+- confirm the source-tree helper `variants/geany-bobui/run-windows-msvc.bat` points at the expected local BobUI build/install layout
 - if no BobUI package tree is available locally, record that as an environment block rather than pretending the variant was validated
 
 ### BobGUI
 - configure with Meson in an environment with `bobgui4` development packages available
 - confirm `meson setup` resolves `dependency('bobgui4')`
+- confirm the BobGUI shell now exposes top pages for Find / Replace / Find in Files / Mark plus a lower navigator stack for Activity / Results / Diff Preview
+- confirm `run-meson-dev.sh` works in Meson-capable environments
 - if Meson / pkg-config / BobGUI development packages are missing locally, record that as an environment block rather than pretending the variant was validated
