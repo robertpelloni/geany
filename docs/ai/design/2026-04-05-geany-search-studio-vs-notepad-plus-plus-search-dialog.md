@@ -72,9 +72,9 @@ That means Geany is already structurally on the correct path for parity and in s
 | Transparency controls | `IDC_TRANSPARENT_*` controls in `.rc` | Geany does not currently mirror NPP transparency controls in Search Studio | Missing |
 | 2-button mode / split-button find UX | `IDC_2_BUTTONS_MODE`, swap button in `.rc` | Geany does not mirror this exact affordance | Missing |
 | Find in Files filters field | `IDD_FINDINFILES_FILTERS_COMBO` | Geany has Find in Files, but Search Studio option density is still slimmer than NPP | Partial |
-| Directory browse / set dir from doc | browse buttons in `.rc` | Geany Find in Files is functional, but exact NPP affordance parity is incomplete in Search Studio | Partial |
+| Directory browse / set dir from doc | browse buttons in `.rc` | Geany Search Studio now has direct `Current Doc` / `Current Project` directory shortcuts plus the project-aware launch action, but still lacks full browse/set-dir parity and the exact NPP control set | Partial |
 | Recursive / hidden-dir toggles | `IDD_FINDINFILES_RECURSIVE_CHECK`, `IDD_FINDINFILES_INHIDDENDIR_CHECK` | Recursive-style behavior exists conceptually; hidden-dir parity is not surfaced the same way | Partial |
-| Find in Projects explicit project panel toggles | `IDD_FINDINFILES_PROJECT1/2/3_CHECK` | No exact Search Studio parity yet | Missing |
+| Find in Projects explicit project panel toggles | `IDD_FINDINFILES_PROJECT1/2/3_CHECK` | Geany now has a first project-aware launch action and project-pattern shortcut, but still no exact project-panel toggle set | Partial / Missing |
 | Found-result focus / next found / prev found | `IDM_FOCUS_ON_FOUND_RESULTS`, `GOTONEXTFOUND`, `GOTOPREVFOUND` | Geany has navigable results and Diff Preview, but exact NPP-style result-focus commands are still not fully mirrored | Partial |
 | Find in Finder / search within results | `FindInFinderDlg`, `ProcessFindInFinder` | Geany Search Studio now exposes a first `Find in Results` action that searches existing structured result rows and appends matching result-hit rows, but it does not yet mirror NPP's dedicated Find in Finder dialog and all its line-number/result-only semantics | Partial |
 

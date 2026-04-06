@@ -441,6 +441,8 @@ static SearchStudioReplaceExecutionResult search_studio_execute_replace_session(
 	GtkWidget *page, GeanyDocument *doc, const SearchStudioReplaceSpec *spec);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
 static void search_studio_find_in_project_activate(GtkButton *button, gpointer user_data);
+static void search_studio_use_current_doc_dir_activate(GtkButton *button, gpointer user_data);
+static void search_studio_use_project_dir_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
 	guint page_num, gpointer user_data);
@@ -4689,6 +4691,7 @@ static void search_studio_find_in_project_activate(GtkButton *button, gpointer u
 	GtkWidget *search_entry = ui_lookup_widget(page, "entry_search");
 	GtkWidget *files_entry = ui_lookup_widget(page, "entry_files");
 	GtkWidget *enc_combo = ui_lookup_widget(page, "combo_encoding");
+	GtkWidget *mode_combo = ui_lookup_widget(page, "combo_files_mode");
 	gboolean regexp;
 	gboolean escape_sequences;
 	gchar *search_text;
@@ -4736,15 +4739,18 @@ static void search_studio_find_in_project_activate(GtkButton *button, gpointer u
 	extra_options = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_extra")));
 	enc_idx = ui_encodings_combo_box_get_active_encoding(GTK_COMBO_BOX(enc_combo));
 
+	if (ui_lookup_widget(page, "entry_dir") != NULL)
+		gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(page, "entry_dir")), project_dir);
+	if (ui_lookup_widget(page, "entry_files") != NULL)
+		gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(page, "entry_files")), project_patterns != NULL ? project_patterns : "");
+	if (mode_combo != NULL)
+		gtk_combo_box_set_active(GTK_COMBO_BOX(mode_combo), FILES_MODE_PROJECT);
+
 	if (execute_find_in_files_request(search_text, project_dir, invert, case_sensitive,
 			whole_word, recursive, regexp, use_extra, extra_options, FILES_MODE_PROJECT,
 			project_patterns, enc_idx, search_entry, NULL, files_entry, TRUE,
 			search_studio_mode_name(page)))
 	{
-		if (ui_lookup_widget(page, "entry_dir") != NULL)
-			gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(page, "entry_dir")), project_dir);
-		if (ui_lookup_widget(page, "entry_files") != NULL)
-			gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(page, "entry_files")), project_patterns != NULL ? project_patterns : "");
 		ui_set_search_entry_background(search_entry, TRUE);
 		ui_set_statusbar(FALSE, _("Searching in project started from Search Studio."));
 		search_studio_activity_append("[Find in Projects] text=%s | project=%s | mode=%s | recursive=%s | case=%s | whole-word=%s",
@@ -4762,6 +4768,56 @@ static void search_studio_find_in_project_activate(GtkButton *button, gpointer u
 	g_free(project_patterns);
 	g_free(project_dir);
 	g_free(search_text);
+}
+
+
+static void search_studio_use_current_doc_dir_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	gchar *dir = utils_get_current_file_dir_utf8();
+
+	if (EMPTY(dir))
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No current document directory is available."));
+		search_studio_activity_append("[Find in Files] Current document directory shortcut requested, but no current file directory was available.");
+		g_free(dir);
+		return;
+	}
+
+	gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(page, "entry_dir")), dir);
+	ui_set_statusbar(FALSE, _("Find in Files directory set from the current document."));
+	search_studio_activity_append("[Find in Files] Directory set from current document: %s", dir);
+	search_studio_result_append("Find in Files Setup", dir, "(directory)",
+		search_studio_mode_name(page), "Set search root from the current document directory.");
+	g_free(dir);
+}
+
+
+static void search_studio_use_project_dir_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	gchar *dir;
+
+	if (app->project == NULL || EMPTY(app->project->base_path))
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No project base path is available."));
+		search_studio_activity_append("[Find in Files] Project directory shortcut requested, but no project is open.");
+		search_studio_result_append("Find in Files Setup", "Project", "(directory)",
+			search_studio_mode_name(page), "No project is open for a project-directory shortcut.");
+		return;
+	}
+
+	dir = project_get_base_path();
+	gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(page, "entry_dir")), dir);
+	if (ui_lookup_widget(page, "combo_files_mode") != NULL)
+		gtk_combo_box_set_active(GTK_COMBO_BOX(ui_lookup_widget(page, "combo_files_mode")), FILES_MODE_PROJECT);
+	ui_set_statusbar(FALSE, _("Find in Files directory set from the current project."));
+	search_studio_activity_append("[Find in Files] Directory set from project base path: %s", dir);
+	search_studio_result_append("Find in Files Setup", dir, "(directory)",
+		search_studio_mode_name(page), "Set search root from the current project base path.");
+	g_free(dir);
 }
 
 
@@ -4904,6 +4960,9 @@ static GtkWidget *search_studio_create_fif_page(void)
 	GtkWidget *label_encoding = gtk_label_new_with_mnemonic(_("E_ncoding:"));
 	GtkWidget *entry_find = gtk_entry_new();
 	GtkWidget *entry_dir = gtk_entry_new();
+	GtkWidget *button_current_dir = gtk_button_new_with_mnemonic(_("Current _Doc"));
+	GtkWidget *button_project_dir = gtk_button_new_with_mnemonic(_("Current Pro_ject"));
+	GtkWidget *dir_buttons = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	GtkWidget *entry_files = gtk_entry_new();
 	GtkWidget *combo_files_mode = create_fif_file_mode_combo();
 	GtkWidget *encoding_combo = ui_create_encodings_combo_box(FALSE, GEANY_ENCODING_UTF_8);
@@ -4941,6 +5000,8 @@ static GtkWidget *search_studio_create_fif_page(void)
 	gtk_widget_set_sensitive(entry_extra, settings.fif_use_extra_options);
 	g_signal_connect(check_extra, "toggled", G_CALLBACK(on_widget_toggled_set_sensitive), entry_extra);
 	g_signal_connect(combo_files_mode, "changed", G_CALLBACK(search_studio_fif_file_mode_changed), page);
+	g_signal_connect(button_current_dir, "clicked", G_CALLBACK(search_studio_use_current_doc_dir_activate), page);
+	g_signal_connect(button_project_dir, "clicked", G_CALLBACK(search_studio_use_project_dir_activate), page);
 	gtk_combo_box_set_active(GTK_COMBO_BOX(combo_files_mode), settings.fif_files_mode);
 	gtk_entry_set_text(GTK_ENTRY(entry_files), settings.fif_files ? settings.fif_files : "");
 
@@ -4950,8 +5011,11 @@ static GtkWidget *search_studio_create_fif_page(void)
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label_encoding), encoding_combo);
 	gtk_grid_attach(GTK_GRID(grid), label_find, 0, 0, 1, 1);
 	gtk_grid_attach(GTK_GRID(grid), entry_find, 1, 0, 2, 1);
+	gtk_box_pack_start(GTK_BOX(dir_buttons), button_current_dir, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(dir_buttons), button_project_dir, FALSE, FALSE, 0);
 	gtk_grid_attach(GTK_GRID(grid), label_dir, 0, 1, 1, 1);
-	gtk_grid_attach(GTK_GRID(grid), entry_dir, 1, 1, 2, 1);
+	gtk_grid_attach(GTK_GRID(grid), entry_dir, 1, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), dir_buttons, 2, 1, 1, 1);
 	gtk_grid_attach(GTK_GRID(grid), label_files, 0, 2, 1, 1);
 	gtk_grid_attach(GTK_GRID(grid), combo_files_mode, 1, 2, 1, 1);
 	gtk_grid_attach(GTK_GRID(grid), entry_files, 2, 2, 1, 1);
@@ -4978,6 +5042,9 @@ static GtkWidget *search_studio_create_fif_page(void)
 	button = ui_button_new_with_image(GTK_STOCK_FIND, _("Find in Pro_ject"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_find_in_project_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Use Pro_ject Scope"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_use_project_dir_activate), page);
 	button = ui_button_new_with_image(GTK_STOCK_FIND, _("Open full Find in F_iles"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_open_fif_dialog_activate), page);

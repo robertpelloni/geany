@@ -113,6 +113,9 @@
 - Verify `Find in Files now` starts a search directly from Search Studio
 - Confirm the Activity pane records the launch summary and selected options
 - Confirm the Results pane gets a Find in Files row with target/query/summary fields
+- Click `Current Doc` and confirm the directory field is populated from the current document directory when available
+- If a Geany project is open, click `Current Project` and confirm the directory field is populated from the project base path
+- If a Geany project is open, click `Use Project Scope` and confirm the file-mode/file-pattern path is aligned to project search setup
 - If a Geany project is open, click `Find in Project`
 - Confirm project search starts from the current project base path and prefers project file patterns when available
 - Confirm Activity/Results record the project-scoped launch distinctly from the generic directory search
