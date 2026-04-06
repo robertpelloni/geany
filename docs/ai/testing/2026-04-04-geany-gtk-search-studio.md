@@ -13,6 +13,7 @@
   - Find
   - Replace
   - Find in Files
+  - Find in Projects
   - Mark
 - Confirm a lower notebook pane is visible with:
   - Activity
@@ -122,6 +123,15 @@
 - If a Geany project is open, click `Find in Project`
 - Confirm project search starts from the current project base path and prefers project file patterns when available
 - Confirm Activity/Results record the project-scoped launch distinctly from the generic directory search
+
+### Find in Projects tab
+- Open the dedicated `Find in Projects` tab
+- Confirm the page exposes project-root/pattern-oriented controls rather than only the generic directory-search shape
+- If a Geany project is open, confirm the project root/pattern fields are prefilled from current project state
+- Click `Find in Project now` and confirm project search launches from the project base path
+- Confirm project search starts from the current project base path and prefers project file patterns when available
+- Confirm Activity/Results record the project-scoped launch distinctly from generic directory search
+- If no project is open, confirm the action fails honestly with an informative Activity/Results/status message
 - After results stream in, confirm additional Find in Files hit rows appear in the Results pane
 - Select an ingested Find in Files hit row and confirm the Diff Preview pane updates with richer hit details
 - Activate one of the ingested Find in Files hit rows and confirm Geany opens or switches to the corresponding file and jumps near the matched line

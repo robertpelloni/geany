@@ -33,10 +33,11 @@ Added:
 This creates or presents the Search Studio notebook dialog.
 
 ### 3. Search Studio pages
-Implemented four page builders:
+Implemented notebook page builders including:
 - `search_studio_create_find_page()`
 - `search_studio_create_replace_page()`
 - `search_studio_create_fif_page()`
+- `search_studio_create_fip_page()`
 - `search_studio_create_mark_page()`
 
 ### 4. Explicit search mode model
@@ -250,9 +251,9 @@ Introduced shared helpers:
 
 This reduces duplication and makes both the classic Find in Files dialog and Search Studio use the same validation and launch path.
 
-Search Studio now also has a first explicit project-aware launch action (`Find in Project`) on the Find in Files page. It reuses the same backend request path while pulling the search root from the current Geany project base path and preferring project file patterns when available. This is not yet a full Notepad++-style separate Find in Projects tab, but it meaningfully narrows that gap.
+Search Studio now also has a dedicated `Find in Projects` page in addition to the earlier project-aware launch action. It still reuses the same backend request path while pulling the search root from the current Geany project base path and preferring project file patterns when available. This is a meaningful parity step because project-scoped search is no longer hidden only behind the generic Find in Files page.
 
-The Find in Files page has also become denser in a Notepad++-inspired direction by adding direct directory-scope shortcuts:
+The Find in Files and Find in Projects pages have also become denser in a Notepad++-inspired direction by adding direct directory/scope shortcuts:
 - `Current Doc`
 - `Current Project`
 - `Use Project Scope`

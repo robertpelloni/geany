@@ -185,6 +185,7 @@ static struct
 	GtkWidget	*find_page;
 	GtkWidget	*replace_page;
 	GtkWidget	*fif_page;
+	GtkWidget	*fip_page;
 	GtkWidget	*mark_page;
 	GtkWidget	*lower_notebook;
 	GtkWidget	*activity_view;
@@ -193,7 +194,7 @@ static struct
 	GtkListStore	*results_store;
 	gint		position[2]; /* x, y */
 }
-studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
+studio_dlg = {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, {0, 0}};
 
 static struct
 {
@@ -382,6 +383,7 @@ static gboolean execute_find_in_files_request(const gchar *search_text, const gc
 static GtkWidget *search_studio_create_find_page(void);
 static GtkWidget *search_studio_create_replace_page(void);
 static GtkWidget *search_studio_create_fif_page(void);
+static GtkWidget *search_studio_create_fip_page(void);
 static GtkWidget *search_studio_create_mark_page(void);
 static void search_studio_show_page(gint page_num);
 static void search_studio_sync_find_dialog_from_page(GtkWidget *page);
@@ -2360,11 +2362,19 @@ static void search_studio_activity_show_page_hint(gint page_num)
 		"Find: use the dense search cockpit for repeated lookup, counting, and bookmark-marking.",
 		"Replace: execute targeted or bulk replacements directly, then fall back to the classic dialog if needed.",
 		"Find in Files: launch directory searches directly from Search Studio and review detailed results in the message window.",
+		"Find in Projects: start project-scoped searches from the current project base path and keep project patterns close at hand.",
 		"Mark: highlight all matches, optionally bookmark matching lines, fan marking out across open documents, then clear everything in one click."
+	};
+	static const gchar *labels[] = {
+		"Find",
+		"Replace",
+		"Find in Files",
+		"Find in Projects",
+		"Mark"
 	};
 
 	if (page_num >= 0 && page_num < (gint) G_N_ELEMENTS(hints))
-		search_studio_activity_append("[%s] %s", page_num == 0 ? "Find" : page_num == 1 ? "Replace" : page_num == 2 ? "Find in Files" : "Mark", hints[page_num]);
+		search_studio_activity_append("[%s] %s", labels[page_num], hints[page_num]);
 }
 
 
@@ -5215,6 +5225,104 @@ static GtkWidget *search_studio_create_fif_page(void)
 }
 
 
+static GtkWidget *search_studio_create_fip_page(void)
+{
+	GtkWidget *page = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+	GtkWidget *grid = gtk_grid_new();
+	GtkWidget *options_grid = gtk_grid_new();
+	GtkWidget *label_find = gtk_label_new_with_mnemonic(_("_Find what:"));
+	GtkWidget *label_project = gtk_label_new_with_mnemonic(_("_Project root:"));
+	GtkWidget *label_patterns = gtk_label_new_with_mnemonic(_("Project _patterns:"));
+	GtkWidget *label_encoding = gtk_label_new_with_mnemonic(_("E_ncoding:"));
+	GtkWidget *entry_find = gtk_entry_new();
+	GtkWidget *entry_dir = gtk_entry_new();
+	GtkWidget *entry_files = gtk_entry_new();
+	GtkWidget *encoding_combo = ui_create_encodings_combo_box(FALSE, GEANY_ENCODING_UTF_8);
+	GtkWidget *check_case = gtk_check_button_new_with_mnemonic(_("Match _case"));
+	GtkWidget *check_word = gtk_check_button_new_with_mnemonic(_("Whole _word"));
+	GtkWidget *check_invert = gtk_check_button_new_with_mnemonic(_("_Invert"));
+	GtkWidget *check_recursive = gtk_check_button_new_with_mnemonic(_("_Recursive"));
+	GtkWidget *check_extra = gtk_check_button_new_with_mnemonic(_("Use e_xtra grep options"));
+	GtkWidget *entry_extra = gtk_entry_new();
+	GtkWidget *dir_buttons = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	GtkWidget *hint = gtk_label_new(_("This page is the first dedicated project-search surface in Search Studio. It keeps project-root and project-pattern targeting visible instead of hiding project search behind generic directory search only."));
+	GtkWidget *actions = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	GtkWidget *button;
+
+	gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+	gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+	gtk_grid_set_column_spacing(GTK_GRID(options_grid), 12);
+	gtk_grid_set_row_spacing(GTK_GRID(options_grid), 6);
+	ui_hookup_widget(page, entry_find, "entry_search");
+	ui_hookup_widget(page, entry_dir, "entry_dir");
+	ui_hookup_widget(page, entry_files, "entry_files");
+	ui_hookup_widget(page, encoding_combo, "combo_encoding");
+	ui_hookup_widget(page, check_case, "check_case");
+	ui_hookup_widget(page, check_word, "check_word");
+	ui_hookup_widget(page, check_invert, "check_invert");
+	ui_hookup_widget(page, check_recursive, "check_recursive");
+	ui_hookup_widget(page, check_extra, "check_extra");
+	ui_hookup_widget(page, entry_extra, "entry_extra");
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_recursive), settings.fif_recursive);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_case), settings.fif_case_sensitive);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_word), settings.fif_match_whole_word);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_invert), settings.fif_invert_results);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check_extra), settings.fif_use_extra_options);
+	gtk_entry_set_text(GTK_ENTRY(entry_extra), settings.fif_extra_options ? settings.fif_extra_options : "");
+	gtk_widget_set_sensitive(entry_extra, settings.fif_use_extra_options);
+	g_signal_connect(check_extra, "toggled", G_CALLBACK(on_widget_toggled_set_sensitive), entry_extra);
+
+	gtk_label_set_mnemonic_widget(GTK_LABEL(label_find), entry_find);
+	gtk_label_set_mnemonic_widget(GTK_LABEL(label_project), entry_dir);
+	gtk_label_set_mnemonic_widget(GTK_LABEL(label_patterns), entry_files);
+	gtk_label_set_mnemonic_widget(GTK_LABEL(label_encoding), encoding_combo);
+	gtk_grid_attach(GTK_GRID(grid), label_find, 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), entry_find, 1, 0, 2, 1);
+	gtk_grid_attach(GTK_GRID(grid), label_project, 0, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), entry_dir, 1, 1, 2, 1);
+	gtk_grid_attach(GTK_GRID(grid), label_patterns, 0, 2, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), entry_files, 1, 2, 2, 1);
+	gtk_grid_attach(GTK_GRID(grid), label_encoding, 0, 3, 1, 1);
+	gtk_grid_attach(GTK_GRID(grid), encoding_combo, 1, 3, 2, 1);
+
+	gtk_grid_attach(GTK_GRID(options_grid), check_case, 0, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), check_word, 1, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), check_invert, 2, 0, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), check_recursive, 0, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), check_extra, 1, 1, 1, 1);
+	gtk_grid_attach(GTK_GRID(options_grid), entry_extra, 2, 1, 1, 1);
+
+	button = gtk_button_new_with_mnemonic(_("Current Pro_ject"));
+	gtk_box_pack_start(GTK_BOX(dir_buttons), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_use_project_dir_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Use Project _Scope"));
+	gtk_box_pack_start(GTK_BOX(dir_buttons), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_use_project_dir_activate), page);
+
+	gtk_label_set_xalign(GTK_LABEL(hint), 0.0f);
+	gtk_label_set_line_wrap(GTK_LABEL(hint), TRUE);
+	gtk_box_pack_start(GTK_BOX(page), grid, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(page), dir_buttons, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(page), search_studio_create_mode_box(page), FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(page), options_grid, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(page), hint, FALSE, FALSE, 0);
+
+	button = ui_button_new_with_image(GTK_STOCK_FIND, _("Find in Pro_ject now"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_find_in_project_activate), page);
+	button = ui_button_new_with_image(GTK_STOCK_FIND, _("Open full Find in F_iles"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_open_fif_dialog_activate), page);
+	gtk_box_pack_start(GTK_BOX(page), actions, FALSE, FALSE, 0);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.fif_regexp ? "mode_regex" : "mode_normal")), TRUE);
+	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
+		settings.fif_regexp ? "mode_regex" : "mode_normal")), page);
+	search_studio_use_project_dir_activate(NULL, page);
+	return page;
+}
+
+
 static GtkWidget *search_studio_create_mark_page(void)
 {
 	GtkWidget *page = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
@@ -5313,7 +5421,7 @@ static void create_search_studio_dialog(void)
 
 	header = gtk_box_new(GTK_ORIENTATION_VERTICAL, 4);
 	title = ui_label_new_bold(_("Notepad++-style Search Studio"));
-	subtitle = gtk_label_new(_("A unified cockpit for Find, Replace, Find in Files, and Mark workflows. Use it as the higher-density search surface while Geany's classic dialogs remain available."));
+	subtitle = gtk_label_new(_("A unified cockpit for Find, Replace, Find in Files, Find in Projects, and Mark workflows. Use it as the higher-density search surface while Geany's classic dialogs remain available."));
 	gtk_label_set_xalign(GTK_LABEL(subtitle), 0.0f);
 	gtk_label_set_line_wrap(GTK_LABEL(subtitle), TRUE);
 	gtk_box_pack_start(GTK_BOX(header), title, FALSE, FALSE, 0);
@@ -5328,10 +5436,12 @@ static void create_search_studio_dialog(void)
 	studio_dlg.find_page = search_studio_create_find_page();
 	studio_dlg.replace_page = search_studio_create_replace_page();
 	studio_dlg.fif_page = search_studio_create_fif_page();
+	studio_dlg.fip_page = search_studio_create_fip_page();
 	studio_dlg.mark_page = search_studio_create_mark_page();
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.find_page, gtk_label_new(_("Find")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.replace_page, gtk_label_new(_("Replace")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.fif_page, gtk_label_new(_("Find in Files")));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.fip_page, gtk_label_new(_("Find in Projects")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.mark_page, gtk_label_new(_("Mark")));
 	g_signal_connect(notebook, "switch-page", G_CALLBACK(search_studio_notebook_switch_page), NULL);
 	gtk_paned_pack1(GTK_PANED(paned), notebook, TRUE, FALSE);
@@ -5438,6 +5548,7 @@ static void search_studio_show_page(gint page_num)
 		gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(studio_dlg.replace_page, "entry_search")), sel);
 		gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(studio_dlg.mark_page, "entry_search")), sel);
 		gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(studio_dlg.fif_page, "entry_search")), sel);
+		gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(studio_dlg.fip_page, "entry_search")), sel);
 	}
 	g_free(sel);
 
@@ -5445,6 +5556,8 @@ static void search_studio_show_page(gint page_num)
 	if (!EMPTY(cur_dir))
 		gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(studio_dlg.fif_page, "entry_dir")), cur_dir);
 	g_free(cur_dir);
+	if (studio_dlg.fip_page != NULL)
+		search_studio_use_project_dir_activate(NULL, studio_dlg.fip_page);
 
 	gtk_notebook_set_current_page(GTK_NOTEBOOK(studio_dlg.notebook), page_num);
 	set_dialog_position(studio_dlg.dialog, studio_dlg.position);
