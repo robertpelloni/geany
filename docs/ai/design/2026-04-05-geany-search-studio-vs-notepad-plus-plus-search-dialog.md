@@ -75,7 +75,7 @@ That means Geany is already structurally on the correct path for parity and in s
 | Directory browse / set dir from doc | browse buttons in `.rc` | Geany Search Studio now has direct `Current Doc` / `Current Project` directory shortcuts plus the project-aware launch action, but still lacks full browse/set-dir parity and the exact NPP control set | Partial |
 | Recursive / hidden-dir toggles | `IDD_FINDINFILES_RECURSIVE_CHECK`, `IDD_FINDINFILES_INHIDDENDIR_CHECK` | Recursive-style behavior exists conceptually; hidden-dir parity is not surfaced the same way | Partial |
 | Find in Projects explicit project panel toggles | `IDD_FINDINFILES_PROJECT1/2/3_CHECK` | Geany now has a first project-aware launch action and project-pattern shortcut, but still no exact project-panel toggle set | Partial / Missing |
-| Found-result focus / next found / prev found | `IDM_FOCUS_ON_FOUND_RESULTS`, `GOTONEXTFOUND`, `GOTOPREVFOUND` | Geany has navigable results and Diff Preview, but exact NPP-style result-focus commands are still not fully mirrored | Partial |
+| Found-result focus / next found / prev found | `IDM_FOCUS_ON_FOUND_RESULTS`, `GOTONEXTFOUND`, `GOTOPREVFOUND` | Geany Search Studio now exposes first-wave `Focus Results`, `Next Result`, and `Previous Result` commands over the structured results navigator, but still does not fully mirror every NPP found-result semantic | Partial |
 | Find in Finder / search within results | `FindInFinderDlg`, `ProcessFindInFinder` | Geany Search Studio now exposes a first `Find in Results` action that searches existing structured result rows and appends matching result-hit rows, but it does not yet mirror NPP's dedicated Find in Finder dialog and all its line-number/result-only semantics | Partial |
 
 ## Strategic conclusion
@@ -87,7 +87,7 @@ However, the parity matrix makes three next implementation clusters especially c
 ### Cluster 1 — exact search workbench gaps
 - full Find in Projects page/controls beyond the new project-aware launch action
 - denser Find in Files options matrix
-- result-focus navigation commands
+- fuller result-focus navigation semantics beyond the new first-wave `Focus Results` / `Next Result` / `Previous Result` commands
 - fuller search-within-results / finder-in-finder behavior beyond the new first `Find in Results` action
 
 ### Cluster 2 — Mark parity gaps

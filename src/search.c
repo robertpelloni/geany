@@ -449,6 +449,11 @@ static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget 
 static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreePath *path,
 	GtkTreeViewColumn *column, gpointer user_data);
 static void search_studio_results_selection_changed(GtkTreeSelection *selection, gpointer user_data);
+static gboolean search_studio_results_focus_current(void);
+static gboolean search_studio_results_select_relative(gint delta, gboolean activate_row);
+static void search_studio_focus_results_activate(GtkButton *button, gpointer user_data);
+static void search_studio_next_result_activate(GtkButton *button, gpointer user_data);
+static void search_studio_prev_result_activate(GtkButton *button, gpointer user_data);
 static void search_studio_activity_append(const gchar *format, ...) G_GNUC_PRINTF(1, 2);
 static void search_studio_set_preview(const gchar *title, const gchar *body);
 static void search_studio_result_append_spec(const SearchStudioResultSpec *spec);
@@ -2460,6 +2465,149 @@ static void search_studio_results_row_activated(GtkTreeView *tree_view, GtkTreeP
 	g_free(filename);
 	g_free(target);
 	g_free(action);
+}
+
+
+static gboolean search_studio_results_focus_current(void)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+
+	if (studio_dlg.results_view == NULL || studio_dlg.results_store == NULL)
+		return FALSE;
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(studio_dlg.results_view));
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
+		search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
+		gtk_widget_grab_focus(studio_dlg.results_view);
+		return TRUE;
+	}
+
+	model = GTK_TREE_MODEL(studio_dlg.results_store);
+	if (!gtk_tree_model_get_iter_first(model, &iter))
+		return FALSE;
+
+	path = gtk_tree_model_get_path(model, &iter);
+	gtk_tree_view_set_cursor(GTK_TREE_VIEW(studio_dlg.results_view), path, NULL, FALSE);
+	gtk_tree_selection_select_path(selection, path);
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(studio_dlg.results_view), path, NULL, FALSE, 0.0f, 0.0f);
+	gtk_tree_path_free(path);
+	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
+	gtk_widget_grab_focus(studio_dlg.results_view);
+	return TRUE;
+}
+
+
+static gboolean search_studio_results_select_relative(gint delta, gboolean activate_row)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	gint child_count;
+	gint index;
+
+	if (studio_dlg.results_view == NULL || studio_dlg.results_store == NULL)
+		return FALSE;
+
+	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(studio_dlg.results_view));
+	model = GTK_TREE_MODEL(studio_dlg.results_store);
+	child_count = gtk_tree_model_iter_n_children(model, NULL);
+	if (child_count <= 0)
+		return FALSE;
+
+	if (!gtk_tree_selection_get_selected(selection, &model, &iter))
+	{
+		if (!gtk_tree_model_get_iter_first(model, &iter))
+			return FALSE;
+		path = gtk_tree_model_get_path(model, &iter);
+	}
+	else
+		path = gtk_tree_model_get_path(model, &iter);
+
+	index = gtk_tree_path_get_indices(path) != NULL ? gtk_tree_path_get_indices(path)[0] : 0;
+	index = (index + delta + child_count) % child_count;
+	gtk_tree_path_free(path);
+	path = gtk_tree_path_new_from_indices(index, -1);
+	gtk_tree_view_set_cursor(GTK_TREE_VIEW(studio_dlg.results_view), path, NULL, FALSE);
+	gtk_tree_selection_select_path(selection, path);
+	gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(studio_dlg.results_view), path, NULL, FALSE, 0.0f, 0.0f);
+	search_studio_show_lower_page(STUDIO_LOWER_PAGE_RESULTS);
+	gtk_widget_grab_focus(studio_dlg.results_view);
+	if (activate_row)
+		gtk_tree_view_row_activated(GTK_TREE_VIEW(studio_dlg.results_view), path, NULL);
+	gtk_tree_path_free(path);
+	return TRUE;
+}
+
+
+static void search_studio_focus_results_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	const gchar *query = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
+
+	if (!search_studio_results_focus_current())
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No Search Studio results are available to focus."));
+		search_studio_activity_append("[Results] Focus requested, but no Search Studio results were available.");
+		search_studio_result_append("Focus Results", "Search Studio Results",
+			EMPTY(query) ? "(empty)" : query,
+			search_studio_mode_name(page),
+			"No Search Studio results were available to focus.");
+		return;
+	}
+
+	search_studio_activity_append("[Results] Focused the Search Studio results navigator.");
+	search_studio_result_append("Focus Results", "Search Studio Results",
+		EMPTY(query) ? "(empty)" : query,
+		search_studio_mode_name(page),
+		"Focused the Search Studio results navigator.");
+}
+
+
+static void search_studio_next_result_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	const gchar *query = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
+
+	if (!search_studio_results_select_relative(1, TRUE))
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No Search Studio result rows are available."));
+		search_studio_activity_append("[Results] Next result requested, but no Search Studio result rows were available.");
+		search_studio_result_append("Next Result", "Search Studio Results",
+			EMPTY(query) ? "(empty)" : query,
+			search_studio_mode_name(page),
+			"No Search Studio result rows were available for next-result navigation.");
+		return;
+	}
+
+	search_studio_activity_append("[Results] Advanced to the next Search Studio result row.");
+}
+
+
+static void search_studio_prev_result_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	const gchar *query = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
+
+	if (!search_studio_results_select_relative(-1, TRUE))
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No Search Studio result rows are available."));
+		search_studio_activity_append("[Results] Previous result requested, but no Search Studio result rows were available.");
+		search_studio_result_append("Previous Result", "Search Studio Results",
+			EMPTY(query) ? "(empty)" : query,
+			search_studio_mode_name(page),
+			"No Search Studio result rows were available for previous-result navigation.");
+		return;
+	}
+
+	search_studio_activity_append("[Results] Moved to the previous Search Studio result row.");
 }
 
 
@@ -4851,6 +4999,15 @@ static GtkWidget *search_studio_create_find_page(void)
 	button = gtk_button_new_with_mnemonic(_("Count S_ession"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_count_session_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Focus Res_ults"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_focus_results_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Next Res_ult"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_next_result_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Pre_vious Result"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_prev_result_activate), page);
 	button = gtk_button_new_with_mnemonic(_("_Mark / Bookmark"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_mark_activate), page);

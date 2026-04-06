@@ -47,6 +47,9 @@
 - Use `Collect Document Hits` and confirm a broader set of navigable current-document match rows is appended
 - Use `Collect Session Hits` and confirm hits from multiple open documents can be appended to the Results pane
 - Activate one of the collected session-hit rows for an already-open file and confirm Geany switches to that document and jumps to the match
+- Use `Focus Results` and confirm the results navigator is focused/selected without clearing existing rows
+- Use `Next Result` and `Previous Result` and confirm Search Studio advances through existing result rows with wrap-around behavior
+- For navigable rows, confirm `Next Result` / `Previous Result` can trigger row activation and jump to the corresponding target
 - Use `Find in Results` after result rows already exist and confirm Search Studio appends `Find in Results Hit` rows for matching result entries
 - Select one of those `Find in Results Hit` rows and confirm Diff Preview shows the original result context it matched against
 - Use `Clear Results` and confirm the Results pane is cleared and a clear event is recorded

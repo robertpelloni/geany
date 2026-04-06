@@ -103,6 +103,13 @@ The lower pane now uses a notebook with separate views for:
 
 The Find page now also has a first `Find in Results` action, which searches across the existing structured Search Studio result rows and appends matching result-hit rows back into the navigator. This is an initial bridge toward Notepad++'s `Find in Finder` behavior: it is not yet a dedicated secondary dialog with all of NPP's result-search semantics, but it does mean Search Studio can now search inside its own accumulated workbench output.
 
+The Find page now also exposes first-wave result-focus commands inspired by Notepad++'s found-result navigation:
+- `Focus Results`
+- `Next Result`
+- `Previous Result`
+
+These operate on the structured Search Studio results navigator: they can focus the results tree, select the next/previous row with wrap-around behavior, and activate the selected row so navigation-capable result rows immediately jump to their target.
+
 The Results tab is backed by a `GtkListStore`/`GtkTreeView` and records structured entries with columns such as:
 - Action
 - Target
