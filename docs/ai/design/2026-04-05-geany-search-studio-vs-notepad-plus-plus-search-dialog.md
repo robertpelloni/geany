@@ -76,7 +76,7 @@ That means Geany is already structurally on the correct path for parity and in s
 | Recursive / hidden-dir toggles | `IDD_FINDINFILES_RECURSIVE_CHECK`, `IDD_FINDINFILES_INHIDDENDIR_CHECK` | Recursive-style behavior exists conceptually; hidden-dir parity is not surfaced the same way | Partial |
 | Find in Projects explicit project panel toggles | `IDD_FINDINFILES_PROJECT1/2/3_CHECK` | No exact Search Studio parity yet | Missing |
 | Found-result focus / next found / prev found | `IDM_FOCUS_ON_FOUND_RESULTS`, `GOTONEXTFOUND`, `GOTOPREVFOUND` | Geany has navigable results and Diff Preview, but exact NPP-style result-focus commands are still not fully mirrored | Partial |
-| Find in Finder / search within results | `FindInFinderDlg`, `ProcessFindInFinder` | Geany has results panes, but not a direct search-within-results dialog equivalent yet | Missing |
+| Find in Finder / search within results | `FindInFinderDlg`, `ProcessFindInFinder` | Geany Search Studio now exposes a first `Find in Results` action that searches existing structured result rows and appends matching result-hit rows, but it does not yet mirror NPP's dedicated Find in Finder dialog and all its line-number/result-only semantics | Partial |
 
 ## Strategic conclusion
 
@@ -88,7 +88,7 @@ However, the parity matrix makes three next implementation clusters especially c
 - full Find in Projects page/controls beyond the new project-aware launch action
 - denser Find in Files options matrix
 - result-focus navigation commands
-- search-within-results / finder-in-finder behavior
+- fuller search-within-results / finder-in-finder behavior beyond the new first `Find in Results` action
 
 ### Cluster 2 — Mark parity gaps
 - finish the remaining marked-line parity beyond the first active-document cluster (especially paste-marked-lines / marked-text-to-clipboard variants)

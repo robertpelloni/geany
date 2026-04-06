@@ -315,6 +315,23 @@ typedef struct SearchStudioReplaceExecutionResult
 SearchStudioReplaceExecutionResult;
 
 
+typedef struct SearchStudioStoredResultRow
+{
+	gchar *action;
+	gchar *target;
+	gchar *query;
+	gchar *mode;
+	gchar *summary;
+	gchar *filename;
+	gint line;
+	gint pos;
+	gboolean can_navigate;
+	gchar *preview_title;
+	gchar *preview_body;
+}
+SearchStudioStoredResultRow;
+
+
 static void search_read_io(GString *string, GIOCondition condition, gpointer data);
 static void search_read_io_stderr(GString *string, GIOCondition condition, gpointer data);
 
@@ -459,6 +476,7 @@ static guint search_studio_append_session_match_rows(const gchar *action,
 static void search_studio_clear_results(GtkButton *button, gpointer user_data);
 static void search_studio_collect_document_hits(GtkButton *button, gpointer user_data);
 static void search_studio_collect_session_hits(GtkButton *button, gpointer user_data);
+static void search_studio_find_in_results_activate(GtkButton *button, gpointer user_data);
 static guint search_studio_append_count_impact_row(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode);
 static void search_studio_count_session_activate(GtkButton *button, gpointer user_data);
@@ -2018,6 +2036,204 @@ static void search_studio_collect_session_hits(GtkButton *button, gpointer user_
 		result.total_results, spec.original_text);
 	search_studio_result_appendf("Collect Session Hits", "Open Documents", spec.original_text,
 		spec.mode, "Collected %u navigable hits across open documents.", result.total_results);
+	search_studio_find_spec_clear(&spec);
+}
+
+
+static void search_studio_stored_result_row_free(SearchStudioStoredResultRow *row)
+{
+	if (row == NULL)
+		return;
+
+	g_free(row->action);
+	g_free(row->target);
+	g_free(row->query);
+	g_free(row->mode);
+	g_free(row->summary);
+	g_free(row->filename);
+	g_free(row->preview_title);
+	g_free(row->preview_body);
+	g_free(row);
+}
+
+
+static GRegex *search_studio_compile_results_regex(const gchar *text, GeanyFindFlags flags)
+{
+	gchar *pattern;
+	GRegex *regex;
+	GError *error = NULL;
+	gint rflags = 0;
+
+	if (flags & GEANY_FIND_REGEXP)
+		return compile_regex(text, flags);
+
+	pattern = g_regex_escape_string(text, -1);
+	if (flags & GEANY_FIND_WHOLEWORD)
+	{
+		gchar *tmp = g_strdup_printf("\\b%s\\b", pattern);
+		g_free(pattern);
+		pattern = tmp;
+	}
+	else if (flags & GEANY_FIND_WORDSTART)
+	{
+		gchar *tmp = g_strdup_printf("\\b%s", pattern);
+		g_free(pattern);
+		pattern = tmp;
+	}
+
+	if (flags & GEANY_FIND_MULTILINE)
+		rflags |= G_REGEX_MULTILINE;
+	if (flags & GEANY_FIND_DOTALL)
+		rflags |= G_REGEX_DOTALL;
+	if (~flags & GEANY_FIND_MATCHCASE)
+		rflags |= G_REGEX_CASELESS;
+
+	regex = g_regex_new(pattern, rflags, 0, &error);
+	if (regex == NULL)
+	{
+		ui_set_statusbar(FALSE, _("Bad regex: %s"), error->message);
+		g_error_free(error);
+	}
+	g_free(pattern);
+	return regex;
+}
+
+
+static void search_studio_find_in_results_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	SearchStudioFindSpec spec = { 0 };
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GPtrArray *hits;
+	GRegex *regex;
+	guint count = 0;
+
+	if (!search_studio_build_find_spec(page, "entry_search", &spec) || studio_dlg.results_store == NULL)
+		return;
+
+	regex = search_studio_compile_results_regex(spec.text, spec.flags);
+	if (regex == NULL)
+	{
+		search_studio_find_spec_clear(&spec);
+		return;
+	}
+
+	hits = g_ptr_array_new_with_free_func((GDestroyNotify) search_studio_stored_result_row_free);
+	model = GTK_TREE_MODEL(studio_dlg.results_store);
+	if (gtk_tree_model_get_iter_first(model, &iter))
+	{
+		do
+		{
+			SearchStudioStoredResultRow *row;
+			gchar *haystack;
+			gchar *action = NULL;
+			gchar *target = NULL;
+			gchar *query = NULL;
+			gchar *mode = NULL;
+			gchar *summary = NULL;
+			gchar *filename = NULL;
+			gchar *preview_title = NULL;
+			gchar *preview_body = NULL;
+			gint line = -1;
+			gint pos = -1;
+			gboolean can_navigate = FALSE;
+
+			gtk_tree_model_get(model, &iter,
+				STUDIO_RESULT_ACTION, &action,
+				STUDIO_RESULT_TARGET, &target,
+				STUDIO_RESULT_QUERY, &query,
+				STUDIO_RESULT_MODE, &mode,
+				STUDIO_RESULT_SUMMARY, &summary,
+				STUDIO_RESULT_FILE, &filename,
+				STUDIO_RESULT_LINE, &line,
+				STUDIO_RESULT_POS, &pos,
+				STUDIO_RESULT_CAN_NAVIGATE, &can_navigate,
+				STUDIO_RESULT_PREVIEW_TITLE, &preview_title,
+				STUDIO_RESULT_PREVIEW_BODY, &preview_body,
+				-1);
+
+			haystack = g_strconcat(action != NULL ? action : "",
+				"\n", target != NULL ? target : "",
+				"\n", query != NULL ? query : "",
+				"\n", mode != NULL ? mode : "",
+				"\n", summary != NULL ? summary : "",
+				"\n", preview_body != NULL ? preview_body : "", NULL);
+			if (g_regex_match(regex, haystack, 0, NULL))
+			{
+				row = g_new0(SearchStudioStoredResultRow, 1);
+				row->action = action;
+				row->target = target;
+				row->query = query;
+				row->mode = mode;
+				row->summary = summary;
+				row->filename = filename;
+				row->line = line;
+				row->pos = pos;
+				row->can_navigate = can_navigate;
+				row->preview_title = preview_title;
+				row->preview_body = preview_body;
+				g_ptr_array_add(hits, row);
+			}
+			else
+			{
+				g_free(action);
+				g_free(target);
+				g_free(query);
+				g_free(mode);
+				g_free(summary);
+				g_free(filename);
+				g_free(preview_title);
+				g_free(preview_body);
+			}
+			g_free(haystack);
+		}
+		while (gtk_tree_model_iter_next(model, &iter));
+	}
+
+	for (guint i = 0; i < hits->len; i++)
+	{
+		SearchStudioStoredResultRow *row = g_ptr_array_index(hits, i);
+		SearchStudioResultSpec result_spec = { 0 };
+		gchar *preview_body = g_strdup_printf("Find in Results Hit\n\nOriginal action: %s\nOriginal target: %s\nOriginal query: %s\nOriginal mode: %s\n\nOriginal summary:\n%s\n\nOriginal preview:\n%s",
+			row->action != NULL ? row->action : _("(none)"),
+			row->target != NULL ? row->target : _("(none)"),
+			row->query != NULL ? row->query : _("(none)"),
+			row->mode != NULL ? row->mode : _("(none)"),
+			row->summary != NULL ? row->summary : _("(none)"),
+			row->preview_body != NULL ? row->preview_body : _("(none)"));
+		gchar *summary = g_strdup_printf("Matched existing result row: %s", row->action != NULL ? row->action : _("Result"));
+		gchar *preview_title = g_strdup_printf("Find in Results — %s", row->action != NULL ? row->action : _("Result"));
+
+		result_spec.action = "Find in Results Hit";
+		result_spec.target = row->target != NULL ? row->target : "Search Studio Results";
+		result_spec.query = spec.original_text;
+		result_spec.mode = spec.mode;
+		result_spec.summary = summary;
+		result_spec.filename = row->filename;
+		result_spec.line = row->line;
+		result_spec.pos = row->pos;
+		result_spec.can_navigate = row->can_navigate;
+		result_spec.preview_title = preview_title;
+		result_spec.preview_body = preview_body;
+		search_studio_result_append_spec(&result_spec);
+		g_free(preview_body);
+		g_free(preview_title);
+		g_free(summary);
+		count++;
+	}
+
+	search_studio_activity_append("[Results] Find in Results | query=%s | mode=%s | hits=%u",
+		spec.original_text, spec.mode, count);
+	search_studio_result_appendf("Find in Results", "Search Studio Results", spec.original_text,
+		spec.mode, "Matched %u existing Search Studio result rows.", count);
+	if (count == 0)
+		utils_beep();
+
+	g_ptr_array_free(hits, TRUE);
+	g_regex_unref(regex);
+	search_studio_store_find_spec(&spec);
+	search_studio_add_find_history(page, &spec);
 	search_studio_find_spec_clear(&spec);
 }
 
@@ -4588,6 +4804,9 @@ static GtkWidget *search_studio_create_find_page(void)
 	button = gtk_button_new_with_mnemonic(_("Collect Sessi_on Hits"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_collect_session_hits), page);
+	button = gtk_button_new_with_mnemonic(_("Find in Res_ults"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_find_in_results_activate), page);
 	button = gtk_button_new_with_mnemonic(_("Clear _Results"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_clear_results), page);

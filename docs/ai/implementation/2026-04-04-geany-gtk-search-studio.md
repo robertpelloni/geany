@@ -101,6 +101,8 @@ The lower pane now uses a notebook with separate views for:
 - Results
 - Diff Preview
 
+The Find page now also has a first `Find in Results` action, which searches across the existing structured Search Studio result rows and appends matching result-hit rows back into the navigator. This is an initial bridge toward Notepad++'s `Find in Finder` behavior: it is not yet a dedicated secondary dialog with all of NPP's result-search semantics, but it does mean Search Studio can now search inside its own accumulated workbench output.
+
 The Results tab is backed by a `GtkListStore`/`GtkTreeView` and records structured entries with columns such as:
 - Action
 - Target
