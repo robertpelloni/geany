@@ -68,6 +68,16 @@
 - If bookmarking is enabled, confirm bookmark markers are applied across multiple open documents as well
 - Confirm session-mark impact rows are appended for affected documents and that selecting one shows richer first-hit context in Diff Preview
 - Activate one of the session-mark impact rows and confirm Geany switches to that document and jumps to the first stored match
+- Click `Inverse Marks`
+- Confirm the marked-line coverage flips across the active document and a structured result row is appended
+- Click `Copy Marked Lines`
+- Confirm currently marked lines are copied to the clipboard and the Activity/Results panes record the action
+- Click `Cut Marked Lines`
+- Confirm currently marked lines are copied and removed from the active document
+- Recreate a marked set and click `Delete Marked Lines`
+- Confirm only marked lines are removed from the active document
+- Recreate a marked set and click `Delete Unmarked Lines`
+- Confirm only unmarked lines are removed from the active document
 - Click `Clear marks`
 - Confirm both indicators and bookmarks are removed from the active document
 - Click `Clear Session Marks`

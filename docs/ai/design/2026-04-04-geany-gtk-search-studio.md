@@ -66,6 +66,7 @@ This is strategically useful because:
 - Replace tab with direct in-studio actions
 - Find in Files tab with direct search launch
 - Mark tab
+- active-document inverse/copy/cut/delete/delete-unmarked marked-line actions
 - explicit Normal / Extended / Regex mode radios
 - direct Count action
 - direct Mark / Bookmark action
@@ -84,7 +85,7 @@ This is strategically useful because:
 
 ### Not yet complete
 - full Notepad++-level Find in Files option matrix in Search Studio (still slimmer than the classic dialog)
-- complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing), though session-wide marking/bookmarking now meaningfully reduces the gap for multi-document workflows
+- complete Notepad++ Mark dialog parity (all mark filters / all purge semantics / all result routing), though session-wide marking/bookmarking now meaningfully reduces the gap for multi-document workflows and active-document inverse/copy/cut/delete/delete-unmarked line actions now close part of the mark-operation gap
 - richer integrated results pane (today it supports current-document hits, open-document hits, Search Studio-launched Find in Files ingestion, count/mark/replace impact rows, and more row types now drive the Diff Preview pane; lower-pane focus behaves more like a navigator, and internal request/result metadata plus more action-layer glue is starting to normalize around shared helper/spec/visitor models, but it is not yet a full universal hit-list viewer)
 - session-scope work is increasingly structured around shared open-document traversal plus a lightweight aggregate session-result model rather than one-off notebook loops, and count/mark status reporting is starting to normalize too; early session-action specs are now emerging for both Find-family and Replace-family flows, replace preview/impact session row planning is now converging around a shared rows-action seam, replace execution planning is beginning to separate planning results from mutation execution, and replace execution is also starting to report through a small explicit execution-result model, which is a practical step toward a reusable backend model
 - replace preview / dry-run groundwork now exists inside the Replace tab, now with a dedicated lower Diff Preview surface

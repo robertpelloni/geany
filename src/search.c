@@ -463,6 +463,17 @@ static void search_studio_count_session_activate(GtkButton *button, gpointer use
 static guint search_studio_append_mark_impact_row(const gchar *action, GeanyDocument *doc,
 	const gchar *query, GeanyFindFlags flags, const gchar *mode,
 	gboolean bookmark_lines, gboolean purge_bookmarks);
+static gboolean search_studio_line_is_marked(GeanyDocument *doc, gint line);
+static gboolean *search_studio_collect_marked_line_states(GeanyDocument *doc,
+	guint *line_count_out, guint *marked_line_count_out);
+static guint search_studio_copy_marked_lines_to_clipboard(GeanyDocument *doc);
+static guint search_studio_delete_marked_lines(GeanyDocument *doc, gboolean delete_marked_lines);
+static guint search_studio_inverse_marked_lines(GeanyDocument *doc);
+static void search_studio_copy_marked_lines_activate(GtkButton *button, gpointer user_data);
+static void search_studio_cut_marked_lines_activate(GtkButton *button, gpointer user_data);
+static void search_studio_delete_marked_lines_activate(GtkButton *button, gpointer user_data);
+static void search_studio_delete_unmarked_lines_activate(GtkButton *button, gpointer user_data);
+static void search_studio_inverse_marks_activate(GtkButton *button, gpointer user_data);
 static void search_studio_mark_session_activate(GtkButton *button, gpointer user_data);
 static void search_studio_clear_session_marks_activate(GtkButton *button, gpointer user_data);
 static void search_studio_capture_begin(const gchar *query, const gchar *mode, const gchar *dir);
@@ -3225,6 +3236,178 @@ static gint search_mark_all_with_options(GeanyDocument *doc, const gchar *search
 }
 
 
+static gboolean search_studio_line_is_marked(GeanyDocument *doc, gint line)
+{
+	ScintillaObject *sci;
+	gint line_start;
+	gint line_end;
+	gint pos;
+
+	g_return_val_if_fail(DOC_VALID(doc), FALSE);
+	g_return_val_if_fail(line >= 0, FALSE);
+
+	sci = doc->editor->sci;
+	if (sci_is_marker_set_at_line(sci, line, 1))
+		return TRUE;
+
+	line_start = sci_get_position_from_line(sci, line);
+	line_end = sci_get_line_end_position(sci, line);
+	if (line_end <= line_start)
+		return FALSE;
+
+	for (pos = line_start; pos < line_end; pos++)
+	{
+		if (SSM(sci, SCI_INDICATORVALUEAT, GEANY_INDICATOR_SEARCH, pos))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean *search_studio_collect_marked_line_states(GeanyDocument *doc,
+	guint *line_count_out, guint *marked_line_count_out)
+{
+	gboolean *states;
+	guint line_count;
+	guint marked_count = 0;
+	guint line;
+
+	g_return_val_if_fail(DOC_VALID(doc), NULL);
+
+	line_count = sci_get_line_count(doc->editor->sci);
+	states = g_new0(gboolean, MAX(line_count, 1));
+	for (line = 0; line < line_count; line++)
+	{
+		states[line] = search_studio_line_is_marked(doc, (gint) line);
+		if (states[line])
+			marked_count++;
+	}
+
+	if (line_count_out != NULL)
+		*line_count_out = line_count;
+	if (marked_line_count_out != NULL)
+		*marked_line_count_out = marked_count;
+	return states;
+}
+
+
+static guint search_studio_copy_marked_lines_to_clipboard(GeanyDocument *doc)
+{
+	gboolean *states;
+	guint line_count;
+	guint marked_count;
+	GString *text;
+	guint line;
+
+	g_return_val_if_fail(DOC_VALID(doc), 0);
+
+	states = search_studio_collect_marked_line_states(doc, &line_count, &marked_count);
+	if (marked_count == 0)
+	{
+		g_free(states);
+		return 0;
+	}
+
+	text = g_string_new(NULL);
+	for (line = 0; line < line_count; line++)
+	{
+		gchar *chunk;
+		gint start;
+		gint end;
+
+		if (!states[line])
+			continue;
+
+		start = sci_get_position_from_line(doc->editor->sci, (gint) line);
+		end = (line + 1 < line_count) ?
+			sci_get_position_from_line(doc->editor->sci, (gint) line + 1) :
+			sci_get_length(doc->editor->sci);
+		chunk = sci_get_contents_range(doc->editor->sci, start, end);
+		g_string_append(text, chunk);
+		g_free(chunk);
+	}
+
+	gtk_clipboard_set_text(
+		gtk_clipboard_get(gdk_atom_intern("CLIPBOARD", FALSE)),
+		text->str, -1);
+	g_string_free(text, TRUE);
+	g_free(states);
+	return marked_count;
+}
+
+
+static guint search_studio_delete_marked_lines(GeanyDocument *doc, gboolean delete_marked_lines)
+{
+	gboolean *states;
+	guint line_count;
+	guint marked_count;
+	guint affected_count;
+	gint line;
+
+	g_return_val_if_fail(DOC_VALID(doc), 0);
+
+	states = search_studio_collect_marked_line_states(doc, &line_count, &marked_count);
+	affected_count = delete_marked_lines ? marked_count : line_count - marked_count;
+	if (affected_count == 0)
+	{
+		g_free(states);
+		return 0;
+	}
+
+	sci_start_undo_action(doc->editor->sci);
+	for (line = (gint) line_count - 1; line >= 0; line--)
+	{
+		gboolean delete_line = delete_marked_lines ? states[line] : !states[line];
+		gint start;
+		gint end;
+
+		if (!delete_line)
+			continue;
+
+		start = sci_get_position_from_line(doc->editor->sci, line);
+		end = (line + 1 < (gint) line_count) ?
+			sci_get_position_from_line(doc->editor->sci, line + 1) :
+			sci_get_length(doc->editor->sci);
+		sci_set_target_start(doc->editor->sci, start);
+		sci_set_target_end(doc->editor->sci, end);
+		sci_replace_target(doc->editor->sci, "", FALSE);
+	}
+	sci_end_undo_action(doc->editor->sci);
+
+	search_clear_all_marks(doc);
+	g_free(states);
+	return affected_count;
+}
+
+
+static guint search_studio_inverse_marked_lines(GeanyDocument *doc)
+{
+	gboolean *states;
+	guint line_count;
+	guint marked_count;
+	guint inverted_count = 0;
+	guint line;
+
+	g_return_val_if_fail(DOC_VALID(doc), 0);
+
+	states = search_studio_collect_marked_line_states(doc, &line_count, &marked_count);
+	search_clear_all_marks(doc);
+	for (line = 0; line < line_count; line++)
+	{
+		if (states[line])
+			continue;
+
+		editor_indicator_set_on_line(doc->editor, GEANY_INDICATOR_SEARCH, (gint) line);
+		sci_set_marker_at_line(doc->editor->sci, (gint) line, 1);
+		inverted_count++;
+	}
+
+	g_free(states);
+	return inverted_count;
+}
+
+
 gint search_mark_all(GeanyDocument *doc, const gchar *search_text, GeanyFindFlags flags)
 {
 	return search_mark_all_with_options(doc, search_text, flags, FALSE, FALSE);
@@ -3758,6 +3941,173 @@ static void search_studio_clear_marks_activate(GtkButton *button, gpointer user_
 	search_studio_activity_append("[Mark] Cleared search highlights and bookmarks.");
 	search_studio_append_document_result("Mark", doc, "Clear", "N/A",
 		"Cleared search highlights and bookmarked lines.");
+}
+
+
+static void search_studio_copy_marked_lines_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GeanyDocument *doc = document_get_current();
+	const gchar *query;
+	guint count;
+
+	if (!DOC_VALID(doc))
+		return;
+
+	query = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
+	count = search_studio_copy_marked_lines_to_clipboard(doc);
+	if (count == 0)
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No marked lines available to copy."));
+		search_studio_activity_append("[Mark] Copy marked lines requested, but no marked lines were available.");
+		search_studio_append_document_result("Copy Marked Lines", doc,
+			EMPTY(query) ? "Current marks" : query,
+			search_studio_mode_name(page),
+			"No marked lines were available to copy.");
+		return;
+	}
+
+	ui_set_statusbar(FALSE, _("Copied %u marked lines to the clipboard."), count);
+	search_studio_activity_append("[Mark] Copied %u marked lines to the clipboard.", count);
+	search_studio_append_document_resultf("Copy Marked Lines", doc,
+		EMPTY(query) ? "Current marks" : query,
+		search_studio_mode_name(page),
+		"Copied %u marked lines to the clipboard.", count);
+}
+
+
+static void search_studio_cut_marked_lines_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GeanyDocument *doc = document_get_current();
+	const gchar *query;
+	guint copied_count;
+	guint deleted_count;
+
+	if (!DOC_VALID(doc))
+		return;
+
+	query = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
+	copied_count = search_studio_copy_marked_lines_to_clipboard(doc);
+	if (copied_count == 0)
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No marked lines available to cut."));
+		search_studio_activity_append("[Mark] Cut marked lines requested, but no marked lines were available.");
+		search_studio_append_document_result("Cut Marked Lines", doc,
+			EMPTY(query) ? "Current marks" : query,
+			search_studio_mode_name(page),
+			"No marked lines were available to cut.");
+		return;
+	}
+
+	deleted_count = search_studio_delete_marked_lines(doc, TRUE);
+	ui_set_statusbar(FALSE, _("Cut %u marked lines to the clipboard."), deleted_count);
+	search_studio_activity_append("[Mark] Cut %u marked lines to the clipboard.", deleted_count);
+	search_studio_append_document_resultf("Cut Marked Lines", doc,
+		EMPTY(query) ? "Current marks" : query,
+		search_studio_mode_name(page),
+		"Copied and removed %u marked lines from the active document.", deleted_count);
+}
+
+
+static void search_studio_delete_marked_lines_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GeanyDocument *doc = document_get_current();
+	const gchar *query;
+	guint count;
+
+	if (!DOC_VALID(doc))
+		return;
+
+	query = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
+	count = search_studio_delete_marked_lines(doc, TRUE);
+	if (count == 0)
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No marked lines available to delete."));
+		search_studio_activity_append("[Mark] Delete marked lines requested, but no marked lines were available.");
+		search_studio_append_document_result("Delete Marked Lines", doc,
+			EMPTY(query) ? "Current marks" : query,
+			search_studio_mode_name(page),
+			"No marked lines were available to delete.");
+		return;
+	}
+
+	ui_set_statusbar(FALSE, _("Deleted %u marked lines from the active document."), count);
+	search_studio_activity_append("[Mark] Deleted %u marked lines from the active document.", count);
+	search_studio_append_document_resultf("Delete Marked Lines", doc,
+		EMPTY(query) ? "Current marks" : query,
+		search_studio_mode_name(page),
+		"Deleted %u marked lines from the active document.", count);
+}
+
+
+static void search_studio_delete_unmarked_lines_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GeanyDocument *doc = document_get_current();
+	const gchar *query;
+	guint count;
+
+	if (!DOC_VALID(doc))
+		return;
+
+	query = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
+	count = search_studio_delete_marked_lines(doc, FALSE);
+	if (count == 0)
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No unmarked lines were available to delete."));
+		search_studio_activity_append("[Mark] Delete unmarked lines requested, but every line was already marked.");
+		search_studio_append_document_result("Delete Unmarked Lines", doc,
+			EMPTY(query) ? "Current marks" : query,
+			search_studio_mode_name(page),
+			"No unmarked lines were available to delete.");
+		return;
+	}
+
+	ui_set_statusbar(FALSE, _("Deleted %u unmarked lines from the active document."), count);
+	search_studio_activity_append("[Mark] Deleted %u unmarked lines from the active document.", count);
+	search_studio_append_document_resultf("Delete Unmarked Lines", doc,
+		EMPTY(query) ? "Current marks" : query,
+		search_studio_mode_name(page),
+		"Deleted %u unmarked lines from the active document.", count);
+}
+
+
+static void search_studio_inverse_marks_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GeanyDocument *doc = document_get_current();
+	const gchar *query;
+	guint count;
+
+	if (!DOC_VALID(doc))
+		return;
+
+	query = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_search")));
+	count = search_studio_inverse_marked_lines(doc);
+	if (count == 0 && sci_get_line_count(doc->editor->sci) == 0)
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No lines were available to invert."));
+		search_studio_activity_append("[Mark] Inverse marks requested, but the active document has no lines.");
+		search_studio_append_document_result("Inverse Marks", doc,
+			EMPTY(query) ? "Current marks" : query,
+			search_studio_mode_name(page),
+			"No lines were available to invert.");
+		return;
+	}
+
+	ui_set_statusbar(FALSE, _("Inverted marked-line coverage; %u lines are now marked."), count);
+	search_studio_activity_append("[Mark] Inverted marked-line coverage; %u lines are now marked.", count);
+	search_studio_append_document_resultf("Inverse Marks", doc,
+		EMPTY(query) ? "Current marks" : query,
+		search_studio_mode_name(page),
+		"Inverted current marked-line coverage; %u lines are now marked/bookmarked.", count);
 }
 
 
@@ -4341,8 +4691,9 @@ static GtkWidget *search_studio_create_mark_page(void)
 	GtkWidget *label = gtk_label_new_with_mnemonic(_("_Mark what:"));
 	GtkWidget *entry = gtk_combo_box_text_new_with_entry();
 	GtkWidget *row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
-	GtkWidget *hint = gtk_label_new(_("This page goes beyond the classic Geany mark-all behavior by optionally bookmarking matching lines."));
+	GtkWidget *hint = gtk_label_new(_("This page now goes beyond classic Geany mark-all behavior by supporting bookmark-lines, session-wide marking, inverse marks, and marked-line operations inspired by Notepad++."));
 	GtkWidget *actions = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	GtkWidget *line_actions = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	GtkWidget *button;
 
 	ui_hookup_widget(page, entry, "combo_search");
@@ -4370,6 +4721,23 @@ static GtkWidget *search_studio_create_mark_page(void)
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_clear_session_marks_activate), page);
 	gtk_box_pack_start(GTK_BOX(page), actions, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_mnemonic(_("_Inverse Marks"));
+	gtk_box_pack_start(GTK_BOX(line_actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_inverse_marks_activate), page);
+	button = gtk_button_new_with_mnemonic(_("C_opy Marked Lines"));
+	gtk_box_pack_start(GTK_BOX(line_actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_copy_marked_lines_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Cu_t Marked Lines"));
+	gtk_box_pack_start(GTK_BOX(line_actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_cut_marked_lines_activate), page);
+	button = gtk_button_new_with_mnemonic(_("_Delete Marked Lines"));
+	gtk_box_pack_start(GTK_BOX(line_actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_delete_marked_lines_activate), page);
+	button = gtk_button_new_with_mnemonic(_("Delete _Unmarked Lines"));
+	gtk_box_pack_start(GTK_BOX(line_actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_delete_unmarked_lines_activate), page);
+	gtk_box_pack_start(GTK_BOX(page), line_actions, FALSE, FALSE, 0);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,
 		settings.find_regexp ? "mode_regex" : settings.find_escape_sequences ? "mode_extended" : "mode_normal")), TRUE);
 	search_studio_mode_toggled(GTK_TOGGLE_BUTTON(ui_lookup_widget(page,

@@ -198,7 +198,16 @@ The Find and Mark tabs now also have session-wide execution paths beyond simple 
 - `Clear Session Marks` removes search indicators and bookmarks across open documents
 - affected documents emit navigable count/mark impact rows with first-hit context and option summaries
 
-This pushes Search Studio beyond strict Notepad++ parity in useful areas: Geany can now treat count review and mark/bookmark review as multi-document operations inside the same cockpit.
+The Mark page now also exposes a first cluster of Notepad++-style marked-line actions in the active document:
+- `Inverse Marks`
+- `Copy Marked Lines`
+- `Cut Marked Lines`
+- `Delete Marked Lines`
+- `Delete Unmarked Lines`
+
+These actions currently operate on line-wise marked coverage derived from Geany's search indicator/bookmark state in the active document. That is not yet the full Notepad++ multi-mark-color model, but it closes an important practical parity gap around mark-driven text manipulation.
+
+This pushes Search Studio beyond strict Notepad++ parity in useful areas: Geany can now treat count review and mark/bookmark review as multi-document operations inside the same cockpit while also exposing a first serious set of marked-line editing actions.
 
 This means the Diff Preview pane is increasingly becoming a universal inspection surface instead of a replace-preview-only feature, and the lower notebook is starting to behave like a real result navigator rather than three unrelated panes.
 

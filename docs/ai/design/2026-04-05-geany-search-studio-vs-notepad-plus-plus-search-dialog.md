@@ -66,8 +66,8 @@ That means Geany is already structurally on the correct path for parity and in s
 | Bookmark line | `IDC_MARKLINE_CHECK` / `_doMarkLine` | Present | Present |
 | Purge for each search | `IDC_PURGE_CHECK` / `_doPurge` | Present | Present |
 | Mark colors/extensions 1..5 | `IDM_SEARCH_MARKALLEXT1..5`, `MARKONEEXT1..5` | Geany has mark/bookmark flows but not the same multi-color mark-set model | Partial |
-| Marked-line edit operations | `CUTMARKEDLINES`, `COPYMARKEDLINES`, `PASTEMARKEDLINES`, `DELETEMARKEDLINES`, `DELETEUNMARKEDLINES`, `MARKEDTOCLIP` | Not yet surfaced as first-class Search Studio actions | Missing |
-| Inverse marks | `IDM_SEARCH_INVERSEMARKS` | Not yet surfaced in Search Studio | Missing |
+| Marked-line edit operations | `CUTMARKEDLINES`, `COPYMARKEDLINES`, `PASTEMARKEDLINES`, `DELETEMARKEDLINES`, `DELETEUNMARKEDLINES`, `MARKEDTOCLIP` | Search Studio now exposes Copy/Cut/Delete Marked Lines plus Delete Unmarked Lines in the active document, but does not yet mirror paste-marked-lines or every exact NPP variant | Partial |
+| Inverse marks | `IDM_SEARCH_INVERSEMARKS` | Search Studio now exposes `Inverse Marks` in the active document, implemented as line-wise inversion over current search indicator/bookmark coverage | Present / Partial |
 | Incremental Find dialog | `IDM_SEARCH_FINDINCREMENT`, `IDD_INCREMENT_FIND` | Geany has search workflows but not the same explicit incremental dialog surface | Partial |
 | Transparency controls | `IDC_TRANSPARENT_*` controls in `.rc` | Geany does not currently mirror NPP transparency controls in Search Studio | Missing |
 | 2-button mode / split-button find UX | `IDC_2_BUTTONS_MODE`, swap button in `.rc` | Geany does not mirror this exact affordance | Missing |
@@ -91,10 +91,9 @@ However, the parity matrix makes three next implementation clusters especially c
 - search-within-results / finder-in-finder behavior
 
 ### Cluster 2 — Mark parity gaps
-- inverse marks
-- copy/cut/paste/delete marked lines
-- delete unmarked lines
+- finish the remaining marked-line parity beyond the first active-document cluster (especially paste-marked-lines / marked-text-to-clipboard variants)
 - richer multi-mark-set / mark-color behavior
+- search-within-marks/result-style mark workflows
 
 ### Cluster 3 — NPP dialog-specific ergonomics
 - transparency / compact behavior
