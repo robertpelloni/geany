@@ -234,12 +234,14 @@ Implemented page-to-dialog sync helpers:
 
 These let Search Studio open classic dialogs with synced text and option state.
 
-### 9. Direct Find in Files execution helpers
+### 9. Direct Find in Files / Find in Projects execution helpers
 Introduced shared helpers:
 - `build_grep_options()`
 - `execute_find_in_files_request()`
 
 This reduces duplication and makes both the classic Find in Files dialog and Search Studio use the same validation and launch path.
+
+Search Studio now also has a first explicit project-aware launch action (`Find in Project`) on the Find in Files page. It reuses the same backend request path while pulling the search root from the current Geany project base path and preferring project file patterns when available. This is not yet a full Notepad++-style separate Find in Projects tab, but it meaningfully narrows that gap.
 
 ### 10. Direct replace execution helpers
 Introduced:

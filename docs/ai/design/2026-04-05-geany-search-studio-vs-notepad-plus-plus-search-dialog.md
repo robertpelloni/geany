@@ -49,7 +49,7 @@ That means Geany is already structurally on the correct path for parity and in s
 | Notepad++ source-defined search feature | NPP source evidence | Geany current state | Status |
 |---|---|---|---|
 | Unified tabbed Find/Replace/Find in Files/Mark surface | `FindReplaceDlg` + tab insertions in `FindReplaceDlg.cpp` | GTK Search Studio has Find / Replace / Find in Files / Mark in one notebook | Present |
-| Separate Find in Projects tab | `FINDINPROJECTS_DLG`, project-panel controls in `.rc` and `FindOption` | Geany has project-aware behavior elsewhere, but Search Studio does not yet expose a dedicated Find in Projects page | Partial |
+| Separate Find in Projects tab | `FINDINPROJECTS_DLG`, project-panel controls in `.rc` and `FindOption` | Geany Search Studio now exposes a first project-aware `Find in Project` action on the Find in Files page, but it still does not yet expose a dedicated Find in Projects tab with project-panel-specific controls | Partial |
 | Explicit Normal / Extended / Regex modes | `SearchType` enum + `IDNORMAL`, `IDEXTENDED`, `IDREGEXP` | Present in GTK Search Studio and BTK/BobUI prototypes | Present |
 | Dot matches newline toggle | `IDREDOTMATCHNL`, `_dotMatchesNewline`, `SCFIND_REGEXP_DOTMATCHESNL` | Present in Geany dialogs and Search Studio | Present |
 | Wrap around | `IDWRAP` / `_isWrapAround` | Present in Geany dialogs and Search Studio | Present |
@@ -85,7 +85,7 @@ The search/replace direction is already good enough that Geany should **continue
 However, the parity matrix makes three next implementation clusters especially clear:
 
 ### Cluster 1 — exact search workbench gaps
-- Find in Projects page/controls
+- full Find in Projects page/controls beyond the new project-aware launch action
 - denser Find in Files options matrix
 - result-focus navigation commands
 - search-within-results / finder-in-finder behavior

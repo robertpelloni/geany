@@ -37,6 +37,7 @@
 #include "keyfile.h"
 #include "msgwindow.h"
 #include "prefs.h"
+#include "project.h"
 #include "sciwrappers.h"
 #include "spawn.h"
 #include "stash.h"
@@ -422,6 +423,7 @@ static SearchStudioReplaceExecutionResult search_studio_execute_replace_document
 static SearchStudioReplaceExecutionResult search_studio_execute_replace_session(
 	GtkWidget *page, GeanyDocument *doc, const SearchStudioReplaceSpec *spec);
 static void search_studio_fif_find_activate(GtkButton *button, gpointer user_data);
+static void search_studio_find_in_project_activate(GtkButton *button, gpointer user_data);
 static void search_studio_fif_file_mode_changed(GtkComboBox *combo, gpointer user_data);
 static void search_studio_notebook_switch_page(GtkNotebook *notebook, GtkWidget *page,
 	guint page_num, gpointer user_data);
@@ -4465,6 +4467,88 @@ static void search_studio_fif_find_activate(GtkButton *button, gpointer user_dat
 }
 
 
+static void search_studio_find_in_project_activate(GtkButton *button, gpointer user_data)
+{
+	GtkWidget *page = GTK_WIDGET(user_data);
+	GtkWidget *search_entry = ui_lookup_widget(page, "entry_search");
+	GtkWidget *files_entry = ui_lookup_widget(page, "entry_files");
+	GtkWidget *enc_combo = ui_lookup_widget(page, "combo_encoding");
+	gboolean regexp;
+	gboolean escape_sequences;
+	gchar *search_text;
+	gchar *project_dir;
+	gchar *project_patterns = NULL;
+	gboolean invert;
+	gboolean case_sensitive;
+	gboolean whole_word;
+	gboolean recursive;
+	gboolean use_extra;
+	const gchar *extra_options;
+	GeanyEncodingIndex enc_idx;
+
+	if (app->project == NULL || EMPTY(app->project->base_path))
+	{
+		utils_beep();
+		ui_set_statusbar(FALSE, _("No project is open for Find in Projects."));
+		search_studio_activity_append("[Find in Projects] No project is open; project search was not started.");
+		search_studio_result_append("Find in Projects", "Project", "(none)",
+			search_studio_mode_name(page), "No project is open for project-wide search.");
+		return;
+	}
+
+	search_text = g_strdup(gtk_entry_get_text(GTK_ENTRY(search_entry)));
+	search_studio_get_mode(page, &regexp, &escape_sequences);
+	if (!regexp && escape_sequences && !utils_str_replace_escape(search_text, FALSE))
+	{
+		utils_beep();
+		gtk_widget_grab_focus(search_entry);
+		g_free(search_text);
+		return;
+	}
+
+	project_dir = project_get_base_path();
+	if (app->project->file_patterns != NULL && !EMPTY(app->project->file_patterns[0]))
+		project_patterns = g_strjoinv(" ", app->project->file_patterns);
+	else
+		project_patterns = g_strdup(gtk_entry_get_text(GTK_ENTRY(files_entry)));
+
+	invert = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_invert")));
+	case_sensitive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_case")));
+	whole_word = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_word")));
+	recursive = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_recursive")));
+	use_extra = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui_lookup_widget(page, "check_extra")));
+	extra_options = gtk_entry_get_text(GTK_ENTRY(ui_lookup_widget(page, "entry_extra")));
+	enc_idx = ui_encodings_combo_box_get_active_encoding(GTK_COMBO_BOX(enc_combo));
+
+	if (execute_find_in_files_request(search_text, project_dir, invert, case_sensitive,
+			whole_word, recursive, regexp, use_extra, extra_options, FILES_MODE_PROJECT,
+			project_patterns, enc_idx, search_entry, NULL, files_entry, TRUE,
+			search_studio_mode_name(page)))
+	{
+		if (ui_lookup_widget(page, "entry_dir") != NULL)
+			gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(page, "entry_dir")), project_dir);
+		if (ui_lookup_widget(page, "entry_files") != NULL)
+			gtk_entry_set_text(GTK_ENTRY(ui_lookup_widget(page, "entry_files")), project_patterns != NULL ? project_patterns : "");
+		ui_set_search_entry_background(search_entry, TRUE);
+		ui_set_statusbar(FALSE, _("Searching in project started from Search Studio."));
+		search_studio_activity_append("[Find in Projects] text=%s | project=%s | mode=%s | recursive=%s | case=%s | whole-word=%s",
+			search_text, project_dir, search_studio_mode_name(page), recursive ? "on" : "off",
+			case_sensitive ? "on" : "off", whole_word ? "on" : "off");
+		{
+			gchar *summary = g_strdup_printf("Launched project search in %s using project file patterns.", project_dir);
+			search_studio_result_append("Find in Projects", project_dir, search_text, search_studio_mode_name(page), summary);
+			g_free(summary);
+		}
+	}
+	else
+		utils_beep();
+
+	g_free(project_patterns);
+	g_free(project_dir);
+	g_free(search_text);
+}
+
+
 static GtkWidget *search_studio_create_find_page(void)
 {
 	GtkWidget *page = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
@@ -4610,7 +4694,7 @@ static GtkWidget *search_studio_create_fif_page(void)
 	GtkWidget *check_recursive = gtk_check_button_new_with_mnemonic(_("_Recursive"));
 	GtkWidget *check_extra = gtk_check_button_new_with_mnemonic(_("Use e_xtra grep options"));
 	GtkWidget *entry_extra = gtk_entry_new();
-	GtkWidget *hint = gtk_label_new(_("Search Studio can now launch file searches directly. The classic Find in Files dialog remains available for compatibility and future parity checks."));
+	GtkWidget *hint = gtk_label_new(_("Search Studio can now launch file searches directly, including a first project-aware path. The classic Find in Files dialog remains available for compatibility and future parity checks."));
 	GtkWidget *actions = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
 	GtkWidget *button;
 
@@ -4672,6 +4756,9 @@ static GtkWidget *search_studio_create_fif_page(void)
 	button = ui_button_new_with_image(GTK_STOCK_FIND, _("_Find in Files now"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_fif_find_activate), page);
+	button = ui_button_new_with_image(GTK_STOCK_FIND, _("Find in Pro_ject"));
+	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_find_in_project_activate), page);
 	button = ui_button_new_with_image(GTK_STOCK_FIND, _("Open full Find in F_iles"));
 	gtk_box_pack_start(GTK_BOX(actions), button, FALSE, FALSE, 0);
 	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_open_fif_dialog_activate), page);
