@@ -190,6 +190,7 @@ static struct
 	GtkWidget	*replace_page;
 	GtkWidget	*fif_page;
 	GtkWidget	*fip_page;
+	GtkWidget	*transform_page;
 	GtkWidget	*mark_page;
 	GtkWidget	*lower_notebook;
 	GtkWidget	*activity_view;
@@ -388,6 +389,7 @@ static GtkWidget *search_studio_create_find_page(void);
 static GtkWidget *search_studio_create_replace_page(void);
 static GtkWidget *search_studio_create_fif_page(void);
 static GtkWidget *search_studio_create_fip_page(void);
+static GtkWidget *search_studio_create_transform_page(void);
 static GtkWidget *search_studio_create_mark_page(void);
 static void search_studio_show_page(gint page_num);
 static void search_studio_sync_find_dialog_from_page(GtkWidget *page);
@@ -461,6 +463,7 @@ static gboolean search_studio_results_select_relative(gint delta, gboolean activ
 static void search_studio_focus_results_activate(GtkButton *button, gpointer user_data);
 static void search_studio_next_result_activate(GtkButton *button, gpointer user_data);
 static void search_studio_prev_result_activate(GtkButton *button, gpointer user_data);
+static void search_studio_transform_activate(GtkButton *button, gpointer user_data);
 static void search_studio_activity_append(const gchar *format, ...) G_GNUC_PRINTF(1, 2);
 static void search_studio_set_preview(const gchar *title, const gchar *body);
 static void search_studio_result_append_spec(const SearchStudioResultSpec *spec);
@@ -2372,6 +2375,120 @@ static guint search_studio_append_mark_impact_row(const gchar *action, GeanyDocu
 }
 
 
+static void search_studio_transform_activate(GtkButton *button, gpointer user_data)
+{
+	GeanyDocument *doc = document_get_current();
+	const gchar *action_id = user_data;
+	ScintillaObject *sci;
+	gint len;
+
+	if (!DOC_VALID(doc) || action_id == NULL)
+		return;
+
+	sci = doc->editor->sci;
+	len = sci_get_length(sci);
+
+	search_studio_activity_append("[Transform] Executing %s on the active document.", action_id);
+
+	if (g_strcmp0(action_id, "delete-blank-lines") == 0)
+	{
+		/* NPP IDM_EDIT_REMOVEEMPTYLINES: Remove empty lines (including lines with whitespace) */
+		document_replace_all(doc, "^[ \t]*\r?\n", "", NULL, NULL, GEANY_FIND_REGEXP | GEANY_FIND_MULTILINE);
+	}
+	else if (g_strcmp0(action_id, "delete-surplus-blank-lines") == 0)
+	{
+		/* NPP IDM_EDIT_REMOVEEMPTYLINESWITHBLANK: consecutive blanks to one blank */
+		document_replace_all(doc, "(\r?\n)([ \t]*\r?\n)+", "\\1", NULL, NULL, GEANY_FIND_REGEXP | GEANY_FIND_MULTILINE);
+	}
+	else if (g_strcmp0(action_id, "zap-non-printable") == 0)
+	{
+		/* NPP Zap non-printable characters to # */
+		document_replace_all(doc, "[^\x20-\x7E\r\n\t]", "#", NULL, NULL, GEANY_FIND_REGEXP);
+	}
+	else if (g_strcmp0(action_id, "invert-case") == 0)
+	{
+		/* NPP IDM_EDIT_INVERTCASE */
+		sci_start_undo_action(sci);
+		for (gint i = 0; i < len; i++)
+		{
+			gchar c = sci_get_char_at(sci, i);
+			if (g_ascii_islower(c))
+			{
+				gchar buf[2] = { (gchar)g_ascii_toupper(c), 0 };
+				sci_set_target_start(sci, i);
+				sci_set_target_end(sci, i+1);
+				sci_replace_target(sci, buf, FALSE);
+			}
+			else if (g_ascii_isupper(c))
+			{
+				gchar buf[2] = { (gchar)g_ascii_tolower(c), 0 };
+				sci_set_target_start(sci, i);
+				sci_set_target_end(sci, i+1);
+				sci_replace_target(sci, buf, FALSE);
+			}
+		}
+		sci_end_undo_action(sci);
+	}
+	else if (g_strcmp0(action_id, "redact-selection") == 0)
+	{
+		/* NPP IDM_EDIT_REDACT_SELECTION */
+		if (sci_has_selection(sci))
+		{
+			gint start = sci_get_selection_start(sci);
+			gint end = sci_get_selection_end(sci);
+			gint sel_len = end - start;
+			gchar *redacted = g_malloc(sel_len + 1);
+			memset(redacted, 'X', sel_len);
+			redacted[sel_len] = '\0';
+			sci_replace_sel(sci, redacted);
+			g_free(redacted);
+		}
+	}
+
+	search_studio_append_document_result("Transform", doc, action_id, "N/A", "Applied text transformation.");
+}
+
+
+static GtkWidget *search_studio_create_transform_page(void)
+{
+	GtkWidget *page = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+	GtkWidget *grid = gtk_grid_new();
+	GtkWidget *button;
+	GtkWidget *label = ui_label_new_bold(_("Advanced Text Transformations"));
+	GtkWidget *hint = gtk_label_new(_("Host for Notepad++ and TextFX style systematic transforms: whitespace cleanup, character zapping, and case inversions."));
+
+	gtk_grid_set_column_spacing(GTK_GRID(grid), 12);
+	gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+	gtk_container_set_border_width(GTK_CONTAINER(page), 12);
+
+	gtk_box_pack_start(GTK_BOX(page), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(page), hint, FALSE, FALSE, 0);
+
+	button = gtk_button_new_with_mnemonic(_("Delete _Blank Lines"));
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_transform_activate), "delete-blank-lines");
+	gtk_grid_attach(GTK_GRID(grid), button, 0, 0, 1, 1);
+
+	button = gtk_button_new_with_mnemonic(_("Delete _Surplus Blank Lines"));
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_transform_activate), "delete-surplus-blank-lines");
+	gtk_grid_attach(GTK_GRID(grid), button, 1, 0, 1, 1);
+
+	button = gtk_button_new_with_mnemonic(_("_Zap Non-Printable"));
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_transform_activate), "zap-non-printable");
+	gtk_grid_attach(GTK_GRID(grid), button, 0, 1, 1, 1);
+
+	button = gtk_button_new_with_mnemonic(_("_Invert Case"));
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_transform_activate), "invert-case");
+	gtk_grid_attach(GTK_GRID(grid), button, 1, 1, 1, 1);
+
+	button = gtk_button_new_with_mnemonic(_("_Redact Selection"));
+	g_signal_connect(button, "clicked", G_CALLBACK(search_studio_transform_activate), "redact-selection");
+	gtk_grid_attach(GTK_GRID(grid), button, 0, 2, 1, 1);
+
+	gtk_box_pack_start(GTK_BOX(page), grid, FALSE, FALSE, 0);
+	return page;
+}
+
+
 static void search_studio_activity_show_page_hint(gint page_num)
 {
 	static const gchar *hints[] = {
@@ -2379,6 +2496,7 @@ static void search_studio_activity_show_page_hint(gint page_num)
 		"Replace: execute targeted or bulk replacements directly, then fall back to the classic dialog if needed.",
 		"Find in Files: launch directory searches directly from Search Studio and review detailed results in the message window.",
 		"Find in Projects: start project-scoped searches from the current project base path and keep project patterns close at hand.",
+		"Transform: systematic text modifications including whitespace cleanup, character zapping, and case inversions.",
 		"Mark: highlight all matches, optionally bookmark matching lines, fan marking out across open documents, then clear everything in one click."
 	};
 	static const gchar *labels[] = {
@@ -2386,6 +2504,7 @@ static void search_studio_activity_show_page_hint(gint page_num)
 		"Replace",
 		"Find in Files",
 		"Find in Projects",
+		"Transform",
 		"Mark"
 	};
 
@@ -5607,11 +5726,13 @@ static void create_search_studio_dialog(void)
 	studio_dlg.replace_page = search_studio_create_replace_page();
 	studio_dlg.fif_page = search_studio_create_fif_page();
 	studio_dlg.fip_page = search_studio_create_fip_page();
+	studio_dlg.transform_page = search_studio_create_transform_page();
 	studio_dlg.mark_page = search_studio_create_mark_page();
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.find_page, gtk_label_new(_("Find")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.replace_page, gtk_label_new(_("Replace")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.fif_page, gtk_label_new(_("Find in Files")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.fip_page, gtk_label_new(_("Find in Projects")));
+	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.transform_page, gtk_label_new(_("Transform")));
 	gtk_notebook_append_page(GTK_NOTEBOOK(notebook), studio_dlg.mark_page, gtk_label_new(_("Mark")));
 	g_signal_connect(notebook, "switch-page", G_CALLBACK(search_studio_notebook_switch_page), NULL);
 	gtk_paned_pack1(GTK_PANED(paned), notebook, TRUE, FALSE);

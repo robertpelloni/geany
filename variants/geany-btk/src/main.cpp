@@ -88,6 +88,7 @@ public:
         topTabs_->addTab(createReplaceTab(), "Replace");
         topTabs_->addTab(createFindInFilesTab(), "Find in Files");
         topTabs_->addTab(createFindInProjectsTab(), "Find in Projects");
+        topTabs_->addTab(createTransformTab(), "Transform");
         topTabs_->addTab(createMarkTab(), "Mark");
         splitter->addWidget(topTabs_);
 
@@ -688,6 +689,36 @@ private:
         actions->addWidget(findAllButton);
 
         layout->addLayout(actions);
+        return page;
+    }
+
+    QWidget *createTransformTab()
+    {
+        auto *page = new QWidget();
+        auto *layout = new QVBoxLayout(page);
+
+        auto *label = new QLabel("<h2>Advanced Text Transformations</h2>");
+        layout->addWidget(label);
+        layout->addWidget(new QLabel("Host for systematic text modifications mirroring NPP and TextFX."));
+
+        auto *grid = new QGridLayout();
+        auto addBtn = [&](const QString& text, const QString& id, int r, int c) {
+            auto *btn = new QPushButton(text);
+            connect(btn, &QPushButton::clicked, this, [this, id]() {
+                appendActivity(QString("[Transform] Prototype executing %1 on active document.").formatArg(id));
+                appendResult("Transform", "Active Document", id, "N/A", "Prototype transform executed.", "Transform", "Systematic text transformation applied in prototype mode.", false);
+            });
+            grid->addWidget(btn, r, c);
+        };
+
+        addBtn("Delete Blank Lines", "delete-blank-lines", 0, 0);
+        addBtn("Delete Surplus Blank Lines", "delete-surplus-blank-lines", 0, 1);
+        addBtn("Zap Non-Printable", "zap-non-printable", 1, 0);
+        addBtn("Invert Case", "invert-case", 1, 1);
+        addBtn("Redact Selection", "redact-selection", 2, 0);
+
+        layout->addLayout(grid);
+        layout->addStretch();
         return page;
     }
 
