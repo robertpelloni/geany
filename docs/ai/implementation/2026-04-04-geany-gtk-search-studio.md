@@ -253,10 +253,22 @@ This reduces duplication and makes both the classic Find in Files dialog and Sea
 
 Search Studio now also has a dedicated `Find in Projects` page in addition to the earlier project-aware launch action. It still reuses the same backend request path while pulling the search root from the current Geany project base path and preferring project file patterns when available. This is a meaningful parity step because project-scoped search is no longer hidden only behind the generic Find in Files page.
 
-The Find in Files and Find in Projects pages have also become denser in a Notepad++-inspired direction by adding direct directory/scope shortcuts:
-- `Current Doc`
-- `Current Project`
-- `Use Project Scope`
+The Find in Files and Find in Projects pages have also become denser in a Notepad++-inspired direction by adding:
+- `In hidden folders` checkbox
+- `Project Panel 1/2/3` checkboxes (placeholders)
+- direct directory/scope shortcuts: `Current Doc`, `Current Project`, `Use Project Scope`
+
+The Search Studio dialog itself now also includes a **Transparency** frame mirroring Notepad++'s options:
+- `Enable` toggle
+- `On losing focus` / `Always` modes
+- Opacity slider
+
+The Replace page now also includes a **Swap** button to exchange Find and Replace text, matching NPP's ergonomic affordance.
+
+Several button labels were also renamed to match Notepad++ exactly:
+- `Find All in current document`
+- `Find All in all opened documents`
+- `Replace All in All Opened Documents`
 
 Those controls do not yet cover every NPP affordance (for example hidden-dir and explicit project-panel toggles are still incomplete), but they reduce friction around project/file-root targeting and make the page feel less sparse.
 

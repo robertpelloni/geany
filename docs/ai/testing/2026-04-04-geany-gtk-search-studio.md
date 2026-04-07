@@ -15,10 +15,8 @@
   - Find in Files
   - Find in Projects
   - Mark
-- Confirm a lower notebook pane is visible with:
-  - Activity
-  - Results
-  - Diff Preview
+- Confirm the **Transparency** frame exists at the bottom of the dialog
+- Toggle `Enable` in Transparency and change modes / slider (verify UI responsiveness)
 - Switch tabs and confirm the Activity pane receives page-specific guidance entries
 - Confirm the Results pane starts with an initialization row
 - Confirm the lower notebook initially focuses the Results tab after initialization rows are appended
@@ -27,6 +25,7 @@
 - Confirm it reopens near the previous position
 
 ### Find tab
+- Confirm the `Collect` buttons are renamed to `Find All in current document` and `Find All in all opened documents`
 - Enter a literal string and use Find Next / Find Previous
 - Confirm matching works and Find Next / Previous state updates correctly
 - Confirm the Activity pane records a summary line for the action
@@ -45,8 +44,8 @@
 - Confirm per-document count-impact rows are appended for affected documents
 - Select one of those session count-impact rows and confirm the Diff Preview pane updates with richer first-hit context
 - Activate one of those session count-impact rows and confirm Geany switches to that document and jumps to the stored first match
-- Use `Collect Document Hits` and confirm a broader set of navigable current-document match rows is appended
-- Use `Collect Session Hits` and confirm hits from multiple open documents can be appended to the Results pane
+- Use `Find All in current document` and confirm a broader set of navigable current-document match rows is appended
+- Use `Find All in all opened documents` and confirm hits from multiple open documents can be appended to the Results pane
 - Activate one of the collected session-hit rows for an already-open file and confirm Geany switches to that document and jumps to the match
 - Use `Focus Results` and confirm the results navigator is focused/selected without clearing existing rows
 - Use `Next Result` and `Previous Result` and confirm Search Studio advances through existing result rows with wrap-around behavior
@@ -58,40 +57,10 @@
 - Switch mode to Extended and verify escape-sequence processing works for simple cases like `\n`
 - Switch mode to Regex and verify multiline / dot-all controls become enabled
 
-### Mark tab
-- Enter a search string and click Mark now
-- Confirm search indicators are shown
-- Confirm the Activity pane records the mark action
-- Confirm the Results pane gets a Mark row
-- Confirm at least some match-detail rows are appended for current-document mark operations
-- Activate one of the appended match rows and confirm Geany jumps to that match
-- Enable `Bookmark matching lines` and run again
-- Confirm line markers are placed on matching lines
-- Enable `Purge existing bookmarks first` and rerun with a different term
-- Confirm previous bookmarks are removed before the new set is added
-- Use `Mark Session`
-- Confirm search indicators are applied across multiple open documents
-- If bookmarking is enabled, confirm bookmark markers are applied across multiple open documents as well
-- Confirm session-mark impact rows are appended for affected documents and that selecting one shows richer first-hit context in Diff Preview
-- Activate one of the session-mark impact rows and confirm Geany switches to that document and jumps to the first stored match
-- Click `Inverse Marks`
-- Confirm the marked-line coverage flips across the active document and a structured result row is appended
-- Click `Copy Marked Lines`
-- Confirm currently marked lines are copied to the clipboard and the Activity/Results panes record the action
-- Click `Cut Marked Lines`
-- Confirm currently marked lines are copied and removed from the active document
-- Recreate a marked set and click `Delete Marked Lines`
-- Confirm only marked lines are removed from the active document
-- Recreate a marked set and click `Delete Unmarked Lines`
-- Confirm only unmarked lines are removed from the active document
-- Click `Clear marks`
-- Confirm both indicators and bookmarks are removed from the active document
-- Click `Clear Session Marks`
-- Confirm indicators and bookmarks are removed across open documents
-- Confirm the clear actions are reflected in the Activity pane
-- Confirm the Results pane gets clear-mark summary rows
-
 ### Replace tab
+- Confirm the `Replace All in all opened documents` button exists
+- Click the **Swap** button (arrows icon) between Find what and Replace with
+- Confirm Find and Replace text are exchanged
 - Enter find/replace values
 - Verify these actions work directly from Search Studio:
   - Find Next
@@ -99,7 +68,7 @@
   - Replace & Find
   - Replace in Document
   - Replace in Selection
-  - Replace in Session
+  - Replace All in All Opened Documents
   - Preview in Document
   - Preview in Session
 - Confirm the Activity pane records a summary for each action
@@ -109,11 +78,13 @@
 - For preview actions, confirm candidate rows appear without modifying the document
 - Select a replace preview candidate row and confirm the Diff Preview pane shows richer original-line / replacement-line / matched-segment diff text
 - In Regex mode, verify a preview using backreferences (for example, find `(foo)(bar)` and replace with `\\2-\\1`) shows the resolved replacement text instead of only echoing the raw payload
-- For `Replace in Session`, confirm per-document impact rows are appended for affected open documents and that activating one can navigate to the first affected location in that document
+- For `Replace All in All Opened Documents`, confirm per-document impact rows are appended for affected open documents and that activating one can navigate to the first affected location in that document
 - Confirm classic Replace can still be opened with synced state
 
 ### Find in Files tab
 - Enter search text and a valid directory
+- Verify `In hidden folders` checkbox exists
+- Verify `Project Panel 1/2/3` checkboxes exist (placeholders)
 - Verify `Find in Files now` starts a search directly from Search Studio
 - Confirm the Activity pane records the launch summary and selected options
 - Confirm the Results pane gets a Find in Files row with target/query/summary fields

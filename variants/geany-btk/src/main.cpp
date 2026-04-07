@@ -10,6 +10,7 @@
 #include <QPlainTextEdit>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QSlider>
 #include <QSplitter>
 #include <QTabWidget>
 #include <QTreeWidget>
@@ -86,6 +87,7 @@ public:
         topTabs_->addTab(createFindTab(), "Find");
         topTabs_->addTab(createReplaceTab(), "Replace");
         topTabs_->addTab(createFindInFilesTab(), "Find in Files");
+        topTabs_->addTab(createFindInProjectsTab(), "Find in Projects");
         topTabs_->addTab(createMarkTab(), "Mark");
         splitter->addWidget(topTabs_);
 
@@ -105,7 +107,18 @@ public:
         auto *closeButton = new QPushButton("Close");
         connect(closeButton, &QPushButton::clicked, this, &QDialog::accept);
         footer->addWidget(closeButton);
+
         layout->addLayout(footer);
+
+        auto *transparencyFrame = new QGroupBox("Transparency");
+        auto *transLayout = new QVBoxLayout(transparencyFrame);
+        transLayout->addWidget(new QCheckBox("Enable"));
+        auto *transModes = new QHBoxLayout();
+        transModes->addWidget(new QRadioButton("On losing focus"));
+        transModes->addWidget(new QRadioButton("Always"));
+        transLayout->addLayout(transModes);
+        transLayout->addWidget(new QSlider(Qt::Horizontal));
+        layout->addWidget(transparencyFrame, 0, Qt::AlignRight);
 
         appendActivity("[Studio] BTK Search Studio initialized with lower Activity / Results / Diff Preview navigation.");
         appendResult(
@@ -140,6 +153,7 @@ private:
     FindControls find_;
     ReplaceControls replace_;
     FindInFilesControls fif_;
+    FindInFilesControls fip_;
     MarkControls mark_;
 
     static QString textOrPlaceholder(const QString &text, const QString &fallback)
@@ -351,12 +365,12 @@ private:
 
         auto *markButton = new QPushButton("Mark / Bookmark");
         connect(markButton, &QPushButton::clicked, this, [this]() {
-            topTabs_->setCurrentIndex(3);
+            topTabs_->setCurrentIndex(4);
             appendActivity("[Find] Routed to Mark workflow from the Find tab.");
         });
         actions->addWidget(markButton);
 
-        auto *collectDocButton = new QPushButton("Collect Document Hits");
+        auto *collectDocButton = new QPushButton("Find All in current document");
         connect(collectDocButton, &QPushButton::clicked, this, [this]() {
             SearchStudioFindRequest request;
             request.query = textOrPlaceholder(find_.query->currentText(), "needle");
@@ -365,7 +379,7 @@ private:
         });
         actions->addWidget(collectDocButton);
 
-        auto *collectSessionButton = new QPushButton("Collect Session Hits");
+        auto *collectSessionButton = new QPushButton("Find All in all opened documents");
         connect(collectSessionButton, &QPushButton::clicked, this, [this]() {
             SearchStudioFindRequest request;
             request.query = textOrPlaceholder(find_.query->currentText(), "needle");
@@ -392,6 +406,46 @@ private:
         });
         actions->addWidget(clearResultsButton);
 
+        auto *focusResultsButton = new QPushButton("Focus Results");
+        connect(focusResultsButton, &QPushButton::clicked, this, [this]() {
+            resultsView_->setFocus();
+            lowerTabs_->setCurrentIndex(1);
+            appendActivity("[Results] Focused the Search Studio results navigator.");
+        });
+        actions->addWidget(focusResultsButton);
+
+        auto *nextResultButton = new QPushButton("Next Result");
+        connect(nextResultButton, &QPushButton::clicked, this, [this]() {
+            int rowCount = resultsView_->topLevelItemCount();
+            if (rowCount > 0) {
+                auto *current = resultsView_->currentItem();
+                int nextIndex = 0;
+                if (current) {
+                    nextIndex = (resultsView_->indexOfTopLevelItem(current) + 1) % rowCount;
+                }
+                auto *nextItem = resultsView_->topLevelItem(nextIndex);
+                resultsView_->setCurrentItem(nextItem);
+                lowerTabs_->setCurrentIndex(1);
+            }
+        });
+        actions->addWidget(nextResultButton);
+
+        auto *prevResultButton = new QPushButton("Previous Result");
+        connect(prevResultButton, &QPushButton::clicked, this, [this]() {
+            int rowCount = resultsView_->topLevelItemCount();
+            if (rowCount > 0) {
+                auto *current = resultsView_->currentItem();
+                int prevIndex = rowCount - 1;
+                if (current) {
+                    prevIndex = (resultsView_->indexOfTopLevelItem(current) - 1 + rowCount) % rowCount;
+                }
+                auto *prevItem = resultsView_->topLevelItem(prevIndex);
+                resultsView_->setCurrentItem(prevItem);
+                lowerTabs_->setCurrentIndex(1);
+            }
+        });
+        actions->addWidget(prevResultButton);
+
         auto *classicButton = new QPushButton("Open classic Find dialog");
         connect(classicButton, &QPushButton::clicked, this, [this]() {
             appendActivity("[Find] Prototype bridge would open the classic Find dialog with synchronized state.");
@@ -412,7 +466,22 @@ private:
         replace_.replacement = new QComboBox();
         replace_.query->setEditable(true);
         replace_.replacement->setEditable(true);
-        form->addRow("Find what:", replace_.query);
+
+        auto *swapButton = new QPushButton();
+        swapButton->setIcon(QIcon::fromTheme("view-refresh"));
+        swapButton->setToolTip("Swap Find and Replace text");
+        connect(swapButton, &QPushButton::clicked, this, [this]() {
+            QString findText = replace_.query->currentText();
+            QString replaceText = replace_.replacement->currentText();
+            replace_.query->setCurrentText(replaceText);
+            replace_.replacement->setCurrentText(findText);
+        });
+
+        auto *findRow = new QHBoxLayout();
+        findRow->addWidget(replace_.query, 1);
+        findRow->addWidget(swapButton);
+
+        form->addRow("Find what:", findRow);
         form->addRow("Replace with:", replace_.replacement);
         layout->addLayout(form);
         layout->addWidget(createModeGroup(replace_.mode));
@@ -470,7 +539,7 @@ private:
         });
         actions->addWidget(replaceDocButton);
 
-        auto *replaceSessionButton = new QPushButton("Replace in Session");
+        auto *replaceSessionButton = new QPushButton("Replace All in All Opened Documents");
         connect(replaceSessionButton, &QPushButton::clicked, this, [this]() {
             SearchStudioReplaceRequest request;
             request.query = textOrPlaceholder(replace_.query->currentText(), "needle");
@@ -478,7 +547,7 @@ private:
             request.mode = modeName(replace_.mode);
             request.sessionScope = true;
             applyActionResult(SearchStudioBackend::makeReplaceImpactResult(request,
-                qs("Session Replace Impact"), qs("Replace in Session"), qs("Open Documents")));
+                qs("Session Replace Impact"), qs("Replace All in All Opened Documents"), qs("Open Documents")));
         });
         actions->addWidget(replaceSessionButton);
 
@@ -537,11 +606,11 @@ private:
         auto *options = new QGroupBox("Find in Files options");
         auto *grid = new QGridLayout(options);
         grid->addWidget(new QCheckBox("Recursive"), 0, 0);
-        grid->addWidget(new QCheckBox("Match case"), 0, 1);
-        grid->addWidget(new QCheckBox("Whole word"), 0, 2);
-        grid->addWidget(new QCheckBox("Invert match"), 1, 0);
-        grid->addWidget(new QCheckBox("Use project patterns"), 1, 1);
-        grid->addWidget(new QCheckBox("Use extra grep options"), 1, 2);
+        grid->addWidget(new QCheckBox("In hidden folders"), 0, 1);
+        grid->addWidget(new QCheckBox("Match case"), 0, 2);
+        grid->addWidget(new QCheckBox("Whole word"), 1, 0);
+        grid->addWidget(new QCheckBox("Invert match"), 1, 1);
+        grid->addWidget(new QCheckBox("Use project patterns"), 1, 2);
         layout->addWidget(options);
 
         auto *actions = new QHBoxLayout();
@@ -572,6 +641,51 @@ private:
             appendActivity("[Find in Files] Prototype bridge would open the classic Find in Files dialog.");
         });
         actions->addWidget(classicButton);
+
+        layout->addLayout(actions);
+        return page;
+    }
+
+    QWidget *createFindInProjectsTab()
+    {
+        auto *page = new QWidget();
+        auto *layout = new QVBoxLayout(page);
+
+        auto *form = new QFormLayout();
+        fip_.query = new QComboBox();
+        fip_.filters = new QComboBox();
+        fip_.directory = new QComboBox();
+        fip_.query->setEditable(true);
+        fip_.filters->setEditable(true);
+        fip_.directory->setEditable(true);
+        fip_.directory->setCurrentText("Project Root");
+        fip_.directory->setEnabled(false);
+        form->addRow("Find what:", fip_.query);
+        form->addRow("Filters:", fip_.filters);
+        form->addRow("Project root:", fip_.directory);
+        layout->addLayout(form);
+        layout->addWidget(createModeGroup(fip_.mode));
+
+        auto *options = new QGroupBox("Find in Projects options");
+        auto *grid = new QGridLayout(options);
+        grid->addWidget(new QCheckBox("Project Panel 1"), 0, 0);
+        grid->addWidget(new QCheckBox("Project Panel 2"), 0, 1);
+        grid->addWidget(new QCheckBox("Project Panel 3"), 0, 2);
+        grid->addWidget(new QCheckBox("Match case"), 1, 0);
+        grid->addWidget(new QCheckBox("Whole word"), 1, 1);
+        grid->addWidget(new QCheckBox("Recursive"), 1, 2);
+        layout->addWidget(options);
+
+        auto *actions = new QHBoxLayout();
+        auto *findAllButton = new QPushButton("Find All");
+        connect(findAllButton, &QPushButton::clicked, this, [this]() {
+            SearchStudioFindInFilesRequest request;
+            request.query = textOrPlaceholder(fip_.query->currentText(), "needle");
+            request.directory = "Project";
+            request.mode = modeName(fip_.mode);
+            applyActionResult(SearchStudioBackend::makeFindInFilesResult(request));
+        });
+        actions->addWidget(findAllButton);
 
         layout->addLayout(actions);
         return page;

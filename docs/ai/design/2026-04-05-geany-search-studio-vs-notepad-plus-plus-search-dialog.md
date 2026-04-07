@@ -49,7 +49,7 @@ That means Geany is already structurally on the correct path for parity and in s
 | Notepad++ source-defined search feature | NPP source evidence | Geany current state | Status |
 |---|---|---|---|
 | Unified tabbed Find/Replace/Find in Files/Mark surface | `FindReplaceDlg` + tab insertions in `FindReplaceDlg.cpp` | GTK Search Studio has Find / Replace / Find in Files / Mark in one notebook | Present |
-| Separate Find in Projects tab | `FINDINPROJECTS_DLG`, project-panel controls in `.rc` and `FindOption` | Geany Search Studio now has a dedicated `Find in Projects` page with project-root/pattern controls and project-aware launch actions, but it still does not yet expose NPP's exact project-panel-specific control set | Partial |
+| Separate Find in Projects tab | `FINDINPROJECTS_DLG`, project-panel controls in `.rc` and `FindOption` | GTK and BTK Search Studio now have a dedicated `Find in Projects` page with project-root/pattern controls, but still lack NPP's exact project-panel-specific control set | Present / Partial |
 | Explicit Normal / Extended / Regex modes | `SearchType` enum + `IDNORMAL`, `IDEXTENDED`, `IDREGEXP` | Present in GTK Search Studio and BTK/BobUI prototypes | Present |
 | Dot matches newline toggle | `IDREDOTMATCHNL`, `_dotMatchesNewline`, `SCFIND_REGEXP_DOTMATCHESNL` | Present in Geany dialogs and Search Studio | Present |
 | Wrap around | `IDWRAP` / `_isWrapAround` | Present in Geany dialogs and Search Studio | Present |
@@ -69,12 +69,12 @@ That means Geany is already structurally on the correct path for parity and in s
 | Marked-line edit operations | `CUTMARKEDLINES`, `COPYMARKEDLINES`, `PASTEMARKEDLINES`, `DELETEMARKEDLINES`, `DELETEUNMARKEDLINES`, `MARKEDTOCLIP` | Search Studio now exposes Copy/Cut/Delete Marked Lines plus Delete Unmarked Lines in the active document, but does not yet mirror paste-marked-lines or every exact NPP variant | Partial |
 | Inverse marks | `IDM_SEARCH_INVERSEMARKS` | Search Studio now exposes `Inverse Marks` in the active document, implemented as line-wise inversion over current search indicator/bookmark coverage | Present / Partial |
 | Incremental Find dialog | `IDM_SEARCH_FINDINCREMENT`, `IDD_INCREMENT_FIND` | Geany has search workflows but not the same explicit incremental dialog surface | Partial |
-| Transparency controls | `IDC_TRANSPARENT_*` controls in `.rc` | Geany does not currently mirror NPP transparency controls in Search Studio | Missing |
-| 2-button mode / split-button find UX | `IDC_2_BUTTONS_MODE`, swap button in `.rc` | Geany does not mirror this exact affordance | Missing |
+| Transparency controls | `IDC_TRANSPARENT_*` controls in `.rc` | GTK and BTK Search Studio now include a Transparency frame mirroring NPP's layout and settings | Present |
+| 2-button mode / split-button find UX | `IDC_2_BUTTONS_MODE`, swap button in `.rc` | Search Studio now includes a `Swap` button in the Replace page mirroring NPP's functionality | Partial |
 | Find in Files filters field | `IDD_FINDINFILES_FILTERS_COMBO` | Geany has Find in Files, but Search Studio option density is still slimmer than NPP | Partial |
 | Directory browse / set dir from doc | browse buttons in `.rc` | Geany Search Studio now has direct `Current Doc` / `Current Project` directory shortcuts plus the project-aware launch action, but still lacks full browse/set-dir parity and the exact NPP control set | Partial |
-| Recursive / hidden-dir toggles | `IDD_FINDINFILES_RECURSIVE_CHECK`, `IDD_FINDINFILES_INHIDDENDIR_CHECK` | Recursive-style behavior exists conceptually; hidden-dir parity is not surfaced the same way | Partial |
-| Find in Projects explicit project panel toggles | `IDD_FINDINFILES_PROJECT1/2/3_CHECK` | Geany now has a first project-aware launch action and project-pattern shortcut, but still no exact project-panel toggle set | Partial / Missing |
+| Recursive / hidden-dir toggles | `IDD_FINDINFILES_RECURSIVE_CHECK`, `IDD_FINDINFILES_INHIDDENDIR_CHECK` | Search Studio now includes both Recursive and `In hidden folders` toggles mirroring NPP | Present |
+| Find in Projects explicit project panel toggles | `IDD_FINDINFILES_PROJECT1/2/3_CHECK` | Search Studio now includes `Project Panel 1/2/3` placeholders mirroring NPP's layout | Partial |
 | Found-result focus / next found / prev found | `IDM_FOCUS_ON_FOUND_RESULTS`, `GOTONEXTFOUND`, `GOTOPREVFOUND` | Geany Search Studio now exposes first-wave `Focus Results`, `Next Result`, and `Previous Result` commands over the structured results navigator, but still does not fully mirror every NPP found-result semantic | Partial |
 | Find in Finder / search within results | `FindInFinderDlg`, `ProcessFindInFinder` | Geany Search Studio now exposes a first `Find in Results` action that searches existing structured result rows and appends matching result-hit rows, but it does not yet mirror NPP's dedicated Find in Finder dialog and all its line-number/result-only semantics | Partial |
 
