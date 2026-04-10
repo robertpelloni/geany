@@ -1,0 +1,7 @@
+<interface>
+  <object class="BobguiDropDown">
+    <property name="expression">
+      <constant type="gchararray">bla</constant>
+    </property>
+  </object>
+</interface>

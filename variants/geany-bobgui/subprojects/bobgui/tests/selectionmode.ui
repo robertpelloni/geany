@@ -1,0 +1,102 @@
+<interface>
+  <menu id="selectionmenu">
+    <section>
+      <item>
+        <attribute name="label">Select All</attribute>
+        <attribute name="action">win.select-all</attribute>
+      </item>
+      <item>
+        <attribute name="label">Select None</attribute>
+        <attribute name="action">win.select-none</attribute>
+      </item>
+    </section>
+  </menu>
+  <object class="BobguiWindow" id="window">
+    <property name="default-width">640</property>
+    <property name="default-height">480</property>
+    <child type="titlebar">
+      <object class="BobguiHeaderBar" id="header">
+        <child type="start">
+          <object class="BobguiButton" id="headerbutton">
+            <style>
+              <class name="image-button"/>
+            </style>
+            <child>
+              <object class="BobguiImage">
+                <property name="icon-name">emblem-system-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child type="title">
+          <object class="BobguiStack" id="titlestack">
+            <child>
+              <object class="BobguiStackPage">
+                <property name="name">title</property>
+                <property name="child">
+                  <object class="BobguiLabel">
+                    <property name="label">Docker Docker Docker</property>
+                    <property name="ellipsize">end</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiStackPage">
+                <property name="name">selection</property>
+                <property name="child">
+                  <object class="BobguiMenuButton">
+                    <property name="menu-model">selectionmenu</property>
+                    <child>
+                      <object class="BobguiBox">
+                        <property name="spacing">4</property>
+                        <child>
+                          <object class="BobguiLabel">
+                            <property name="label">Click on items to select them</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiImage">
+                            <property name="icon-name">pan-down-symbolic</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child type="end">
+          <object class="BobguiButton" id="select-button">
+            <style>
+              <class name="image-button"/>
+            </style>
+            <child>
+              <object class="BobguiImage">
+                <property name="icon-name">object-select-symbolic</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child type="end">
+          <object class="BobguiButton" id="cancel-button">
+            <property name="visible">0</property>
+            <property name="label">Cancel</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="BobguiScrolledWindow">
+        <property name="hscrollbar-policy">never</property>
+        <child>
+          <object class="BobguiListBox" id="list">
+            <property name="selection-mode">none</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

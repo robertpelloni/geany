@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiComboBox">
+    <property name="child">
+      <object class="BobguiLabel">
+        <property name="label">start</property>
+      </object>
+    </property>
+  </object>
+</interface>

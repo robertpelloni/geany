@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiExpander" id="expander1">
+        <property name="expanded">1</property>
+        <property name="label">Hello</property>
+        <child>
+          <object class="BobguiLabel">
+            <property name="label">Hello</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

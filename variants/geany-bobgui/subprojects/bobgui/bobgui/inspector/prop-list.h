@@ -1,0 +1,67 @@
+/*
+ * Copyright (c) 2008-2009  Christian Hammond
+ * Copyright (c) 2008-2009  David Trowbridge
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+#pragma once
+
+
+#include <bobgui/bobguibox.h>
+
+#define BOBGUI_TYPE_INSPECTOR_PROP_LIST            (bobgui_inspector_prop_list_get_type())
+#define BOBGUI_INSPECTOR_PROP_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), BOBGUI_TYPE_INSPECTOR_PROP_LIST, BobguiInspectorPropList))
+#define BOBGUI_INSPECTOR_PROP_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), BOBGUI_TYPE_INSPECTOR_PROP_LIST, BobguiInspectorPropListClass))
+#define BOBGUI_INSPECTOR_IS_PROP_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), BOBGUI_TYPE_INSPECTOR_PROP_LIST))
+#define BOBGUI_INSPECTOR_IS_PROP_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), BOBGUI_TYPE_INSPECTOR_PROP_LIST))
+#define BOBGUI_INSPECTOR_PROP_LIST_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), BOBGUI_TYPE_INSPECTOR_PROP_LIST, BobguiInspectorPropListClass))
+
+
+typedef struct _BobguiInspectorPropListPrivate BobguiInspectorPropListPrivate;
+
+typedef struct _BobguiInspectorPropList
+{
+  BobguiBox parent;
+  BobguiInspectorPropListPrivate *priv;
+} BobguiInspectorPropList;
+
+typedef struct _BobguiInspectorPropListClass
+{
+  BobguiBoxClass parent;
+} BobguiInspectorPropListClass;
+
+
+G_BEGIN_DECLS
+
+GType      bobgui_inspector_prop_list_get_type   (void);
+gboolean   bobgui_inspector_prop_list_set_object (BobguiInspectorPropList *pl,
+                                               GObject              *object);
+void bobgui_inspector_prop_list_set_layout_child (BobguiInspectorPropList *pl,
+                                               GObject              *object);
+
+void strdup_value_contents (const GValue  *value,
+                            char         **contents,
+                            char         **type);
+
+
+
+G_END_DECLS
+
+
+// vim: set et sw=2 ts=2:

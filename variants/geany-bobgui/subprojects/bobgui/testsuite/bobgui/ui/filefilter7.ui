@@ -1,0 +1,8 @@
+<!-- test invalid file filter markup element -->
+<interface>
+  <object class="BobguiFileFilter">
+    <patterns>
+      <warbl/>
+    </patterns>
+  </object>
+</interface>

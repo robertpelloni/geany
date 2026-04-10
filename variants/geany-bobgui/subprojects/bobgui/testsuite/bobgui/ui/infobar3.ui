@@ -1,0 +1,11 @@
+<!-- invalid attribute -->
+<interface>
+  <object class="BobguiInfoBar">
+    <child>
+      <object class="BobguiButton" id="button_cancel"/>
+    </child>
+    <action-widgets>
+      <action-widget response="ok" food="egg">button_cancel</action-widget>
+    </action-widgets>
+  </object>
+</interface>

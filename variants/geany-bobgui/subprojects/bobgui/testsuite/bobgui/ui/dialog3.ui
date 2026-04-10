@@ -1,0 +1,12 @@
+<!-- invalid dialog markup attribute -->
+<interface>
+  <object class="BobguiDialog">
+    <child type="action">
+      <object class="BobguiButton" id="button_ok">
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="warbl">button_ok</action-widget>
+    </action-widgets>
+  </object>
+</interface>

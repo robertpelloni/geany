@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="BobguiCheckButton">
+            <property name="label">label</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiCheckButton">
+            <property name="active">1</property>
+            <property name="label">label</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

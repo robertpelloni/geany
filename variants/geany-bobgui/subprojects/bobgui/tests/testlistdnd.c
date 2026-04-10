@@ -1,0 +1,423 @@
+#include <bobgui/bobgui.h>
+
+#define TEST_TYPE_OBJECT (test_object_get_type ())
+G_DECLARE_FINAL_TYPE (TestObject, test_object, TEST, OBJECT, GObject)
+
+struct _TestObject {
+  GObject parent_instance;
+  char *string;
+  guint number;
+  gboolean allow_children;
+};
+
+enum {
+  PROP_STRING = 1,
+  PROP_NUMBER,
+  PROP_ALLOW_CHILDREN,
+  PROP_NUM_PROPERTIES
+};
+
+G_DEFINE_TYPE (TestObject, test_object, G_TYPE_OBJECT);
+
+static void
+test_object_init (TestObject *obj)
+{
+}
+
+static void
+test_object_finalize (GObject *object)
+{
+  TestObject *obj = TEST_OBJECT (object);
+
+  g_free (obj->string);
+
+  G_OBJECT_CLASS (test_object_parent_class)->finalize (object);
+}
+
+static void
+test_object_set_property (GObject      *object,
+                          guint         property_id,
+                          const GValue *value,
+                          GParamSpec   *pspec)
+{
+  TestObject *obj = TEST_OBJECT (object);
+
+  switch (property_id)
+    {
+    case PROP_STRING:
+      g_free (obj->string);
+      obj->string = g_value_dup_string (value);
+      break;
+
+    case PROP_NUMBER:
+      obj->number = g_value_get_uint (value);
+      break;
+
+    case PROP_ALLOW_CHILDREN:
+      obj->allow_children = g_value_get_boolean (value);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+      break;
+    }
+}
+
+static void
+test_object_get_property (GObject    *object,
+                          guint       property_id,
+                          GValue     *value,
+                          GParamSpec *pspec)
+{
+  TestObject *obj = TEST_OBJECT (object);
+
+  switch (property_id)
+    {
+    case PROP_STRING:
+      g_value_set_string (value, obj->string);
+      break;
+
+    case PROP_NUMBER:
+      g_value_set_uint (value, obj->number);
+      break;
+
+    case PROP_ALLOW_CHILDREN:
+      g_value_set_boolean (value, obj->allow_children);
+      break;
+
+    default:
+      G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+      break;
+    }
+}
+
+static void
+test_object_class_init (TestObjectClass *class)
+{
+  GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+  object_class->finalize = test_object_finalize;
+  object_class->set_property = test_object_set_property;
+  object_class->get_property = test_object_get_property;
+
+  g_object_class_install_property (object_class, PROP_STRING,
+      g_param_spec_string ("string", "String", "String",
+                           NULL,
+                           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
+  g_object_class_install_property (object_class, PROP_NUMBER,
+      g_param_spec_uint ("number", "Number", "Number",
+                         0, G_MAXUINT, 0,
+                         G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+
+  g_object_class_install_property (object_class, PROP_ALLOW_CHILDREN,
+      g_param_spec_boolean ("allow-children", "Allow children", "Allow children",
+                            FALSE,
+                            G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
+}
+
+static TestObject *
+test_object_new (const char *string,
+                 guint       number,
+                 gboolean    allow_children)
+{
+  return g_object_new (TEST_TYPE_OBJECT,
+                       "string", string,
+                       "number", number,
+                       "allow-children", allow_children,
+                       NULL);
+}
+
+static const char *
+test_object_get_string (TestObject *obj)
+{
+  return obj->string;
+}
+
+static guint
+test_object_get_number (TestObject *obj)
+{
+  return obj->number;
+}
+
+static gboolean
+test_object_get_allow_children (TestObject *obj)
+{
+  return obj->allow_children;
+}
+
+/* * * */
+
+static GListModel *
+create_model (guint base,
+              guint n,
+              guint increment,
+              gboolean allow_children)
+{
+  GListStore *store;
+  guint i;
+
+  store = g_list_store_new (TEST_TYPE_OBJECT);
+  for (i = 0; i < n; i++)
+    {
+      char *string;
+      guint number;
+      TestObject *obj;
+
+      number = base + i * increment;
+      string = g_strdup_printf ("%u", number);
+      obj = test_object_new (string, number, allow_children);
+      g_list_store_append (store, obj);
+      g_object_unref (obj);
+      g_free (string);
+    }
+
+  return G_LIST_MODEL (store);
+}
+
+static GListModel *
+create_child_model (gpointer item,
+                    gpointer user_data)
+{
+  guint size = GPOINTER_TO_UINT (user_data);
+  guint base = test_object_get_number (TEST_OBJECT (item));
+
+  if (test_object_get_allow_children (TEST_OBJECT (item)))
+    return create_model (base, size, 1, FALSE);
+  else
+    return NULL;
+}
+
+static GListModel *
+create_tree_model (guint n, guint m)
+{
+  return G_LIST_MODEL (bobgui_tree_list_model_new (create_model (0, n, m, TRUE),
+                                                FALSE,
+                                                FALSE,
+                                                create_child_model,
+                                                GUINT_TO_POINTER (m), NULL));
+}
+
+static void
+setup_item (BobguiSignalListItemFactory *factory,
+            BobguiListItem              *item)
+{
+  BobguiWidget *entry;
+
+  entry = bobgui_editable_label_new ("");
+  bobgui_editable_set_width_chars (BOBGUI_EDITABLE (entry), 3);
+  bobgui_list_item_set_child (item, entry);
+}
+
+static void
+text_changed (GObject    *object,
+              GParamSpec *pspec,
+              gpointer    data)
+{
+  const char *text;
+
+  text = bobgui_editable_get_text (BOBGUI_EDITABLE (object));
+g_print ("text changed to '%s'\n", text);
+  g_object_set (data, "string", text, NULL);
+}
+
+static void
+bind_item (BobguiSignalListItemFactory *factory,
+           BobguiListItem              *item)
+{
+  TestObject *obj;
+  BobguiWidget *entry;
+
+  obj = bobgui_list_item_get_item (item);
+  entry = bobgui_list_item_get_child (item);
+  bobgui_editable_set_text (BOBGUI_EDITABLE (entry), test_object_get_string (obj));
+  g_signal_connect (entry, "notify::text", G_CALLBACK (text_changed), obj);
+}
+
+static void
+unbind_item (BobguiSignalListItemFactory *factory,
+             BobguiListItem              *item)
+{
+  TestObject *obj;
+  BobguiWidget *entry;
+
+  obj = bobgui_list_item_get_item (item);
+  entry = bobgui_list_item_get_child (item);
+  g_signal_handlers_disconnect_by_func (entry, text_changed, obj);
+}
+
+static void
+setup_tree_item (BobguiSignalListItemFactory *factory,
+                 BobguiListItem              *item)
+{
+  BobguiWidget *expander;
+  BobguiWidget *entry;
+
+  entry = bobgui_editable_label_new ("");
+  bobgui_editable_set_width_chars (BOBGUI_EDITABLE (entry), 3);
+  expander = bobgui_tree_expander_new ();
+  bobgui_tree_expander_set_child (BOBGUI_TREE_EXPANDER (expander), entry);
+  bobgui_list_item_set_child (item, expander);
+}
+
+static void
+bind_tree_item (BobguiSignalListItemFactory *factory,
+                BobguiListItem              *item)
+{
+  BobguiTreeListRow *row;
+  BobguiTreeExpander *expander;
+  TestObject *obj;
+  BobguiWidget *entry;
+
+  row = bobgui_list_item_get_item (item);
+  expander = BOBGUI_TREE_EXPANDER (bobgui_list_item_get_child (item));
+  bobgui_tree_expander_set_list_row (expander, row);
+  obj = bobgui_tree_list_row_get_item (row);
+  entry = bobgui_tree_expander_get_child (expander);
+  bobgui_editable_set_text (BOBGUI_EDITABLE (entry), test_object_get_string (obj));
+
+  g_signal_connect (entry, "notify::text", G_CALLBACK (text_changed), obj);
+}
+
+static void
+unbind_tree_item (BobguiSignalListItemFactory *factory,
+                  BobguiListItem              *item)
+{
+  BobguiTreeListRow *row;
+  BobguiTreeExpander *expander;
+  TestObject *obj;
+  BobguiWidget *entry;
+
+  row = bobgui_list_item_get_item (item);
+  expander = BOBGUI_TREE_EXPANDER (bobgui_list_item_get_child (item));
+  obj = bobgui_tree_list_row_get_item (row);
+  entry = bobgui_tree_expander_get_child (expander);
+  g_signal_handlers_disconnect_by_func (entry, text_changed, obj);
+}
+
+int
+main (int argc, char *argv[])
+{
+  BobguiWidget *window;
+  BobguiWidget *box;
+  BobguiWidget *label;
+  BobguiWidget *box2;
+  BobguiWidget *stack;
+  BobguiWidget *switcher;
+  BobguiWidget *sw;
+  BobguiWidget *grid;
+  BobguiWidget *list;
+  BobguiWidget *cv;
+  GListModel *model;
+  BobguiListItemFactory *factory;
+
+  bobgui_init ();
+
+  window = bobgui_window_new ();
+  bobgui_window_set_default_size (BOBGUI_WINDOW (window), 600, 400);
+
+  box2 = bobgui_box_new (BOBGUI_ORIENTATION_VERTICAL, 10);
+  bobgui_window_set_child (BOBGUI_WINDOW (window), box2);
+
+  switcher = bobgui_stack_switcher_new ();
+  bobgui_widget_set_halign (BOBGUI_WIDGET (switcher), BOBGUI_ALIGN_CENTER);
+  bobgui_widget_set_margin_top (BOBGUI_WIDGET (switcher), 10);
+  bobgui_widget_set_margin_bottom (BOBGUI_WIDGET (switcher), 10);
+  bobgui_box_append (BOBGUI_BOX (box2), switcher);
+
+  box = bobgui_box_new (BOBGUI_ORIENTATION_HORIZONTAL, 10);
+  bobgui_box_set_homogeneous (BOBGUI_BOX (box), TRUE);
+  bobgui_box_append (BOBGUI_BOX (box2), box);
+
+  label = bobgui_editable_label_new ("Drag me");
+  bobgui_box_append (BOBGUI_BOX (box), label);
+
+  stack = bobgui_stack_new ();
+  bobgui_widget_set_vexpand (stack, TRUE);
+  bobgui_stack_switcher_set_stack (BOBGUI_STACK_SWITCHER (switcher), BOBGUI_STACK (stack));
+  bobgui_box_append (BOBGUI_BOX (box), stack);
+
+  /* grid */
+  sw = bobgui_scrolled_window_new ();
+  bobgui_scrolled_window_set_has_frame (BOBGUI_SCROLLED_WINDOW (sw), TRUE);
+  bobgui_stack_add_titled (BOBGUI_STACK (stack), sw, "grid", "BobguiGridView");
+
+  model = create_model (0, 400, 1, FALSE);
+  factory = bobgui_signal_list_item_factory_new ();
+  g_signal_connect (factory, "setup", G_CALLBACK (setup_item), NULL);
+  g_signal_connect (factory, "bind", G_CALLBACK (bind_item), NULL);
+  g_signal_connect (factory, "unbind", G_CALLBACK (unbind_item), NULL);
+
+  grid = bobgui_grid_view_new (BOBGUI_SELECTION_MODEL (bobgui_single_selection_new (model)), factory);
+  bobgui_grid_view_set_min_columns (BOBGUI_GRID_VIEW (grid), 20);
+  bobgui_grid_view_set_max_columns (BOBGUI_GRID_VIEW (grid), 20);
+
+  bobgui_scrolled_window_set_child (BOBGUI_SCROLLED_WINDOW (sw), grid);
+
+  /* list */
+  sw = bobgui_scrolled_window_new ();
+  bobgui_scrolled_window_set_has_frame (BOBGUI_SCROLLED_WINDOW (sw), TRUE);
+  bobgui_stack_add_titled (BOBGUI_STACK (stack), sw, "list", "BobguiListView");
+
+  list = bobgui_list_view_new (BOBGUI_SELECTION_MODEL (bobgui_single_selection_new (create_model (0, 400, 1, FALSE))), NULL);
+  bobgui_scrolled_window_set_child (BOBGUI_SCROLLED_WINDOW (sw), list);
+
+  factory = bobgui_signal_list_item_factory_new ();
+  g_signal_connect (factory, "setup", G_CALLBACK (setup_item), NULL);
+  g_signal_connect (factory, "bind", G_CALLBACK (bind_item), NULL);
+  g_signal_connect (factory, "unbind", G_CALLBACK (unbind_item), NULL);
+
+  bobgui_list_view_set_factory (BOBGUI_LIST_VIEW (list), factory);
+  g_object_unref (factory);
+
+  /* columnview */
+  sw = bobgui_scrolled_window_new ();
+  bobgui_scrolled_window_set_has_frame (BOBGUI_SCROLLED_WINDOW (sw), TRUE);
+  bobgui_stack_add_titled (BOBGUI_STACK (stack), sw, "column", "BobguiColumnView");
+
+  cv = bobgui_column_view_new (BOBGUI_SELECTION_MODEL (bobgui_single_selection_new (create_model (0, 400, 1, FALSE))));
+
+  for (guint i = 0; i < 20; i++)
+    {
+      BobguiColumnViewColumn *column;
+      char *title;
+
+      factory = bobgui_signal_list_item_factory_new ();
+      g_signal_connect (factory, "setup", G_CALLBACK (setup_item), NULL);
+      g_signal_connect (factory, "bind", G_CALLBACK (bind_item), NULL);
+      g_signal_connect (factory, "unbind", G_CALLBACK (unbind_item), NULL);
+
+      title = g_strdup_printf ("Column %u", i);
+      column = bobgui_column_view_column_new (title, factory);
+      bobgui_column_view_append_column (BOBGUI_COLUMN_VIEW (cv), column);
+      g_object_unref (column);
+      g_free (title);
+    }
+
+  bobgui_scrolled_window_set_child (BOBGUI_SCROLLED_WINDOW (sw), cv);
+
+  /* tree */
+  sw = bobgui_scrolled_window_new ();
+  bobgui_scrolled_window_set_has_frame (BOBGUI_SCROLLED_WINDOW (sw), TRUE);
+  bobgui_stack_add_titled (BOBGUI_STACK (stack), sw, "tree", "Tree");
+
+  list = bobgui_list_view_new (BOBGUI_SELECTION_MODEL (bobgui_single_selection_new (create_tree_model (20, 20))), NULL);
+  bobgui_scrolled_window_set_child (BOBGUI_SCROLLED_WINDOW (sw), list);
+
+  factory = bobgui_signal_list_item_factory_new ();
+  g_signal_connect (factory, "setup", G_CALLBACK (setup_tree_item), NULL);
+  g_signal_connect (factory, "bind", G_CALLBACK (bind_tree_item), NULL);
+  g_signal_connect (factory, "unbind", G_CALLBACK (unbind_tree_item), NULL);
+
+  bobgui_list_view_set_factory (BOBGUI_LIST_VIEW (list), factory);
+  g_object_unref (factory);
+
+  bobgui_window_present (BOBGUI_WINDOW (window));
+
+  while (g_list_model_get_n_items (bobgui_window_get_toplevels ()) > 0)
+    g_main_context_iteration (NULL, TRUE);
+
+  bobgui_window_destroy (BOBGUI_WINDOW (window));
+
+  return 0;
+}

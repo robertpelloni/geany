@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow">
+    <property name="decorated">0</property>
+    <property name="resizable">0</property>
+    <property name="default-width">280</property>
+    <property name="default-height">120</property>
+    <style>
+       <class name="nobackground"/>
+    </style>
+    <child>
+      <object class="BobguiBox">
+        <style>
+          <class name="frame"/>
+          <class name="shadow"/>
+          <class name="background"/>
+        </style>
+        <property name="orientation">vertical</property>
+        <property name="spacing">3</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
+        <child>
+          <object class="BobguiListBox">
+            <property name="selection-mode">single</property>
+            <child>
+              <object class="BobguiListBoxRow">
+                <property name="selectable">0</property>
+                <child>
+                  <object class="BobguiLabel">
+                    <property name="hexpand">1</property>
+                    <property name="halign">center</property>
+                    <property name="label">List Box</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="BobguiLabel">
+                    <property name="hexpand">1</property>
+                    <property name="label">Line One</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiCheckButton">
+                    <property name="active">1</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="BobguiLabel">
+                    <property name="hexpand">1</property>
+                    <property name="label">Line Two</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiButton">
+                    <property name="label">2</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiBox">
+                <property name="orientation">horizontal</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="BobguiLabel">
+                    <property name="label">Line Three</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiEntry">
+                    <property name="hexpand">1</property>
+                    <property name="halign">end</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

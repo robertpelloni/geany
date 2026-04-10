@@ -1,0 +1,13 @@
+<interface>
+  <object class="BobguiFrame">
+    <property name="label">bla</property>
+    <child>
+      <object class="BobguiGestureClick">
+      </object>
+    </child>
+    <child>
+      <object class="BobguiButton">
+      </object>
+    </child>
+  </object>
+</interface>

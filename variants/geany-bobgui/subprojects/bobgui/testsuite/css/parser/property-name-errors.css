@@ -1,0 +1,4 @@
+* {
+  nonexisting-property: something;
+  -bobgui-nonexisting-property: "something else";
+}

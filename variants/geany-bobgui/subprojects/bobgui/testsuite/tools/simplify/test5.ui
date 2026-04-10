@@ -1,0 +1,12 @@
+<!-- placeholders are preserved -->
+<interface>
+  <object class="BobguiWindow">
+    <child>
+      <object class="BobguiBox">
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

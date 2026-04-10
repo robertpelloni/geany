@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="BobguiListItem">
+    <property name="child">
+      <object class="BobguiLabel">
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <binding name="label">
+          <lookup name="label" type="SweeperCell">
+            <lookup name="item">BobguiListItem</lookup>
+          </lookup>
+        </binding>
+      </object>
+    </property>
+  </template>
+</interface>

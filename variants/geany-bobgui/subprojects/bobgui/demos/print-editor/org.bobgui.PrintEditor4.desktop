@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Print Editor
+Comment=A simple editor demonstrating BOBGUI printing
+Exec=bobgui4-print-editor %f
+Icon=org.bobgui.PrintEditor4
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Development;BOBGUI;

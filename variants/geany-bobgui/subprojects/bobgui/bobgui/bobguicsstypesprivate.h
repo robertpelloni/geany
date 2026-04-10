@@ -1,0 +1,600 @@
+/* BOBGUI - The Bobgui Framework
+ * Copyright (C) 2011 Benjamin Otte <otte@gnome.org>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#pragma once
+
+#include <glib-object.h>
+#include <gsk/gsk.h>
+
+#include <bobgui/bobguienums.h>
+
+G_BEGIN_DECLS
+
+typedef struct _BobguiCssNode BobguiCssNode;
+typedef struct _BobguiCssNodeDeclaration BobguiCssNodeDeclaration;
+typedef struct _BobguiCssStyle BobguiCssStyle;
+typedef struct _BobguiCssStaticStyle BobguiCssStaticStyle;
+
+#define BOBGUI_CSS_CHANGE_CLASS                          (1ULL <<  0)
+#define BOBGUI_CSS_CHANGE_NAME                           (1ULL <<  1)
+#define BOBGUI_CSS_CHANGE_ID                             (1ULL <<  2)
+#define BOBGUI_CSS_CHANGE_FIRST_CHILD                    (1ULL <<  3)
+#define BOBGUI_CSS_CHANGE_LAST_CHILD                     (1ULL <<  4)
+#define BOBGUI_CSS_CHANGE_NTH_CHILD                      (1ULL <<  5)
+#define BOBGUI_CSS_CHANGE_NTH_LAST_CHILD                 (1ULL <<  6)
+#define BOBGUI_CSS_CHANGE_STATE                          (1ULL <<  7)
+#define BOBGUI_CSS_CHANGE_HOVER                          (1ULL <<  8)
+#define BOBGUI_CSS_CHANGE_DISABLED                       (1ULL <<  9)
+#define BOBGUI_CSS_CHANGE_BACKDROP                       (1ULL << 10)
+#define BOBGUI_CSS_CHANGE_SELECTED                       (1ULL << 11)
+
+#define BOBGUI_CSS_CHANGE_SIBLING_SHIFT 12
+
+#define BOBGUI_CSS_CHANGE_SIBLING_CLASS                  (1ULL << 12)
+#define BOBGUI_CSS_CHANGE_SIBLING_NAME                   (1ULL << 13)
+#define BOBGUI_CSS_CHANGE_SIBLING_ID                     (1ULL << 14)
+#define BOBGUI_CSS_CHANGE_SIBLING_FIRST_CHILD            (1ULL << 15)
+#define BOBGUI_CSS_CHANGE_SIBLING_LAST_CHILD             (1ULL << 16)
+#define BOBGUI_CSS_CHANGE_SIBLING_NTH_CHILD              (1ULL << 17)
+#define BOBGUI_CSS_CHANGE_SIBLING_NTH_LAST_CHILD         (1ULL << 18)
+#define BOBGUI_CSS_CHANGE_SIBLING_STATE                  (1ULL << 19)
+#define BOBGUI_CSS_CHANGE_SIBLING_HOVER                  (1ULL << 20)
+#define BOBGUI_CSS_CHANGE_SIBLING_DISABLED               (1ULL << 21)
+#define BOBGUI_CSS_CHANGE_SIBLING_BACKDROP               (1ULL << 22)
+#define BOBGUI_CSS_CHANGE_SIBLING_SELECTED               (1ULL << 23)
+
+#define BOBGUI_CSS_CHANGE_PARENT_SHIFT (BOBGUI_CSS_CHANGE_SIBLING_SHIFT + BOBGUI_CSS_CHANGE_SIBLING_SHIFT)
+
+#define BOBGUI_CSS_CHANGE_PARENT_CLASS                   (1ULL << 24)
+#define BOBGUI_CSS_CHANGE_PARENT_NAME                    (1ULL << 25)
+#define BOBGUI_CSS_CHANGE_PARENT_ID                      (1ULL << 26)
+#define BOBGUI_CSS_CHANGE_PARENT_FIRST_CHILD             (1ULL << 27)
+#define BOBGUI_CSS_CHANGE_PARENT_LAST_CHILD              (1ULL << 28)
+#define BOBGUI_CSS_CHANGE_PARENT_NTH_CHILD               (1ULL << 29)
+#define BOBGUI_CSS_CHANGE_PARENT_NTH_LAST_CHILD          (1ULL << 30)
+#define BOBGUI_CSS_CHANGE_PARENT_STATE                   (1ULL << 31)
+#define BOBGUI_CSS_CHANGE_PARENT_HOVER                   (1ULL << 32)
+#define BOBGUI_CSS_CHANGE_PARENT_DISABLED                (1ULL << 33)
+#define BOBGUI_CSS_CHANGE_PARENT_BACKDROP                (1ULL << 34)
+#define BOBGUI_CSS_CHANGE_PARENT_SELECTED                (1ULL << 35)
+
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_SHIFT (BOBGUI_CSS_CHANGE_PARENT_SHIFT + BOBGUI_CSS_CHANGE_SIBLING_SHIFT)
+
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_CLASS           (1ULL << 36)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_NAME            (1ULL << 37)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_ID              (1ULL << 38)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_FIRST_CHILD     (1ULL << 39)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_LAST_CHILD      (1ULL << 40)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_NTH_CHILD       (1ULL << 41)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_NTH_LAST_CHILD  (1ULL << 42)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_STATE           (1ULL << 43)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_HOVER           (1ULL << 44)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_DISABLED        (1ULL << 45)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_BACKDROP        (1ULL << 46)
+#define BOBGUI_CSS_CHANGE_PARENT_SIBLING_SELECTED        (1ULL << 47)
+
+/* add more */
+#define BOBGUI_CSS_CHANGE_SOURCE                         (1ULL << 48)
+#define BOBGUI_CSS_CHANGE_PARENT_STYLE                   (1ULL << 49)
+#define BOBGUI_CSS_CHANGE_TIMESTAMP                      (1ULL << 50)
+#define BOBGUI_CSS_CHANGE_ANIMATIONS                     (1ULL << 51)
+
+#define BOBGUI_CSS_CHANGE_RESERVED_BIT                   (1ULL << 62)
+
+typedef guint64 BobguiCssChange;
+
+#define BOBGUI_CSS_CHANGE_POSITION (BOBGUI_CSS_CHANGE_FIRST_CHILD | \
+                                 BOBGUI_CSS_CHANGE_LAST_CHILD  | \
+                                 BOBGUI_CSS_CHANGE_NTH_CHILD   | \
+                                 BOBGUI_CSS_CHANGE_NTH_LAST_CHILD)
+#define BOBGUI_CSS_CHANGE_SIBLING_POSITION (BOBGUI_CSS_CHANGE_POSITION << BOBGUI_CSS_CHANGE_SIBLING_SHIFT)
+
+#define BOBGUI_CSS_CHANGE_ANY_SELF (BOBGUI_CSS_CHANGE_CLASS    | \
+                                 BOBGUI_CSS_CHANGE_NAME     | \
+                                 BOBGUI_CSS_CHANGE_ID       | \
+                                 BOBGUI_CSS_CHANGE_POSITION | \
+                                 BOBGUI_CSS_CHANGE_STATE    | \
+                                 BOBGUI_CSS_CHANGE_DISABLED | \
+                                 BOBGUI_CSS_CHANGE_BACKDROP | \
+                                 BOBGUI_CSS_CHANGE_SELECTED | \
+                                 BOBGUI_CSS_CHANGE_HOVER)
+#define BOBGUI_CSS_CHANGE_ANY_SIBLING (BOBGUI_CSS_CHANGE_ANY_SELF << BOBGUI_CSS_CHANGE_SIBLING_SHIFT)
+#define BOBGUI_CSS_CHANGE_ANY_PARENT (BOBGUI_CSS_CHANGE_ANY_SELF << BOBGUI_CSS_CHANGE_PARENT_SHIFT)
+#define BOBGUI_CSS_CHANGE_ANY_PARENT_SIBLING (BOBGUI_CSS_CHANGE_ANY_SELF << BOBGUI_CSS_CHANGE_PARENT_SIBLING_SHIFT)
+
+#define BOBGUI_CSS_CHANGE_ANY (BOBGUI_CSS_CHANGE_ANY_SELF           | \
+                            BOBGUI_CSS_CHANGE_ANY_SIBLING        | \
+                            BOBGUI_CSS_CHANGE_ANY_PARENT         | \
+                            BOBGUI_CSS_CHANGE_ANY_PARENT_SIBLING | \
+                            BOBGUI_CSS_CHANGE_SOURCE             | \
+                            BOBGUI_CSS_CHANGE_PARENT_STYLE       | \
+                            BOBGUI_CSS_CHANGE_TIMESTAMP          | \
+                            BOBGUI_CSS_CHANGE_ANIMATIONS)
+
+/*
+ * BobguiCssAffects:
+ * @BOBGUI_CSS_AFFECTS_CONTENT: The content rendering is affected.
+ *   This does not include things that affect the font. For those,
+ *   see @BOBGUI_CSS_AFFECTS_TEXT.
+ * @BOBGUI_CSS_AFFECTS_BACKGROUND: The background rendering is affected.
+ * @BOBGUI_CSS_AFFECTS_BORDER: The border styling is affected.
+ * @BOBGUI_CSS_AFFECTS_TEXT_ATTRS: Text attributes are affected.
+ * @BOBGUI_CSS_AFFECTS_TEXT_SIZE: Text size is affected.
+ * @BOBGUI_CSS_AFFECTS_TEXT_CONTENT: Text rendering is affected, but size or
+ *   attributes are not.
+ * @BOBGUI_CSS_AFFECTS_ICON_SIZE: Icon size is affected.
+ * @BOBGUI_CSS_AFFECTS_ICON_TEXTURE: The icon texture has changed and needs to be
+ *   reloaded.
+ * @BOBGUI_CSS_AFFECTS_ICON_REDRAW: Icons need to be redrawn (both symbolic and
+ *   non-symbolic).
+ * @BOBGUI_CSS_AFFECTS_ICON_REDRAW_SYMBOLIC: Symbolic icons need to be redrawn.
+ * @BOBGUI_CSS_AFFECTS_OUTLINE: The outline styling is affected.
+ * @BOBGUI_CSS_AFFECTS_SIZE: Changes in this property may have an effect
+ *   on the allocated size of the element. Changes in these properties
+ *   should cause a recomputation of the element's allocated size.
+ * @BOBGUI_CSS_AFFECTS_POSTEFFECT: An effect is applied after drawing that changes
+ * @BOBGUI_CSS_AFFECTS_TEXT: Affects anything related to text rendering.
+ * @BOBGUI_CSS_AFFECTS_REDRAW: Affects anything that requires redraw.
+ * @BOBGUI_CSS_AFFECTS_TRANSFORM: Affects the element transformation.
+ *
+ * The generic effects that a CSS property can have. If a value is
+ * set, then the property will have an influence on that feature.
+ *
+ * Note that multiple values can be set.
+ */
+typedef enum {
+  BOBGUI_CSS_AFFECTS_CONTENT              = (1 << 0),
+  BOBGUI_CSS_AFFECTS_BACKGROUND           = (1 << 1),
+  BOBGUI_CSS_AFFECTS_BORDER               = (1 << 2),
+  BOBGUI_CSS_AFFECTS_TEXT_ATTRS           = (1 << 3),
+  BOBGUI_CSS_AFFECTS_TEXT_SIZE            = (1 << 4),
+  BOBGUI_CSS_AFFECTS_TEXT_CONTENT         = (1 << 5),
+  BOBGUI_CSS_AFFECTS_ICON_SIZE            = (1 << 6),
+  BOBGUI_CSS_AFFECTS_ICON_TEXTURE         = (1 << 7),
+  BOBGUI_CSS_AFFECTS_ICON_REDRAW          = (1 << 8),
+  BOBGUI_CSS_AFFECTS_ICON_REDRAW_SYMBOLIC = (1 << 9),
+  BOBGUI_CSS_AFFECTS_OUTLINE              = (1 << 10),
+  BOBGUI_CSS_AFFECTS_SIZE                 = (1 << 11),
+  BOBGUI_CSS_AFFECTS_POSTEFFECT           = (1 << 12),
+  BOBGUI_CSS_AFFECTS_TRANSFORM            = (1 << 13),
+} BobguiCssAffects;
+
+#define BOBGUI_CSS_AFFECTS_REDRAW (BOBGUI_CSS_AFFECTS_CONTENT |       \
+                                BOBGUI_CSS_AFFECTS_BACKGROUND |    \
+                                BOBGUI_CSS_AFFECTS_BORDER |        \
+                                BOBGUI_CSS_AFFECTS_OUTLINE |       \
+                                BOBGUI_CSS_AFFECTS_POSTEFFECT)
+
+#define BOBGUI_CSS_AFFECTS_TEXT (BOBGUI_CSS_AFFECTS_TEXT_SIZE | \
+                              BOBGUI_CSS_AFFECTS_TEXT_CONTENT)
+
+
+enum { /*< skip >*/
+  BOBGUI_CSS_PROPERTY_COLOR,
+  BOBGUI_CSS_PROPERTY_DPI,
+  BOBGUI_CSS_PROPERTY_FONT_SIZE,
+  BOBGUI_CSS_PROPERTY_ICON_PALETTE,
+  BOBGUI_CSS_PROPERTY_BACKGROUND_COLOR,
+  BOBGUI_CSS_PROPERTY_FONT_FAMILY,
+  BOBGUI_CSS_PROPERTY_FONT_STYLE,
+  BOBGUI_CSS_PROPERTY_FONT_WEIGHT,
+  BOBGUI_CSS_PROPERTY_FONT_STRETCH,
+  BOBGUI_CSS_PROPERTY_LETTER_SPACING,
+  BOBGUI_CSS_PROPERTY_TEXT_DECORATION_LINE,
+  BOBGUI_CSS_PROPERTY_TEXT_DECORATION_COLOR,
+  BOBGUI_CSS_PROPERTY_TEXT_DECORATION_STYLE,
+  BOBGUI_CSS_PROPERTY_TEXT_TRANSFORM,
+  BOBGUI_CSS_PROPERTY_FONT_KERNING,
+  BOBGUI_CSS_PROPERTY_FONT_VARIANT_LIGATURES,
+  BOBGUI_CSS_PROPERTY_FONT_VARIANT_POSITION,
+  BOBGUI_CSS_PROPERTY_FONT_VARIANT_CAPS,
+  BOBGUI_CSS_PROPERTY_FONT_VARIANT_NUMERIC,
+  BOBGUI_CSS_PROPERTY_FONT_VARIANT_ALTERNATES,
+  BOBGUI_CSS_PROPERTY_FONT_VARIANT_EAST_ASIAN,
+  BOBGUI_CSS_PROPERTY_TEXT_SHADOW,
+  BOBGUI_CSS_PROPERTY_BOX_SHADOW,
+  BOBGUI_CSS_PROPERTY_MARGIN_TOP,
+  BOBGUI_CSS_PROPERTY_MARGIN_LEFT,
+  BOBGUI_CSS_PROPERTY_MARGIN_BOTTOM,
+  BOBGUI_CSS_PROPERTY_MARGIN_RIGHT,
+  BOBGUI_CSS_PROPERTY_PADDING_TOP,
+  BOBGUI_CSS_PROPERTY_PADDING_LEFT,
+  BOBGUI_CSS_PROPERTY_PADDING_BOTTOM,
+  BOBGUI_CSS_PROPERTY_PADDING_RIGHT,
+  BOBGUI_CSS_PROPERTY_BORDER_TOP_STYLE,
+  BOBGUI_CSS_PROPERTY_BORDER_TOP_WIDTH,
+  BOBGUI_CSS_PROPERTY_BORDER_LEFT_STYLE,
+  BOBGUI_CSS_PROPERTY_BORDER_LEFT_WIDTH,
+  BOBGUI_CSS_PROPERTY_BORDER_BOTTOM_STYLE,
+  BOBGUI_CSS_PROPERTY_BORDER_BOTTOM_WIDTH,
+  BOBGUI_CSS_PROPERTY_BORDER_RIGHT_STYLE,
+  BOBGUI_CSS_PROPERTY_BORDER_RIGHT_WIDTH,
+  BOBGUI_CSS_PROPERTY_BORDER_TOP_LEFT_RADIUS,
+  BOBGUI_CSS_PROPERTY_BORDER_TOP_RIGHT_RADIUS,
+  BOBGUI_CSS_PROPERTY_BORDER_BOTTOM_RIGHT_RADIUS,
+  BOBGUI_CSS_PROPERTY_BORDER_BOTTOM_LEFT_RADIUS,
+  BOBGUI_CSS_PROPERTY_OUTLINE_STYLE,
+  BOBGUI_CSS_PROPERTY_OUTLINE_WIDTH,
+  BOBGUI_CSS_PROPERTY_OUTLINE_OFFSET,
+  BOBGUI_CSS_PROPERTY_BACKGROUND_CLIP,
+  BOBGUI_CSS_PROPERTY_BACKGROUND_ORIGIN,
+  BOBGUI_CSS_PROPERTY_BACKGROUND_SIZE,
+  BOBGUI_CSS_PROPERTY_BACKGROUND_POSITION,
+  BOBGUI_CSS_PROPERTY_BORDER_TOP_COLOR,
+  BOBGUI_CSS_PROPERTY_BORDER_RIGHT_COLOR,
+  BOBGUI_CSS_PROPERTY_BORDER_BOTTOM_COLOR,
+  BOBGUI_CSS_PROPERTY_BORDER_LEFT_COLOR,
+  BOBGUI_CSS_PROPERTY_OUTLINE_COLOR,
+  BOBGUI_CSS_PROPERTY_BACKGROUND_REPEAT,
+  BOBGUI_CSS_PROPERTY_BACKGROUND_IMAGE,
+  BOBGUI_CSS_PROPERTY_BACKGROUND_BLEND_MODE,
+  BOBGUI_CSS_PROPERTY_BORDER_IMAGE_SOURCE,
+  BOBGUI_CSS_PROPERTY_BORDER_IMAGE_REPEAT,
+  BOBGUI_CSS_PROPERTY_BORDER_IMAGE_SLICE,
+  BOBGUI_CSS_PROPERTY_BORDER_IMAGE_WIDTH,
+  BOBGUI_CSS_PROPERTY_ICON_SOURCE,
+  BOBGUI_CSS_PROPERTY_ICON_SIZE,
+  BOBGUI_CSS_PROPERTY_ICON_SHADOW,
+  BOBGUI_CSS_PROPERTY_ICON_STYLE,
+  BOBGUI_CSS_PROPERTY_ICON_TRANSFORM,
+  BOBGUI_CSS_PROPERTY_ICON_FILTER,
+  BOBGUI_CSS_PROPERTY_ICON_WEIGHT,
+  BOBGUI_CSS_PROPERTY_BORDER_SPACING,
+  BOBGUI_CSS_PROPERTY_TRANSFORM,
+  BOBGUI_CSS_PROPERTY_TRANSFORM_ORIGIN,
+  BOBGUI_CSS_PROPERTY_MIN_WIDTH,
+  BOBGUI_CSS_PROPERTY_MIN_HEIGHT,
+  BOBGUI_CSS_PROPERTY_TRANSITION_PROPERTY,
+  BOBGUI_CSS_PROPERTY_TRANSITION_DURATION,
+  BOBGUI_CSS_PROPERTY_TRANSITION_TIMING_FUNCTION,
+  BOBGUI_CSS_PROPERTY_TRANSITION_DELAY,
+  BOBGUI_CSS_PROPERTY_ANIMATION_NAME,
+  BOBGUI_CSS_PROPERTY_ANIMATION_DURATION,
+  BOBGUI_CSS_PROPERTY_ANIMATION_TIMING_FUNCTION,
+  BOBGUI_CSS_PROPERTY_ANIMATION_ITERATION_COUNT,
+  BOBGUI_CSS_PROPERTY_ANIMATION_DIRECTION,
+  BOBGUI_CSS_PROPERTY_ANIMATION_PLAY_STATE,
+  BOBGUI_CSS_PROPERTY_ANIMATION_DELAY,
+  BOBGUI_CSS_PROPERTY_ANIMATION_FILL_MODE,
+  BOBGUI_CSS_PROPERTY_OPACITY,
+  BOBGUI_CSS_PROPERTY_BACKDROP_FILTER,
+  BOBGUI_CSS_PROPERTY_FILTER,
+  BOBGUI_CSS_PROPERTY_CARET_COLOR,
+  BOBGUI_CSS_PROPERTY_SECONDARY_CARET_COLOR,
+  BOBGUI_CSS_PROPERTY_FONT_FEATURE_SETTINGS,
+  BOBGUI_CSS_PROPERTY_FONT_VARIATION_SETTINGS,
+  BOBGUI_CSS_PROPERTY_LINE_HEIGHT,
+  /* add more */
+  BOBGUI_CSS_PROPERTY_N_PROPERTIES,
+  BOBGUI_CSS_PROPERTY_CUSTOM,
+};
+
+enum {
+  BOBGUI_CSS_SHORTHAND_PROPERTY_FONT,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_MARGIN,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_PADDING,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_WIDTH,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_RADIUS,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_COLOR,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_STYLE,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_IMAGE,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_TOP,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_RIGHT,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_BOTTOM,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER_LEFT,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BORDER,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_OUTLINE,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_BACKGROUND,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_TRANSITION,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_ANIMATION,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_TEXT_DECORATION,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_FONT_VARIANT,
+  BOBGUI_CSS_SHORTHAND_PROPERTY_ALL,
+  /* add more */
+  BOBGUI_CSS_SHORTHAND_PROPERTY_N_PROPERTIES,
+};
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_AREA_BORDER_BOX,
+  BOBGUI_CSS_AREA_PADDING_BOX,
+  BOBGUI_CSS_AREA_CONTENT_BOX
+} BobguiCssArea;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_DIRECTION_NORMAL,
+  BOBGUI_CSS_DIRECTION_REVERSE,
+  BOBGUI_CSS_DIRECTION_ALTERNATE,
+  BOBGUI_CSS_DIRECTION_ALTERNATE_REVERSE
+} BobguiCssDirection;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_PLAY_STATE_RUNNING,
+  BOBGUI_CSS_PLAY_STATE_PAUSED
+} BobguiCssPlayState;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_FILL_NONE,
+  BOBGUI_CSS_FILL_FORWARDS,
+  BOBGUI_CSS_FILL_BACKWARDS,
+  BOBGUI_CSS_FILL_BOTH
+} BobguiCssFillMode;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_ICON_STYLE_REQUESTED,
+  BOBGUI_CSS_ICON_STYLE_REGULAR,
+  BOBGUI_CSS_ICON_STYLE_SYMBOLIC
+} BobguiCssIconStyle;
+
+typedef enum /*< skip >*/ {
+  /* relative font sizes */
+  BOBGUI_CSS_FONT_SIZE_SMALLER,
+  BOBGUI_CSS_FONT_SIZE_LARGER,
+  /* absolute font sizes */
+  BOBGUI_CSS_FONT_SIZE_XX_SMALL,
+  BOBGUI_CSS_FONT_SIZE_X_SMALL,
+  BOBGUI_CSS_FONT_SIZE_SMALL,
+  BOBGUI_CSS_FONT_SIZE_MEDIUM,
+  BOBGUI_CSS_FONT_SIZE_LARGE,
+  BOBGUI_CSS_FONT_SIZE_X_LARGE,
+  BOBGUI_CSS_FONT_SIZE_XX_LARGE
+} BobguiCssFontSize;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_TEXT_DECORATION_LINE_NONE         = 1 << 0,
+  BOBGUI_CSS_TEXT_DECORATION_LINE_UNDERLINE    = 1 << 1,
+  BOBGUI_CSS_TEXT_DECORATION_LINE_OVERLINE     = 1 << 2,
+  BOBGUI_CSS_TEXT_DECORATION_LINE_LINE_THROUGH = 1 << 3
+} BobguiTextDecorationLine;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_TEXT_DECORATION_STYLE_SOLID,
+  BOBGUI_CSS_TEXT_DECORATION_STYLE_DOUBLE,
+  BOBGUI_CSS_TEXT_DECORATION_STYLE_WAVY
+} BobguiTextDecorationStyle;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_TEXT_TRANSFORM_NONE,
+  BOBGUI_CSS_TEXT_TRANSFORM_LOWERCASE,
+  BOBGUI_CSS_TEXT_TRANSFORM_UPPERCASE,
+  BOBGUI_CSS_TEXT_TRANSFORM_CAPITALIZE,
+} BobguiTextTransform;
+
+/* for the order in arrays */
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_TOP,
+  BOBGUI_CSS_RIGHT,
+  BOBGUI_CSS_BOTTOM,
+  BOBGUI_CSS_LEFT
+} BobguiCssSide;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_DIMENSION_PERCENTAGE,
+  BOBGUI_CSS_DIMENSION_NUMBER,
+  BOBGUI_CSS_DIMENSION_LENGTH,
+  BOBGUI_CSS_DIMENSION_ANGLE,
+  BOBGUI_CSS_DIMENSION_TIME
+} BobguiCssDimension;
+
+typedef enum /*< skip >*/ {
+  /* CSS term: <number> */
+  BOBGUI_CSS_NUMBER,
+  /* CSS term: <percentage> */
+  BOBGUI_CSS_PERCENT,
+  /* CSS term: <length> */
+  BOBGUI_CSS_PX,
+  BOBGUI_CSS_PT,
+  BOBGUI_CSS_EM,
+  BOBGUI_CSS_EX,
+  BOBGUI_CSS_REM,
+  BOBGUI_CSS_PC,
+  BOBGUI_CSS_IN,
+  BOBGUI_CSS_CM,
+  BOBGUI_CSS_MM,
+  /* CSS term: <angle> */
+  BOBGUI_CSS_RAD,
+  BOBGUI_CSS_DEG,
+  BOBGUI_CSS_GRAD,
+  BOBGUI_CSS_TURN,
+  /* CSS term: <time> */
+  BOBGUI_CSS_S,
+  BOBGUI_CSS_MS,
+} BobguiCssUnit;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_FONT_KERNING_AUTO,
+  BOBGUI_CSS_FONT_KERNING_NORMAL,
+  BOBGUI_CSS_FONT_KERNING_NONE
+} BobguiCssFontKerning;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_NORMAL                     = 1 << 0,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_NONE                       = 1 << 1,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_COMMON_LIGATURES           = 1 << 2,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_NO_COMMON_LIGATURES        = 1 << 3,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_DISCRETIONARY_LIGATURES    = 1 << 4,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_NO_DISCRETIONARY_LIGATURES = 1 << 5,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_HISTORICAL_LIGATURES       = 1 << 6,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_NO_HISTORICAL_LIGATURES    = 1 << 7,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_CONTEXTUAL                 = 1 << 8,
+  BOBGUI_CSS_FONT_VARIANT_LIGATURE_NO_CONTEXTUAL              = 1 << 9
+} BobguiCssFontVariantLigature;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_FONT_VARIANT_POSITION_NORMAL,
+  BOBGUI_CSS_FONT_VARIANT_POSITION_SUB,
+  BOBGUI_CSS_FONT_VARIANT_POSITION_SUPER
+} BobguiCssFontVariantPosition;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_NORMAL             = 1 << 0,
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_LINING_NUMS        = 1 << 1,
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_OLDSTYLE_NUMS      = 1 << 2,
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_PROPORTIONAL_NUMS  = 1 << 3,
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_TABULAR_NUMS       = 1 << 4,
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_DIAGONAL_FRACTIONS = 1 << 5,
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_STACKED_FRACTIONS  = 1 << 6,
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_ORDINAL            = 1 << 7,
+  BOBGUI_CSS_FONT_VARIANT_NUMERIC_SLASHED_ZERO       = 1 << 8
+} BobguiCssFontVariantNumeric;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_FONT_VARIANT_CAPS_NORMAL,
+  BOBGUI_CSS_FONT_VARIANT_CAPS_SMALL_CAPS,
+  BOBGUI_CSS_FONT_VARIANT_CAPS_ALL_SMALL_CAPS,
+  BOBGUI_CSS_FONT_VARIANT_CAPS_PETITE_CAPS,
+  BOBGUI_CSS_FONT_VARIANT_CAPS_ALL_PETITE_CAPS,
+  BOBGUI_CSS_FONT_VARIANT_CAPS_UNICASE,
+  BOBGUI_CSS_FONT_VARIANT_CAPS_TITLING_CAPS
+} BobguiCssFontVariantCaps;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_FONT_VARIANT_ALTERNATE_NORMAL,
+  BOBGUI_CSS_FONT_VARIANT_ALTERNATE_HISTORICAL_FORMS
+} BobguiCssFontVariantAlternate;
+
+typedef enum /*< skip >*/ {
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_NORMAL       = 1 << 0,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_JIS78        = 1 << 1,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_JIS83        = 1 << 2,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_JIS90        = 1 << 3,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_JIS04        = 1 << 4,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_SIMPLIFIED   = 1 << 5,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_TRADITIONAL  = 1 << 6,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_FULL_WIDTH   = 1 << 7,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_PROPORTIONAL = 1 << 8,
+  BOBGUI_CSS_FONT_VARIANT_EAST_ASIAN_RUBY         = 1 << 9
+} BobguiCssFontVariantEastAsian;
+
+static inline BobguiCssChange
+_bobgui_css_change_for_sibling (BobguiCssChange match)
+{
+#define BASE_STATES ( BOBGUI_CSS_CHANGE_CLASS \
+                    | BOBGUI_CSS_CHANGE_NAME \
+                    | BOBGUI_CSS_CHANGE_ID \
+                    | BOBGUI_CSS_CHANGE_FIRST_CHILD \
+                    | BOBGUI_CSS_CHANGE_LAST_CHILD \
+                    | BOBGUI_CSS_CHANGE_NTH_CHILD \
+                    | BOBGUI_CSS_CHANGE_NTH_LAST_CHILD \
+                    | BOBGUI_CSS_CHANGE_STATE \
+                    | BOBGUI_CSS_CHANGE_HOVER \
+                    | BOBGUI_CSS_CHANGE_DISABLED \
+                    | BOBGUI_CSS_CHANGE_SELECTED \
+                    | BOBGUI_CSS_CHANGE_BACKDROP)
+
+#define KEEP_STATES ( ~(BASE_STATES|BOBGUI_CSS_CHANGE_SOURCE|BOBGUI_CSS_CHANGE_PARENT_STYLE) \
+                    | BOBGUI_CSS_CHANGE_NTH_CHILD \
+                    | BOBGUI_CSS_CHANGE_NTH_LAST_CHILD)
+
+  return (match & KEEP_STATES) | ((match & BASE_STATES) << BOBGUI_CSS_CHANGE_SIBLING_SHIFT);
+
+#undef BASE_STATES
+#undef KEEP_STATES
+}
+
+static inline BobguiCssChange
+_bobgui_css_change_for_child (BobguiCssChange match)
+{
+#define BASE_STATES ( BOBGUI_CSS_CHANGE_CLASS \
+                    | BOBGUI_CSS_CHANGE_NAME \
+                    | BOBGUI_CSS_CHANGE_ID \
+                    | BOBGUI_CSS_CHANGE_FIRST_CHILD \
+                    | BOBGUI_CSS_CHANGE_LAST_CHILD \
+                    | BOBGUI_CSS_CHANGE_NTH_CHILD \
+                    | BOBGUI_CSS_CHANGE_NTH_LAST_CHILD \
+                    | BOBGUI_CSS_CHANGE_STATE \
+                    | BOBGUI_CSS_CHANGE_HOVER \
+                    | BOBGUI_CSS_CHANGE_DISABLED \
+                    | BOBGUI_CSS_CHANGE_BACKDROP \
+                    | BOBGUI_CSS_CHANGE_SELECTED \
+                    | BOBGUI_CSS_CHANGE_SIBLING_CLASS \
+                    | BOBGUI_CSS_CHANGE_SIBLING_NAME \
+                    | BOBGUI_CSS_CHANGE_SIBLING_ID \
+                    | BOBGUI_CSS_CHANGE_SIBLING_FIRST_CHILD \
+                    | BOBGUI_CSS_CHANGE_SIBLING_LAST_CHILD \
+                    | BOBGUI_CSS_CHANGE_SIBLING_NTH_CHILD \
+                    | BOBGUI_CSS_CHANGE_SIBLING_NTH_LAST_CHILD \
+                    | BOBGUI_CSS_CHANGE_SIBLING_STATE \
+                    | BOBGUI_CSS_CHANGE_SIBLING_HOVER \
+                    | BOBGUI_CSS_CHANGE_SIBLING_DISABLED \
+                    | BOBGUI_CSS_CHANGE_SIBLING_BACKDROP \
+                    | BOBGUI_CSS_CHANGE_SIBLING_SELECTED)
+
+#define KEEP_STATES (~(BASE_STATES|BOBGUI_CSS_CHANGE_SOURCE|BOBGUI_CSS_CHANGE_PARENT_STYLE))
+
+  return (match & KEEP_STATES) | ((match & BASE_STATES) << BOBGUI_CSS_CHANGE_PARENT_SHIFT);
+
+#undef BASE_STATES
+#undef KEEP_STATES
+}
+
+BobguiCssDimension         bobgui_css_unit_get_dimension               (BobguiCssUnit         unit) G_GNUC_CONST;
+
+char *                  bobgui_css_change_to_string                 (BobguiCssChange       change) G_GNUC_MALLOC;
+void                    bobgui_css_change_print                     (BobguiCssChange       change,
+                                                                  GString           *string);
+
+const char *            bobgui_css_pseudoclass_name                 (BobguiStateFlags      flags) G_GNUC_CONST;
+
+/* These hash functions are selected so they achieve 2 things:
+ * 1. collision free among each other
+ *    Hashing the CSS selectors "button", ".button" and "#button" should give different results.
+ *    So we multiply the hash values with distinct prime numbers.
+ * 2. generate small numbers
+ *    It's why the code uses quarks instead of interned strings. Interned strings are random
+ *    pointers, quarks are numbers increasing from 0.
+ * Both of these goals should achieve a bloom filter for selector matching that is as free
+ * of collisions as possible.
+ */
+static inline guint
+bobgui_css_hash_class (GQuark klass)
+{
+  return klass * 5;
+}
+static inline guint
+bobgui_css_hash_name (GQuark name)
+{
+  return name * 7;
+}
+static inline guint
+bobgui_css_hash_id (GQuark id)
+{
+  return id * 11;
+}
+
+typedef enum {
+  BOBGUI_CSS_COLOR_SPACE_SRGB,
+  BOBGUI_CSS_COLOR_SPACE_SRGB_LINEAR,
+  BOBGUI_CSS_COLOR_SPACE_HSL,
+  BOBGUI_CSS_COLOR_SPACE_HWB,
+  BOBGUI_CSS_COLOR_SPACE_OKLAB,
+  BOBGUI_CSS_COLOR_SPACE_OKLCH,
+  BOBGUI_CSS_COLOR_SPACE_DISPLAY_P3,
+  BOBGUI_CSS_COLOR_SPACE_XYZ,
+  BOBGUI_CSS_COLOR_SPACE_REC2020,
+  BOBGUI_CSS_COLOR_SPACE_REC2100_PQ,
+} BobguiCssColorSpace;
+
+typedef enum
+{
+  BOBGUI_CSS_HUE_INTERPOLATION_SHORTER,
+  BOBGUI_CSS_HUE_INTERPOLATION_LONGER,
+  BOBGUI_CSS_HUE_INTERPOLATION_INCREASING,
+  BOBGUI_CSS_HUE_INTERPOLATION_DECREASING,
+} BobguiCssHueInterpolation;
+
+
+G_END_DECLS

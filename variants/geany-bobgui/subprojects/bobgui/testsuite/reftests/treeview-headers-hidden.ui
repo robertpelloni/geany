@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiListStore" id="liststore1">
+    <columns>
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">YOLO</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">swag</col>
+      </row>
+    </data>
+  </object>
+  <object class="BobguiWindow" id="window">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiTreeView" id="treeview1">
+        <property name="model">liststore1</property>
+        <property name="headers-visible">0</property>
+        <child internal-child="selection">
+          <object class="BobguiTreeSelection" id="treeview-selection"/>
+        </child>
+        <child>
+          <object class="BobguiTreeViewColumn" id="treeviewcolumn1">
+            <property name="title" translatable="yes">Name</property>
+            <property name="sizing">autosize</property>
+            <child>
+              <object class="BobguiCellRendererText" id="cellrenderertext1"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

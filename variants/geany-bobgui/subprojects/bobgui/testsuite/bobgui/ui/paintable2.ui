@@ -1,0 +1,9 @@
+<interface>
+  <object class="BobguiImage">
+    <property name="paintable">
+      <object class="BobguiIconPaintable">
+       <property name="file">resource:///org/bobgui/libbobgui/icons/dialog-warning-symbolic.svg</property>
+      </object>
+    </property>
+  </object>
+</interface>

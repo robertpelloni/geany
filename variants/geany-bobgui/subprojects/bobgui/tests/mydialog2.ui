@@ -1,0 +1,14 @@
+<interface>
+  <template class="MyDialog2" parent="BobguiDialog">
+    <child internal-child="content_area">
+      <object class="BobguiBox">
+        <child>
+          <object class="BobguiLabel" id="content">
+            <property name="visible">True</property>
+            <property name="label">template content</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

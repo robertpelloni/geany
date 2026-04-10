@@ -1,0 +1,18 @@
+<interface>
+  <object class="BobguiWindow" id="window">
+    <child>
+      <object class="BobguiBox">
+        <child>
+          <object class="BobguiEntry" id="entry1">
+            <property name="name">entry1</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiEntry" id="entry2">
+            <property name="name">entry2</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

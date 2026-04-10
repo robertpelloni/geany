@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiTextTagTable" id="texttagtable1">
+    <child type="tag">
+      <object class="BobguiTextTag">
+        <property name="name">red</property>
+        <property name="foreground-rgba">red</property>
+        <property name="font">Normal</property>
+      </object>
+    </child>
+    <child type="tag">
+      <object class="BobguiTextTag">
+        <property name="name">blue</property>
+        <property name="foreground-rgba">blue</property>
+        <property name="font">Normal</property>
+      </object>
+    </child>
+    <child type="tag">
+      <object class="BobguiTextTag">
+        <property name="name">black</property>
+        <property name="foreground-rgba">black</property>
+        <property name="font">Normal</property>
+      </object>
+    </child>
+    <child type="tag">
+      <object class="BobguiTextTag">
+        <property name="name">white</property>
+        <property name="foreground-rgba">white</property>
+        <property name="font">Normal</property>
+      </object>
+    </child>
+  </object>
+  <object class="BobguiTextBuffer" id="textbuffer1">
+    <property name="tag_table">texttagtable1</property>
+    <property name="text" translatable="yes">red or blue or what</property>
+  </object>
+  <object class="BobguiWindow" id="window1">
+    <child>
+      <object class="BobguiTextView" id="textview1">
+        <property name="cursor_visible">false</property>
+        <property name="buffer">textbuffer1</property>
+        <signal name="map" handler="reftest:apply_tags_red_blue" swapped="no"/>
+      </object>
+    </child>
+  </object>
+</interface>

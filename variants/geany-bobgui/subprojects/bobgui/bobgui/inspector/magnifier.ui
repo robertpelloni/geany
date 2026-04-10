@@ -1,0 +1,17 @@
+<interface domain="bobgui40">
+  <template class="BobguiInspectorMagnifier" parent="BobguiBox">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="BobguiScrolledWindow">
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
+        <child>
+          <object class="BobguiMagnifier" id="magnifier">
+            <property name="visible">True</property>
+            <property name="resize">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -1,0 +1,11 @@
+<!-- invalid element -->
+<interface>
+  <object class="BobguiInfoBar">
+    <child>
+      <object class="BobguiButton" id="button_cancel"/>
+    </child>
+    <action-widgets>
+      <worbl/>
+    </action-widgets>
+  </object>
+</interface>

@@ -1,0 +1,71 @@
+{
+  "nextId": 7,
+  "tasks": [
+    {
+      "id": "1",
+      "subject": "Update submodules, build toolkit-exclusive variants, and achieve 1:1 feature parity with Notepad++",
+      "description": "1. Update submodules (bobui, btk, bobgui) to their latest remote versions.\n2. Configure Geany build variants (variants/geany-bobgui, variants/geany-bobui, variants/geany-btk) to ensure they compile using ONLY their respective toolsets.\n3. Build the project variants.\n4. Perform a comprehensive feature audit of Notepad++ (../npp) source code.\n5. Implement/Enhance Geany features to achieve 1:1 parity with Notepad++, ensuring the search/replace dialog matches NPP's UI/UX.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775798134357,
+      "updatedAt": 1775798684468
+    },
+    {
+      "id": "2",
+      "subject": "Implement NPP-identical Search/Replace Dialog in Geany and Variants",
+      "description": "1. Audit Notepad++ Search/Replace UI components (FindReplaceDlg.cpp, resources).\n2. Audit Geany Search UI components (search.c, searchstudio.c if exists, UI definitions).\n3. Redesign Geany's Search Studio/Dialog to match NPP's layout:\n    - Tabbed interface (Find, Replace, Find in Files, Mark).\n    - Match NPP's search options (Whole word, Match case, Wrap around, Direction, Search Mode: Normal/Extended/Regex).\n    - Match NPP's 'Find in Files' options (Filters, Directory, Recursive, Hidden folders).\n    - Match NPP's 'Mark' functionality (Bookmark line, Purge, etc.).\n4. Implement the UI changes using GTK (for Geany core) and equivalent toolkit logic for BobGUI/BobUI/BTK variants.\n5. Ensure 1:1 functional parity for all search/replace operations.",
+      "status": "in_progress",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775798684473,
+      "updatedAt": 1775798684477
+    },
+    {
+      "id": "3",
+      "subject": "Audit NPP Search Logic & UI Components",
+      "description": "Audit and prepare Notepad++ Search/Replace UI logic for integration into Geany's Search Studio. Identify all missing NPP features in Geany's Search Studio.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775798853082,
+      "updatedAt": 1775798871546
+    },
+    {
+      "id": "4",
+      "subject": "Refactor Geany Search Studio UI to Match NPP Layout",
+      "description": "Refactor Geany's search.c to support 'Search Studio' as a primary high-density interface. This involves:\n1. Updating `studio_dlg` to include all NPP-inspired pages (Find, Replace, Find in Files, Find in Projects, Mark).\n2. Implementing the UI components in `search_studio_create_*_page` functions.\n3. Matching NPP's layout: Vertically stacked labels/combos, search mode radio buttons (Normal, Extended, Regex), and matching checkbox options.\n4. Ensuring the 'Mark' page supports 'Bookmark line' and 'Purge' operations.\n5. Syncing state between classic dialogs and Search Studio.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775798874868,
+      "updatedAt": 1775799123262
+    },
+    {
+      "id": "5",
+      "subject": "Implement Mark/Bookmark Logic in Search Studio",
+      "description": "The 'Mark' page in Search Studio needs to be fully operational, matching NPP's bookmarking and line operations:\n1. Ensure `search_mark_all_with_options` correctly handles `bookmark_lines` and `purge_bookmarks`.\n2. Connect 'Inverse Marks', 'Copy Marked Lines', and 'Delete Marked Lines' buttons to their respective implementations.\n3. Verify that bookmarks are visually represented in the Scintilla view (using Geany's marker system).\n4. Implement/Refine 'Purge' logic to clear existing markers before a new search if the option is checked.",
+      "status": "completed",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775799126370,
+      "updatedAt": 1775799460555
+    },
+    {
+      "id": "6",
+      "subject": "Final Parity Check and Integration Verification",
+      "description": "Verify the 1:1 functional and visual parity of the Search Studio with Notepad++ across all search pages (Find, Replace, Find in Files, Find in Project, Mark). Ensure that all controls are correctly hooked up, state is maintained, and the layout is consistent with NPP's high-density interface.",
+      "status": "pending",
+      "metadata": {},
+      "blocks": [],
+      "blockedBy": [],
+      "createdAt": 1775799464537,
+      "updatedAt": 1775799464537
+    }
+  ]
+}

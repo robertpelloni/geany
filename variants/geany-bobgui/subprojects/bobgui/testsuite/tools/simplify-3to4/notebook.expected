@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="bobgui" version="4.0"/>
+  <object class="BobguiWindow" id="window1">
+    <property name="child">
+      <object class="BobguiNotebook" id="notebook1">
+        <child>
+          <object class="BobguiNotebookPage">
+            <property name="child">
+              <object class="BobguiButton" id="page1">
+                <property name="label" translatable="1">Yes</property>
+              </object>
+            </property>
+            <property name="tab">
+              <object class="BobguiLabel" id="tab1">
+                <property name="label" translatable="1">Tab 1</property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiNotebookPage">
+            <property name="child">
+              <object class="BobguiButton" id="page2">
+                <property name="label" translatable="1">No</property>
+              </object>
+            </property>
+            <property name="tab">
+              <object class="BobguiLabel" id="tab2">
+                <property name="label" translatable="1">Tab 2</property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
+</interface>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiBox" id="box1">
+        <child>
+          <object class="BobguiBox" id="box2">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiButton" id="button1">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">purple</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button2">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">yellow</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button3">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">red</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button4">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">yellow</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button5">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">purple</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox" id="box3">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiButton" id="button7">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">purple</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button8">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">yellow</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button9">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">red</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button10">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">green</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox" id="box4">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiButton" id="button13">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">purple</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button14">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">yellow</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button15">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">purple</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox" id="box5">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiButton" id="button6">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">purple</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiButton" id="button11">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">green</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox" id="box6">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiButton" id="button12">
+                <property name="label" translatable="yes">button</property>
+                <property name="receives_default">1</property>
+                <property name="name">blue</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

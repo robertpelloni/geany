@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <child>
+      <object class="BobguiGrid" id="grid1">
+        <child>
+          <object class="BobguiSpinner" id="spinner1">
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiCheckButton" id="checkbutton1">
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiCheckButton" id="radiobutton1">
+            <property name="active">1</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">2</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiImage" id="arrow1">
+            <property name="icon_name">pan-down-symbolic</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">3</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiExpander" id="expander1">
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">4</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

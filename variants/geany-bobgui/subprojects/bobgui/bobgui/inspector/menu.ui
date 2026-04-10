@@ -1,0 +1,50 @@
+<interface domain="bobgui40">
+  <object class="BobguiTreeStore" id="model">
+    <columns>
+      <column type="gchararray"/>
+      <column type="gchararray"/>
+      <column type="gchararray"/>
+      <column type="gchararray"/>
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <template class="BobguiInspectorMenu" parent="BobguiBox">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="BobguiScrolledWindow">
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
+        <property name="vscrollbar-policy">always</property>
+        <child>
+          <object class="BobguiColumnView" id="view">
+            <style>
+              <class name="data-table"/>
+              <class name="list"/>
+            </style>
+            <child>
+              <object class="BobguiColumnViewColumn">
+                <property name="title" translatable="yes">Label</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiColumnViewColumn">
+                <property name="title" translatable="yes">Action</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiColumnViewColumn">
+                <property name="title" translatable="yes">Target</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiColumnViewColumn">
+                <property name="title" translatable="yes">Icon</property>
+                <property name="expand">1</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

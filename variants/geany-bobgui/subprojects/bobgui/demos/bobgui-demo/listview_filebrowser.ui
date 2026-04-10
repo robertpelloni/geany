@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GListStore" id="viewlist">
+    <property name="item-type">FileBrowserView</property>
+    <child>
+      <object class="FileBrowserView">
+        <property name="factory">
+          <object class="BobguiBuilderListItemFactory">
+            <property name="bytes"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="BobguiListItem">
+    <property name="child">
+      <object class="BobguiBox">
+        <child>
+          <object class="BobguiImage">
+            <binding name="gicon">
+              <closure type="GIcon" function="filebrowser_get_icon">
+                <lookup name="item">BobguiListItem</lookup>
+              </closure>
+            </binding>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel">
+            <property name="halign">start</property>
+            <binding name="label">
+              <closure type="gchararray" function="filebrowser_get_display_name">
+                <lookup name="item">BobguiListItem</lookup>
+              </closure>
+            </binding>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>
+            ]]></property>
+          </object>
+        </property>
+        <property name="icon-name">view-list-symbolic</property>
+        <property name="title" translatable="yes">List</property>
+        <property name="orientation">horizontal</property>
+      </object>
+    </child>
+    <child>
+      <object class="FileBrowserView">
+        <property name="icon-name">view-grid-symbolic</property>
+        <property name="title" translatable="yes">Grid</property>
+        <property name="factory">
+          <object class="BobguiBuilderListItemFactory">
+            <property name="bytes"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="BobguiListItem">
+    <property name="child">
+      <object class="BobguiBox">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="BobguiImage">
+            <property name="icon-size">large</property>
+            <binding name="gicon">
+              <closure type="GIcon" function="filebrowser_get_icon">
+                <lookup name="item">BobguiListItem</lookup>
+              </closure>
+            </binding>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel">
+            <property name="wrap">1</property>
+            <property name="wrap-mode">word-char</property>
+            <property name="lines">2</property>
+            <property name="ellipsize">end</property>
+            <property name="width-chars">10</property>
+            <property name="max-width-chars">30</property>
+            <binding name="label">
+              <closure type="gchararray" function="filebrowser_get_display_name">
+                <lookup name="item">BobguiListItem</lookup>
+              </closure>
+            </binding>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>
+            ]]></property>
+          </object>
+        </property>
+        <property name="orientation">vertical</property>
+      </object>
+    </child>
+    <child>
+      <object class="FileBrowserView">
+        <property name="icon-name">view-paged-symbolic</property>
+        <property name="title" translatable="yes">Paged</property>
+        <property name="factory">
+          <object class="BobguiBuilderListItemFactory">
+            <property name="bytes"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="BobguiListItem">
+    <property name="child">
+      <object class="BobguiBox">
+        <child>
+          <object class="BobguiImage">
+            <property name="icon-size">large</property>
+            <binding name="gicon">
+              <closure type="GIcon" function="filebrowser_get_icon">
+                <lookup name="item">BobguiListItem</lookup>
+              </closure>
+            </binding>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiLabel">
+                <property name="halign">start</property>
+                <binding name="label">
+                  <closure type="gchararray" function="filebrowser_get_display_name">
+                    <lookup name="item">BobguiListItem</lookup>
+                  </closure>
+                </binding>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiLabel">
+                <property name="halign">start</property>
+                <binding name="label">
+                  <closure type="gchararray" function="filebrowser_get_size">
+                    <lookup name="item">BobguiListItem</lookup>
+                  </closure>
+                </binding>
+                <style>
+                  <class name="dim-label"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiLabel">
+                <property name="halign">start</property>
+                <binding name="label">
+                  <closure type="gchararray" function="filebrowser_get_content_type">
+                    <lookup name="item">BobguiListItem</lookup>
+                  </closure>
+                </binding>
+                <style>
+                  <class name="dim-label"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>
+            ]]></property>
+          </object>
+        </property>
+        <property name="orientation">horizontal</property>
+      </object>
+    </child>
+  </object>
+  <object class="BobguiSingleSelection" id="selection_model">
+    <property name="model">
+      <object class="BobguiDirectoryList" id="dirlist">
+        <property name="attributes">standard::name,standard::display-name,standard::icon,standard::size,standard::content-type</property>
+      </object>
+    </property>
+  </object>
+  <object class="BobguiWindow" id="window">
+    <property name="title" translatable="yes">File browser</property>
+    <property name="default-width">600</property>
+    <property name="default-height">400</property>
+    <child type="titlebar">
+      <object class="BobguiHeaderBar" id="">
+        <child type="start">
+          <object class="BobguiButton">
+            <property name="icon-name">go-up-symbolic</property>
+            <signal name="clicked" handler="filebrowser_up_clicked_cb" object="dirlist" swapped="no"/>
+          </object>
+        </child>
+        <child type="end">
+          <object class="BobguiListView">
+            <property name="valign">center</property>
+            <property name="orientation">horizontal</property>
+            <style>
+              <class name="linked"/>
+              <class name="viewswitcher"/>
+            </style>
+            <property name="model">
+              <object class="BobguiSingleSelection" id="selected-view">
+                <property name="model">viewlist</property>
+              </object>
+            </property>
+            <property name="factory">
+              <object class="BobguiBuilderListItemFactory">
+                <property name="bytes"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="BobguiListItem">
+    <property name="child">
+      <object class="BobguiImage">
+        <binding name="icon-name">
+          <lookup type="FileBrowserView" name="icon-name">
+            <lookup name="item">BobguiListItem</lookup>
+          </lookup>
+        </binding>
+        <binding name="tooltip-text">
+          <lookup type="FileBrowserView" name="title">
+            <lookup name="item">BobguiListItem</lookup>
+          </lookup>
+        </binding>
+      </object>
+    </property>
+  </template>
+</interface>
+                ]]></property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="BobguiScrolledWindow">
+        <property name="can-focus">1</property>
+        <property name="child">
+          <object class="BobguiGridView" id="view">
+            <property name="model">selection_model</property>
+            <property name="max-columns">15</property>
+            <binding name="factory">
+              <lookup name="factory" type="FileBrowserView">
+                <lookup name="selected-item">selected-view</lookup>
+              </lookup>
+            </binding>
+            <binding name="orientation">
+              <lookup name="orientation" type="FileBrowserView">
+                <lookup name="selected-item">selected-view</lookup>
+              </lookup>
+            </binding>
+            <signal name="activate" handler="filebrowser_view_activated_cb" object="dirlist" swapped="no"/>
+          </object>
+        </property>
+      </object>
+    </child>
+  </object>
+</interface>

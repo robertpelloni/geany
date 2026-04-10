@@ -1,0 +1,8 @@
+<!-- missing levelbar attribute -->
+<interface>
+  <object class="BobguiLevelBar">
+    <offsets>
+      <offset name="one"/>
+    </offsets>
+  </object>
+</interface>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="https://specifications.freedesktop.org/metainfo/1.0" type="desktop">
+  <id>org.bobgui.WidgetFactory4</id>
+  <launchable type="desktop-id">org.bobgui.WidgetFactory4.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-2.1-or-later</project_license>
+  <name>BOBGUI Widget Factory</name>
+  <summary>Program to demonstrate BOBGUI functions</summary>
+  <description>
+    <p>
+      BOBGUI Widget Factory is a showcase of BOBGUI widgets. It was
+      originally created to help theme authors test their creations
+      for completeness.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot>
+      <image>https://static.gnome.org/appdata/bobgui4-widget-factory/bobgui-widget-factory1.png</image>
+      <caption>Page 1</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://static.gnome.org/appdata/bobgui4-widget-factory/bobgui-widget-factory2.png</image>
+      <caption>Page 3</caption>
+    </screenshot>
+  </screenshots>
+  <kudos>
+    <kudo>AppMenu</kudo>
+    <kudo>HiDpiIcon</kudo>
+    <kudo>ModernToolkit</kudo>
+  </kudos>
+  <url type="homepage">https://www.bobgui.org</url>
+  <translation type="gettext">bobgui40</translation>
+  <update_contact>matthias.clasen_at_gmail.com</update_contact>
+  <developer_name>Matthias Clasen and others</developer_name>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="@BUILD_VERSION@">
+      <description>
+        <p>A new build of BOBGUI.</p>
+      </description>
+    </release>
+  </releases>
+</component>

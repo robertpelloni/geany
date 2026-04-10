@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <object class="BobguiWindow">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiBox">
+        <child>
+          <object class="BobguiBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiLabel">
+                <property name="label">top left</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiPicture">
+                <property name="height-request">20</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiLabel">
+                <property name="label">bottom left</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiPicture">
+            <property name="width-request">20</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiLabel">
+                <property name="label">top right</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiPicture">
+                <property name="height-request">20</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiLabel">
+                <property name="label">bottom right</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

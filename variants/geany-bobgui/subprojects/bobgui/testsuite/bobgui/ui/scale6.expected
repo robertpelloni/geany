@@ -1,0 +1,2 @@
+ERROR: bobgui-builder-error-quark 1
+.:5:13 Unsupported tag for BobguiScale: <foo>

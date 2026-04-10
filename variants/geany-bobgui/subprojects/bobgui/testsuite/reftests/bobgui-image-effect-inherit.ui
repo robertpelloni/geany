@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiBox" id="box1">
+        <child>
+          <object class="BobguiGrid" id="grid1">
+            <child>
+              <object class="BobguiImage" id="image1">
+                <property name="icon_name">dialog-error</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                  <property name="column-span">1</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiGrid" id="grid2">
+            <child>
+              <object class="BobguiImage" id="image2">
+                <property name="icon_name">dialog-error</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                  <property name="column-span">1</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiGrid" id="grid3">
+            <child>
+              <object class="BobguiImage" id="image3">
+                <property name="icon_name">dialog-error</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                  <property name="column-span">1</property>
+                  <property name="row-span">1</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

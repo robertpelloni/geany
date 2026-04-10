@@ -1,0 +1,7 @@
+<!-- test invalid file filter markup attribute -->
+<interface>
+  <object class="BobguiFileFilter">
+    <mime-types food="good">
+    </mime-types>
+  </object>
+</interface>

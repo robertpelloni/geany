@@ -1,0 +1,31 @@
+a {
+  -bobgui-dpi: 0;
+}
+
+b {
+  -bobgui-dpi: 100;
+}
+
+c {
+  -bobgui-dpi: -39;
+}
+
+d {
+  -bobgui-dpi: 0.5;
+}
+
+e {
+  -bobgui-dpi: 2.6e2;
+}
+
+f {
+  -bobgui-dpi: 2.6E20;
+}
+
+g {
+  -bobgui-dpi: 5e-1;
+}
+
+h {
+  -bobgui-dpi: 2E-19;
+}

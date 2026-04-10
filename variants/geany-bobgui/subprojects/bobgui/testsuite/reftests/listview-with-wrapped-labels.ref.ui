@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="width_request">150</property>
+    <property name="height_request">300</property>
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiScrolledWindow">
+        <child>
+          <object class="BobguiListView" id="listview">
+            <property name="factory">
+              <object class="BobguiBuilderListItemFactory">
+                <property name="bytes"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="BobguiListItem">
+    <property name="child">
+      <object class="BobguiLabel">
+        <property name="xalign">0</property>
+        <property name="wrap">1</property>
+        <binding name="label">
+          <lookup name="string" type="BobguiStringObject">
+            <lookup name="item">BobguiListItem</lookup>
+          </lookup>
+        </binding>
+      </object>
+    </property>
+  </template>
+</interface>
+                ]]></property>
+              </object>
+            </property>
+            <property name="model">
+              <object class="BobguiNoSelection">
+                <property name="model">
+                  <object class="BobguiStringList">
+                    <items>
+                      <item>Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo.</item>
+                      <item>Hello World!</item>
+                    </items>
+                  </object>
+                </property>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

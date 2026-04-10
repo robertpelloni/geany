@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <template class="BobguiFileChooserDialog" parent="BobguiDialog">
+    <property name="default-width">600</property>
+    <signal name="response" handler="response_cb" swapped="no"/>
+    <style>
+      <class name="filechooser"/>
+    </style>
+    <child internal-child="content_area">
+      <object class="BobguiBox">
+        <property name="orientation">1</property>
+        <child internal-child="action_area">
+          <object class="BobguiBox" id="dialog-action_area1">
+            <property name="margin-start">6</property>
+            <property name="margin-end">6</property>
+            <property name="margin-top">6</property>
+            <property name="margin-bottom">6</property>
+            <property name="hexpand">1</property>
+            <property name="halign">2</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiFileChooserWidget" id="widget">
+            <property name="hexpand">1</property>
+            <property name="vexpand">1</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="BobguiSizeGroup" id="buttons">
+    <property name="mode">2</property>
+  </object>
+</interface>

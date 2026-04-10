@@ -1,0 +1,4 @@
+<interface>
+  <template class="BobguiEmojiChooser" parent="BobguiPopover">
+  </template>
+</interface>

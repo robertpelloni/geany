@@ -1,0 +1,7 @@
+<interface>
+  <object class="BobguiBox" id="foo">
+  </object>
+  <object class="BobguiBox" id="bar">
+    <property name="visible" bind-source="foo" bind-property="visible" bind-flags="invert-boolean|sync-create"/>
+  </object>
+</interface>

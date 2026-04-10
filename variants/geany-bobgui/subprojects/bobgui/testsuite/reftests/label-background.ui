@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiBox" id="box1">
+        <child>
+          <object class="BobguiLabel" id="label1">
+            <property name="label" translatable="yes">Hello </property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label2">
+            <property name="label" translatable="yes">World!</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

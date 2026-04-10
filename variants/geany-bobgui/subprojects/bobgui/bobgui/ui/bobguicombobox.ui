@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <template class="BobguiComboBox" parent="BobguiWidget">
+    <child>
+      <object class="BobguiBox" id="box">
+        <style>
+          <class name="linked"/>
+        </style>
+        <child>
+          <object class="BobguiToggleButton" id="button">
+            <signal name="toggled" handler="bobgui_combo_box_button_toggled" swapped="no"/>
+            <property name="child">
+              <object class="BobguiBox">
+                <child>
+                  <object class="BobguiBuiltinIcon" id="arrow">
+                    <property name="css-name">arrow</property>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="BobguiTreePopover" id="popup_widget">
+        <property name="cell-area">
+          <object class="BobguiCellAreaBox" id="area"/>
+        </property>
+        <property name="has-arrow">0</property>
+        <signal name="menu-activate" handler="bobgui_combo_box_menu_activate" swapped="no"/>
+        <signal name="show" handler="bobgui_combo_box_menu_show" swapped="no"/>
+        <signal name="hide" handler="bobgui_combo_box_menu_hide" swapped="no"/>
+        <child>
+          <object class="BobguiEventControllerKey">
+            <signal name="key-pressed" handler="bobgui_combo_box_menu_key" swapped="no"/>
+            <signal name="key-released" handler="bobgui_combo_box_menu_key" swapped="no"/>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

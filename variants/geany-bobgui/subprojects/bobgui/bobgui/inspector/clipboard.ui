@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <template class="BobguiInspectorClipboard" parent="BobguiWidget">
+    <child>
+      <object class="BobguiScrolledWindow" id="swin">
+        <property name="hscrollbar-policy">never</property>
+        <child>
+          <object class="BobguiBox" id="box">
+            <property name="orientation">vertical</property>
+            <property name="margin-start">60</property>
+            <property name="margin-end">60</property>
+            <property name="margin-top">60</property>
+            <property name="margin-bottom">60</property>
+            <property name="spacing">10</property>
+            <child>
+              <object class="BobguiListBox" id="dnd_formats">
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="rich-list"/>
+                  <class name="boxed-list"/>
+                </style>
+                <child>
+                  <object class="BobguiListBoxRow">
+                    <property name="activatable">0</property>
+                    <child>
+                      <object class="BobguiBox">
+                        <property name="spacing">40</property>
+                        <child>
+                          <object class="BobguiLabel">
+                            <property name="label" translatable="yes">Drag and hold here</property>
+                            <property name="halign">start</property>
+                            <property name="valign">baseline</property>
+                            <property name="xalign">0.0</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiLabel" id="dnd_info">
+                            <property name="selectable">1</property>
+                            <property name="halign">end</property>
+                            <property name="valign">baseline</property>
+                            <property name="ellipsize">end</property>
+                            <property name="hexpand">1</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiDropControllerMotion">
+                        <signal name="enter" handler="on_drop_enter" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiListBox" id="clipboard_formats">
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="rich-list"/>
+                  <class name="boxed-list"/>
+                </style>
+                <child>
+                  <object class="BobguiListBoxRow">
+                    <property name="activatable">0</property>
+                    <child>
+                      <object class="BobguiBox">
+                        <property name="spacing">40</property>
+                        <child>
+                          <object class="BobguiLabel">
+                            <property name="label" translatable="yes">Clipboard</property>
+                            <property name="halign">start</property>
+                            <property name="valign">baseline</property>
+                            <property name="xalign">0.0</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiLabel" id="clipboard_info">
+                            <property name="selectable">1</property>
+                            <property name="halign">end</property>
+                            <property name="valign">baseline</property>
+                            <property name="ellipsize">end</property>
+                            <property name="hexpand">1</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiListBox" id="primary_formats">
+                <property name="selection-mode">none</property>
+                <style>
+                  <class name="rich-list"/>
+                  <class name="boxed-list"/>
+                </style>
+                <child>
+                  <object class="BobguiListBoxRow">
+                    <property name="activatable">0</property>
+                    <child>
+                      <object class="BobguiBox">
+                        <property name="spacing">40</property>
+                        <child>
+                          <object class="BobguiLabel">
+                            <property name="label" translatable="yes">Primary</property>
+                            <property name="halign">start</property>
+                            <property name="valign">baseline</property>
+                            <property name="xalign">0.0</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiLabel" id="primary_info">
+                            <property name="selectable">1</property>
+                            <property name="halign">end</property>
+                            <property name="valign">baseline</property>
+                            <property name="ellipsize">end</property>
+                            <property name="hexpand">1</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

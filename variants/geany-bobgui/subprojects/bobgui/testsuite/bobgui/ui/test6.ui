@@ -1,0 +1,6 @@
+<interface>
+  <object class="BobguiBox" id="foo">
+  </object>
+  <object class="BobguiBox" id="foo">
+  </object>
+</interface>

@@ -1,0 +1,10 @@
+<!-- missing attribute in dialog markup -->
+<interface>
+  <object class="BobguiDialog">
+    <child type="action">
+      <object class="BobguiButton" id="button_ok">
+        <property name="cantdefault">1</property>
+      </object>
+    </child>
+  </object>
+</interface>

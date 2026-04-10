@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow">
+    <property name="decorated">0</property>
+    <property name="child">
+      <object class="BobguiListView">
+        <property name="model">
+          <object class="BobguiNoSelection">
+            <property name="model">
+              <object class="BobguiStringList">
+                <items>
+                  <item translatable="yes">One</item>
+                  <item translatable="yes">Two</item>
+                  <item translatable="yes">Three</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </property>
+        <property name="factory">
+          <object class="BobguiBuilderListItemFactory">
+            <property name="bytes"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="BobguiListItem">
+    <property name="child">
+      <object class="BobguiLabel">
+        <property name="xalign">1</property>
+        <binding name="label">
+          <lookup name="string" type="BobguiStringObject">
+            <lookup name="item">BobguiListItem</lookup>
+          </lookup>
+        </binding>
+      </object>
+    </property>
+  </template>
+</interface>
+            ]]></property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+</interface>

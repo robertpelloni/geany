@@ -1,0 +1,11075 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/bobgui/-/issues/\n"
+"POT-Creation-Date: 2022-09-28 16:22+0000\n"
+"Last-Translator: Нанба Наала <naala-nanba@rambler.ru>\n"
+"Language-Team: Abkhazian <daniel.abzakh@gmail.com>\n"
+"Language: ab\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: gdk/broadway/gdkbroadway-server.c:135
+#, c-format
+msgid "Broadway display type not supported: %s"
+msgstr ""
+
+#: gdk/gdkclipboard.c:232
+msgid "This clipboard cannot store data."
+msgstr ""
+
+#: gdk/gdkclipboard.c:287 gdk/gdkclipboard.c:785 gdk/gdkclipboard.c:1085
+msgid "Cannot read from empty clipboard."
+msgstr ""
+
+#: gdk/gdkclipboard.c:318 gdk/gdkclipboard.c:1135 gdk/gdkdrag.c:618
+msgid "No compatible formats to transfer clipboard contents."
+msgstr ""
+
+#: gdk/gdkcontentprovider.c:106 gdk/gdkcontentproviderimpl.c:313
+#: gdk/gdkcontentproviderimpl.c:532
+#, c-format
+msgid "Cannot provide contents as “%s”"
+msgstr ""
+
+#: gdk/gdkcontentprovider.c:127
+#, c-format
+msgid "Cannot provide contents as %s"
+msgstr ""
+
+#: gdk/gdkdisplay.c:154 gdk/gdkglcontext.c:435
+msgid "The current backend does not support OpenGL"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1240
+msgid "GL support disabled via GDK_DEBUG"
+msgstr "GL адкылара  аҿыхуп  GDK_DEBUG ала"
+
+#: gdk/gdkdisplay.c:1538
+msgid "No EGL configuration available"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1546
+msgid "Failed to get EGL configurations"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1576
+msgid "No EGL configuration with required features found"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1583
+msgid "No perfect EGL configuration found"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1625
+#, c-format
+msgid "EGL implementation is missing extension %s"
+msgid_plural "EGL implementation is missing %2$d extensions: %1$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: gdk/gdkdisplay.c:1658
+msgid "libEGL not available in this sandbox"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1659
+msgid "libEGL not available"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1669
+msgid "Failed to create EGL display"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1679
+msgid "Could not initialize EGL display"
+msgstr ""
+
+#: gdk/gdkdisplay.c:1690
+#, c-format
+msgid "EGL version %d.%d is too old. BOBGUI requires %d.%d"
+msgstr ""
+
+#: gdk/gdkdrop.c:130
+msgid "Drag’n’drop from other applications is not supported."
+msgstr ""
+
+#: gdk/gdkdrop.c:163
+msgid "No compatible formats to transfer contents."
+msgstr ""
+
+#: gdk/gdkglcontext.c:394 gdk/x11/gdkglcontext-glx.c:604
+msgid "No GL API allowed."
+msgstr ""
+
+#: gdk/gdkglcontext.c:418 gdk/win32/gdkglcontext-win32-wgl.c:611
+#: gdk/x11/gdkglcontext-glx.c:638
+msgid "Unable to create a GL context"
+msgstr ""
+
+#: gdk/gdkglcontext.c:1273
+msgid "Anything but OpenGL ES disabled via GDK_DEBUG"
+msgstr ""
+
+#: gdk/gdkglcontext.c:1282
+#, c-format
+msgid "Application does not support %s API"
+msgstr ""
+
+#. translators: This is about OpenGL backend names, like
+#. * "Trying to use X11 GLX, but EGL is already in use"
+#: gdk/gdkglcontext.c:1814
+#, c-format
+msgid "Trying to use %s, but %s is already in use"
+msgstr ""
+
+#: gdk/gdksurface.c:1226
+msgid "Vulkan support disabled via GDK_DEBUG"
+msgstr ""
+
+#: gdk/gdktexture.c:525
+msgid "Unknown image format."
+msgstr ""
+
+#.
+#. * Translators, the strings in the “keyboard label” context are
+#. * display names for keyboard keys. Some of them have prefixes like
+#. * XF86 or ISO_ — these should be removed in the translation. Similarly,
+#. * underscores should be replaced by spaces. The prefix “KP_” stands
+#. * for “key pad” and you may want to include that in your translation.
+#. * Here are some examples of English translations:
+#. * XF86AudioMute - Audio mute
+#. * Scroll_lock   - Scroll lock
+#. * KP_Space      - Space (keypad)
+#.
+#: gdk/keynamesprivate.h:6843
+msgctxt "keyboard label"
+msgid "BackSpace"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6844
+msgctxt "keyboard label"
+msgid "Tab"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6845
+msgctxt "keyboard label"
+msgid "Return"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6846
+msgctxt "keyboard label"
+msgid "Pause"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6847
+msgctxt "keyboard label"
+msgid "Scroll_Lock"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6848
+msgctxt "keyboard label"
+msgid "Sys_Req"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6849
+msgctxt "keyboard label"
+msgid "Escape"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6850
+msgctxt "keyboard label"
+msgid "Multi_key"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6851
+msgctxt "keyboard label"
+msgid "Home"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6852
+msgctxt "keyboard label"
+msgid "Left"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6853
+msgctxt "keyboard label"
+msgid "Up"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6854
+msgctxt "keyboard label"
+msgid "Right"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6855
+msgctxt "keyboard label"
+msgid "Down"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6856 bobgui/bobguishortcutlabel.c:213
+msgctxt "keyboard label"
+msgid "Page_Up"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6857 bobgui/bobguishortcutlabel.c:216
+msgctxt "keyboard label"
+msgid "Page_Down"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6858
+msgctxt "keyboard label"
+msgid "End"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6859
+msgctxt "keyboard label"
+msgid "Begin"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6860
+msgctxt "keyboard label"
+msgid "Print"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6861
+msgctxt "keyboard label"
+msgid "Insert"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6862
+msgctxt "keyboard label"
+msgid "Num_Lock"
+msgstr ""
+
+#. Translators: KP_ means “key pad” here
+#: gdk/keynamesprivate.h:6864
+msgctxt "keyboard label"
+msgid "KP_Space"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6865
+msgctxt "keyboard label"
+msgid "KP_Tab"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6866
+msgctxt "keyboard label"
+msgid "KP_Enter"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6867
+msgctxt "keyboard label"
+msgid "KP_Home"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6868
+msgctxt "keyboard label"
+msgid "KP_Left"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6869
+msgctxt "keyboard label"
+msgid "KP_Up"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6870
+msgctxt "keyboard label"
+msgid "KP_Right"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6871
+msgctxt "keyboard label"
+msgid "KP_Down"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6872
+msgctxt "keyboard label"
+msgid "KP_Page_Up"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6873
+msgctxt "keyboard label"
+msgid "KP_Prior"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6874
+msgctxt "keyboard label"
+msgid "KP_Page_Down"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6875
+msgctxt "keyboard label"
+msgid "KP_Next"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6876
+msgctxt "keyboard label"
+msgid "KP_End"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6877
+msgctxt "keyboard label"
+msgid "KP_Begin"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6878
+msgctxt "keyboard label"
+msgid "KP_Insert"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6879
+msgctxt "keyboard label"
+msgid "KP_Delete"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6880
+msgctxt "keyboard label"
+msgid "Delete"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6881
+msgctxt "keyboard label"
+msgid "MonBrightnessUp"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6882
+msgctxt "keyboard label"
+msgid "MonBrightnessDown"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6883
+msgctxt "keyboard label"
+msgid "KbdBrightnessUp"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6884
+msgctxt "keyboard label"
+msgid "KbdBrightnessDown"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6885
+msgctxt "keyboard label"
+msgid "AudioMute"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6886
+msgctxt "keyboard label"
+msgid "AudioMicMute"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6887
+msgctxt "keyboard label"
+msgid "AudioLowerVolume"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6888
+msgctxt "keyboard label"
+msgid "AudioRaiseVolume"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6889
+msgctxt "keyboard label"
+msgid "AudioPlay"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6890
+msgctxt "keyboard label"
+msgid "AudioStop"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6891
+msgctxt "keyboard label"
+msgid "AudioNext"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6892
+msgctxt "keyboard label"
+msgid "AudioPrev"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6893
+msgctxt "keyboard label"
+msgid "AudioRecord"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6894
+msgctxt "keyboard label"
+msgid "AudioPause"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6895
+msgctxt "keyboard label"
+msgid "AudioRewind"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6896
+msgctxt "keyboard label"
+msgid "AudioMedia"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6897
+msgctxt "keyboard label"
+msgid "Eject"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6898
+msgctxt "keyboard label"
+msgid "Explorer"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6899
+msgctxt "keyboard label"
+msgid "Calculator"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6900
+msgctxt "keyboard label"
+msgid "Mail"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6901
+msgctxt "keyboard label"
+msgid "WWW"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6902
+msgctxt "keyboard label"
+msgid "Search"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6903
+msgctxt "keyboard label"
+msgid "Tools"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6904
+msgctxt "keyboard label"
+msgid "ScreenSaver"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6905
+msgctxt "keyboard label"
+msgid "Battery"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6906
+msgctxt "keyboard label"
+msgid "Launch1"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6907
+msgctxt "keyboard label"
+msgid "Forward"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6908
+msgctxt "keyboard label"
+msgid "Back"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6909
+msgctxt "keyboard label"
+msgid "Sleep"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6910
+msgctxt "keyboard label"
+msgid "Hibernate"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6911
+msgctxt "keyboard label"
+msgid "WLAN"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6912
+msgctxt "keyboard label"
+msgid "WebCam"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6913
+msgctxt "keyboard label"
+msgid "Display"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6914
+msgctxt "keyboard label"
+msgid "TouchpadToggle"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6915
+msgctxt "keyboard label"
+msgid "WakeUp"
+msgstr ""
+
+#: gdk/keynamesprivate.h:6916
+msgctxt "keyboard label"
+msgid "Suspend"
+msgstr ""
+
+#: gdk/loaders/gdkjpeg.c:63
+#, c-format
+msgid "Error interpreting JPEG image file (%s)"
+msgstr ""
+
+#: gdk/loaders/gdkjpeg.c:192
+#, c-format
+msgid "Unsupported JPEG colorspace (%d)"
+msgstr ""
+
+#: gdk/loaders/gdkjpeg.c:201 gdk/loaders/gdkpng.c:266 gdk/loaders/gdktiff.c:453
+#, c-format
+msgid "Not enough memory for image size %ux%u"
+msgstr ""
+
+#: gdk/loaders/gdkpng.c:119
+#, c-format
+msgid "Error reading png (%s)"
+msgstr ""
+
+#: gdk/loaders/gdkpng.c:217
+#, c-format
+msgid "Unsupported depth %u in png image"
+msgstr ""
+
+#: gdk/loaders/gdkpng.c:247
+#, c-format
+msgid "Unsupported color type %u in png image"
+msgstr ""
+
+#: gdk/loaders/gdktiff.c:340
+msgid "Failed to load RGB data from TIFF file"
+msgstr ""
+
+#: gdk/loaders/gdktiff.c:383
+msgid "Could not load TIFF data"
+msgstr ""
+
+#: gdk/loaders/gdktiff.c:465
+#, c-format
+msgid "Reading data failed at row %d"
+msgstr ""
+
+#: gdk/macos/gdkmacosclipboard.c:557 gdk/wayland/gdkclipboard-wayland.c:240
+#: gdk/wayland/gdkdrop-wayland.c:208 gdk/wayland/gdkprimary-wayland.c:335
+#: gdk/win32/gdkdrop-win32.c:1018 gdk/win32/gdkdrop-win32.c:1063
+#: gdk/x11/gdkclipboard-x11.c:805 gdk/x11/gdkdrop-x11.c:235
+msgid "No compatible transfer format found"
+msgstr ""
+
+#: gdk/macos/gdkmacosclipboard.c:643
+#, c-format
+msgid "Failed to decode contents with mime-type of '%s'"
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:721
+#, c-format
+msgid "Cannot claim clipboard ownership. OpenClipboard() timed out."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:731
+#, c-format
+msgid "Cannot claim clipboard ownership. Another process claimed it before us."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:745
+#, c-format
+msgid "Cannot claim clipboard ownership. OpenClipboard() failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:757
+#, c-format
+msgid "Cannot claim clipboard ownership. EmptyClipboard() failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:800
+#, c-format
+msgid "Cannot set clipboard data. OpenClipboard() timed out."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:810 gdk/win32/gdkclipdrop-win32.c:841
+#, c-format
+msgid "Cannot set clipboard data. Another process claimed clipboard ownership."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:824
+#, c-format
+msgid "Cannot set clipboard data. OpenClipboard() failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:876
+#, c-format
+msgid "Cannot get clipboard data. GlobalLock(0x%p) failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:887
+#, c-format
+msgid "Cannot get clipboard data. GlobalSize(0x%p) failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:900
+#, c-format
+msgid ""
+"Cannot get clipboard data. Failed to allocate %s bytes to store the data."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:932
+#, c-format
+msgid "Cannot get clipboard data. OpenClipboard() timed out."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:942
+#, c-format
+msgid "Cannot get clipboard data. Clipboard ownership changed."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:952
+#, c-format
+msgid ""
+"Cannot get clipboard data. Clipboard data changed before we could get it."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:969
+#, c-format
+msgid "Cannot get clipboard data. OpenClipboard() failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:994
+#, c-format
+msgid "Cannot get clipboard data. No compatible transfer format found."
+msgstr ""
+
+#: gdk/win32/gdkclipdrop-win32.c:1004
+#, c-format
+msgid "Cannot get clipboard data. GetClipboardData() failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkdrop-win32.c:949
+#, c-format
+msgid "Cannot get DnD data. GlobalLock(0x%p) failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkdrop-win32.c:958
+#, c-format
+msgid "Cannot get DnD data. GlobalSize(0x%p) failed: 0x%lx."
+msgstr ""
+
+#: gdk/win32/gdkdrop-win32.c:969
+#, c-format
+msgid "Cannot get DnD data. Failed to allocate %s bytes to store the data."
+msgstr ""
+
+#: gdk/win32/gdkdrop-win32.c:1037
+#, c-format
+msgid "GDK surface 0x%p is not registered as a drop target"
+msgstr ""
+
+#: gdk/win32/gdkdrop-win32.c:1044
+#, c-format
+msgid "Target context record 0x%p has no data object"
+msgstr ""
+
+#: gdk/win32/gdkdrop-win32.c:1082
+#, c-format
+msgid "IDataObject_GetData (0x%x) failed, returning 0x%lx"
+msgstr ""
+
+#: gdk/win32/gdkdrop-win32.c:1114
+#, c-format
+msgid "Failed to transmute DnD data W32 format 0x%x to %p (%s)"
+msgstr ""
+
+#: gdk/win32/gdkglcontext-win32-wgl.c:276
+#: gdk/win32/gdkglcontext-win32-wgl.c:293
+msgid "No GL implementation is available"
+msgstr ""
+
+#: gdk/win32/gdkglcontext-win32-wgl.c:577
+msgid "No available configurations for the given pixel format"
+msgstr ""
+
+#: gdk/win32/gdkhdataoutputstream-win32.c:63
+msgid "writing a closed stream"
+msgstr ""
+
+#: gdk/win32/gdkhdataoutputstream-win32.c:85
+msgid "g_try_realloc () failed"
+msgstr ""
+
+#: gdk/win32/gdkhdataoutputstream-win32.c:93
+#: gdk/win32/gdkhdataoutputstream-win32.c:231
+msgid "GlobalReAlloc() failed: "
+msgstr ""
+
+#: gdk/win32/gdkhdataoutputstream-win32.c:105
+msgid "Ran out of buffer space (buffer size is fixed)"
+msgstr ""
+
+#: gdk/win32/gdkhdataoutputstream-win32.c:203
+msgid "Can’t transmute a single handle"
+msgstr ""
+
+#: gdk/win32/gdkhdataoutputstream-win32.c:215
+#, c-format
+msgid "Failed to transmute %zu bytes of data from %s to %u"
+msgstr ""
+
+#: gdk/win32/gdkhdataoutputstream-win32.c:250
+msgid "GlobalLock() failed: "
+msgstr ""
+
+#: gdk/win32/gdkhdataoutputstream-win32.c:364
+msgid "GlobalAlloc() failed: "
+msgstr ""
+
+#: gdk/x11/gdkapplaunchcontext-x11.c:296
+#, c-format
+msgid "Starting “%s”"
+msgstr ""
+
+#: gdk/x11/gdkapplaunchcontext-x11.c:309
+#, c-format
+msgid "Opening “%s”"
+msgstr ""
+
+#: gdk/x11/gdkapplaunchcontext-x11.c:314
+#, c-format
+msgid "Opening %d Item"
+msgid_plural "Opening %d Items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: gdk/x11/gdkclipboard-x11.c:475
+msgid "Clipboard manager could not store selection."
+msgstr ""
+
+#: gdk/x11/gdkclipboard-x11.c:655
+msgid "Cannot store clipboard. No clipboard manager is active."
+msgstr ""
+
+#: gdk/x11/gdkglcontext-glx.c:754
+msgid "No GLX configurations available"
+msgstr ""
+
+#: gdk/x11/gdkglcontext-glx.c:827
+msgid "No GLX configuration with required features found"
+msgstr ""
+
+#: gdk/x11/gdkglcontext-glx.c:901
+msgid "GLX is not supported"
+msgstr ""
+
+#: gdk/x11/gdkselectioninputstream-x11.c:469
+#, c-format
+msgid "Format %s not supported"
+msgstr ""
+
+#: gdk/x11/gdktextlistconverter-x11.c:65 gdk/x11/gdktextlistconverter-x11.c:105
+msgid "Not enough space in destination"
+msgstr ""
+
+#: gdk/x11/gdktextlistconverter-x11.c:91 gdk/x11/gdktextlistconverter-x11.c:195
+msgid "Need complete input to do conversion"
+msgstr ""
+
+#: gdk/x11/gdktextlistconverter-x11.c:216
+#: gdk/x11/gdktextlistconverter-x11.c:250
+msgid "Invalid byte sequence in conversion input"
+msgstr "Иақәнагам абаитқәа реишьҭагылашьа аиҭеиҭакрақәа реишьҭаҵаҟны"
+
+#: gdk/x11/gdktextlistconverter-x11.c:242
+msgid "Invalid formats in compound text conversion."
+msgstr ""
+
+#: gdk/x11/gdktextlistconverter-x11.c:259
+#, c-format
+msgid "Unsupported encoding “%s”"
+msgstr ""
+
+#: gsk/gl/gskglrenderer.c:132
+#, c-format
+msgid "This GLES %d.%d implementation does not support half-float vertex data"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:239
+msgctxt "accessibility"
+msgid "Click"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:240
+msgctxt "accessibility"
+msgid "Clicks the button"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:290
+msgctxt "accessibility"
+msgid "Toggle"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:291
+msgctxt "accessibility"
+msgid "Toggles the switch"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:371
+msgctxt "accessibility"
+msgid "Select"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:372
+msgctxt "accessibility"
+msgid "Selects the color"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:379 bobgui/a11y/bobguiatspiaction.c:439
+#: bobgui/a11y/bobguiatspiaction.c:495 bobgui/a11y/bobguiatspiaction.c:603
+#: bobgui/a11y/bobguiatspiaction.c:690
+msgctxt "accessibility"
+msgid "Activate"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:380
+msgctxt "accessibility"
+msgid "Activates the color"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:387
+msgctxt "accessibility"
+msgid "Customize"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:388
+msgctxt "accessibility"
+msgid "Customizes the color"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:440
+msgctxt "accessibility"
+msgid "Activates the expander"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:496 bobgui/a11y/bobguiatspiaction.c:604
+#: bobgui/a11y/bobguiatspiaction.c:691
+msgctxt "accessibility"
+msgid "Activates the entry"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:503
+msgctxt "accessibility"
+msgid "Activate primary icon"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:504
+msgctxt "accessibility"
+msgid "Activates the primary icon of the entry"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:511
+msgctxt "accessibility"
+msgid "Activate secondary icon"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:512
+msgctxt "accessibility"
+msgid "Activates the secondary icon of the entry"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:611
+msgctxt "accessibility"
+msgid "Peek"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:612
+msgctxt "accessibility"
+msgid "Shows the contents of the password entry"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:698
+msgctxt "accessibility"
+msgid "Clear"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiaction.c:699
+msgctxt "accessibility"
+msgid "Clears the contents of the entry"
+msgstr ""
+
+#: bobgui/a11y/bobguiatspiroot.c:256
+msgctxt "accessibility"
+msgid "application"
+msgstr ""
+
+#: bobgui/css/bobguicssdataurl.c:69
+#, c-format
+msgid "Not a data: URL"
+msgstr ""
+
+#: bobgui/css/bobguicssdataurl.c:82
+#, c-format
+msgid "Malformed data: URL"
+msgstr ""
+
+#: bobgui/css/bobguicssdataurl.c:140
+#, c-format
+msgid "Could not unescape string"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:124 bobgui/ui/bobguiaboutdialog.ui:163
+msgid "License"
+msgstr "Алицензия"
+
+#: bobgui/bobguiaboutdialog.c:125
+msgid "Custom License"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:126
+msgid "GNU General Public License, version 2 or later"
+msgstr "GNU General Public License, аверсиа 2 мамзар еиҳа ихьшәоу"
+
+#: bobgui/bobguiaboutdialog.c:127
+msgid "GNU General Public License, version 3 or later"
+msgstr "GNU General Public License, аверсиа 3 мамзар еиҳа ихьшәоу"
+
+#: bobgui/bobguiaboutdialog.c:128
+msgid "GNU Lesser General Public License, version 2.1 or later"
+msgstr "GNU Lesser General Public License, аверсиа 2.1 мамзар еиҳа ихьшәоу"
+
+#: bobgui/bobguiaboutdialog.c:129
+msgid "GNU Lesser General Public License, version 3 or later"
+msgstr "GNU Lesser General Public License, аверсиа 3 мамзар еиҳа ихьшәоу"
+
+#: bobgui/bobguiaboutdialog.c:130
+msgid "BSD 2-Clause License"
+msgstr "BSD 2-Clause License"
+
+#: bobgui/bobguiaboutdialog.c:131
+msgid "The MIT License (MIT)"
+msgstr "The MIT License (MIT)"
+
+#: bobgui/bobguiaboutdialog.c:132
+msgid "Artistic License 2.0"
+msgstr "Artistic License 2.0"
+
+#: bobgui/bobguiaboutdialog.c:133
+msgid "GNU General Public License, version 2 only"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:134
+msgid "GNU General Public License, version 3 only"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:135
+msgid "GNU Lesser General Public License, version 2.1 only"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:136
+msgid "GNU Lesser General Public License, version 3 only"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:137
+msgid "GNU Affero General Public License, version 3 or later"
+msgstr "GNU Affero General Public License, аверсиа 3 мамзар еиҳа ихьшәоу"
+
+#: bobgui/bobguiaboutdialog.c:138
+msgid "GNU Affero General Public License, version 3 only"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:139
+msgid "BSD 3-Clause License"
+msgstr "BSD 3-Clause License"
+
+#: bobgui/bobguiaboutdialog.c:140
+msgid "Apache License, Version 2.0"
+msgstr "Apache License, Аверсиа 2.1"
+
+#: bobgui/bobguiaboutdialog.c:141
+msgid "Mozilla Public License 2.0"
+msgstr "Mozilla Public License 2.0"
+
+#: bobgui/bobguiaboutdialog.c:937
+msgid "Website"
+msgstr "Веб-асаит"
+
+#: bobgui/bobguiaboutdialog.c:973 bobgui/ui/bobguiapplication-quartz.ui:6
+#, c-format
+msgid "About %s"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:2074
+msgid "Created by"
+msgstr "Аԥҵаҩы"
+
+#: bobgui/bobguiaboutdialog.c:2077
+msgid "Documented by"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:2087
+msgid "Translated by"
+msgstr ""
+
+#: bobgui/bobguiaboutdialog.c:2092
+msgid "Design by"
+msgstr ""
+
+#. Translators: this is the license preamble; the string at the end
+#. * contains the name of the license as link text.
+#.
+#: bobgui/bobguiaboutdialog.c:2257
+#, c-format
+msgid ""
+"This program comes with absolutely no warranty.\n"
+"See the <a href=\"%s\">%s</a> for details."
+msgstr ""
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the shift key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: bobgui/bobguiaccelgroup.c:837 bobgui/bobguishortcutlabel.c:101
+#: bobgui/bobguishortcutlabel.c:137
+msgctxt "keyboard label"
+msgid "Shift"
+msgstr ""
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the control key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: bobgui/bobguiaccelgroup.c:856 bobgui/bobguishortcutlabel.c:104
+#: bobgui/bobguishortcutlabel.c:139
+msgctxt "keyboard label"
+msgid "Ctrl"
+msgstr ""
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the alt key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: bobgui/bobguiaccelgroup.c:875 bobgui/bobguishortcutlabel.c:107
+#: bobgui/bobguishortcutlabel.c:141
+msgctxt "keyboard label"
+msgid "Alt"
+msgstr ""
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the super key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: bobgui/bobguiaccelgroup.c:893 bobgui/bobguishortcutlabel.c:113
+#: bobgui/bobguishortcutlabel.c:143
+msgctxt "keyboard label"
+msgid "Super"
+msgstr ""
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the hyper key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: bobgui/bobguiaccelgroup.c:907 bobgui/bobguishortcutlabel.c:116
+#: bobgui/bobguishortcutlabel.c:145
+msgctxt "keyboard label"
+msgid "Hyper"
+msgstr ""
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the meta key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: bobgui/bobguiaccelgroup.c:922 bobgui/bobguishortcutlabel.c:110
+#: bobgui/bobguishortcutlabel.c:147
+msgctxt "keyboard label"
+msgid "Meta"
+msgstr ""
+
+#. Translators: "KP" means "numeric key pad". This string will
+#. * be used in accelerators such as "Ctrl+Shift+KP 1" in menus,
+#. * and therefore the translation needs to be very short.
+#.
+#: bobgui/bobguiaccelgroup.c:942
+msgctxt "keyboard label"
+msgid "KP"
+msgstr ""
+
+#: bobgui/bobguiaccelgroup.c:949
+msgctxt "keyboard label"
+msgid "Space"
+msgstr ""
+
+#: bobgui/bobguiaccelgroup.c:952 bobgui/bobguishortcutlabel.c:172
+msgctxt "keyboard label"
+msgid "Backslash"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:558
+msgctxt "accessibility"
+msgid "alert"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:559
+msgctxt "accessibility"
+msgid "alert dialog"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:560
+msgctxt "accessibility"
+msgid "banner"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:561
+msgctxt "accessibility"
+msgid "button"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:562
+msgctxt "accessibility"
+msgid "caption"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:563
+msgctxt "accessibility"
+msgid "cell"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:564
+msgctxt "accessibility"
+msgid "checkbox"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:565
+msgctxt "accessibility"
+msgid "column header"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:566
+msgctxt "accessibility"
+msgid "combo box"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:567
+msgctxt "accessibility"
+msgid "command"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:568
+msgctxt "accessibility"
+msgid "composite"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:569
+msgctxt "accessibility"
+msgid "dialog"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:570
+msgctxt "accessibility"
+msgid "document"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:571
+msgctxt "accessibility"
+msgid "feed"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:572
+msgctxt "accessibility"
+msgid "form"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:573
+msgctxt "accessibility"
+msgid "generic"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:574
+msgctxt "accessibility"
+msgid "grid"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:575
+msgctxt "accessibility"
+msgid "grid cell"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:576
+msgctxt "accessibility"
+msgid "group"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:577
+msgctxt "accessibility"
+msgid "heading"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:578
+msgctxt "accessibility"
+msgid "image"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:579
+msgctxt "accessibility"
+msgid "input"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:580
+msgctxt "accessibility"
+msgid "label"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:581
+msgctxt "accessibility"
+msgid "landmark"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:582
+msgctxt "accessibility"
+msgid "legend"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:583
+msgctxt "accessibility"
+msgid "link"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:584
+msgctxt "accessibility"
+msgid "list"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:585
+msgctxt "accessibility"
+msgid "list box"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:586
+msgctxt "accessibility"
+msgid "list item"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:587
+msgctxt "accessibility"
+msgid "log"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:588
+msgctxt "accessibility"
+msgid "main"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:589
+msgctxt "accessibility"
+msgid "marquee"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:590
+msgctxt "accessibility"
+msgid "math"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:591
+msgctxt "accessibility"
+msgid "meter"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:592
+msgctxt "accessibility"
+msgid "menu"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:593
+msgctxt "accessibility"
+msgid "menu bar"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:594
+msgctxt "accessibility"
+msgid "menu item"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:595
+msgctxt "accessibility"
+msgid "menu item checkbox"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:596
+msgctxt "accessibility"
+msgid "menu item radio"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:597
+msgctxt "accessibility"
+msgid "navigation"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:598
+msgctxt "accessibility"
+msgid "none"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:599
+msgctxt "accessibility"
+msgid "note"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:600
+msgctxt "accessibility"
+msgid "option"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:601
+msgctxt "accessibility"
+msgid "presentation"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:602
+msgctxt "accessibility"
+msgid "progress bar"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:603
+msgctxt "accessibility"
+msgid "radio"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:604
+msgctxt "accessibility"
+msgid "radio group"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:605
+msgctxt "accessibility"
+msgid "range"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:606
+msgctxt "accessibility"
+msgid "region"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:607
+msgctxt "accessibility"
+msgid "row"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:608
+msgctxt "accessibility"
+msgid "row group"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:609
+msgctxt "accessibility"
+msgid "row header"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:610
+msgctxt "accessibility"
+msgid "scroll bar"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:611
+msgctxt "accessibility"
+msgid "search"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:612
+msgctxt "accessibility"
+msgid "search box"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:613
+msgctxt "accessibility"
+msgid "section"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:614
+msgctxt "accessibility"
+msgid "section head"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:615
+msgctxt "accessibility"
+msgid "select"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:616
+msgctxt "accessibility"
+msgid "separator"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:617
+msgctxt "accessibility"
+msgid "slider"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:618
+msgctxt "accessibility"
+msgid "spin button"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:619
+msgctxt "accessibility"
+msgid "status"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:620
+msgctxt "accessibility"
+msgid "structure"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:621
+msgctxt "accessibility"
+msgid "switch"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:622
+msgctxt "accessibility"
+msgid "tab"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:623
+msgctxt "accessibility"
+msgid "table"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:624
+msgctxt "accessibility"
+msgid "tab list"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:625
+msgctxt "accessibility"
+msgid "tab panel"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:626
+msgctxt "accessibility"
+msgid "text box"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:627
+msgctxt "accessibility"
+msgid "time"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:628
+msgctxt "accessibility"
+msgid "timer"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:629
+msgctxt "accessibility"
+msgid "tool bar"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:630
+msgctxt "accessibility"
+msgid "tool tip"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:631
+msgctxt "accessibility"
+msgid "tree"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:632
+msgctxt "accessibility"
+msgid "tree grid"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:633
+msgctxt "accessibility"
+msgid "tree item"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:634
+msgctxt "accessibility"
+msgid "widget"
+msgstr ""
+
+#: bobgui/bobguiaccessible.c:635
+msgctxt "accessibility"
+msgid "window"
+msgstr ""
+
+#: bobgui/bobguiappchooserbutton.c:317
+msgid "Other application…"
+msgstr ""
+
+#: bobgui/bobguiappchooserdialog.c:204 bobgui/bobguiappchooserdialog.c:255
+#: bobgui/ui/bobguiappchooserdialog.ui:4
+msgid "Select Application"
+msgstr ""
+
+#. Translators: %s is a filename
+#: bobgui/bobguiappchooserdialog.c:211
+#, c-format
+msgid "Opening “%s”."
+msgstr ""
+
+#: bobgui/bobguiappchooserdialog.c:212
+#, c-format
+msgid "No applications found for “%s”"
+msgstr ""
+
+#. Translators: %s is a file type description
+#: bobgui/bobguiappchooserdialog.c:217
+#, c-format
+msgid "Opening “%s” files."
+msgstr ""
+
+#: bobgui/bobguiappchooserdialog.c:219
+#, c-format
+msgid "No applications found for “%s” files"
+msgstr ""
+
+#: bobgui/bobguiappchooserdialog.c:421
+msgid "Failed to start GNOME Software"
+msgstr ""
+
+#: bobgui/bobguiappchooserwidget.c:519
+msgid "Default Application"
+msgstr ""
+
+#: bobgui/bobguiappchooserwidget.c:569
+#, c-format
+msgid "No applications found for “%s”."
+msgstr ""
+
+#: bobgui/bobguiappchooserwidget.c:652
+msgid "Recommended Applications"
+msgstr ""
+
+#: bobgui/bobguiappchooserwidget.c:667
+msgid "Related Applications"
+msgstr ""
+
+#: bobgui/bobguiappchooserwidget.c:681
+msgid "Other Applications"
+msgstr ""
+
+#. Translators: This is the 'reason' given when inhibiting
+#. * suspend or screen locking, and the caller hasn't specified
+#. * a reason.
+#.
+#: bobgui/bobguiapplication-dbus.c:706
+msgid "Reason not specified"
+msgstr ""
+
+#: bobgui/bobguibookmarksmanager.c:51
+#, c-format
+msgid "%s does not exist in the bookmarks list"
+msgstr ""
+
+#: bobgui/bobguibookmarksmanager.c:412
+#, c-format
+msgid "%s already exists in the bookmarks list"
+msgstr ""
+
+#: bobgui/bobguibuilder-menus.c:224
+#, c-format
+msgid "Element <%s> not allowed inside <%s>"
+msgstr ""
+
+#: bobgui/bobguibuilder-menus.c:230
+#, c-format
+msgid "Element <%s> not allowed at toplevel"
+msgstr ""
+
+#: bobgui/bobguibuilder-menus.c:319
+#, c-format
+msgid "Text may not appear inside <%s>"
+msgstr ""
+
+#. Translate to calendar:week_start:0 if you want Sunday to be the
+#. * first day of the week to calendar:week_start:1 if you want Monday
+#. * to be the first day of the week, and so on.
+#.
+#: bobgui/bobguicalendar.c:656
+msgid "calendar:week_start:0"
+msgstr "calendar:week_start:1"
+
+#. Translate to calendar:YM if you want years to be displayed
+#. * before months; otherwise translate to calendar:MY.
+#. * Do *not* translate it to anything else, if it
+#. * it isn't calendar:YM or calendar:MY it will not work.
+#. *
+#. * Note that the ordering described here is logical order, which is
+#. * further influenced by BIDI ordering. Thus, if you have a default
+#. * text direction of RTL and specify "calendar:YM", then the year
+#. * will appear to the right of the month.
+#.
+#: bobgui/bobguicalendar.c:807
+msgid "calendar:MY"
+msgstr "calendar:MY"
+
+#. Translators: This dictates how the year is displayed in
+#. * bobguicalendar widget.  See strftime() manual for the format.
+#. * Use only ASCII in the translation.
+#. *
+#. * "%Y" is appropriate for most locales.
+#.
+#: bobgui/bobguicalendar.c:1394
+msgctxt "calendar year format"
+msgid "%Y"
+msgstr ""
+
+#. Translators: this defines whether the day numbers should use
+#. * localized digits or the ones used in English (0123...).
+#. *
+#. * Translate to "%Id" if you want to use localized digits, or
+#. * translate to "%d" otherwise.
+#. *
+#. * Note that translating this doesn't guarantee that you get localized
+#. * digits. That needs support from your system and locale definition
+#. * too.
+#.
+#: bobgui/bobguicalendar.c:1431
+#, c-format
+msgctxt "calendar:day:digits"
+msgid "%d"
+msgstr ""
+
+#. Translators: this defines whether the week numbers should use
+#. * localized digits or the ones used in English (0123...).
+#. *
+#. * Translate to "%Id" if you want to use localized digits, or
+#. * translate to "%d" otherwise.
+#. * Note that translating this doesn't guarantee that you get localized
+#. * digits. That needs support from your system and locale definition
+#. * too.
+#: bobgui/bobguicalendar.c:1495
+#, c-format
+msgctxt "calendar:week:digits"
+msgid "%d"
+msgstr ""
+
+#. This label is displayed in a treeview cell displaying
+#. * a disabled accelerator key combination.
+#.
+#: bobgui/bobguicellrendereraccel.c:287
+msgctxt "Accelerator"
+msgid "Disabled"
+msgstr ""
+
+#. This label is displayed in a treeview cell displaying
+#. * an accelerator key combination that is not valid according
+#. * to bobgui_accelerator_valid().
+#.
+#: bobgui/bobguicellrendereraccel.c:297
+msgctxt "Accelerator"
+msgid "Invalid"
+msgstr ""
+
+#. This label is displayed in a treeview cell displaying an accelerator
+#. * when the cell is clicked to change the acelerator.
+#.
+#: bobgui/bobguicellrendereraccel.c:429 bobgui/bobguicellrendereraccel.c:722
+msgid "New accelerator…"
+msgstr ""
+
+#: bobgui/bobguicellrendererprogress.c:128 bobgui/bobguicellrendererprogress.c:318
+#: bobgui/bobguicellrendererprogress.c:348
+#, c-format
+msgctxt "progress bar label"
+msgid "%d %%"
+msgstr ""
+
+#: bobgui/bobguicolorbutton.c:179 bobgui/bobguicolorbutton.c:307
+msgid "Pick a Color"
+msgstr ""
+
+#: bobgui/bobguicolorbutton.c:496 bobgui/bobguicolorchooserwidget.c:308
+#, c-format
+msgid "Red %d%%, Green %d%%, Blue %d%%, Alpha %d%%"
+msgstr ""
+
+#: bobgui/bobguicolorbutton.c:502 bobgui/bobguicolorchooserwidget.c:314
+#, c-format
+msgid "Red %d%%, Green %d%%, Blue %d%%"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:371
+#, c-format
+msgid "Color: %s"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:436
+msgctxt "Color name"
+msgid "Very Light Blue"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:437
+msgctxt "Color name"
+msgid "Light Blue"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:438
+msgctxt "Color name"
+msgid "Blue"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:439
+msgctxt "Color name"
+msgid "Dark Blue"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:440
+msgctxt "Color name"
+msgid "Very Dark Blue"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:441
+msgctxt "Color name"
+msgid "Very Light Green"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:442
+msgctxt "Color name"
+msgid "Light Green"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:443
+msgctxt "Color name"
+msgid "Green"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:444
+msgctxt "Color name"
+msgid "Dark Green"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:445
+msgctxt "Color name"
+msgid "Very Dark Green"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:446
+msgctxt "Color name"
+msgid "Very Light Yellow"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:447
+msgctxt "Color name"
+msgid "Light Yellow"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:448
+msgctxt "Color name"
+msgid "Yellow"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:449
+msgctxt "Color name"
+msgid "Dark Yellow"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:450
+msgctxt "Color name"
+msgid "Very Dark Yellow"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:451
+msgctxt "Color name"
+msgid "Very Light Orange"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:452
+msgctxt "Color name"
+msgid "Light Orange"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:453
+msgctxt "Color name"
+msgid "Orange"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:454
+msgctxt "Color name"
+msgid "Dark Orange"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:455
+msgctxt "Color name"
+msgid "Very Dark Orange"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:456
+msgctxt "Color name"
+msgid "Very Light Red"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:457
+msgctxt "Color name"
+msgid "Light Red"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:458
+msgctxt "Color name"
+msgid "Red"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:459
+msgctxt "Color name"
+msgid "Dark Red"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:460
+msgctxt "Color name"
+msgid "Very Dark Red"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:461
+msgctxt "Color name"
+msgid "Very Light Purple"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:462
+msgctxt "Color name"
+msgid "Light Purple"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:463
+msgctxt "Color name"
+msgid "Purple"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:464
+msgctxt "Color name"
+msgid "Dark Purple"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:465
+msgctxt "Color name"
+msgid "Very Dark Purple"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:466
+msgctxt "Color name"
+msgid "Very Light Brown"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:467
+msgctxt "Color name"
+msgid "Light Brown"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:468
+msgctxt "Color name"
+msgid "Brown"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:469
+msgctxt "Color name"
+msgid "Dark Brown"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:470
+msgctxt "Color name"
+msgid "Very Dark Brown"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:471
+msgctxt "Color name"
+msgid "White"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:472
+msgctxt "Color name"
+msgid "Light Gray 1"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:473
+msgctxt "Color name"
+msgid "Light Gray 2"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:474
+msgctxt "Color name"
+msgid "Light Gray 3"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:475
+msgctxt "Color name"
+msgid "Light Gray 4"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:476
+msgctxt "Color name"
+msgid "Dark Gray 1"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:477
+msgctxt "Color name"
+msgid "Dark Gray 2"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:478
+msgctxt "Color name"
+msgid "Dark Gray 3"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:479
+msgctxt "Color name"
+msgid "Dark Gray 4"
+msgstr ""
+
+#: bobgui/bobguicolorchooserwidget.c:480
+msgctxt "Color name"
+msgid "Black"
+msgstr ""
+
+#. translators: label for the custom section in the color chooser
+#: bobgui/bobguicolorchooserwidget.c:552
+msgid "Custom"
+msgstr "Ахархәаратә"
+
+#: bobgui/bobguicolorchooserwidget.c:585
+#, c-format
+msgid "Custom color %d: %s"
+msgstr ""
+
+#: bobgui/bobguicolorswatch.c:231
+msgid "Customize"
+msgstr ""
+
+#. Translate to the default units to use for presenting
+#. * lengths to the user. Translate to default:inch if you
+#. * want inches, otherwise translate to default:mm.
+#. * Do *not* translate it to "predefinito:mm", if it
+#. * it isn't default:mm or default:inch it will not work
+#.
+#: bobgui/bobguicustompaperunixdialog.c:112
+msgid "default:mm"
+msgstr "default:mm"
+
+#: bobgui/bobguicustompaperunixdialog.c:318
+msgid "Margins from Printer…"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:348 bobgui/bobguimessagedialog.c:162
+#: bobgui/ui/bobguiassistant.ui:40
+msgid "_Close"
+msgstr "_Аркра"
+
+#. And show the custom paper dialog
+#: bobgui/bobguicustompaperunixdialog.c:402 bobgui/bobguiprintunixdialog.c:3016
+msgid "Manage Custom Sizes"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:466 bobgui/bobguipagesetupunixdialog.c:720
+msgid "inch"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:468 bobgui/bobguipagesetupunixdialog.c:718
+msgid "mm"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:625
+#, c-format
+msgid "Custom Size %d"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:939
+msgid "_Width:"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:950
+msgid "_Height:"
+msgstr "_Аҳаракыра:"
+
+#: bobgui/bobguicustompaperunixdialog.c:961
+msgid "Paper Size"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:970
+msgid "_Top:"
+msgstr "_Хыхьтәи:"
+
+#: bobgui/bobguicustompaperunixdialog.c:981
+msgid "_Bottom:"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:992
+msgid "_Left:"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:1003
+msgid "_Right:"
+msgstr ""
+
+#: bobgui/bobguicustompaperunixdialog.c:1039
+msgid "Paper Margins"
+msgstr ""
+
+#: bobgui/bobguientry.c:3665
+msgid "Insert Emoji"
+msgstr ""
+
+#: bobgui/bobguifilechooserdialog.c:549
+msgid "_Name"
+msgstr "_Ахьӡ"
+
+#: bobgui/bobguifilechoosererrorstack.c:65
+msgid "A folder cannot be called “.”"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:69
+msgid "A file cannot be called “.”"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:73
+msgid "A folder cannot be called “..”"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:77
+msgid "A file cannot be called “..”"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:81
+msgid "Folder names cannot contain “/”"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:85
+msgid "File names cannot contain “/”"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:89
+msgid "Folder names should not begin with a space"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:93
+msgid "File names should not begin with a space"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:97
+msgid "Folder names should not end with a space"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:101
+msgid "File names should not end with a space"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:105
+msgid "Folder names starting with a “.” are hidden"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:109
+msgid "File names starting with a “.” are hidden"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:113
+msgid "A folder with that name already exists"
+msgstr ""
+
+#: bobgui/bobguifilechoosererrorstack.c:117
+msgid "A file with that name already exists"
+msgstr ""
+
+#: bobgui/bobguifilechoosernative.c:509 bobgui/bobguifilechoosernative.c:580
+#: bobgui/bobguifilechooserwidget.c:1210 bobgui/bobguifilechooserwidget.c:5800
+#: bobgui/bobguimessagedialog.c:166 bobgui/bobguimessagedialog.c:175
+#: bobgui/bobguimountoperation.c:608 bobgui/bobguipagesetupunixdialog.c:283
+#: bobgui/bobguiprintbackend.c:637 bobgui/bobguiprinteroptionwidget.c:721
+#: bobgui/bobguiprintunixdialog.c:651 bobgui/bobguiprintunixdialog.c:807
+#: bobgui/bobguiwindow.c:6113 bobgui/inspector/css-editor.c:248
+#: bobgui/inspector/recorder.c:1723 bobgui/ui/bobguiappchooserdialog.ui:45
+#: bobgui/ui/bobguiassistant.ui:52 bobgui/ui/bobguicolorchooserdialog.ui:33
+#: bobgui/ui/bobguifontchooserdialog.ui:24
+msgid "_Cancel"
+msgstr "_Аԥыхра"
+
+#: bobgui/bobguifilechoosernative.c:510 bobgui/bobguifilechoosernative.c:574
+#: bobgui/bobguiplacessidebar.c:3146 bobgui/bobguiplacessidebar.c:3231
+#: bobgui/bobguiplacesview.c:1659
+msgid "_Open"
+msgstr "_Аартра"
+
+#: bobgui/bobguifilechoosernative.c:574 bobgui/inspector/css-editor.c:249
+#: bobgui/inspector/recorder.c:1724
+msgid "_Save"
+msgstr "_Аиқәырхара"
+
+#: bobgui/bobguifilechoosernativequartz.c:339 bobgui/ui/bobguifilechooserwidget.ui:346
+msgid "Select which types of files are shown"
+msgstr ""
+
+#. Translators: the first string is a path and the second string
+#. * is a hostname. Nautilus and the panel contain the same string
+#. * to translate.
+#.
+#: bobgui/bobguifilechooserutils.c:362
+#, c-format
+msgid "%1$s on %2$s"
+msgstr "%1$s аҟны %2$s"
+
+#: bobgui/bobguifilechooserwidget.c:319
+msgid "Type name of new folder"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:724
+msgid "The folder could not be created"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:737
+msgid "You need to choose a valid filename."
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:740
+#, c-format
+msgid "Cannot create a file under %s as it is not a folder"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:750
+msgid "Cannot create file as the filename is too long"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:751
+msgid "Try using a shorter name."
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:761
+msgid "You may only select folders"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:762
+msgid "The item that you selected is not a folder try using a different item."
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:770
+msgid "Invalid file name"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:779
+msgid "The folder contents could not be displayed"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:787
+msgid "The file could not be deleted"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:795
+msgid "The file could not be moved to the Trash"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1206
+#, c-format
+msgid "Are you sure you want to permanently delete “%s”?"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1209
+#, c-format
+msgid "If you delete an item, it will be permanently lost."
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1211 bobgui/bobguifilechooserwidget.c:1827
+#: bobgui/bobguilabel.c:5652 bobgui/bobguitext.c:6049 bobgui/bobguitextview.c:8966
+msgid "_Delete"
+msgstr "_Аныхра"
+
+#: bobgui/bobguifilechooserwidget.c:1334
+msgid "The file could not be renamed"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1594
+msgid "Could not select file"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1807
+msgid "_Visit File"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1811
+msgid "_Open With File Manager"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1815
+msgid "_Copy Location"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1819
+msgid "_Add to Bookmarks"
+msgstr "_ Агәылаҵақәа рахь ацҵара"
+
+#: bobgui/bobguifilechooserwidget.c:1823 bobgui/bobguiplacessidebar.c:2310
+#: bobgui/bobguiplacessidebar.c:3267 bobgui/ui/bobguifilechooserwidget.ui:465
+msgid "_Rename"
+msgstr "_Ахьӡԥсахра"
+
+#: bobgui/bobguifilechooserwidget.c:1831
+msgid "_Move to Trash"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1840
+msgid "Show _Hidden Files"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1844
+msgid "Show _Size Column"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1848
+msgid "Show T_ype Column"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1852
+msgid "Show _Time"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:1856
+msgid "Sort _Folders Before Files"
+msgstr ""
+
+#. this is the header for the location column in the print dialog
+#: bobgui/bobguifilechooserwidget.c:2256 bobgui/inspector/css-node-tree.ui:135
+#: bobgui/ui/bobguifilechooserwidget.ui:186 bobgui/ui/bobguiprintunixdialog.ui:114
+msgid "Location"
+msgstr "Аҭыӡҭыԥ"
+
+#. Label
+#: bobgui/bobguifilechooserwidget.c:2363
+msgid "_Name:"
+msgstr "_Ахьӡ:"
+
+#: bobgui/bobguifilechooserwidget.c:2897 bobgui/bobguifilechooserwidget.c:2911
+#, c-format
+msgid "Searching in %s"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:2917
+msgid "Searching"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:2923
+msgid "Enter location or URL"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:3813 bobgui/bobguifilechooserwidget.c:6637
+#: bobgui/ui/bobguifilechooserwidget.ui:226
+msgid "Modified"
+msgstr "Ианыԥсахыз арыцхә"
+
+#: bobgui/bobguifilechooserwidget.c:4072
+#, c-format
+msgid "Could not read the contents of %s"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4076
+msgid "Could not read the contents of the folder"
+msgstr ""
+
+#. Translators: see g_date_time_format() for details on the format
+#: bobgui/bobguifilechooserwidget.c:4216 bobgui/bobguifilechooserwidget.c:4259
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#: bobgui/bobguifilechooserwidget.c:4218 bobgui/bobguifilechooserwidget.c:4261
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#: bobgui/bobguifilechooserwidget.c:4222
+msgid "Yesterday"
+msgstr "Иацы"
+
+#: bobgui/bobguifilechooserwidget.c:4230
+msgid "%-e %b"
+msgstr "%-e %B"
+
+#: bobgui/bobguifilechooserwidget.c:4234
+msgid "%-e %b %Y"
+msgstr "%-e %b. %Y"
+
+#: bobgui/bobguifilechooserwidget.c:4323 bobgui/bobguifilechooserwidget.c:4331
+msgid "Program"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4324
+msgid "Audio"
+msgstr "Аудио"
+
+#: bobgui/bobguifilechooserwidget.c:4325 bobgui/bobguifontbutton.c:596
+#: bobgui/inspector/visual.ui:170
+msgid "Font"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4326
+msgid "Image"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4327
+msgid "Archive"
+msgstr "Архив"
+
+#: bobgui/bobguifilechooserwidget.c:4328
+msgid "Markup"
+msgstr "Адырганҵа"
+
+#: bobgui/bobguifilechooserwidget.c:4329 bobgui/bobguifilechooserwidget.c:4330
+msgid "Text"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4332
+msgid "Video"
+msgstr "Авидео"
+
+#: bobgui/bobguifilechooserwidget.c:4333
+msgid "Contacts"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4334
+msgid "Calendar"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4335
+msgid "Document"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4336
+msgid "Presentation"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4337
+msgid "Spreadsheet"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:4368 bobgui/bobguifilechooserwidget.c:4561
+msgid "Unknown"
+msgstr "Еилкаам"
+
+#: bobgui/bobguifilechooserwidget.c:4600 bobgui/bobguiplacessidebar.c:1027
+msgid "Home"
+msgstr "Home"
+
+#: bobgui/bobguifilechooserwidget.c:5793 bobgui/bobguiprintunixdialog.c:642
+#, c-format
+msgid "A file named “%s” already exists.  Do you want to replace it?"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:5796 bobgui/bobguiprintunixdialog.c:646
+#, c-format
+msgid ""
+"The file already exists in “%s”.  Replacing it will overwrite its contents."
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:5801 bobgui/bobguiprintunixdialog.c:654
+msgid "_Replace"
+msgstr "_Аҧсахра"
+
+#: bobgui/bobguifilechooserwidget.c:5962
+msgid "You do not have access to the specified folder."
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:6566
+msgid "Could not send the search request"
+msgstr ""
+
+#: bobgui/bobguifilechooserwidget.c:6876
+msgid "Accessed"
+msgstr ""
+
+#: bobgui/bobguifontbutton.c:395
+msgid "Sans 12"
+msgstr "Sans 12"
+
+#: bobgui/bobguifontbutton.c:506 bobgui/bobguifontbutton.c:620
+msgid "Pick a Font"
+msgstr ""
+
+#: bobgui/bobguifontbutton.c:1323
+msgctxt "font"
+msgid "None"
+msgstr ""
+
+#: bobgui/bobguifontchooserdialog.c:184
+msgid "Change Font Features"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:1534
+msgctxt "Font variation axis"
+msgid "Width"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:1535
+msgctxt "Font variation axis"
+msgid "Weight"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:1536
+msgctxt "Font variation axis"
+msgid "Italic"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:1537
+msgctxt "Font variation axis"
+msgid "Slant"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:1538
+msgctxt "Font variation axis"
+msgid "Optical Size"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:2094
+#, fuzzy
+#| msgid "default:mm"
+msgctxt "Font feature value"
+msgid "Default"
+msgstr "default:mm"
+
+#: bobgui/bobguifontchooserwidget.c:2111
+#, fuzzy
+#| msgid "Enabled"
+msgctxt "Font feature value"
+msgid "Enable"
+msgstr "Иаҿакуп"
+
+#: bobgui/bobguifontchooserwidget.c:2439
+msgid "Default"
+msgstr "default:mm"
+
+#: bobgui/bobguifontchooserwidget.c:2501
+msgid "Ligatures"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:2502
+msgid "Letter Case"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:2503
+msgid "Number Case"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:2504
+msgid "Number Spacing"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:2505
+msgid "Fractions"
+msgstr "Анимациа"
+
+#: bobgui/bobguifontchooserwidget.c:2506
+msgid "Style Variations"
+msgstr ""
+
+#: bobgui/bobguifontchooserwidget.c:2508
+msgid "Character Variations"
+msgstr "Асимволқәа рвариантқәа"
+
+#: bobgui/bobguiglarea.c:284
+msgid "OpenGL context creation failed"
+msgstr ""
+
+#: bobgui/bobguilabel.c:5649 bobgui/bobguitext.c:6037 bobgui/bobguitextview.c:8954
+msgid "Cu_t"
+msgstr "_Агәылԥҟара "
+
+#: bobgui/bobguilabel.c:5650 bobgui/bobguitext.c:6041 bobgui/bobguitextview.c:8958
+msgid "_Copy"
+msgstr "_Ахкьыҧхьаара"
+
+#: bobgui/bobguilabel.c:5651 bobgui/bobguitext.c:6045 bobgui/bobguitextview.c:8962
+msgid "_Paste"
+msgstr "_Абжьаргылара"
+
+#: bobgui/bobguilabel.c:5657 bobgui/bobguitext.c:6058 bobgui/bobguitextview.c:8987
+msgid "Select _All"
+msgstr ""
+
+#: bobgui/bobguilabel.c:5662
+msgid "_Open Link"
+msgstr "_Азхьарԥш аартра"
+
+#: bobgui/bobguilabel.c:5666
+msgid "Copy _Link Address"
+msgstr ""
+
+#: bobgui/bobguilinkbutton.c:255
+msgid "_Copy URL"
+msgstr "_Ахкьыҧхьаара URL"
+
+#: bobgui/bobguilinkbutton.c:540
+msgid "Invalid URI"
+msgstr ""
+
+#: bobgui/bobguilockbutton.c:286 bobgui/ui/bobguilockbutton.ui:20
+msgid "Lock"
+msgstr ""
+
+#: bobgui/bobguilockbutton.c:298 bobgui/ui/bobguilockbutton.ui:26
+msgid "Unlock"
+msgstr ""
+
+#: bobgui/bobguilockbutton.c:310
+msgid ""
+"Dialog is unlocked.\n"
+"Click to prevent further changes"
+msgstr ""
+
+#: bobgui/bobguilockbutton.c:322
+msgid ""
+"Dialog is locked.\n"
+"Click to make changes"
+msgstr ""
+
+#: bobgui/bobguilockbutton.c:334
+msgid ""
+"System policy prevents changes.\n"
+"Contact your system administrator"
+msgstr ""
+
+#. Translate to default:RTL if you want your widgets
+#. * to be RTL, otherwise translate to default:LTR.
+#. * Do *not* translate it to "predefinito:LTR", if it
+#. * it isn't default:LTR or default:RTL it will not work
+#.
+#: bobgui/bobguimain.c:788
+msgid "default:LTR"
+msgstr "default:LTR"
+
+#. hour:minutes:seconds
+#. Translators: This is a time format, like "9:05:02" for 9
+#. * hours, 5 minutes, and 2 seconds. You may change ":" to
+#. * the separator that your locale uses or use "%Id" instead
+#. * of "%d" if your locale uses localized digits.
+#.
+#: bobgui/bobguimediacontrols.c:100
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr ""
+
+#. -hour:minutes:seconds
+#. Translators: This is a time format, like "-9:05:02" for 9
+#. * hours, 5 minutes, and 2 seconds playback remaining. You may
+#. * change ":" to the separator that your locale uses or use
+#. * "%Id" instead of "%d" if your locale uses localized digits.
+#.
+#: bobgui/bobguimediacontrols.c:108
+#, c-format
+msgctxt "long time format"
+msgid "-%d:%02d:%02d"
+msgstr ""
+
+#. -minutes:seconds
+#. Translators: This is a time format, like "-5:02" for 5
+#. * minutes and 2 seconds playback remaining. You may change
+#. * ":" to the separator that your locale uses or use "%Id"
+#. * instead of "%d" if your locale uses localized digits.
+#.
+#: bobgui/bobguimediacontrols.c:119
+#, c-format
+msgctxt "short time format"
+msgid "-%d:%02d"
+msgstr ""
+
+#. minutes:seconds
+#. Translators: This is a time format, like "5:02" for 5
+#. * minutes and 2 seconds. You may change ":" to the
+#. * separator that your locale uses or use "%Id" instead of
+#. * "%d" if your locale uses localized digits.
+#.
+#: bobgui/bobguimediacontrols.c:128
+#, c-format
+msgctxt "short time format"
+msgid "%d:%02d"
+msgstr ""
+
+#: bobgui/bobguimessagedialog.c:158 bobgui/bobguimessagedialog.c:176
+#: bobgui/bobguiprintbackend.c:638 bobgui/bobguiwindow.c:6114
+msgid "_OK"
+msgstr "_OK"
+
+#: bobgui/bobguimessagedialog.c:170
+msgid "_No"
+msgstr "_Мап"
+
+#: bobgui/bobguimessagedialog.c:171
+msgid "_Yes"
+msgstr "_Ааи"
+
+#: bobgui/bobguimountoperation.c:609
+msgid "Co_nnect"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:675
+msgid "Connect As"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:684
+msgid "_Anonymous"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:691
+msgid "Registered U_ser"
+msgstr "_Иҭагалоу ахархәаҩ"
+
+#: bobgui/bobguimountoperation.c:701
+msgid "_Username"
+msgstr "_Ахархәаҩ ихьӡ"
+
+#: bobgui/bobguimountoperation.c:706
+msgid "_Domain"
+msgstr "_Адомен"
+
+#: bobgui/bobguimountoperation.c:715
+msgid "Volume type"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:725
+msgid "_Hidden"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:728
+msgid "_Windows system"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:731
+msgid "_PIM"
+msgstr "_PIM"
+
+#: bobgui/bobguimountoperation.c:737
+msgid "_Password"
+msgstr "_Ажәамаӡа"
+
+#: bobgui/bobguimountoperation.c:759
+msgid "Forget password _immediately"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:769
+msgid "Remember password until you _logout"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:780
+msgid "Remember _forever"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:1206
+#, c-format
+msgid "Unknown Application (PID %d)"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:1405
+#, c-format
+msgid "Unable to end process"
+msgstr ""
+
+#: bobgui/bobguimountoperation.c:1435
+msgid "_End Process"
+msgstr ""
+
+#: bobgui/bobguimountoperation-stub.c:61
+#, c-format
+msgid "Cannot kill process with PID %d. Operation is not implemented."
+msgstr ""
+
+#. translators: this string is a name for the 'less' command
+#: bobgui/bobguimountoperation-x11.c:984
+msgid "Terminal Pager"
+msgstr ""
+
+#: bobgui/bobguimountoperation-x11.c:985
+msgid "Top Command"
+msgstr ""
+
+#: bobgui/bobguimountoperation-x11.c:986
+msgid "Bourne Again Shell"
+msgstr "Bourne Again Shell"
+
+#: bobgui/bobguimountoperation-x11.c:987
+msgid "Bourne Shell"
+msgstr "Bourne Shell"
+
+#: bobgui/bobguimountoperation-x11.c:988
+msgid "Z Shell"
+msgstr "Z Shell"
+
+#: bobgui/bobguimountoperation-x11.c:1085
+#, c-format
+msgid "Cannot end process with PID %d: %s"
+msgstr ""
+
+#: bobgui/bobguinomediafile.c:48
+msgid "BOBGUI could not find a media module. Check your installation."
+msgstr ""
+
+#: bobgui/bobguinotebook.c:1491
+msgid "Tab list"
+msgstr ""
+
+#: bobgui/bobguinotebook.c:3214
+msgid "Previous tab"
+msgstr ""
+
+#: bobgui/bobguinotebook.c:3218
+msgid "Next tab"
+msgstr ""
+
+#: bobgui/bobguinotebook.c:4038
+#, fuzzy
+msgid "Tab"
+msgstr "Агәылаҵа"
+
+#: bobgui/bobguinotebook.c:4336 bobgui/bobguinotebook.c:6544
+#, c-format
+msgid "Page %u"
+msgstr ""
+
+#: bobgui/bobguipagesetup.c:609 bobgui/bobguipapersize.c:942 bobgui/bobguipapersize.c:982
+msgid "Not a valid page setup file"
+msgstr ""
+
+#: bobgui/bobguipagesetupunixdialog.c:201 bobgui/bobguiprintunixdialog.c:736
+msgid "Manage Custom Sizes…"
+msgstr ""
+
+#: bobgui/bobguipagesetupunixdialog.c:284 bobgui/ui/bobguiassistant.ui:98
+msgid "_Apply"
+msgstr ""
+
+#: bobgui/bobguipagesetupunixdialog.c:318 bobgui/bobguipagesetupunixdialog.c:570
+msgid "Any Printer"
+msgstr ""
+
+#: bobgui/bobguipagesetupunixdialog.c:319
+msgid "For portable documents"
+msgstr ""
+
+#: bobgui/bobguipagesetupunixdialog.c:738
+#, c-format
+msgid ""
+"Margins:\n"
+" Left: %s %s\n"
+" Right: %s %s\n"
+" Top: %s %s\n"
+" Bottom: %s %s"
+msgstr ""
+
+#: bobgui/bobguipagesetupunixdialog.c:784 bobgui/ui/bobguipagesetupunixdialog.ui:5
+#: bobgui/ui/bobguiprintunixdialog.ui:709
+msgid "Page Setup"
+msgstr "Адаҟьа ахышәарақәа"
+
+#: bobgui/bobguipasswordentry.c:173
+msgid "Hide Text"
+msgstr ""
+
+#: bobgui/bobguipasswordentry.c:178 bobgui/bobguipasswordentry.c:622
+msgid "Show Text"
+msgstr ""
+
+#: bobgui/bobguipasswordentry.c:217
+msgid "Caps Lock is on"
+msgstr "Caps Lock аҿакуп"
+
+#: bobgui/bobguipasswordentry.c:698
+msgid "_Show Text"
+msgstr ""
+
+#. translators: %s is the name of a cloud provider for files
+#: bobgui/bobguiplacessidebar.c:914
+#, c-format
+msgid "Open %s"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1005
+msgid "Recent"
+msgstr "Аҵахәтәантәи"
+
+#: bobgui/bobguiplacessidebar.c:1007
+msgid "Recent files"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1016
+msgid "Starred"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1018
+msgid "Starred files"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1029
+msgid "Open your personal folder"
+msgstr "Ахатә ҭаӡ аартра"
+
+#: bobgui/bobguiplacessidebar.c:1042
+msgid "Desktop"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1044
+msgid "Open the contents of your desktop in a folder"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1058
+msgid "Enter Location"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1060
+msgid "Manually enter a location"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1070
+#, fuzzy
+msgid "Trash"
+msgstr "Аклаҭ"
+
+#: bobgui/bobguiplacessidebar.c:1072
+msgid "Open the trash"
+msgstr "Акаҵкәыр аартра"
+
+#: bobgui/bobguiplacessidebar.c:1183 bobgui/bobguiplacessidebar.c:1211
+#: bobgui/bobguiplacessidebar.c:1411
+#, c-format
+msgid "Mount and open “%s”"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1306
+msgid "Open the contents of the file system"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1389
+msgid "New bookmark"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1391
+msgid "Add a new bookmark"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1456
+msgid "Other Locations"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1457
+msgid "Show other locations"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:1962 bobgui/bobguiplacessidebar.c:2981
+#, c-format
+msgid "Unable to start “%s”"
+msgstr ""
+
+#. Translators: This means that unlocking an encrypted storage
+#. * device failed. %s is the name of the device.
+#.
+#: bobgui/bobguiplacessidebar.c:1998
+#, c-format
+msgid "Error unlocking “%s”"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:2000
+#, c-format
+msgid "Unable to access “%s”"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:2231
+msgid "This name is already taken"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:2304 bobgui/inspector/actions.ui:19
+#: bobgui/inspector/css-node-tree.ui:35 bobgui/inspector/prop-list.ui:24
+#: bobgui/ui/bobguifilechooserwidget.ui:168 bobgui/ui/bobguifilechooserwidget.ui:440
+#: bobgui/ui/bobguiprintunixdialog.ui:83
+msgid "Name"
+msgstr "Ахьӡ"
+
+#: bobgui/bobguiplacessidebar.c:2522
+#, c-format
+msgid "Unable to unmount “%s”"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:2698
+#, c-format
+msgid "Unable to stop “%s”"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:2727
+#, c-format
+msgid "Unable to eject “%s”"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:2756 bobgui/bobguiplacessidebar.c:2785
+#, c-format
+msgid "Unable to eject %s"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:2933
+#, c-format
+msgid "Unable to poll “%s” for media changes"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3152 bobgui/bobguiplacessidebar.c:3239
+#: bobgui/bobguiplacesview.c:1663
+msgid "Open in New _Tab"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3158 bobgui/bobguiplacessidebar.c:3248
+#: bobgui/bobguiplacesview.c:1668
+msgid "Open in New _Window"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3259
+msgid "_Add Bookmark"
+msgstr "_ Агәылаҵақәа рахь ацҵара"
+
+#: bobgui/bobguiplacessidebar.c:3263
+msgid "_Remove"
+msgstr "_Аныхра"
+
+#: bobgui/bobguiplacessidebar.c:3279 bobgui/bobguiplacesview.c:1693
+msgid "_Mount"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3288 bobgui/bobguiplacesview.c:1682
+msgid "_Unmount"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3295
+msgid "_Eject"
+msgstr "_Аҭгара"
+
+#: bobgui/bobguiplacessidebar.c:3305
+msgid "_Detect Media"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3314
+msgid "_Start"
+msgstr "_Алагара"
+
+#: bobgui/bobguiplacessidebar.c:3316
+msgid "_Power On"
+msgstr "_Аҿакра"
+
+#: bobgui/bobguiplacessidebar.c:3317
+msgid "_Connect Drive"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3318
+msgid "_Start Multi-disk Device"
+msgstr "Асанҭыррацәатә еиҿартәыра аҿакра"
+
+#: bobgui/bobguiplacessidebar.c:3319
+msgid "_Unlock Device"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3329
+msgid "_Stop"
+msgstr "_Аанкылара"
+
+#: bobgui/bobguiplacessidebar.c:3331
+msgid "_Safely Remove Drive"
+msgstr "_Ишәарҭамкәа аусруга аныхра"
+
+#: bobgui/bobguiplacessidebar.c:3332
+msgid "_Disconnect Drive"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3333
+msgid "_Stop Multi-disk Device"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3334
+msgid "_Lock Device"
+msgstr ""
+
+#: bobgui/bobguiplacessidebar.c:3823 bobgui/bobguiplacesview.c:1103
+msgid "Computer"
+msgstr "Акомпиутер"
+
+#: bobgui/bobguiplacesview.c:889
+msgid "Searching for network locations"
+msgstr ""
+
+#: bobgui/bobguiplacesview.c:896
+msgid "No network locations found"
+msgstr ""
+
+#. if it wasn't cancelled show a dialog
+#: bobgui/bobguiplacesview.c:1210 bobgui/bobguiplacesview.c:1307
+msgid "Unable to access location"
+msgstr ""
+
+#. Restore from Cancel to Connect
+#: bobgui/bobguiplacesview.c:1228 bobgui/ui/bobguiplacesview.ui:262
+msgid "Con_nect"
+msgstr ""
+
+#. if it wasn't cancelled show a dialog
+#: bobgui/bobguiplacesview.c:1367
+msgid "Unable to unmount volume"
+msgstr ""
+
+#. Allow to cancel the operation
+#: bobgui/bobguiplacesview.c:1459
+msgid "Cance_l"
+msgstr ""
+
+#: bobgui/bobguiplacesview.c:1606
+msgid "AppleTalk"
+msgstr "AppleTalk"
+
+#: bobgui/bobguiplacesview.c:1612
+msgid "File Transfer Protocol"
+msgstr ""
+
+#. Translators: do not translate ftp:// and ftps://
+#: bobgui/bobguiplacesview.c:1614
+msgid "ftp:// or ftps://"
+msgstr ""
+
+#: bobgui/bobguiplacesview.c:1620
+msgid "Network File System"
+msgstr ""
+
+#: bobgui/bobguiplacesview.c:1626
+msgid "Samba"
+msgstr "Samba"
+
+#: bobgui/bobguiplacesview.c:1632
+msgid "SSH File Transfer Protocol"
+msgstr ""
+
+#. Translators: do not translate sftp:// and ssh://
+#: bobgui/bobguiplacesview.c:1634
+msgid "sftp:// or ssh://"
+msgstr ""
+
+#: bobgui/bobguiplacesview.c:1640
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#. Translators: do not translate dav:// and davs://
+#: bobgui/bobguiplacesview.c:1642
+msgid "dav:// or davs://"
+msgstr ""
+
+#: bobgui/bobguiplacesview.c:1677
+msgid "_Disconnect"
+msgstr "_Аҿыҵра"
+
+#: bobgui/bobguiplacesview.c:1688
+msgid "_Connect"
+msgstr ""
+
+#: bobgui/bobguiplacesview.c:1905
+msgid "Unable to get remote server location"
+msgstr ""
+
+#: bobgui/bobguiplacesview.c:2048 bobgui/bobguiplacesview.c:2057
+msgid "Networks"
+msgstr "Аҳа аҿы"
+
+#: bobgui/bobguiplacesview.c:2048 bobgui/bobguiplacesview.c:2057
+msgid "On This Computer"
+msgstr ""
+
+#. Translators: respectively, free and total space of the drive. The plural form
+#. * should be based on the free space available.
+#. * i.e. 1 GB / 24 GB available.
+#.
+#: bobgui/bobguiplacesviewrow.c:135
+#, c-format
+msgid "%s / %s available"
+msgid_plural "%s / %s available"
+msgstr[0] ""
+msgstr[1] ""
+
+#: bobgui/bobguiplacesviewrow.c:471
+msgid "Disconnect"
+msgstr ""
+
+#: bobgui/bobguiplacesviewrow.c:471 bobgui/ui/bobguiplacesviewrow.ui:53
+#: bobgui/ui/bobguisidebarrow.ui:50
+msgid "Unmount"
+msgstr ""
+
+#: bobgui/bobguiprintbackend.c:636
+msgid "Authentication"
+msgstr "Ахаҭареилкаара"
+
+#: bobgui/bobguiprintbackend.c:712
+msgid "_Remember password"
+msgstr "_Ажәамаӡа агәынкылара"
+
+#: bobgui/bobguiprinteroptionwidget.c:718
+msgid "Select a filename"
+msgstr ""
+
+#: bobgui/bobguiprinteroptionwidget.c:722 bobgui/ui/bobguiappchooserdialog.ui:50
+#: bobgui/ui/bobguicolorchooserdialog.ui:38 bobgui/ui/bobguifontchooserdialog.ui:29
+msgid "_Select"
+msgstr "_Алхра"
+
+#: bobgui/bobguiprinteroptionwidget.c:936
+msgid "Not available"
+msgstr ""
+
+#. translators: this string is the default job title for print
+#. * jobs. %s gets replaced by the application name, %d gets replaced
+#. * by the job number.
+#.
+#: bobgui/bobguiprintoperation.c:253
+#, c-format
+msgid "%s job #%d"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1683
+msgctxt "print operation status"
+msgid "Initial state"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1684
+msgctxt "print operation status"
+msgid "Preparing to print"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1685
+msgctxt "print operation status"
+msgid "Generating data"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1686
+msgctxt "print operation status"
+msgid "Sending data"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1687
+msgctxt "print operation status"
+msgid "Waiting"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1688
+msgctxt "print operation status"
+msgid "Blocking on issue"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1689
+msgctxt "print operation status"
+msgid "Printing"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1690
+msgctxt "print operation status"
+msgid "Finished"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:1691
+msgctxt "print operation status"
+msgid "Finished with error"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:2234
+#, c-format
+msgid "Preparing %d"
+msgstr "Аҽазыҟаҵара %d"
+
+#: bobgui/bobguiprintoperation.c:2236 bobgui/bobguiprintoperation.c:2854
+#, c-format
+msgid "Preparing"
+msgstr "Аҽазыҟаҵара"
+
+#: bobgui/bobguiprintoperation.c:2239
+#, c-format
+msgid "Printing %d"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:2885
+#, c-format
+msgid "Error creating print preview"
+msgstr ""
+
+#: bobgui/bobguiprintoperation.c:2888
+#, c-format
+msgid "The most probable reason is that a temporary file could not be created."
+msgstr ""
+
+#. window
+#: bobgui/bobguiprintoperation-portal.c:236 bobgui/bobguiprintoperation-portal.c:554
+#: bobgui/bobguiprintoperation-portal.c:623 bobgui/bobguiprintunixdialog.c:3056
+msgid "Print"
+msgstr "Print"
+
+#: bobgui/bobguiprintoperation-unix.c:479 bobgui/bobguiprintoperation-win32.c:1504
+msgid "Application"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:635
+msgid "Printer offline"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:637
+msgid "Out of paper"
+msgstr "Ақьаад нҵәеит"
+
+#. Translators: this is a printer status.
+#: bobgui/bobguiprintoperation-win32.c:639
+#: modules/printbackends/bobguiprintbackendcups.c:2639
+msgid "Paused"
+msgstr "Ааҭгылара"
+
+#: bobgui/bobguiprintoperation-win32.c:641
+msgid "Need user intervention"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:748
+msgid "Custom size"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:1596
+msgid "No printer found"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:1623
+msgid "Invalid argument to CreateDC"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:1659 bobgui/bobguiprintoperation-win32.c:1905
+msgid "Error from StartDoc"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:1760 bobgui/bobguiprintoperation-win32.c:1783
+#: bobgui/bobguiprintoperation-win32.c:1831
+msgid "Not enough free memory"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:1836
+msgid "Invalid argument to PrintDlgEx"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:1841
+msgid "Invalid pointer to PrintDlgEx"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:1846
+msgid "Invalid handle to PrintDlgEx"
+msgstr ""
+
+#: bobgui/bobguiprintoperation-win32.c:1851
+msgid "Unspecified error"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:806
+msgid "Pre_view"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:808
+msgid "_Print"
+msgstr "_Акьыҧхьра"
+
+#: bobgui/bobguiprintunixdialog.c:936
+msgid "Getting printer information failed"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:1875
+msgid "Getting printer information…"
+msgstr ""
+
+#. Translators: These strings name the possible arrangements of
+#. * multiple pages on a sheet when printing (same as in bobguiprintbackendcups.c)
+#.
+#. Translators: These strings name the possible arrangements of
+#. * multiple pages on a sheet when printing
+#.
+#: bobgui/bobguiprintunixdialog.c:2801
+#: modules/printbackends/bobguiprintbackendcups.c:5647
+msgid "Left to right, top to bottom"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2801
+#: modules/printbackends/bobguiprintbackendcups.c:5647
+msgid "Left to right, bottom to top"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2802
+#: modules/printbackends/bobguiprintbackendcups.c:5648
+msgid "Right to left, top to bottom"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2802
+#: modules/printbackends/bobguiprintbackendcups.c:5648
+msgid "Right to left, bottom to top"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2803
+#: modules/printbackends/bobguiprintbackendcups.c:5649
+msgid "Top to bottom, left to right"
+msgstr "Хыхьнтә ҵаҟеи ,насгьы армарахьынтә арыӷьарахь"
+
+#: bobgui/bobguiprintunixdialog.c:2803
+#: modules/printbackends/bobguiprintbackendcups.c:5649
+msgid "Top to bottom, right to left"
+msgstr "Хыхьнтә ҵаҟеи ,насгьы   арыӷьарахьынтә армарахь"
+
+#: bobgui/bobguiprintunixdialog.c:2804
+#: modules/printbackends/bobguiprintbackendcups.c:5650
+msgid "Bottom to top, left to right"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2804
+#: modules/printbackends/bobguiprintbackendcups.c:5650
+msgid "Bottom to top, right to left"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2808 bobgui/bobguiprintunixdialog.c:2821
+msgid "Page Ordering"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2837
+msgid "Left to right"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2838
+msgid "Right to left"
+msgstr ""
+
+#: bobgui/bobguiprintunixdialog.c:2850
+msgid "Top to bottom"
+msgstr "Хыхьнтә ҵаҟа"
+
+#: bobgui/bobguiprintunixdialog.c:2851
+msgid "Bottom to top"
+msgstr ""
+
+#: bobgui/bobguiprogressbar.c:606
+#, c-format
+msgctxt "progress bar label"
+msgid "%.0f %%"
+msgstr ""
+
+#: bobgui/bobguirecentmanager.c:1023 bobgui/bobguirecentmanager.c:1036
+#: bobgui/bobguirecentmanager.c:1174 bobgui/bobguirecentmanager.c:1184
+#: bobgui/bobguirecentmanager.c:1234 bobgui/bobguirecentmanager.c:1243
+#, c-format
+msgid "Unable to find an item with URI “%s”"
+msgstr ""
+
+#: bobgui/bobguirecentmanager.c:1258
+#, c-format
+msgid "Unable to move the item with URI “%s” to “%s”"
+msgstr ""
+
+#: bobgui/bobguirecentmanager.c:2319
+#, c-format
+msgid "No registered application with name “%s” for item with URI “%s” found"
+msgstr ""
+
+#: bobgui/bobguisearchentry.c:639
+msgid "Clear entry"
+msgstr ""
+
+#. Translators: This string is used to mark left/right variants of modifier
+#. * keys in the shortcut window (e.g. Control_L vs Control_R). Please keep
+#. * this string very short, ideally just a single character, since it will
+#. * be rendered as part of the key.
+#.
+#: bobgui/bobguishortcutlabel.c:79
+msgctxt "keyboard side marker"
+msgid "L"
+msgstr ""
+
+#. Translators: This string is used to mark left/right variants of modifier
+#. * keys in the shortcut window (e.g. Control_L vs Control_R). Please keep
+#. * this string very short, ideally just a single character, since it will
+#. * be rendered as part of the key.
+#.
+#: bobgui/bobguishortcutlabel.c:92
+msgctxt "keyboard side marker"
+msgid "R"
+msgstr ""
+
+#: bobgui/bobguishortcutssection.c:404
+msgid "_Show All"
+msgstr ""
+
+#: bobgui/bobguishortcutsshortcut.c:143
+msgid "Two finger pinch"
+msgstr ""
+
+#: bobgui/bobguishortcutsshortcut.c:147
+msgid "Two finger stretch"
+msgstr ""
+
+#: bobgui/bobguishortcutsshortcut.c:151
+msgid "Rotate clockwise"
+msgstr ""
+
+#: bobgui/bobguishortcutsshortcut.c:155
+msgid "Rotate counterclockwise"
+msgstr ""
+
+#: bobgui/bobguishortcutsshortcut.c:159
+msgid "Two finger swipe left"
+msgstr ""
+
+#: bobgui/bobguishortcutsshortcut.c:163
+msgid "Two finger swipe right"
+msgstr ""
+
+#: bobgui/bobguishortcutsshortcut.c:167
+msgid "Swipe left"
+msgstr ""
+
+#: bobgui/bobguishortcutsshortcut.c:171
+msgid "Swipe right"
+msgstr ""
+
+#. Translators: This is the window title for the shortcuts window in normal mode
+#: bobgui/bobguishortcutswindow.c:874 bobgui/inspector/window.ui:498
+msgid "Shortcuts"
+msgstr ""
+
+#. Translators: This is the window title for the shortcuts window in search mode
+#: bobgui/bobguishortcutswindow.c:879
+msgid "Search Results"
+msgstr ""
+
+#. Translators: This is placeholder text for the search entry in the shortcuts window
+#: bobgui/bobguishortcutswindow.c:909
+msgid "Search Shortcuts"
+msgstr ""
+
+#: bobgui/bobguishortcutswindow.c:968 bobgui/ui/bobguiemojichooser.ui:349
+#: bobgui/ui/bobguifilechooserwidget.ui:297
+msgid "No Results Found"
+msgstr "Алҵшәақәа ыҟаӡам"
+
+#: bobgui/bobguishortcutswindow.c:974 bobgui/ui/bobguiemojichooser.ui:362
+#: bobgui/ui/bobguifilechooserwidget.ui:310 bobgui/ui/bobguiplacesview.ui:230
+msgid "Try a different search"
+msgstr ""
+
+#: bobgui/bobguishow.c:175
+msgid "Could not show link"
+msgstr ""
+
+#: bobgui/bobguistacksidebar.c:154
+msgctxt "accessibility"
+msgid "Sidebar"
+msgstr ""
+
+#: bobgui/bobguitext.c:6063 bobgui/bobguitextview.c:8992
+msgid "Insert _Emoji"
+msgstr ""
+
+#: bobgui/bobguitextview.c:8974
+msgid "_Undo"
+msgstr "_Аԥыхра"
+
+#: bobgui/bobguitextview.c:8978
+msgid "_Redo"
+msgstr "Ар_хынҳәра"
+
+#: bobgui/bobguitreeexpander.c:205 bobgui/inspector/misc-info.ui:287
+msgid "Expand"
+msgstr ""
+
+#: bobgui/bobguivolumebutton.c:228
+msgid "Muted"
+msgstr ""
+
+#: bobgui/bobguivolumebutton.c:232
+msgid "Full Volume"
+msgstr ""
+
+#. Translators: this is the percentage of the current volume,
+#. * as used in the tooltip, eg. "49 %".
+#. * Translate the "%d" to "%Id" if you want to use localised digits,
+#. * or otherwise translate the "%d" to "%d".
+#.
+#: bobgui/bobguivolumebutton.c:245
+#, c-format
+msgctxt "volume percentage"
+msgid "%d %%"
+msgstr ""
+
+#: bobgui/bobguiwindow.c:6101
+#, c-format
+msgid "Do you want to use BOBGUI Inspector?"
+msgstr "Шәхы иашәырхәар шәҭахума BOBGUI Inspector?"
+
+#: bobgui/bobguiwindow.c:6103
+#, c-format
+msgid ""
+"BOBGUI Inspector is an interactive debugger that lets you explore and modify "
+"the internals of any BOBGUI application. Using it may cause the application to "
+"break or crash."
+msgstr ""
+
+#: bobgui/bobguiwindow.c:6108
+msgid "Don’t show this message again"
+msgstr ""
+
+#: bobgui/bobguiwindowcontrols.c:309 bobgui/bobguiwindowhandle.c:230
+msgid "Minimize"
+msgstr "Аиҟәырҳәра"
+
+#: bobgui/bobguiwindowcontrols.c:311
+msgid "Minimize the window"
+msgstr "Аҧенџьыр аиҟәырҳәра"
+
+#: bobgui/bobguiwindowcontrols.c:335 bobgui/bobguiwindowhandle.c:236
+msgid "Maximize"
+msgstr "Аиҵыхра"
+
+#: bobgui/bobguiwindowcontrols.c:337
+msgid "Maximize the window"
+msgstr ""
+
+#: bobgui/bobguiwindowcontrols.c:357 bobgui/bobguiwindowhandle.c:246
+msgid "Close"
+msgstr "Аркра"
+
+#: bobgui/bobguiwindowcontrols.c:359
+msgid "Close the window"
+msgstr ""
+
+#: bobgui/bobguiwindowhandle.c:223
+msgid "Restore"
+msgstr "Аиҭашьақәыргылара"
+
+#: bobgui/inspector/a11y.ui:16
+msgid "Role"
+msgstr ""
+
+#: bobgui/inspector/a11y.ui:40
+msgid "Object path"
+msgstr ""
+
+#: bobgui/inspector/a11y.ui:66
+msgid "Attribute"
+msgstr "Аҟазшьарбага"
+
+#: bobgui/inspector/a11y.ui:78 bobgui/inspector/css-node-tree.ui:119
+#: bobgui/inspector/prop-list.ui:57 bobgui/inspector/recorder.ui:155
+#: bobgui/inspector/recorder.ui:221
+msgid "Value"
+msgstr ""
+
+#: bobgui/inspector/action-editor.c:123
+msgid "Activate"
+msgstr "Активациа азура"
+
+#: bobgui/inspector/action-editor.c:135
+msgid "Set State"
+msgstr ""
+
+#: bobgui/inspector/actions.ui:30
+msgid "Enabled"
+msgstr "Иаҿакуп"
+
+#: bobgui/inspector/actions.ui:41
+msgid "Parameter Type"
+msgstr ""
+
+#: bobgui/inspector/actions.ui:52 bobgui/inspector/css-node-tree.ui:74
+#: bobgui/inspector/misc-info.ui:121
+msgid "State"
+msgstr ""
+
+#: bobgui/inspector/clipboard.c:211 bobgui/inspector/misc-info.ui:278
+msgid "Show"
+msgstr "Агәарҿыхарақәа"
+
+#: bobgui/inspector/clipboard.c:228
+msgid "Hover to load"
+msgstr ""
+
+#: bobgui/inspector/clipboard.c:278
+msgctxt "clipboard"
+msgid "empty"
+msgstr ""
+
+#: bobgui/inspector/clipboard.c:283 bobgui/inspector/clipboard.c:325
+msgctxt "clipboard"
+msgid "local"
+msgstr ""
+
+#: bobgui/inspector/clipboard.c:285 bobgui/inspector/clipboard.c:327
+msgctxt "clipboard"
+msgid "remote"
+msgstr ""
+
+#: bobgui/inspector/clipboard.ui:31
+msgid "Drag and hold here"
+msgstr ""
+
+#: bobgui/inspector/clipboard.ui:75 bobgui/inspector/window.ui:574
+msgid "Clipboard"
+msgstr "Аԥсахра абуфер"
+
+#: bobgui/inspector/clipboard.ui:114
+msgid "Primary"
+msgstr ""
+
+#: bobgui/inspector/controllers.c:126
+msgctxt "event phase"
+msgid "None"
+msgstr ""
+
+#: bobgui/inspector/controllers.c:129
+msgctxt "event phase"
+msgid "Capture"
+msgstr ""
+
+#: bobgui/inspector/controllers.c:132
+msgctxt "event phase"
+msgid "Bubble"
+msgstr ""
+
+#: bobgui/inspector/controllers.c:135
+msgctxt "event phase"
+msgid "Target"
+msgstr ""
+
+#: bobgui/inspector/controllers.c:156
+msgctxt "propagation limit"
+msgid "Native"
+msgstr ""
+
+#: bobgui/inspector/css-editor.c:129
+msgid "You can type here any CSS rule recognized by BOBGUI."
+msgstr ""
+
+#: bobgui/inspector/css-editor.c:130
+msgid ""
+"You can temporarily disable this custom CSS by clicking on the “Pause” "
+"button above."
+msgstr ""
+
+#: bobgui/inspector/css-editor.c:131
+msgid "Changes are applied instantly and globally, for the whole application."
+msgstr ""
+
+#: bobgui/inspector/css-editor.c:211
+#, c-format
+msgid "Saving CSS failed"
+msgstr ""
+
+#: bobgui/inspector/css-editor.ui:30
+msgid "Disable this custom CSS"
+msgstr ""
+
+#: bobgui/inspector/css-editor.ui:37
+msgid "Save the current CSS"
+msgstr ""
+
+#: bobgui/inspector/css-node-tree.ui:48 tools/bobgui-builder-tool-preview.c:178
+#: tools/bobgui-builder-tool-screenshot.c:358
+msgid "ID"
+msgstr "ID"
+
+#: bobgui/inspector/css-node-tree.ui:61
+msgid "Style Classes"
+msgstr ""
+
+#: bobgui/inspector/css-node-tree.ui:104
+msgid "CSS Property"
+msgstr ""
+
+#: bobgui/inspector/general.c:330 bobgui/inspector/general.c:411
+msgctxt "GL version"
+msgid "None"
+msgstr ""
+
+#: bobgui/inspector/general.c:339
+msgctxt "GL version"
+msgid "Disabled"
+msgstr ""
+
+#: bobgui/inspector/general.c:340
+msgctxt "GL vendor"
+msgid "Disabled"
+msgstr ""
+
+#: bobgui/inspector/general.c:412
+msgctxt "GL vendor"
+msgid "None"
+msgstr ""
+
+#: bobgui/inspector/general.c:463
+msgctxt "Vulkan device"
+msgid "Disabled"
+msgstr ""
+
+#: bobgui/inspector/general.c:464 bobgui/inspector/general.c:465
+msgctxt "Vulkan version"
+msgid "Disabled"
+msgstr ""
+
+#: bobgui/inspector/general.c:521
+msgctxt "Vulkan device"
+msgid "None"
+msgstr ""
+
+#: bobgui/inspector/general.c:522 bobgui/inspector/general.c:523
+msgctxt "Vulkan version"
+msgid "None"
+msgstr ""
+
+#: bobgui/inspector/general.c:793
+msgid "IM Context is hardcoded by BOBGUI_IM_MODULE"
+msgstr ""
+
+#: bobgui/inspector/general.ui:32
+msgid "BOBGUI Version"
+msgstr "Аверсиа BOBGUI"
+
+#: bobgui/inspector/general.ui:58
+msgid "GDK Backend"
+msgstr ""
+
+#: bobgui/inspector/general.ui:84
+msgid "GSK Renderer"
+msgstr ""
+
+#: bobgui/inspector/general.ui:110
+msgid "Pango Fontmap"
+msgstr ""
+
+#: bobgui/inspector/general.ui:136
+msgid "Media Backend"
+msgstr ""
+
+#: bobgui/inspector/general.ui:162
+msgid "Input Method"
+msgstr ""
+
+#: bobgui/inspector/general.ui:202
+msgid "Application ID"
+msgstr ""
+
+#: bobgui/inspector/general.ui:228
+msgid "Resource Path"
+msgstr ""
+
+#: bobgui/inspector/general.ui:268 bobgui/ui/bobguiplacesview.ui:79
+msgid "Prefix"
+msgstr ""
+
+#: bobgui/inspector/general.ui:470
+msgid "Display"
+msgstr "Аԥшра"
+
+#: bobgui/inspector/general.ui:497
+msgid "RGBA Visual"
+msgstr ""
+
+#: bobgui/inspector/general.ui:523
+msgid "Composited"
+msgstr ""
+
+#: bobgui/inspector/general.ui:575
+msgid "GL Version"
+msgstr "Аверсиа GL"
+
+#: bobgui/inspector/general.ui:625
+msgid "GL Vendor"
+msgstr ""
+
+#: bobgui/inspector/general.ui:665
+msgid "Vulkan Device"
+msgstr ""
+
+#: bobgui/inspector/general.ui:692
+msgid "Vulkan API version"
+msgstr "Аверсиа API Vulkan"
+
+#: bobgui/inspector/general.ui:719
+msgid "Vulkan driver version"
+msgstr ""
+
+#: bobgui/inspector/menu.c:95
+msgid "Unnamed section"
+msgstr "Ихьӡыдоу аҟәша"
+
+#: bobgui/inspector/menu.ui:23
+msgid "Label"
+msgstr ""
+
+#: bobgui/inspector/menu.ui:36 bobgui/inspector/shortcuts.ui:23
+msgid "Action"
+msgstr ""
+
+#: bobgui/inspector/menu.ui:49
+msgid "Target"
+msgstr ""
+
+#: bobgui/inspector/menu.ui:62
+msgid "Icon"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:32
+msgid "Address"
+msgstr "Аҭыӡҭыԥ"
+
+#: bobgui/inspector/misc-info.ui:62 bobgui/inspector/prop-list.ui:35
+#: bobgui/inspector/statistics.ui:46 bobgui/ui/bobguifilechooserwidget.ui:214
+msgid "Type"
+msgstr "Ахкы"
+
+#: bobgui/inspector/misc-info.ui:91
+msgid "Reference Count"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:151
+msgid "Direction"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:181
+msgid "Buildable ID"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:211
+msgid "Mnemonic Label"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:240
+msgid "Request Mode"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:269
+msgid "Measure map"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:338
+msgid "Allocation"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:367
+msgid "Baseline"
+msgstr "Абазатә цәаҳәа"
+
+#: bobgui/inspector/misc-info.ui:396
+msgid "Surface"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:415 bobgui/inspector/misc-info.ui:454
+#: bobgui/inspector/misc-info.ui:493 bobgui/inspector/prop-editor.c:1162
+#: bobgui/inspector/prop-editor.c:1531 bobgui/inspector/window.ui:396
+msgid "Properties"
+msgstr "Аҟазшьаҷыдақәа"
+
+#: bobgui/inspector/misc-info.ui:435
+msgid "Renderer"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:474
+msgid "Frame Clock"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:513
+msgid "Tick Callback"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:543
+msgid "Frame Count"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:572
+msgid "Frame Rate"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:601
+msgid "Mapped"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:631
+msgid "Realized"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:661
+msgid "Is Toplevel"
+msgstr ""
+
+#: bobgui/inspector/misc-info.ui:691
+msgid "Child Visible"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:702
+#, c-format
+msgid "Pointer: %p"
+msgstr ""
+
+#. Translators: %s is a type name, for example
+#. * BobguiPropertyExpression with value \"2.5\"
+#.
+#: bobgui/inspector/prop-editor.c:834
+#, c-format
+msgid "%s with value \"%s\""
+msgstr ""
+
+#. Translators: Both %s are type names, for example
+#. * BobguiPropertyExpression with type GObject
+#.
+#: bobgui/inspector/prop-editor.c:845
+#, c-format
+msgid "%s with type %s"
+msgstr ""
+
+#. Translators: Both %s are type names, for example
+#. * BobguiObjectExpression for BobguiStringObject 0x23456789
+#.
+#: bobgui/inspector/prop-editor.c:858
+#, c-format
+msgid "%s for %s %p"
+msgstr ""
+
+#. Translators: Both %s are type names, for example
+#. * BobguiPropertyExpression with value type: gchararray
+#.
+#: bobgui/inspector/prop-editor.c:888
+#, c-format
+msgid "%s with value type %s"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1242
+#, c-format
+msgid "Uneditable property type: %s"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1383
+msgctxt "column number"
+msgid "None"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1420
+msgid "Attribute:"
+msgstr "Аҟазшьарбага:"
+
+#: bobgui/inspector/prop-editor.c:1423
+msgid "Model"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1428
+msgid "Column:"
+msgstr ""
+
+#. Translators: %s is a type name, for example
+#. * Action from 0x2345678 (BobguiApplicationWindow)
+#.
+#: bobgui/inspector/prop-editor.c:1527
+#, c-format
+msgid "Action from: %p (%s)"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1582
+msgid "Reset"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1590
+msgctxt "BobguiSettings source"
+msgid "Default"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1593
+msgctxt "BobguiSettings source"
+msgid "Theme"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1596
+msgctxt "BobguiSettings source"
+msgid "XSettings"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1600
+msgctxt "BobguiSettings source"
+msgid "Application"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1603
+msgctxt "BobguiSettings source"
+msgid "Unknown"
+msgstr ""
+
+#: bobgui/inspector/prop-editor.c:1606
+msgid "Source:"
+msgstr ""
+
+#: bobgui/inspector/prop-list.ui:46
+msgid "Defined At"
+msgstr ""
+
+#: bobgui/inspector/recorder.c:1694
+#, c-format
+msgid "Saving RenderNode failed"
+msgstr ""
+
+#: bobgui/inspector/recorder.ui:20
+msgid "Record frames"
+msgstr ""
+
+#: bobgui/inspector/recorder.ui:27
+msgid "Clear recorded frames"
+msgstr ""
+
+#: bobgui/inspector/recorder.ui:34
+msgid "Add debug nodes"
+msgstr ""
+
+#: bobgui/inspector/recorder.ui:42
+msgid "Highlight event sequences"
+msgstr ""
+
+#: bobgui/inspector/recorder.ui:51
+msgid "Use a dark background"
+msgstr ""
+
+#: bobgui/inspector/recorder.ui:59
+msgid "Save selected node"
+msgstr ""
+
+#: bobgui/inspector/recorder.ui:67
+msgid "Copy to clipboard"
+msgstr ""
+
+#: bobgui/inspector/recorder.ui:142 bobgui/inspector/recorder.ui:208
+msgid "Property"
+msgstr "Аҟазшьаҷыда"
+
+#: bobgui/inspector/resource-list.ui:59
+msgid "Path"
+msgstr ""
+
+#: bobgui/inspector/resource-list.ui:71
+msgid "Count"
+msgstr ""
+
+#: bobgui/inspector/resource-list.ui:82 bobgui/ui/bobguifilechooserwidget.ui:202
+#: bobgui/ui/bobguifontchooserwidget.ui:204 bobgui/ui/bobguifontchooserwidget.ui:351
+msgid "Size"
+msgstr "Ашәага"
+
+#: bobgui/inspector/resource-list.ui:121
+msgid "Name:"
+msgstr ""
+
+#: bobgui/inspector/resource-list.ui:143
+msgid "Type:"
+msgstr ""
+
+#: bobgui/inspector/resource-list.ui:164
+msgid "Size:"
+msgstr ""
+
+#: bobgui/inspector/shortcuts.ui:17
+msgid "Trigger"
+msgstr ""
+
+#: bobgui/inspector/size-groups.c:225
+msgctxt "sizegroup mode"
+msgid "None"
+msgstr ""
+
+#: bobgui/inspector/size-groups.c:226
+msgctxt "sizegroup mode"
+msgid "Horizontal"
+msgstr ""
+
+#: bobgui/inspector/size-groups.c:227
+msgctxt "sizegroup mode"
+msgid "Vertical"
+msgstr ""
+
+#: bobgui/inspector/size-groups.c:228
+msgctxt "sizegroup mode"
+msgid "Both"
+msgstr ""
+
+#: bobgui/inspector/size-groups.c:240
+msgid "Mode"
+msgstr ""
+
+#: bobgui/inspector/statistics.c:400
+msgid "GLib must be configured with -Dbuildtype=debug"
+msgstr "GLib ахышәара -Dbuildtype=debug аманы ирхиазароуп"
+
+#: bobgui/inspector/statistics.ui:60
+msgid "Self 1"
+msgstr ""
+
+#: bobgui/inspector/statistics.ui:71
+msgid "Cumulative 1"
+msgstr ""
+
+#: bobgui/inspector/statistics.ui:82
+msgid "Self 2"
+msgstr ""
+
+#: bobgui/inspector/statistics.ui:93
+msgid "Cumulative 2"
+msgstr ""
+
+#: bobgui/inspector/statistics.ui:104
+msgid "Self"
+msgstr ""
+
+#: bobgui/inspector/statistics.ui:120
+msgid "Cumulative"
+msgstr ""
+
+#: bobgui/inspector/statistics.ui:151
+msgid "Enable statistics with GOBJECT_DEBUG=instance-count"
+msgstr ""
+
+#: bobgui/inspector/tree-data.ui:10
+msgid "Show data"
+msgstr ""
+
+#: bobgui/inspector/type-info.ui:14
+msgid "Hierarchy"
+msgstr ""
+
+#: bobgui/inspector/type-info.ui:35
+msgid "Implements"
+msgstr ""
+
+#: bobgui/inspector/visual.c:603 bobgui/inspector/visual.c:622
+msgid "Theme is hardcoded by BOBGUI_THEME"
+msgstr ""
+
+#: bobgui/inspector/visual.c:853
+msgid "Backend does not support window scaling"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:35
+msgid "BOBGUI Theme"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:59
+msgid "Dark Variant"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:84
+msgid "Cursor Theme"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:109
+msgid "Cursor Size"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:145
+msgid "Icon Theme"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:195
+msgid "Font Scale"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:240
+msgid "Text Direction"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:255
+msgid "Left-to-Right"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:256
+msgid "Right-to-Left"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:274
+msgid "Window Scaling"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:307
+msgid "Animations"
+msgstr "Анимациа"
+
+#: bobgui/inspector/visual.ui:332
+msgid "Slowdown"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:390
+msgid "Show fps overlay"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:415
+msgid "Show Graphic Updates"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:440
+msgid "Show Fallback Rendering"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:465
+msgid "Show Baselines"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:493
+msgid "Show Layout Borders"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:550
+msgid "CSS Padding"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:560
+msgid "CSS Border"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:570
+msgid "CSS Margin"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:580
+msgid "Widget Margin"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:615
+msgid "Show Focus"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:654
+msgid "Simulate Touchscreen"
+msgstr ""
+
+#: bobgui/inspector/visual.ui:689
+msgid "Inspect Inspector"
+msgstr ""
+
+#: bobgui/inspector/window.ui:27
+msgid "Select an Object"
+msgstr ""
+
+#: bobgui/inspector/window.ui:42 bobgui/inspector/window.ui:107
+msgid "Show Details"
+msgstr ""
+
+#: bobgui/inspector/window.ui:57
+msgid "Show all Objects"
+msgstr ""
+
+#: bobgui/inspector/window.ui:121
+msgid "Show all Resources"
+msgstr ""
+
+#: bobgui/inspector/window.ui:147
+msgid "Collect Statistics"
+msgstr ""
+
+#: bobgui/inspector/window.ui:199
+msgid "Objects"
+msgstr "Аобиект"
+
+#: bobgui/inspector/window.ui:231
+msgid "Toggle Sidebar"
+msgstr ""
+
+#: bobgui/inspector/window.ui:253
+msgid "Refresh action state"
+msgstr ""
+
+#: bobgui/inspector/window.ui:327
+msgid "Previous object"
+msgstr ""
+
+#: bobgui/inspector/window.ui:334
+msgid "Child object"
+msgstr ""
+
+#: bobgui/inspector/window.ui:341
+msgid "Previous sibling"
+msgstr ""
+
+#: bobgui/inspector/window.ui:347
+msgid "List Position"
+msgstr ""
+
+#: bobgui/inspector/window.ui:356
+msgid "Next sibling"
+msgstr ""
+
+#: bobgui/inspector/window.ui:386
+msgid "Miscellaneous"
+msgstr ""
+
+#: bobgui/inspector/window.ui:407 bobgui/ui/bobguiprintunixdialog.ui:393
+msgid "Layout"
+msgstr "Аихшара"
+
+#: bobgui/inspector/window.ui:418
+msgid "CSS Nodes"
+msgstr ""
+
+#: bobgui/inspector/window.ui:429
+msgid "Size Groups"
+msgstr ""
+
+#: bobgui/inspector/window.ui:438 bobgui/inspector/window.ui:447
+msgid "Data"
+msgstr ""
+
+#: bobgui/inspector/window.ui:457
+msgid "Actions"
+msgstr ""
+
+#: bobgui/inspector/window.ui:468
+msgid "Menu"
+msgstr ""
+
+#: bobgui/inspector/window.ui:477
+msgid "Controllers"
+msgstr ""
+
+#: bobgui/inspector/window.ui:487
+msgid "Magnifier"
+msgstr ""
+
+#: bobgui/inspector/window.ui:508
+msgid "Accessibility"
+msgstr ""
+
+#: bobgui/inspector/window.ui:532
+msgid "Global"
+msgstr ""
+
+#: bobgui/inspector/window.ui:545
+msgid "Information"
+msgstr ""
+
+#: bobgui/inspector/window.ui:554
+msgid "Settings"
+msgstr ""
+
+#: bobgui/inspector/window.ui:563
+msgid "Resources"
+msgstr ""
+
+#: bobgui/inspector/window.ui:584
+msgid "Statistics"
+msgstr ""
+
+#: bobgui/inspector/window.ui:595
+msgid "Logging"
+msgstr ""
+
+#: bobgui/inspector/window.ui:610
+msgid "CSS"
+msgstr "CSS"
+
+#: bobgui/inspector/window.ui:619
+msgid "Recorder"
+msgstr ""
+
+#: bobgui/open-type-layout.h:14
+msgctxt "OpenType layout"
+msgid "Access All Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:15
+msgctxt "OpenType layout"
+msgid "Above-base Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:16
+msgctxt "OpenType layout"
+msgid "Above-base Mark Positioning"
+msgstr ""
+
+#: bobgui/open-type-layout.h:17
+msgctxt "OpenType layout"
+msgid "Above-base Substitutions"
+msgstr ""
+
+#: bobgui/open-type-layout.h:18
+msgctxt "OpenType layout"
+msgid "Alternative Fractions"
+msgstr ""
+
+#: bobgui/open-type-layout.h:19
+msgctxt "OpenType layout"
+msgid "Akhands"
+msgstr ""
+
+#: bobgui/open-type-layout.h:20
+msgctxt "OpenType layout"
+msgid "Below-base Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:21
+msgctxt "OpenType layout"
+msgid "Below-base Mark Positioning"
+msgstr ""
+
+#: bobgui/open-type-layout.h:22
+msgctxt "OpenType layout"
+msgid "Below-base Substitutions"
+msgstr ""
+
+#: bobgui/open-type-layout.h:23
+msgctxt "OpenType layout"
+msgid "Contextual Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:24
+msgctxt "OpenType layout"
+msgid "Case-Sensitive Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:25
+msgctxt "OpenType layout"
+msgid "Glyph Composition / Decomposition"
+msgstr ""
+
+#: bobgui/open-type-layout.h:26
+msgctxt "OpenType layout"
+msgid "Conjunct Form After Ro"
+msgstr ""
+
+#: bobgui/open-type-layout.h:27
+msgctxt "OpenType layout"
+msgid "Conjunct Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:28
+msgctxt "OpenType layout"
+msgid "Contextual Ligatures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:29
+msgctxt "OpenType layout"
+msgid "Centered CJK Punctuation"
+msgstr ""
+
+#: bobgui/open-type-layout.h:30
+msgctxt "OpenType layout"
+msgid "Capital Spacing"
+msgstr ""
+
+#: bobgui/open-type-layout.h:31
+msgctxt "OpenType layout"
+msgid "Contextual Swash"
+msgstr ""
+
+#: bobgui/open-type-layout.h:32
+msgctxt "OpenType layout"
+msgid "Cursive Positioning"
+msgstr ""
+
+#: bobgui/open-type-layout.h:33
+msgctxt "OpenType layout"
+msgid "Petite Capitals From Capitals"
+msgstr ""
+
+#: bobgui/open-type-layout.h:34
+msgctxt "OpenType layout"
+msgid "Small Capitals From Capitals"
+msgstr ""
+
+#: bobgui/open-type-layout.h:35
+msgctxt "OpenType layout"
+msgid "Distances"
+msgstr ""
+
+#: bobgui/open-type-layout.h:36
+msgctxt "OpenType layout"
+msgid "Discretionary Ligatures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:37
+msgctxt "OpenType layout"
+msgid "Denominators"
+msgstr ""
+
+#: bobgui/open-type-layout.h:38
+msgctxt "OpenType layout"
+msgid "Dotless Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:39
+msgctxt "OpenType layout"
+msgid "Expert Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:40
+msgctxt "OpenType layout"
+msgid "Final Glyph on Line Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:41
+msgctxt "OpenType layout"
+msgid "Terminal Forms #2"
+msgstr ""
+
+#: bobgui/open-type-layout.h:42
+msgctxt "OpenType layout"
+msgid "Terminal Forms #3"
+msgstr ""
+
+#: bobgui/open-type-layout.h:43
+msgctxt "OpenType layout"
+msgid "Terminal Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:44
+msgctxt "OpenType layout"
+msgid "Flattened accent forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:45
+msgctxt "OpenType layout"
+msgid "Fractions"
+msgstr ""
+
+#: bobgui/open-type-layout.h:46
+msgctxt "OpenType layout"
+msgid "Full Widths"
+msgstr ""
+
+#: bobgui/open-type-layout.h:47
+msgctxt "OpenType layout"
+msgid "Half Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:48
+msgctxt "OpenType layout"
+msgid "Halant Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:49
+msgctxt "OpenType layout"
+msgid "Alternate Half Widths"
+msgstr ""
+
+#: bobgui/open-type-layout.h:50
+msgctxt "OpenType layout"
+msgid "Historical Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:51
+msgctxt "OpenType layout"
+msgid "Horizontal Kana Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:52
+msgctxt "OpenType layout"
+msgid "Historical Ligatures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:53
+msgctxt "OpenType layout"
+msgid "Hangul"
+msgstr ""
+
+#: bobgui/open-type-layout.h:54
+msgctxt "OpenType layout"
+msgid "Hojo Kanji Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:55
+msgctxt "OpenType layout"
+msgid "Half Widths"
+msgstr ""
+
+#: bobgui/open-type-layout.h:56
+msgctxt "OpenType layout"
+msgid "Initial Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:57
+msgctxt "OpenType layout"
+msgid "Isolated Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:58
+msgctxt "OpenType layout"
+msgid "Italics"
+msgstr ""
+
+#: bobgui/open-type-layout.h:59
+msgctxt "OpenType layout"
+msgid "Justification Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:60
+msgctxt "OpenType layout"
+msgid "JIS78 Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:61
+msgctxt "OpenType layout"
+msgid "JIS83 Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:62
+msgctxt "OpenType layout"
+msgid "JIS90 Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:63
+msgctxt "OpenType layout"
+msgid "JIS2004 Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:64
+msgctxt "OpenType layout"
+msgid "Kerning"
+msgstr ""
+
+#: bobgui/open-type-layout.h:65
+msgctxt "OpenType layout"
+msgid "Left Bounds"
+msgstr ""
+
+#: bobgui/open-type-layout.h:66
+msgctxt "OpenType layout"
+msgid "Standard Ligatures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:67
+msgctxt "OpenType layout"
+msgid "Leading Jamo Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:68
+msgctxt "OpenType layout"
+msgid "Lining Figures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:69
+msgctxt "OpenType layout"
+msgid "Localized Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:70
+msgctxt "OpenType layout"
+msgid "Left-to-right alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:71
+msgctxt "OpenType layout"
+msgid "Left-to-right mirrored forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:72
+msgctxt "OpenType layout"
+msgid "Mark Positioning"
+msgstr ""
+
+#: bobgui/open-type-layout.h:73
+msgctxt "OpenType layout"
+msgid "Medial Forms #2"
+msgstr ""
+
+#: bobgui/open-type-layout.h:74
+msgctxt "OpenType layout"
+msgid "Medial Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:75
+msgctxt "OpenType layout"
+msgid "Mathematical Greek"
+msgstr ""
+
+#: bobgui/open-type-layout.h:76
+msgctxt "OpenType layout"
+msgid "Mark to Mark Positioning"
+msgstr ""
+
+#: bobgui/open-type-layout.h:77
+msgctxt "OpenType layout"
+msgid "Mark Positioning via Substitution"
+msgstr ""
+
+#: bobgui/open-type-layout.h:78
+msgctxt "OpenType layout"
+msgid "Alternate Annotation Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:79
+msgctxt "OpenType layout"
+msgid "NLC Kanji Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:80
+msgctxt "OpenType layout"
+msgid "Nukta Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:81
+msgctxt "OpenType layout"
+msgid "Numerators"
+msgstr ""
+
+#: bobgui/open-type-layout.h:82
+msgctxt "OpenType layout"
+msgid "Oldstyle Figures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:83
+msgctxt "OpenType layout"
+msgid "Optical Bounds"
+msgstr ""
+
+#: bobgui/open-type-layout.h:84
+msgctxt "OpenType layout"
+msgid "Ordinals"
+msgstr ""
+
+#: bobgui/open-type-layout.h:85
+msgctxt "OpenType layout"
+msgid "Ornaments"
+msgstr ""
+
+#: bobgui/open-type-layout.h:86
+msgctxt "OpenType layout"
+msgid "Proportional Alternate Widths"
+msgstr ""
+
+#: bobgui/open-type-layout.h:87
+msgctxt "OpenType layout"
+msgid "Petite Capitals"
+msgstr ""
+
+#: bobgui/open-type-layout.h:88
+msgctxt "OpenType layout"
+msgid "Proportional Kana"
+msgstr ""
+
+#: bobgui/open-type-layout.h:89
+msgctxt "OpenType layout"
+msgid "Proportional Figures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:90
+msgctxt "OpenType layout"
+msgid "Pre-Base Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:91
+msgctxt "OpenType layout"
+msgid "Pre-base Substitutions"
+msgstr ""
+
+#: bobgui/open-type-layout.h:92
+msgctxt "OpenType layout"
+msgid "Post-base Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:93
+msgctxt "OpenType layout"
+msgid "Post-base Substitutions"
+msgstr ""
+
+#: bobgui/open-type-layout.h:94
+msgctxt "OpenType layout"
+msgid "Proportional Widths"
+msgstr ""
+
+#: bobgui/open-type-layout.h:95
+msgctxt "OpenType layout"
+msgid "Quarter Widths"
+msgstr ""
+
+#: bobgui/open-type-layout.h:96
+msgctxt "OpenType layout"
+msgid "Randomize"
+msgstr ""
+
+#: bobgui/open-type-layout.h:97
+msgctxt "OpenType layout"
+msgid "Required Contextual Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:98
+msgctxt "OpenType layout"
+msgid "Rakar Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:99
+msgctxt "OpenType layout"
+msgid "Required Ligatures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:100
+msgctxt "OpenType layout"
+msgid "Reph Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:101
+msgctxt "OpenType layout"
+msgid "Right Bounds"
+msgstr ""
+
+#: bobgui/open-type-layout.h:102
+msgctxt "OpenType layout"
+msgid "Right-to-left alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:103
+msgctxt "OpenType layout"
+msgid "Right-to-left mirrored forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:104
+msgctxt "OpenType layout"
+msgid "Ruby Notation Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:105
+msgctxt "OpenType layout"
+msgid "Required Variation Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:106
+msgctxt "OpenType layout"
+msgid "Stylistic Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:107
+msgctxt "OpenType layout"
+msgid "Scientific Inferiors"
+msgstr ""
+
+#: bobgui/open-type-layout.h:108
+msgctxt "OpenType layout"
+msgid "Optical size"
+msgstr ""
+
+#: bobgui/open-type-layout.h:109
+msgctxt "OpenType layout"
+msgid "Small Capitals"
+msgstr ""
+
+#: bobgui/open-type-layout.h:110
+msgctxt "OpenType layout"
+msgid "Simplified Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:111
+msgctxt "OpenType layout"
+msgid "Math script style alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:112
+msgctxt "OpenType layout"
+msgid "Stretching Glyph Decomposition"
+msgstr ""
+
+#: bobgui/open-type-layout.h:113
+msgctxt "OpenType layout"
+msgid "Subscript"
+msgstr ""
+
+#: bobgui/open-type-layout.h:114
+msgctxt "OpenType layout"
+msgid "Superscript"
+msgstr ""
+
+#: bobgui/open-type-layout.h:115
+msgctxt "OpenType layout"
+msgid "Swash"
+msgstr ""
+
+#: bobgui/open-type-layout.h:116
+msgctxt "OpenType layout"
+msgid "Titling"
+msgstr ""
+
+#: bobgui/open-type-layout.h:117
+msgctxt "OpenType layout"
+msgid "Trailing Jamo Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:118
+msgctxt "OpenType layout"
+msgid "Traditional Name Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:119
+msgctxt "OpenType layout"
+msgid "Tabular Figures"
+msgstr ""
+
+#: bobgui/open-type-layout.h:120
+msgctxt "OpenType layout"
+msgid "Traditional Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:121
+msgctxt "OpenType layout"
+msgid "Third Widths"
+msgstr ""
+
+#: bobgui/open-type-layout.h:122
+msgctxt "OpenType layout"
+msgid "Unicase"
+msgstr ""
+
+#: bobgui/open-type-layout.h:123
+msgctxt "OpenType layout"
+msgid "Alternate Vertical Metrics"
+msgstr ""
+
+#: bobgui/open-type-layout.h:124
+msgctxt "OpenType layout"
+msgid "Vattu Variants"
+msgstr ""
+
+#: bobgui/open-type-layout.h:125
+msgctxt "OpenType layout"
+msgid "Vertical Writing"
+msgstr ""
+
+#: bobgui/open-type-layout.h:126
+msgctxt "OpenType layout"
+msgid "Alternate Vertical Half Metrics"
+msgstr ""
+
+#: bobgui/open-type-layout.h:127
+msgctxt "OpenType layout"
+msgid "Vowel Jamo Forms"
+msgstr ""
+
+#: bobgui/open-type-layout.h:128
+msgctxt "OpenType layout"
+msgid "Vertical Kana Alternates"
+msgstr ""
+
+#: bobgui/open-type-layout.h:129
+msgctxt "OpenType layout"
+msgid "Vertical Kerning"
+msgstr ""
+
+#: bobgui/open-type-layout.h:130
+msgctxt "OpenType layout"
+msgid "Proportional Alternate Vertical Metrics"
+msgstr ""
+
+#: bobgui/open-type-layout.h:131
+msgctxt "OpenType layout"
+msgid "Vertical Alternates and Rotation"
+msgstr ""
+
+#: bobgui/open-type-layout.h:132
+msgctxt "OpenType layout"
+msgid "Vertical Alternates for Rotation"
+msgstr ""
+
+#: bobgui/open-type-layout.h:133
+msgctxt "OpenType layout"
+msgid "Slashed Zero"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:4
+msgctxt "paper size"
+msgid "asme_f"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:5
+msgctxt "paper size"
+msgid "A0×2"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:6
+msgctxt "paper size"
+msgid "A0"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:7
+msgctxt "paper size"
+msgid "A0×3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:8
+msgctxt "paper size"
+msgid "A1"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:9
+msgctxt "paper size"
+msgid "A10"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:10
+msgctxt "paper size"
+msgid "A1×3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:11
+msgctxt "paper size"
+msgid "A1×4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:12
+msgctxt "paper size"
+msgid "A2"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:13
+msgctxt "paper size"
+msgid "A2×3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:14
+msgctxt "paper size"
+msgid "A2×4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:15
+msgctxt "paper size"
+msgid "A2×5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:16
+msgctxt "paper size"
+msgid "A3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:17
+msgctxt "paper size"
+msgid "A3 Extra"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:18
+msgctxt "paper size"
+msgid "A3×3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:19
+msgctxt "paper size"
+msgid "A3×4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:20
+msgctxt "paper size"
+msgid "A3×5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:21
+msgctxt "paper size"
+msgid "A3×6"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:22
+msgctxt "paper size"
+msgid "A3×7"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:23
+msgctxt "paper size"
+msgid "A4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:24
+msgctxt "paper size"
+msgid "A4 Extra"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:25
+msgctxt "paper size"
+msgid "A4 Tab"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:26
+msgctxt "paper size"
+msgid "A4×3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:27
+msgctxt "paper size"
+msgid "A4×4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:28
+msgctxt "paper size"
+msgid "A4×5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:29
+msgctxt "paper size"
+msgid "A4×6"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:30
+msgctxt "paper size"
+msgid "A4×7"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:31
+msgctxt "paper size"
+msgid "A4×8"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:32
+msgctxt "paper size"
+msgid "A4×9"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:33
+msgctxt "paper size"
+msgid "A5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:34
+msgctxt "paper size"
+msgid "A5 Extra"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:35
+msgctxt "paper size"
+msgid "A6"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:36
+msgctxt "paper size"
+msgid "A7"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:37
+msgctxt "paper size"
+msgid "A8"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:38
+msgctxt "paper size"
+msgid "A9"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:39
+msgctxt "paper size"
+msgid "B0"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:40
+msgctxt "paper size"
+msgid "B1"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:41
+msgctxt "paper size"
+msgid "B10"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:42
+msgctxt "paper size"
+msgid "B2"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:43
+msgctxt "paper size"
+msgid "B3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:44
+msgctxt "paper size"
+msgid "B4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:45
+msgctxt "paper size"
+msgid "B5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:46
+msgctxt "paper size"
+msgid "B5 Extra"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:47
+msgctxt "paper size"
+msgid "B6"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:48
+msgctxt "paper size"
+msgid "B6/C4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:49
+msgctxt "paper size"
+msgid "B7"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:50
+msgctxt "paper size"
+msgid "B8"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:51
+msgctxt "paper size"
+msgid "B9"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:52
+msgctxt "paper size"
+msgid "C0"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:53
+msgctxt "paper size"
+msgid "C1"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:54
+msgctxt "paper size"
+msgid "C10"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:55
+msgctxt "paper size"
+msgid "C2"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:56
+msgctxt "paper size"
+msgid "C3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:57
+msgctxt "paper size"
+msgid "C4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:58
+msgctxt "paper size"
+msgid "C5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:59
+msgctxt "paper size"
+msgid "C6"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:60
+msgctxt "paper size"
+msgid "C6/C5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:61
+msgctxt "paper size"
+msgid "C7"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:62
+msgctxt "paper size"
+msgid "C7/C6"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:63
+msgctxt "paper size"
+msgid "C8"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:64
+msgctxt "paper size"
+msgid "C9"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:65
+msgctxt "paper size"
+msgid "DL Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:66
+msgctxt "paper size"
+msgid "RA0"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:67
+msgctxt "paper size"
+msgid "RA1"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:68
+msgctxt "paper size"
+msgid "RA2"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:69
+msgctxt "paper size"
+msgid "RA3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:70
+msgctxt "paper size"
+msgid "RA4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:71
+msgctxt "paper size"
+msgid "SRA0"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:72
+msgctxt "paper size"
+msgid "SRA1"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:73
+msgctxt "paper size"
+msgid "SRA2"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:74
+msgctxt "paper size"
+msgid "SRA3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:75
+msgctxt "paper size"
+msgid "SRA4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:76
+msgctxt "paper size"
+msgid "JB0"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:77
+msgctxt "paper size"
+msgid "JB1"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:78
+msgctxt "paper size"
+msgid "JB10"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:79
+msgctxt "paper size"
+msgid "JB2"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:80
+msgctxt "paper size"
+msgid "JB3"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:81
+msgctxt "paper size"
+msgid "JB4"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:82
+msgctxt "paper size"
+msgid "JB5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:83
+msgctxt "paper size"
+msgid "JB6"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:84
+msgctxt "paper size"
+msgid "JB7"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:85
+msgctxt "paper size"
+msgid "JB8"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:86
+msgctxt "paper size"
+msgid "JB9"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:87
+msgctxt "paper size"
+msgid "jis exec"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:88
+msgctxt "paper size"
+msgid "Choukei 2 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:89
+msgctxt "paper size"
+msgid "Choukei 3 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:90
+msgctxt "paper size"
+msgid "Choukei 4 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:91
+msgctxt "paper size"
+msgid "Choukei 40 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:92
+msgctxt "paper size"
+msgid "hagaki (postcard)"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:93
+msgctxt "paper size"
+msgid "kahu Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:94
+msgctxt "paper size"
+msgid "kaku2 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:95
+msgctxt "paper size"
+msgid "kaku3 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:96
+msgctxt "paper size"
+msgid "kaku4 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:97
+msgctxt "paper size"
+msgid "kaku5 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:98
+msgctxt "paper size"
+msgid "kaku7 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:99
+msgctxt "paper size"
+msgid "kaku8 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:100
+msgctxt "paper size"
+msgid "oufuku (reply postcard)"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:101
+msgctxt "paper size"
+msgid "you4 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:102
+msgctxt "paper size"
+msgid "you6 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:103
+msgctxt "paper size"
+msgid "10×11"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:104
+msgctxt "paper size"
+msgid "10×13"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:105
+msgctxt "paper size"
+msgid "10×14"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:106
+msgctxt "paper size"
+msgid "10×15"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:107
+msgctxt "paper size"
+msgid "11×12"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:108
+msgctxt "paper size"
+msgid "11×15"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:109
+msgctxt "paper size"
+msgid "12×19"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:110
+msgctxt "paper size"
+msgid "5×7"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:111
+msgctxt "paper size"
+msgid "6×9 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:112
+msgctxt "paper size"
+msgid "7×9 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:113
+msgctxt "paper size"
+msgid "8×10 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:114
+msgctxt "paper size"
+msgid "9×11 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:115
+msgctxt "paper size"
+msgid "9×12 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:116
+msgctxt "paper size"
+msgid "a2 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:117
+msgctxt "paper size"
+msgid "Arch A"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:118
+msgctxt "paper size"
+msgid "Arch B"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:119
+msgctxt "paper size"
+msgid "Arch C"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:120
+msgctxt "paper size"
+msgid "Arch D"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:121
+msgctxt "paper size"
+msgid "Arch E"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:122
+msgctxt "paper size"
+msgid "b-plus"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:123
+msgctxt "paper size"
+msgid "c"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:124
+msgctxt "paper size"
+msgid "c5 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:125
+msgctxt "paper size"
+msgid "d"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:126
+msgctxt "paper size"
+msgid "e"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:127
+msgctxt "paper size"
+msgid "edp"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:128
+msgctxt "paper size"
+msgid "European edp"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:129
+msgctxt "paper size"
+msgid "Executive"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:130
+msgctxt "paper size"
+msgid "f"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:131
+msgctxt "paper size"
+msgid "Fan-Fold European"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:132
+msgctxt "paper size"
+msgid "Fan-Fold US"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:133
+msgctxt "paper size"
+msgid "Fan-Fold German Legal"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:134
+msgctxt "paper size"
+msgid "Government Legal"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:135
+msgctxt "paper size"
+msgid "Government Letter"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:136
+msgctxt "paper size"
+msgid "Index 3×5"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:137
+msgctxt "paper size"
+msgid "Index 4×6 (postcard)"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:138
+msgctxt "paper size"
+msgid "Index 4×6 ext"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:139
+msgctxt "paper size"
+msgid "Index 5×8"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:140
+msgctxt "paper size"
+msgid "Invoice"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:141
+msgctxt "paper size"
+msgid "Tabloid"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:142
+msgctxt "paper size"
+msgid "US Legal"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:143
+msgctxt "paper size"
+msgid "US Legal Extra"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:144
+msgctxt "paper size"
+msgid "US Letter"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:145
+msgctxt "paper size"
+msgid "US Letter Extra"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:146
+msgctxt "paper size"
+msgid "US Letter Plus"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:147
+msgctxt "paper size"
+msgid "Monarch Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:148
+msgctxt "paper size"
+msgid "#10 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:149
+msgctxt "paper size"
+msgid "#11 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:150
+msgctxt "paper size"
+msgid "#12 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:151
+msgctxt "paper size"
+msgid "#14 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:152
+msgctxt "paper size"
+msgid "#9 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:153
+msgctxt "paper size"
+msgid "Oficio"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:154
+msgctxt "paper size"
+msgid "Personal Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:155
+msgctxt "paper size"
+msgid "Quarto"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:156
+msgctxt "paper size"
+msgid "Super A"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:157
+msgctxt "paper size"
+msgid "Super B"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:158
+msgctxt "paper size"
+msgid "Wide Format"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:159
+msgctxt "paper size"
+msgid "Photo L"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:160
+msgctxt "paper size"
+msgid "Dai-pa-kai"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:161
+msgctxt "paper size"
+msgid "Folio"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:162
+msgctxt "paper size"
+msgid "Folio sp"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:163
+msgctxt "paper size"
+msgid "Invite Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:164
+msgctxt "paper size"
+msgid "Italian Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:165
+msgctxt "paper size"
+msgid "juuro-ku-kai"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:166
+msgctxt "paper size"
+msgid "Large Photo"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:167
+msgctxt "paper size"
+msgid "Medium Photo"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:168
+msgctxt "paper size"
+msgid "pa-kai"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:169
+msgctxt "paper size"
+msgid "Postfix Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:170
+msgctxt "paper size"
+msgid "Small Photo"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:171
+msgctxt "paper size"
+msgid "Wide Photo"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:172
+msgctxt "paper size"
+msgid "prc1 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:173
+msgctxt "paper size"
+msgid "prc10 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:174
+msgctxt "paper size"
+msgid "prc 16k"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:175
+msgctxt "paper size"
+msgid "prc2 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:176
+msgctxt "paper size"
+msgid "prc3 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:177
+msgctxt "paper size"
+msgid "prc 32k"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:178
+msgctxt "paper size"
+msgid "prc4 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:179
+msgctxt "paper size"
+msgid "prc5 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:180
+msgctxt "paper size"
+msgid "prc6 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:181
+msgctxt "paper size"
+msgid "prc7 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:182
+msgctxt "paper size"
+msgid "prc8 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:183
+msgctxt "paper size"
+msgid "prc9 Envelope"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:184
+msgctxt "paper size"
+msgid "ROC 16k"
+msgstr ""
+
+#: bobgui/paper_names_offsets.c:185
+msgctxt "paper size"
+msgid "ROC 8k"
+msgstr ""
+
+#: bobgui/ui/bobguiaboutdialog.ui:62
+msgid "About"
+msgstr "Аԥшьы иазкны"
+
+#: bobgui/ui/bobguiaboutdialog.ui:123
+msgid "Credits"
+msgstr "Аҭабурақәа"
+
+#: bobgui/ui/bobguiaboutdialog.ui:206
+msgid "System"
+msgstr ""
+
+#: bobgui/ui/bobguiappchooserdialog.ui:60
+msgid "_View All Applications"
+msgstr ""
+
+#: bobgui/ui/bobguiappchooserdialog.ui:66
+msgid "_Find New Applications"
+msgstr "_Апшьы ҿыцқәа рыԥшаара"
+
+#: bobgui/ui/bobguiappchooserwidget.ui:100
+msgid "No applications found."
+msgstr ""
+
+#: bobgui/ui/bobguiapplication-quartz.ui:13
+msgid "Preferences"
+msgstr "Ахышәарақәа"
+
+#: bobgui/ui/bobguiapplication-quartz.ui:19
+msgid "Services"
+msgstr ""
+
+#: bobgui/ui/bobguiapplication-quartz.ui:25
+#, c-format
+msgid "Hide %s"
+msgstr ""
+
+#: bobgui/ui/bobguiapplication-quartz.ui:30
+msgid "Hide Others"
+msgstr ""
+
+#: bobgui/ui/bobguiapplication-quartz.ui:35
+msgid "Show All"
+msgstr ""
+
+#: bobgui/ui/bobguiapplication-quartz.ui:42
+#, c-format
+msgid "Quit %s"
+msgstr ""
+
+#: bobgui/ui/bobguiassistant.ui:64
+msgid "_Finish"
+msgstr "_Ахыркәшара"
+
+#: bobgui/ui/bobguiassistant.ui:75
+msgid "_Back"
+msgstr "_Шьҭахьҟа"
+
+#: bobgui/ui/bobguiassistant.ui:86
+msgid "_Next"
+msgstr ""
+
+#: bobgui/ui/bobguicolorchooserdialog.ui:4
+msgid "Select a Color"
+msgstr ""
+
+#: bobgui/ui/bobguicoloreditor.ui:43 bobgui/ui/bobguicoloreditor.ui:53
+msgid "Pick a color from the screen"
+msgstr ""
+
+#: bobgui/ui/bobguicoloreditor.ui:80
+msgid "Hexadecimal color or color name"
+msgstr ""
+
+#: bobgui/ui/bobguicoloreditor.ui:95
+msgid "Hue"
+msgstr "Hue"
+
+#: bobgui/ui/bobguicoloreditor.ui:111
+msgid "Alpha value"
+msgstr ""
+
+#: bobgui/ui/bobguicoloreditor.ui:129
+msgid "Saturation and value"
+msgstr ""
+
+#: bobgui/ui/bobguicoloreditor.ui:153
+msgctxt "Color channel"
+msgid "A"
+msgstr ""
+
+#: bobgui/ui/bobguicoloreditor.ui:189
+msgctxt "Color channel"
+msgid "H"
+msgstr ""
+
+#: bobgui/ui/bobguicoloreditor.ui:226
+msgctxt "Color Channel"
+msgid "S"
+msgstr ""
+
+#: bobgui/ui/bobguicoloreditor.ui:235
+msgctxt "Color Channel"
+msgid "V"
+msgstr ""
+
+#: bobgui/ui/bobguidropdown.ui:19
+msgid "(None)"
+msgstr ""
+
+#: bobgui/ui/bobguidropdown.ui:68
+msgid "Search…"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:69 bobgui/ui/bobguiemojichooser.ui:239
+msgctxt "emoji category"
+msgid "Smileys & People"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:94 bobgui/ui/bobguiemojichooser.ui:248
+msgctxt "emoji category"
+msgid "Body & Clothing"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:119 bobgui/ui/bobguiemojichooser.ui:257
+msgctxt "emoji category"
+msgid "Animals & Nature"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:133 bobgui/ui/bobguiemojichooser.ui:266
+msgctxt "emoji category"
+msgid "Food & Drink"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:147 bobgui/ui/bobguiemojichooser.ui:275
+msgctxt "emoji category"
+msgid "Travel & Places"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:161 bobgui/ui/bobguiemojichooser.ui:284
+msgctxt "emoji category"
+msgid "Activities"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:175 bobgui/ui/bobguiemojichooser.ui:293
+msgctxt "emoji category"
+msgid "Objects"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:189 bobgui/ui/bobguiemojichooser.ui:302
+msgctxt "emoji category"
+msgid "Symbols"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:203 bobgui/ui/bobguiemojichooser.ui:311
+msgctxt "emoji category"
+msgid "Flags"
+msgstr ""
+
+#: bobgui/ui/bobguiemojichooser.ui:230
+msgctxt "emoji category"
+msgid "Recent"
+msgstr ""
+
+#: bobgui/ui/bobguifilechooserwidget.ui:64
+msgid "Create Folder"
+msgstr ""
+
+#: bobgui/ui/bobguifilechooserwidget.ui:249
+msgid "Remote location — only searching the current folder"
+msgstr ""
+
+#: bobgui/ui/bobguifilechooserwidget.ui:378
+msgid "Folder Name"
+msgstr ""
+
+#: bobgui/ui/bobguifilechooserwidget.ui:404
+msgid "_Create"
+msgstr ""
+
+#: bobgui/ui/bobguifontchooserdialog.ui:4
+msgid "Select Font"
+msgstr ""
+
+#: bobgui/ui/bobguifontchooserwidget.ui:64
+msgid "Search font name"
+msgstr ""
+
+#: bobgui/ui/bobguifontchooserwidget.ui:79
+msgid "Filter by"
+msgstr ""
+
+#: bobgui/ui/bobguifontchooserwidget.ui:89
+msgid "Monospace"
+msgstr ""
+
+#: bobgui/ui/bobguifontchooserwidget.ui:95
+msgid "Language"
+msgstr ""
+
+#: bobgui/ui/bobguifontchooserwidget.ui:188 bobgui/ui/bobguifontchooserwidget.ui:324
+msgid "Preview Font"
+msgstr ""
+
+#: bobgui/ui/bobguifontchooserwidget.ui:191 bobgui/ui/bobguifontchooserwidget.ui:220
+msgid "horizontal"
+msgstr ""
+
+#: bobgui/ui/bobguifontchooserwidget.ui:270
+msgid "No Fonts Found"
+msgstr ""
+
+#: bobgui/ui/bobguipagesetupunixdialog.ui:27
+msgid "_Format for:"
+msgstr ""
+
+#: bobgui/ui/bobguipagesetupunixdialog.ui:51 bobgui/ui/bobguiprintunixdialog.ui:635
+msgid "_Paper size:"
+msgstr ""
+
+#: bobgui/ui/bobguipagesetupunixdialog.ui:86
+msgid "_Orientation:"
+msgstr ""
+
+#: bobgui/ui/bobguipagesetupunixdialog.ui:98 bobgui/ui/bobguiprintunixdialog.ui:675
+msgid "Portrait"
+msgstr ""
+
+#: bobgui/ui/bobguipagesetupunixdialog.ui:109 bobgui/ui/bobguiprintunixdialog.ui:677
+msgid "Reverse portrait"
+msgstr ""
+
+#: bobgui/ui/bobguipagesetupunixdialog.ui:121 bobgui/ui/bobguiprintunixdialog.ui:676
+msgid "Landscape"
+msgstr ""
+
+#: bobgui/ui/bobguipagesetupunixdialog.ui:132 bobgui/ui/bobguiprintunixdialog.ui:678
+msgid "Reverse landscape"
+msgstr ""
+
+#: bobgui/ui/bobguiplacesview.ui:28
+msgid "Server Addresses"
+msgstr "Асерверқәа рҭыӡҭыԥқәа"
+
+#: bobgui/ui/bobguiplacesview.ui:40
+msgid ""
+"Server addresses are made up of a protocol prefix and an address. Examples:"
+msgstr ""
+"Асерверқәа рҭыӡҭыԥқәа шьыкәгылоуп апртотокол апрефиксла, насгьы аҭыӡҭыԥла."
+"Аҿырԥштәқәа:"
+
+#: bobgui/ui/bobguiplacesview.ui:66
+msgid "Available Protocols"
+msgstr ""
+
+#. Translators: Server as any successfully connected network address
+#: bobgui/ui/bobguiplacesview.ui:118
+msgid "No recent servers found"
+msgstr ""
+
+#: bobgui/ui/bobguiplacesview.ui:141
+msgid "Recent Servers"
+msgstr ""
+
+#: bobgui/ui/bobguiplacesview.ui:221
+msgid "No results found"
+msgstr ""
+
+#: bobgui/ui/bobguiplacesview.ui:252
+msgid "Connect to _Server"
+msgstr ""
+
+#: bobgui/ui/bobguiplacesview.ui:277
+msgid "Enter server address…"
+msgstr ""
+
+#. this is the header for the printer status column in the print dialog
+#: bobgui/ui/bobguiprintunixdialog.ui:145
+msgid "Status"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:199
+msgid "Range"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:212
+msgid "_All Pages"
+msgstr "_Адаҟьақәа зегьы"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:224
+msgid "C_urrent Page"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:237
+msgid "Se_lection"
+msgstr "_Иалкаау"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:250
+msgid "Pag_es:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:251 bobgui/ui/bobguiprintunixdialog.ui:264
+msgid ""
+"Specify one or more page ranges,\n"
+" e.g. 1–3, 7, 11"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:287
+msgid "Copies"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:302
+msgid "Copie_s:"
+msgstr "_Ахкьыҧхьаақәа"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:325
+msgid "C_ollate"
+msgstr "_Аиқәыршәара"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:336
+msgid "_Reverse"
+msgstr "_Иаарҳәны"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:366
+msgid "General"
+msgstr "Зегьы ирзаку"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:408
+msgid "T_wo-sided:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:430
+msgid "Pages per _side:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:454
+msgid "Page or_dering:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:477
+msgid "_Only print:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:493
+msgid "All sheets"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:494
+msgid "Even sheets"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:495
+msgid "Odd sheets"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:509
+msgid "Sc_ale:"
+msgstr "_Амасштаб:"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:554
+msgid "Paper"
+msgstr "Ақьаад"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:569
+msgid "Paper _type:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:591
+msgid "Paper _source:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:613
+msgid "Output t_ray:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:658
+msgid "Or_ientation:"
+msgstr "_Ахырхарҭа:"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:732
+msgid "Job Details"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:747
+msgid "Pri_ority:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:768
+msgid "_Billing info:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:801
+msgid "Print Document"
+msgstr ""
+
+#. this is one of the choices for the print at option in the print dialog
+#: bobgui/ui/bobguiprintunixdialog.ui:814
+msgid "_Now"
+msgstr ""
+
+#. this is one of the choices for the print at option in the print dialog. It also serves as the label for an entry that allows the user to enter a time.
+#: bobgui/ui/bobguiprintunixdialog.ui:828
+msgid "A_t:"
+msgstr "_Аҟны:"
+
+#. Ability to parse the am/pm format depends on actual locale. You can remove the am/pm values below for your locale if they are not supported.
+#: bobgui/ui/bobguiprintunixdialog.ui:830 bobgui/ui/bobguiprintunixdialog.ui:832
+#: bobgui/ui/bobguiprintunixdialog.ui:848 bobgui/ui/bobguiprintunixdialog.ui:850
+msgid ""
+"Specify the time of print,\n"
+" e.g. 15∶30, 2∶35 pm, 14∶15∶20, 11∶46∶30 am, 4 pm"
+msgstr ""
+
+#. this is one of the choices for the print at option in the print dialog. It means that the print job will not be printed until it explicitly gets 'released'.
+#: bobgui/ui/bobguiprintunixdialog.ui:862
+msgid "On _hold"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:864 bobgui/ui/bobguiprintunixdialog.ui:865
+msgid "Hold the job until it is explicitly released"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:892
+msgid "Add Cover Page"
+msgstr ""
+
+#. this is the label used for the option in the print dialog that controls the front cover page.
+#: bobgui/ui/bobguiprintunixdialog.ui:907
+msgid "Be_fore:"
+msgstr ""
+
+#. this is the label used for the option in the print dialog that controls the back cover page.
+#: bobgui/ui/bobguiprintunixdialog.ui:928
+msgid "_After:"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:957
+msgid "Job"
+msgstr ""
+
+#. This will appear as a tab label in the print dialog.
+#: bobgui/ui/bobguiprintunixdialog.ui:987
+msgid "Image Quality"
+msgstr ""
+
+#. This will appear as a tab label in the print dialog.
+#: bobgui/ui/bobguiprintunixdialog.ui:1016
+msgid "Color"
+msgstr ""
+
+#. This will appear as a tab label in the print dialog. It's a typographical term, as in "Binding and finishing"
+#: bobgui/ui/bobguiprintunixdialog.ui:1045
+msgid "Finishing"
+msgstr ""
+
+#: bobgui/ui/bobguiprintunixdialog.ui:1074
+msgid "Advanced"
+msgstr "Аҧкаақәа"
+
+#: bobgui/ui/bobguiprintunixdialog.ui:1090
+msgid "Some of the settings in the dialog conflict"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:253
+#, c-format
+msgid "Unspecified error decoding media"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:286
+#, c-format
+msgid "Cannot find decoder: %s"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:296 modules/media/bobguiffmediafile.c:363
+msgid "Failed to allocate a codec context"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:341
+#, c-format
+msgid "Cannot find encoder: %s"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:352
+msgid "Cannot add new stream"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:485 modules/media/bobguiffmediafile.c:942
+msgid "Failed to allocate an audio frame"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:650 modules/media/bobguiffmediafile.c:898
+msgid "Not enough memory"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:821
+msgid "Could not allocate resampler context"
+msgstr ""
+
+#: modules/media/bobguiffmediafile.c:868
+msgid "No audio output found"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1142
+#: modules/printbackends/bobguiprintbackendcups.c:1449
+msgid "Username:"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1143
+#: modules/printbackends/bobguiprintbackendcups.c:1458
+msgid "Password:"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1181
+#: modules/printbackends/bobguiprintbackendcups.c:1471
+#, c-format
+msgid "Authentication is required to print document “%s” on printer %s"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1183
+#, c-format
+msgid "Authentication is required to print a document on %s"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1187
+#, c-format
+msgid "Authentication is required to get attributes of job “%s”"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1189
+msgid "Authentication is required to get attributes of a job"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1193
+#, c-format
+msgid "Authentication is required to get attributes of printer %s"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1195
+msgid "Authentication is required to get attributes of a printer"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1198
+#, c-format
+msgid "Authentication is required to get default printer of %s"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1201
+#, c-format
+msgid "Authentication is required to get printers from %s"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1206
+#, c-format
+msgid "Authentication is required to get a file from %s"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1208
+#, c-format
+msgid "Authentication is required on %s"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1443
+msgid "Domain:"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1473
+#, c-format
+msgid "Authentication is required to print document “%s”"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1478
+#, c-format
+msgid "Authentication is required to print this document on printer %s"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:1480
+msgid "Authentication is required to print this document"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:2568
+#, c-format
+msgid "Printer “%s” is low on toner."
+msgstr "Апринтер «%s» аҟны атонер анҵәара иаҿуп"
+
+#: modules/printbackends/bobguiprintbackendcups.c:2572
+#, c-format
+msgid "Printer “%s” has no toner left."
+msgstr "Апринтер «%s» аҟны атонер нҵәеит"
+
+#. Translators: "Developer" like on photo development context
+#: modules/printbackends/bobguiprintbackendcups.c:2577
+#, c-format
+msgid "Printer “%s” is low on developer."
+msgstr "Апринтер «%s» аҟны аарԥшыга анҵәара иаҿуп"
+
+#. Translators: "Developer" like on photo development context
+#: modules/printbackends/bobguiprintbackendcups.c:2582
+#, c-format
+msgid "Printer “%s” is out of developer."
+msgstr "Апринтер «%s» аҟны аарԥшыга нҵәеит"
+
+#. Translators: "marker" is one color bin of the printer
+#: modules/printbackends/bobguiprintbackendcups.c:2587
+#, c-format
+msgid "Printer “%s” is low on at least one marker supply."
+msgstr "Апринтер «%s» аҟны атонерқәа руак анҵәара иаҿуп"
+
+#. Translators: "marker" is one color bin of the printer
+#: modules/printbackends/bobguiprintbackendcups.c:2592
+#, c-format
+msgid "Printer “%s” is out of at least one marker supply."
+msgstr "Апринтер «%s» аҟны атонерқәа руак нҵәеит"
+
+#: modules/printbackends/bobguiprintbackendcups.c:2596
+#, c-format
+msgid "The cover is open on printer “%s”."
+msgstr "Апринтер «%s» аҟны ахҩа аартуп"
+
+#: modules/printbackends/bobguiprintbackendcups.c:2600
+#, c-format
+msgid "The door is open on printer “%s”."
+msgstr "Апринтер «%s» аҟны ашә аартуп"
+
+#: modules/printbackends/bobguiprintbackendcups.c:2604
+#, c-format
+msgid "Printer “%s” is low on paper."
+msgstr "Апринтер «%s» аҟны ақьаад анҵәара иаҿуп"
+
+#: modules/printbackends/bobguiprintbackendcups.c:2608
+#, c-format
+msgid "Printer “%s” is out of paper."
+msgstr "Апринтер «%s» аҟны ақьаад нҵәеит"
+
+#: modules/printbackends/bobguiprintbackendcups.c:2612
+#, c-format
+msgid "Printer “%s” is currently offline."
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:2616
+#, c-format
+msgid "There is a problem on printer “%s”."
+msgstr ""
+
+#. Translators: this is a printer status.
+#: modules/printbackends/bobguiprintbackendcups.c:2636
+msgid "Paused; Rejecting Jobs"
+msgstr ""
+
+#. Translators: this is a printer status.
+#: modules/printbackends/bobguiprintbackendcups.c:2642
+msgid "Rejecting Jobs"
+msgstr ""
+
+#. Translators: this string connects multiple printer states together.
+#: modules/printbackends/bobguiprintbackendcups.c:2683
+msgid "; "
+msgstr "; "
+
+#: modules/printbackends/bobguiprintbackendcups.c:4584
+#: modules/printbackends/bobguiprintbackendcups.c:4651
+msgctxt "printing option"
+msgid "Two Sided"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:4585
+msgctxt "printing option"
+msgid "Paper Type"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:4586
+msgctxt "printing option"
+msgid "Paper Source"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:4587
+#: modules/printbackends/bobguiprintbackendcups.c:4652
+msgctxt "printing option"
+msgid "Output Tray"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:4588
+msgctxt "printing option"
+msgid "Resolution"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:4589
+msgctxt "printing option"
+msgid "GhostScript pre-filtering"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:4598
+msgctxt "printing option value"
+msgid "One Sided"
+msgstr ""
+
+#. Translators: this is an option of "Two Sided"
+#: modules/printbackends/bobguiprintbackendcups.c:4600
+msgctxt "printing option value"
+msgid "Long Edge (Standard)"
+msgstr ""
+
+#. Translators: this is an option of "Two Sided"
+#: modules/printbackends/bobguiprintbackendcups.c:4602
+msgctxt "printing option value"
+msgid "Short Edge (Flip)"
+msgstr ""
+
+#. Translators: this is an option of "Paper Source"
+#: modules/printbackends/bobguiprintbackendcups.c:4604
+#: modules/printbackends/bobguiprintbackendcups.c:4606
+#: modules/printbackends/bobguiprintbackendcups.c:4614
+msgctxt "printing option value"
+msgid "Auto Select"
+msgstr ""
+
+#. Translators: this is an option of "Paper Source"
+#. Translators: this is an option of "Resolution"
+#: modules/printbackends/bobguiprintbackendcups.c:4608
+#: modules/printbackends/bobguiprintbackendcups.c:4610
+#: modules/printbackends/bobguiprintbackendcups.c:4612
+#: modules/printbackends/bobguiprintbackendcups.c:4616
+msgctxt "printing option value"
+msgid "Printer Default"
+msgstr ""
+
+#. Translators: this is an option of "GhostScript"
+#: modules/printbackends/bobguiprintbackendcups.c:4618
+msgctxt "printing option value"
+msgid "Embed GhostScript fonts only"
+msgstr ""
+
+#. Translators: this is an option of "GhostScript"
+#: modules/printbackends/bobguiprintbackendcups.c:4620
+msgctxt "printing option value"
+msgid "Convert to PS level 1"
+msgstr ""
+
+#. Translators: this is an option of "GhostScript"
+#: modules/printbackends/bobguiprintbackendcups.c:4622
+msgctxt "printing option value"
+msgid "Convert to PS level 2"
+msgstr ""
+
+#. Translators: this is an option of "GhostScript"
+#: modules/printbackends/bobguiprintbackendcups.c:4624
+msgctxt "printing option value"
+msgid "No pre-filtering"
+msgstr ""
+
+#. Translators: "Miscellaneous" is the label for a button, that opens
+#. up an extra panel of settings in a print dialog.
+#: modules/printbackends/bobguiprintbackendcups.c:4633
+msgctxt "printing option group"
+msgid "Miscellaneous"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:4660
+msgctxt "sides"
+msgid "One Sided"
+msgstr ""
+
+#. Translators: this is an option of "Two Sided"
+#: modules/printbackends/bobguiprintbackendcups.c:4662
+msgctxt "sides"
+msgid "Long Edge (Standard)"
+msgstr ""
+
+#. Translators: this is an option of "Two Sided"
+#: modules/printbackends/bobguiprintbackendcups.c:4664
+msgctxt "sides"
+msgid "Short Edge (Flip)"
+msgstr ""
+
+#. Translators: Top output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4667
+msgctxt "output-bin"
+msgid "Top Bin"
+msgstr ""
+
+#. Translators: Middle output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4669
+msgctxt "output-bin"
+msgid "Middle Bin"
+msgstr ""
+
+#. Translators: Bottom output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4671
+msgctxt "output-bin"
+msgid "Bottom Bin"
+msgstr ""
+
+#. Translators: Side output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4673
+msgctxt "output-bin"
+msgid "Side Bin"
+msgstr ""
+
+#. Translators: Left output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4675
+msgctxt "output-bin"
+msgid "Left Bin"
+msgstr ""
+
+#. Translators: Right output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4677
+msgctxt "output-bin"
+msgid "Right Bin"
+msgstr ""
+
+#. Translators: Center output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4679
+msgctxt "output-bin"
+msgid "Center Bin"
+msgstr ""
+
+#. Translators: Rear output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4681
+msgctxt "output-bin"
+msgid "Rear Bin"
+msgstr ""
+
+#. Translators: Output bin where one sided output is oriented in the face-up position
+#: modules/printbackends/bobguiprintbackendcups.c:4683
+msgctxt "output-bin"
+msgid "Face Up Bin"
+msgstr ""
+
+#. Translators: Output bin where one sided output is oriented in the face-down position
+#: modules/printbackends/bobguiprintbackendcups.c:4685
+msgctxt "output-bin"
+msgid "Face Down Bin"
+msgstr ""
+
+#. Translators: Large capacity output bin
+#: modules/printbackends/bobguiprintbackendcups.c:4687
+msgctxt "output-bin"
+msgid "Large Capacity Bin"
+msgstr ""
+
+#. Translators: Output stacker number %d
+#: modules/printbackends/bobguiprintbackendcups.c:4709
+#, c-format
+msgctxt "output-bin"
+msgid "Stacker %d"
+msgstr ""
+
+#. Translators: Output mailbox number %d
+#: modules/printbackends/bobguiprintbackendcups.c:4713
+#, c-format
+msgctxt "output-bin"
+msgid "Mailbox %d"
+msgstr ""
+
+#. Translators: Private mailbox
+#: modules/printbackends/bobguiprintbackendcups.c:4717
+msgctxt "output-bin"
+msgid "My Mailbox"
+msgstr ""
+
+#. Translators: Output tray number %d
+#: modules/printbackends/bobguiprintbackendcups.c:4721
+#, c-format
+msgctxt "output-bin"
+msgid "Tray %d"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5198
+msgid "Printer Default"
+msgstr "Ахышәарақәа  ишыҟоу еиҧш"
+
+#. Translators: These strings name the possible values of the
+#. * job priority option in the print dialog
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5642
+msgid "Urgent"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5642
+msgid "High"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5642
+msgid "Medium"
+msgstr "Абжьаратәи"
+
+#: modules/printbackends/bobguiprintbackendcups.c:5642
+msgid "Low"
+msgstr ""
+
+#. Translators, this string is used to label the job priority option
+#. * in the print dialog
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5672
+msgid "Job Priority"
+msgstr ""
+
+#. Translators, this string is used to label the billing info entry
+#. * in the print dialog
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5683
+msgid "Billing Info"
+msgstr ""
+
+#. Translators, these strings are names for various 'standard' cover
+#. * pages that the printing system may support.
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5707
+msgctxt "cover page"
+msgid "None"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5708
+msgctxt "cover page"
+msgid "Classified"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5709
+msgctxt "cover page"
+msgid "Confidential"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5710
+msgctxt "cover page"
+msgid "Secret"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5711
+msgctxt "cover page"
+msgid "Standard"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5712
+msgctxt "cover page"
+msgid "Top Secret"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendcups.c:5713
+msgctxt "cover page"
+msgid "Unclassified"
+msgstr ""
+
+#. Translators, this string is used to label the pages-per-sheet option
+#. * in the print dialog
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5725
+msgctxt "printer option"
+msgid "Pages per Sheet"
+msgstr ""
+
+#. Translators, this string is used to label the option in the print
+#. * dialog that controls in what order multiple pages are arranged
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5742
+msgctxt "printer option"
+msgid "Page Ordering"
+msgstr ""
+
+#. Translators, this is the label used for the option in the print
+#. * dialog that controls the front cover page.
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5784
+msgctxt "printer option"
+msgid "Before"
+msgstr ""
+
+#. Translators, this is the label used for the option in the print
+#. * dialog that controls the back cover page.
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5799
+msgctxt "printer option"
+msgid "After"
+msgstr ""
+
+#. Translators: this is the name of the option that controls when
+#. * a print job is printed. Possible values are 'now', a specified time,
+#. * or 'on hold'
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5819
+msgctxt "printer option"
+msgid "Print at"
+msgstr ""
+
+#. Translators: this is the name of the option that allows the user
+#. * to specify a time when a print job will be printed.
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5830
+msgctxt "printer option"
+msgid "Print at time"
+msgstr ""
+
+#. Translators: this format is used to display a custom
+#. * paper size. The two placeholders are replaced with
+#. * the width and height in points. E.g: "Custom
+#. * 230.4x142.9"
+#.
+#: modules/printbackends/bobguiprintbackendcups.c:5877
+#, c-format
+msgid "Custom %s×%s"
+msgstr ""
+
+#. TRANSLATORS: this is the ICC color profile to use for this job
+#: modules/printbackends/bobguiprintbackendcups.c:5988
+msgctxt "printer option"
+msgid "Printer Profile"
+msgstr ""
+
+#. TRANSLATORS: this is when color profile information is unavailable
+#: modules/printbackends/bobguiprintbackendcups.c:5995
+msgctxt "printer option value"
+msgid "Unavailable"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendfile.c:235
+msgid "output"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendfile.c:507
+msgid "Print to File"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendfile.c:633
+msgid "PDF"
+msgstr "PDF"
+
+#: modules/printbackends/bobguiprintbackendfile.c:633
+msgid "PostScript"
+msgstr "PostScript"
+
+#: modules/printbackends/bobguiprintbackendfile.c:633
+msgid "SVG"
+msgstr "SVG"
+
+#: modules/printbackends/bobguiprintbackendfile.c:646
+msgid "Pages per _sheet:"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendfile.c:706
+msgid "File"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendfile.c:716
+msgid "_Output format"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendlpr.c:372
+msgid "Print to LPR"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendlpr.c:401
+msgid "Pages Per Sheet"
+msgstr ""
+
+#: modules/printbackends/bobguiprintbackendlpr.c:407
+msgid "Command Line"
+msgstr ""
+
+#. TRANSLATORS: when we're running an old CUPS, and
+#. * it hasn't registered the device with colord
+#: modules/printbackends/bobguiprintercups.c:272
+msgid "Color management unavailable"
+msgstr ""
+
+#. TRANSLATORS: when there is no color profile available
+#: modules/printbackends/bobguiprintercups.c:284
+msgid "No profile available"
+msgstr ""
+
+#. TRANSLATORS: when the color profile has no title
+#: modules/printbackends/bobguiprintercups.c:295
+msgid "Unspecified profile"
+msgstr ""
+
+#: tools/encodesymbolic.c:41
+msgid "Output to this directory instead of cwd"
+msgstr ""
+
+#: tools/encodesymbolic.c:42
+msgid "Generate debug output"
+msgstr ""
+
+#: tools/encodesymbolic.c:92
+#, c-format
+msgid "Invalid size %s\n"
+msgstr ""
+
+#: tools/encodesymbolic.c:104 tools/encodesymbolic.c:113
+#, c-format
+msgid "Can’t load file: %s\n"
+msgstr ""
+
+#: tools/encodesymbolic.c:141 tools/encodesymbolic.c:147
+#, c-format
+msgid "Can’t save file %s: %s\n"
+msgstr ""
+
+#: tools/encodesymbolic.c:153
+#, c-format
+msgid "Can’t close stream"
+msgstr ""
+
+#: tools/bobgui-builder-tool.c:36
+#, c-format
+msgid ""
+"Usage:\n"
+"  bobgui-builder-tool [COMMAND] [OPTION…] FILE\n"
+"\n"
+"Perform various tasks on BobguiBuilder .ui files.\n"
+"\n"
+"Commands:\n"
+"  validate     Validate the file\n"
+"  simplify     Simplify the file\n"
+"  enumerate    List all named objects\n"
+"  preview      Preview the file\n"
+"  screenshot   Take a screenshot of the file\n"
+"\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-enumerate.c:54 tools/bobgui-builder-tool-preview.c:179
+#: tools/bobgui-builder-tool-preview.c:180 tools/bobgui-builder-tool-screenshot.c:359
+#: tools/bobgui-builder-tool-screenshot.c:362
+#: tools/bobgui-builder-tool-simplify.c:2360 tools/bobgui-builder-tool-validate.c:159
+msgid "FILE"
+msgstr "АФАИЛ"
+
+#: tools/bobgui-builder-tool-enumerate.c:62
+msgid "List all named objects."
+msgstr ""
+
+#: tools/bobgui-builder-tool-preview.c:178
+msgid "Preview only the named object"
+msgstr ""
+
+#: tools/bobgui-builder-tool-preview.c:179 tools/bobgui-builder-tool-screenshot.c:359
+msgid "Use style from CSS file"
+msgstr ""
+
+#: tools/bobgui-builder-tool-preview.c:195
+msgid "Preview the file."
+msgstr ""
+
+#: tools/bobgui-builder-tool-screenshot.c:358
+msgid "Screenshot only the named object"
+msgstr ""
+
+#: tools/bobgui-builder-tool-screenshot.c:360
+msgid "Save as node file instead of png"
+msgstr ""
+
+#: tools/bobgui-builder-tool-screenshot.c:361
+msgid "Overwrite existing file"
+msgstr ""
+
+#: tools/bobgui-builder-tool-screenshot.c:377
+msgid "Take a screenshot of the file."
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:442
+#, c-format
+msgid "%s:%d: Couldn’t parse value for property '%s': %s\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:651
+#, c-format
+msgid "%s:%d: %sproperty %s::%s not found\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2288
+#, c-format
+msgid "Can’t load “%s”: %s\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2299
+#: tools/bobgui-builder-tool-simplify.c:2305
+#, c-format
+msgid "Can’t parse “%s”: %s\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2311
+#, c-format
+msgid "Can’t parse “%s”\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2335
+#, c-format
+msgid "Failed to read “%s”: %s\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2341
+#, c-format
+msgid "Failed to write %s: “%s”\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2358
+msgid "Replace the file"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2359
+msgid "Convert from BOBGUI 3 to BOBGUI 4"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2370
+msgid "Simplify the file."
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2383
+#, c-format
+msgid "No .ui file specified\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-simplify.c:2389
+#, c-format
+msgid "Can only simplify a single .ui file without --replace\n"
+msgstr ""
+
+#: tools/bobgui-builder-tool-validate.c:168
+msgid "Validate the file."
+msgstr ""
+
+#: tools/bobgui-launch.c:40
+msgid "Show program version"
+msgstr ""
+
+#. Translators: this message will appear immediately after the
+#. usage string - Usage: COMMAND [OPTION…] <THIS_MESSAGE>
+#: tools/bobgui-launch.c:72
+msgid "APPLICATION [URI…] — launch an APPLICATION"
+msgstr ""
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: tools/bobgui-launch.c:76
+msgid ""
+"Launch an application (specified by its desktop file name),\n"
+"optionally passing one or more URIs as arguments."
+msgstr ""
+
+#: tools/bobgui-launch.c:86
+#, c-format
+msgid "Error parsing commandline options: %s\n"
+msgstr ""
+
+#: tools/bobgui-launch.c:88 tools/bobgui-launch.c:109
+#, c-format
+msgid "Try “%s --help” for more information."
+msgstr "Аинформациа харҭәааны ишәоурцазы шәхы иашәырхәа адҵа “%s --help”."
+
+#. Translators: the %s is the program name. This error message
+#. means the user is calling bobgui-launch without any argument.
+#: tools/bobgui-launch.c:107
+#, c-format
+msgid "%s: missing application name"
+msgstr ""
+
+#: tools/bobgui-launch.c:136
+#, c-format
+msgid "Creating AppInfo from id not supported on non unix operating systems"
+msgstr ""
+
+#. Translators: the first %s is the program name, the second one
+#. is the application name.
+#: tools/bobgui-launch.c:144
+#, c-format
+msgid "%s: no such application %s"
+msgstr ""
+
+#. Translators: the first %s is the program name, the second one
+#. is the error message.
+#: tools/bobgui-launch.c:162
+#, c-format
+msgid "%s: error launching application: %s\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1391
+#, c-format
+msgid "Failed to write header\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1397
+#, c-format
+msgid "Failed to write hash table\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1403
+#, c-format
+msgid "Failed to write folder index\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1411
+#, c-format
+msgid "Failed to rewrite header\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1505
+#, c-format
+msgid "Failed to open file %s : %s\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1513 tools/updateiconcache.c:1543
+#, c-format
+msgid "Failed to write cache file: %s\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1553
+#, c-format
+msgid "The generated cache was invalid.\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1567
+#, c-format
+msgid "Could not rename %s to %s: %s, removing %s then.\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1581
+#, c-format
+msgid "Could not rename %s to %s: %s\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1591
+#, c-format
+msgid "Could not rename %s back to %s: %s.\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1618
+#, c-format
+msgid "Cache file created successfully.\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1657
+msgid "Overwrite an existing cache, even if up to date"
+msgstr ""
+
+#: tools/updateiconcache.c:1658
+msgid "Don’t check for the existence of index.theme"
+msgstr ""
+
+#: tools/updateiconcache.c:1659
+msgid "Don’t include image data in the cache"
+msgstr ""
+
+#: tools/updateiconcache.c:1660
+msgid "Include image data in the cache"
+msgstr "Асахьақәа кеш аҟны рҿакра"
+
+#: tools/updateiconcache.c:1661
+msgid "Output a C header file"
+msgstr ""
+
+#: tools/updateiconcache.c:1662
+msgid "Turn off verbose output"
+msgstr ""
+
+#: tools/updateiconcache.c:1663
+msgid "Validate existing icon cache"
+msgstr ""
+
+#: tools/updateiconcache.c:1728
+#, c-format
+msgid "File not found: %s\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1734
+#, c-format
+msgid "Not a valid icon cache: %s\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1747
+#, c-format
+msgid "No theme index file.\n"
+msgstr ""
+
+#: tools/updateiconcache.c:1751
+#, c-format
+msgid ""
+"No theme index file in “%s”.\n"
+"If you really want to create an icon cache here, use --ignore-theme-index.\n"
+msgstr ""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+#, fuzzy
+
+#, fuzzy
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#, fuzzy

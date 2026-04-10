@@ -1,0 +1,6 @@
+<!-- non-default property not stripped -->
+<interface>
+  <object class="BobguiWindow">
+    <property name="visible">True</property>
+  </object>
+</interface>

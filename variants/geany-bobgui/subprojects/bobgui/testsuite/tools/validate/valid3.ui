@@ -1,0 +1,5 @@
+<interface>
+  <requires lib="bobgui" version="4.0"/>
+  <object class="BobguiWindow">
+  </object>
+</interface>

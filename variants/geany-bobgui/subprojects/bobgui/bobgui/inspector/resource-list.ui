@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <object class="BobguiTextBuffer" id="buffer"/>
+  <template class="BobguiInspectorResourceList" parent="BobguiWidget">
+    <child>
+      <object class="BobguiStack" id="stack">
+        <child>
+          <object class="BobguiStackPage">
+            <property name="name">list</property>
+            <property name="child">
+              <object class="BobguiBox">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="BobguiSearchBar" id="search_bar">
+                    <property name="show-close-button">1</property>
+                    <child>
+                      <object class="BobguiBox">
+                        <style>
+                          <class name="linked"/>
+                        </style>
+                        <child>
+                          <object class="BobguiSearchEntry" id="search_entry">
+                            <property name="max-width-chars">40</property>
+                            <signal name="search-changed" handler="on_search_changed"/>
+                            <signal name="next-match" handler="next_match"/>
+                            <signal name="previous-match" handler="previous_match"/>
+                            <signal name="stop-search" handler="stop_search"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiButton">
+                            <property name="child">
+                              <object class="BobguiImage">
+                                <property name="paintable">
+                                  <object class="BobguiSvg">
+                                    <property name="resource">/org/bobgui/libbobgui/icons/go-down-symbolic.svg</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </property>
+                            <signal name="clicked" handler="next_match"/>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiButton">
+                            <property name="child">
+                              <object class="BobguiImage">
+                                <property name="paintable">
+                                  <object class="BobguiSvg">
+                                    <property name="resource">/org/bobgui/libbobgui/icons/go-up-symbolic.svg</property>
+                                  </object>
+                                </property>
+                              </object>
+                            </property>
+                            <signal name="clicked" handler="previous_match"/>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiScrolledWindow">
+                    <property name="hexpand">1</property>
+                    <property name="vexpand">1</property>
+                    <property name="hscrollbar-policy">never</property>
+                    <child>
+                      <object class="BobguiColumnView" id="list">
+                        <signal name="activate" handler="on_row_activated"/>
+                        <style>
+                          <class name="data-table"/>
+                        </style>
+                        <child>
+                          <object class="BobguiColumnViewColumn" id="path">
+                            <property name="title" translatable="yes">Path</property>
+                            <property name="expand">1</property>
+                            <property name="factory">
+                              <object class="BobguiSignalListItemFactory">
+                                <signal name="setup" handler="setup_name_cb"/>
+                                <signal name="bind" handler="bind_name_cb"/>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiColumnViewColumn" id="count">
+                            <property name="title" translatable="yes">Count</property>
+                            <property name="factory">
+                              <object class="BobguiSignalListItemFactory">
+                                <signal name="setup" handler="setup_count_cb"/>
+                                <signal name="bind" handler="bind_count_cb"/>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiColumnViewColumn" id="size">
+                            <property name="title" translatable="yes">Size</property>
+                            <property name="factory">
+                              <object class="BobguiSignalListItemFactory">
+                                <signal name="setup" handler="setup_size_cb"/>
+                                <signal name="bind" handler="bind_size_cb"/>
+                              </object>
+                            </property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="BobguiColumnViewColumn" id="filler">
+                            <property name="expand">1</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiStackPage">
+            <property name="name">details</property>
+            <property name="child">
+              <object class="BobguiBox">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="BobguiGrid" id="info_grid">
+                    <property name="row-spacing">10</property>
+                    <property name="column-spacing">10</property>
+                    <property name="margin-start">10</property>
+                    <property name="margin-end">10</property>
+                    <property name="margin-top">10</property>
+                    <property name="margin-bottom">10</property>
+                    <property name="halign">center</property>
+                    <child>
+                      <object class="BobguiLabel" id="name">
+                        <property name="label" translatable="yes">Name:</property>
+                        <property name="halign">end</property>
+                        <property name="valign">baseline</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiLabel" id="name_label">
+                        <property name="halign">start</property>
+                        <property name="valign">baseline</property>
+                        <property name="selectable">1</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiLabel" id="type">
+                        <property name="label" translatable="yes">Type:</property>
+                        <property name="halign">end</property>
+                        <property name="valign">baseline</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiLabel" id="type_label">
+                        <property name="halign">start</property>
+                        <property name="valign">baseline</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiLabel">
+                        <property name="label" translatable="yes">Size:</property>
+                        <property name="halign">end</property>
+                        <property name="valign">baseline</property>
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiLabel" id="size_label">
+                        <property name="halign">start</property>
+                        <property name="valign">baseline</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="row">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiSeparator"/>
+                </child>
+                <child>
+                  <object class="BobguiStack" id="content">
+                    <child>
+                      <object class="BobguiStackPage">
+                        <property name="name">text</property>
+                        <property name="child">
+                          <object class="BobguiScrolledWindow">
+                            <property name="hexpand">1</property>
+                            <property name="vexpand">1</property>
+                            <style>
+                              <class name="view"/>
+                            </style>
+                            <child>
+                              <object class="BobguiTextView">
+                                <property name="editable">0</property>
+                                <property name="buffer">buffer</property>
+                                <property name="left-margin">6</property>
+                                <property name="right-margin">6</property>
+                                <property name="top-margin">6</property>
+                                <property name="bottom-margin">6</property>
+                              </object>
+                            </child>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiStackPage">
+                        <property name="name">image</property>
+                        <property name="child">
+                          <object class="BobguiScrolledWindow">
+                            <property name="hexpand">1</property>
+                            <property name="vexpand">1</property>
+                            <style>
+                              <class name="view"/>
+                            </style>
+                            <child>
+                              <object class="BobguiPicture" id="image">
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

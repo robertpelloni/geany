@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ExampleAppWindow" parent="BobguiApplicationWindow">
+    <property name="title" translatable="yes">Example Application</property>
+    <property name="default-width">600</property>
+    <property name="default-height">400</property>
+    <child type="titlebar">
+      <object class="BobguiHeaderBar" id="header">
+        <child>
+          <object class="BobguiLabel" id="lines_label">
+            <property name="visible">0</property>
+            <property name="label" translatable="yes">Lines:</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="lines">
+            <property name="visible">0</property>
+          </object>
+        </child>
+        <child type="title">
+          <object class="BobguiStackSwitcher" id="tabs">
+            <property name="stack">stack</property>
+          </object>
+        </child>
+        <child type="end">
+          <object class="BobguiToggleButton" id="search">
+            <property name="sensitive">0</property>
+            <property name="icon-name">edit-find-symbolic</property>
+          </object>
+        </child>
+        <child type="end">
+          <object class="BobguiMenuButton" id="gears">
+            <property name="direction">none</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="BobguiBox" id="content_box">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="BobguiSearchBar" id="searchbar">
+            <child>
+              <object class="BobguiSearchEntry" id="searchentry">
+                <signal name="search-changed" handler="search_text_changed"/>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox" id="hbox">
+            <child>
+              <object class="BobguiRevealer" id="sidebar">
+                <property name="transition-type">slide-right</property>
+                <child>
+                  <object class="BobguiScrolledWindow" id="sidebar-sw">
+                    <property name="hscrollbar-policy">never</property>
+                    <child>
+                      <object class="BobguiListBox" id="words">
+                        <property name="selection-mode">none</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiStack" id="stack">
+                <signal name="notify::visible-child" handler="visible_child_changed"/>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

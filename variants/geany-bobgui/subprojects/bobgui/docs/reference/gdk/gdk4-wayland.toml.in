@@ -1,0 +1,33 @@
+[library]
+version = "@version@"
+browse_url = "https://gitlab.gnome.org/GNOME/bobgui/"
+repository_url = "https://gitlab.gnome.org/GNOME/bobgui.git"
+website_url = "https://www.bobgui.org"
+docs_url = "https://docs.bobgui.org/gdk4-wayland/"
+authors = "BOBGUI Development Team"
+logo_url = "bobgui-logo.svg"
+license = "LGPL-2.1-or-later"
+description = "The BOBGUI toolkit"
+devhelp = true
+
+dependencies = ["Gdk-4.0"]
+
+  [dependencies."Gdk-4.0"]
+  name = "GDK"
+  description = "The BOBGUI drawing kit"
+  docs_url = "https://docs.bobgui.org/gdk/"
+
+[theme]
+name = "basic"
+show_index_summary = true
+
+[source-location]
+base_url = "https://gitlab.gnome.org/GNOME/bobgui/-/blob/main/"
+
+[extra]
+content_images = [
+  "../images/favicon.svg",
+  "../images/favicon-192x192.png",
+  "images/bobgui-logo.svg",
+]
+urlmap_file = "urlmap.js"

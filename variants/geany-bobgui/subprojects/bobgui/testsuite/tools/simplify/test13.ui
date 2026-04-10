@@ -1,0 +1,19 @@
+<interface>
+  <object class="BobguiCenterBox">
+    <child type="end">
+      <object class="BobguiLabel">
+        <property name="label">end</property>
+      </object>
+    </child>
+    <child type="center">
+      <object class="BobguiLabel">
+        <property name="label">center</property>
+      </object>
+    </child>
+    <child type="start">
+      <object class="BobguiLabel">
+        <property name="label">start</property>
+      </object>
+    </child>
+  </object>
+</interface>

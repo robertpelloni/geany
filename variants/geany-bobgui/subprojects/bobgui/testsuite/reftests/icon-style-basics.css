@@ -1,0 +1,11 @@
+* {
+  -bobgui-icon-style: requested;
+}
+
+.regular {
+  -bobgui-icon-style: regular;
+}
+
+.symbolic {
+  -bobgui-icon-style: symbolic;
+}

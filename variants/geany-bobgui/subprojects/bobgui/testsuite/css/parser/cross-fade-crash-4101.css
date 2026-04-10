@@ -1,0 +1,3 @@
+a {
+  background: cross-fade(8% -bobgui-icontheme("system-run-symbolic"), image());
+}

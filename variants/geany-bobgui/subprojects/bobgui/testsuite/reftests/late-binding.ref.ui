@@ -1,0 +1,18 @@
+<interface>
+  <object class="BobguiWindow" id="window">
+    <child>
+      <object class="BobguiLabel">
+        <property name="xalign">0.0</property>
+        <binding name="label">
+          <lookup name="label">label2</lookup>
+        </binding>
+        <style>
+          <class name="bold" />
+        </style>
+      </object>
+    </child>
+  </object>
+  <object class="BobguiLabel" id="label2">
+    <property name="label">Bla</property>
+  </object>
+</interface>

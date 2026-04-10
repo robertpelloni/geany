@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow">
+    <property name="decorated">0</property>
+    <property name="child">
+      <object class="BobguiBox">
+        <style>
+          <class name="opacity"/>
+        </style>
+        <child>
+          <object class="BobguiLabel">
+            <style>
+              <class name="shadow"/>
+            </style>
+            <property name="label">█</property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
+</interface>

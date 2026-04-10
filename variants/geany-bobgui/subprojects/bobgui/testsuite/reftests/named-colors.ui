@@ -1,0 +1,1960 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiGrid" id="grid0">
+        <child>
+          <object class="BobguiLabel" id="label0">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color0</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label10">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color10</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label20">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color20</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label30">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color30</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label40">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color40</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label50">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color50</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label60">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color60</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label70">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color70</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label80">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color80</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label90">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color90</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label100">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color100</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label110">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color110</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label120">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color120</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label130">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color130</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label140">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color140</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">0</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label1">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color1</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label11">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color11</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label21">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color21</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label31">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color31</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label41">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color41</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label51">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color51</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label61">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color61</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label71">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color71</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label81">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color81</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label91">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color91</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label101">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color101</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label111">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color111</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label121">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color121</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label131">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color131</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label141">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color141</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">1</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label2">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color2</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label12">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color12</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label22">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color22</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label32">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color32</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label42">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color42</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label52">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color52</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label62">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color62</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label72">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color72</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label82">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color82</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label92">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color92</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label102">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color102</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label112">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color112</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label122">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color122</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label132">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color132</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label142">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color142</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">2</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label3">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color3</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label13">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color13</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label23">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color23</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label33">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color33</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label43">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color43</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label53">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color53</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label63">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color63</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label73">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color73</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label83">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color83</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label93">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color93</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label103">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color103</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label113">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color113</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label123">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color123</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label133">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color133</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label143">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color143</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">3</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label4">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color4</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label14">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color14</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label24">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color24</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label34">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color34</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label44">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color44</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label54">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color54</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label64">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color64</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label74">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color74</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label84">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color84</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label94">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color94</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label104">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color104</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label114">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color114</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label124">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color124</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label134">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color134</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label144">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color144</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">4</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label5">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color5</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label15">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color15</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label25">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color25</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label35">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color35</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label45">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color45</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label55">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color55</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label65">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color65</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label75">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color75</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label85">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color85</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label95">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color95</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label105">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color105</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label115">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color115</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label125">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color125</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label135">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color135</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label145">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color145</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">5</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label6">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color6</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label16">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color16</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label26">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color26</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label36">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color36</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label46">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color46</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label56">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color56</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label66">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color66</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label76">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color76</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label86">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color86</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label96">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color96</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label106">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color106</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label116">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color116</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label126">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color126</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label136">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color136</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label146">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color146</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">6</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label7">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color7</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label17">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color17</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label27">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color27</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label37">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color37</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label47">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color47</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label57">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color57</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label67">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color67</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label77">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color77</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label87">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color87</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label97">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color97</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label107">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color107</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label117">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color117</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label127">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color127</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label137">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color137</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label147">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color147</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">7</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label8">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color8</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label18">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color18</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label28">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color28</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label38">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color38</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label48">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color48</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label58">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color58</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label68">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color68</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label78">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color78</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label88">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color88</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label98">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color98</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label108">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color108</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label118">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color118</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label128">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color128</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label138">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color138</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label148">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color148</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">8</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label9">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color9</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label19">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color19</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label29">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color29</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label39">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color39</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label49">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color49</property>
+            <layout>
+              <property name="column">4</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label59">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color59</property>
+            <layout>
+              <property name="column">5</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label69">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color69</property>
+            <layout>
+              <property name="column">6</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label79">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color79</property>
+            <layout>
+              <property name="column">7</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label89">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color89</property>
+            <layout>
+              <property name="column">8</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label99">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color99</property>
+            <layout>
+              <property name="column">9</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label109">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color109</property>
+            <layout>
+              <property name="column">10</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label119">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color119</property>
+            <layout>
+              <property name="column">11</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label129">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color129</property>
+            <layout>
+              <property name="column">12</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label139">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color139</property>
+            <layout>
+              <property name="column">13</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="label149">
+            <property name="ellipsize">end</property>
+            <property name="label" translatable="yes">XXX</property>
+            <property name="name">color149</property>
+            <layout>
+              <property name="column">14</property>
+              <property name="row">9</property>
+              <property name="column-span">1</property>
+              <property name="row-span">1</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

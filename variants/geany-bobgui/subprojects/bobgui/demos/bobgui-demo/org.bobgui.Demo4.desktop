@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=BOBGUI Demo
+Comment=BOBGUI code examples and demonstrations
+Exec=bobgui4-demo
+Icon=org.bobgui.Demo4
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Development;BOBGUI;

@@ -1,0 +1,34 @@
+a
+sv
+h
+BobguiEntry BobguiText
+BobguiButton
+BobguiToggleButton
+BobguiNotebook
+BobguiEntry BobguiText
+BobguiEntry BobguiText
+BobguiNotebook
+BobguiToggleButton
+BobguiNotebook
+BobguiTextView
+BobguiButton
+BobguiButton
+BobguiButton
+BobguiButton
+BobguiEntry BobguiText
+BobguiEntry BobguiText
+BobguiListBoxRow
+BobguiToggleButton
+BobguiButton
+BobguiToggleButton
+BobguiToggleButton
+BobguiToggleButton
+BobguiToggleButton
+BobguiScrolledWindow
+BobguiLabel
+BobguiTreeView
+BobguiToggleButton
+BobguiToggleButton
+BobguiToggleButton
+BobguiToggleButton
+WRAP

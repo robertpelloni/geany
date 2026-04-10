@@ -1,0 +1,8 @@
+<!-- invalid element in levelbar markup -->
+<interface>
+  <object class="BobguiLevelBar">
+    <offsets>
+    </offsets>
+    <warbl/>
+  </object>
+</interface>

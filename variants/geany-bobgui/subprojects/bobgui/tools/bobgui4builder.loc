@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<locatingRules>
+  <locatingRule name="BobguiBuilder" pattern="*.ui">
+    <documentRule localName="interface" target="bobgui4builder.its"/>
+  </locatingRule>
+</locatingRules>

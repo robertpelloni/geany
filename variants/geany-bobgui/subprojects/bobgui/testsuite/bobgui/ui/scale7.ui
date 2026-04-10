@@ -1,0 +1,8 @@
+<!-- test invalid scale subelement -->
+<interface>
+  <object class="BobguiScale">
+    <marks>
+    </marks>
+    <foo/>
+  </object>
+</interface>

@@ -1,0 +1,42 @@
+<interface domain="bobgui40">
+  <template class="BobguiInspectorTreeData" parent="BobguiWidget">
+    <child>
+      <object class="BobguiBox" id="box">
+        <style>
+          <class name="toolbar"/>
+        </style>
+        <child>
+          <object class="BobguiToggleButton" id="show_button">
+            <property name="tooltip-text" translatable="yes">Show data</property>
+            <property name="child">
+              <object class="BobguiImage">
+                <property name="paintable">
+                  <object class="BobguiSvg">
+                    <property name="resource">/org/bobgui/libbobgui/icons/view-refresh-symbolic.svg</property>
+                  </object>
+                </property>
+              </object>
+            </property>
+            <signal name="toggled" handler="toggle_show"/>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="object_title">
+            <property name="hexpand">1</property>
+            <property name="halign">center</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="BobguiScrolledWindow" id="swin">
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
+        <property name="vscrollbar-policy">always</property>
+        <child>
+          <object class="BobguiTreeView" id="view"/>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

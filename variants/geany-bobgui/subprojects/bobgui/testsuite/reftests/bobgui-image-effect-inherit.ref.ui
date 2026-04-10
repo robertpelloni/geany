@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiBox" id="box1">
+        <child>
+          <object class="BobguiImage" id="image1">
+            <property name="icon_name">dialog-error</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiImage" id="image2">
+            <property name="icon_name">dialog-error</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiImage" id="image3">
+            <property name="icon_name">dialog-error</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

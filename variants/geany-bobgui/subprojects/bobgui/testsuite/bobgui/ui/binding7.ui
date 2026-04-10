@@ -1,0 +1,10 @@
+<interface>
+  <object class="BobguiLabel" id="bla"/>
+  <object class="BobguiDropDown">
+    <property name="expression">
+      <lookup name="label">
+        <constant type="BobguiLabel">bla</constant>
+      </lookup>
+    </property>
+  </object>
+</interface>

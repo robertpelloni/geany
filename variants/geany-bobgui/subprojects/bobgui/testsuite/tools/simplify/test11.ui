@@ -1,0 +1,14 @@
+<interface>
+  <object class="BobguiPaned">
+    <child>
+      <object class="BobguiLabel">
+        <property name="label">start</property>
+      </object>
+    </child>
+    <child>
+      <object class="BobguiLabel">
+        <property name="label">end</property>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -1,0 +1,18 @@
+_bobgui4_print_editor()
+{
+    local cur prev opts
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="--gapplication-service \
+          --help \
+          --help-all \
+          --help-gapplication \
+          --version"
+
+    if [[ ${cur} == -* ]] ; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+    fi
+}
+complete -F _bobgui4_print_editor bobgui4-print-editor

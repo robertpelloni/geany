@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiBox">
+        <property name="name">progressbars</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="BobguiProgressBar">
+            <property name="show-text">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiProgressBar">
+            <property name="fraction">1</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiProgressBar">
+            <property name="show-text">1</property>
+            <property name="fraction">0.4</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiProgressBar">
+            <property name="inverted">1</property>
+            <property name="fraction">0.4</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiProgressBar">
+            <property name="orientation">vertical</property>
+            <property name="fraction">0.4</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

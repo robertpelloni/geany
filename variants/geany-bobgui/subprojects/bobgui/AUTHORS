@@ -1,0 +1,72 @@
+Please do not mail any of the authors listed here
+asking questions about this version of BOBGUI.
+
+Original Authors
+----------------
+Peter Mattis      <petm@xcf.berkeley.edu>
+Spencer Kimball   <spencer@xcf.berkeley.edu>
+Josh MacDonald    <jmacd@xcf.berkeley.edu>
+
+The team that build BOBGUI 2 (in alphabetical order)
+-------------------------------------------------
+Shawn T. Amundson <amundson@bobgui.org>
+Jerome Bolliet    <bolliet@bobgui.org>
+Damon Chaplin     <damon@bobgui.org>
+Tony Gale         <gale@bobgui.org>
+Jeff Garzik       <jgarzik@bobgui.org>
+Lars Hamann       <lars@bobgui.org>
+Raja R Harinath   <harinath@bobgui.org>
+Carsten Haitzler  <raster@bobgui.org>
+Tim Janik         <timj@bobgui.org>
+Stefan Jeske      <stefan@bobgui.org>
+Elliot Lee        <sopwith@bobgui.org>
+Raph Levien       <raph@bobgui.org>
+Ian Main          <imain@bobgui.org>
+Federico Mena     <quartic@bobgui.org>
+Paolo Molaro      <lupus@bobgui.org>
+Jay Painter       <jpaint@bobgui.org>
+Manish Singh      <manish@bobgui.org>
+Owen Taylor       <otaylor@bobgui.org>
+
+The team that built BOBGUI 3
+-------------------------
+Jonas Ådahl       <jadahl@gmail.com>
+Tim Bäder         <mail@baedert.org>
+Emmanuele Bassi   <ebassi@gnome.org>
+Chun-wei Fan      <fanchunwei@src.gnome.org>
+Matthias Clasen   <mclasen@redhat.com>
+Carlos Garnacho   <mrgarnacho@gmail.com>
+Alexander Larsson <alexl@redhat.com>
+Benjamin Otte     <otte@gnome.org>
+
+The current team (BOBGUI 4)
+------------------------
+Jonas Ådahl       <jadahl@gmail.com>
+Emmanuele Bassi   <ebassi@gnome.org>
+Christian Hergert <chergert@gnome.org>
+Chun-wei Fan      <fanchunwei@src.gnome.org>
+Matthias Clasen   <mclasen@redhat.com>
+Carlos Garnacho   <mrgarnacho@gmail.com>
+Benjamin Otte     <otte@gnome.org>
+
+
+There are many others who have contributed patches; we thank them,
+BOBGUI is much better because of them.
+
+
+Over time, BOBGUI has incorporated some pieces of software which
+started as independent projects. We list the original authors here:
+
+
+IME input method
+----------------
+Takuro Ashie
+Kazuki IWAMOTO
+
+MacOS backend
+-------------
+Anders Carlsson
+
+BobguiInspector (originally bobguiparasite)
+-------------------------------------
+Christian Hammond

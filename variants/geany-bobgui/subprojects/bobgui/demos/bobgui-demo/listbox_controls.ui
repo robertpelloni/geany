@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window">
+    <property name="title" translatable="yes">List Box — Controls</property>
+    <property name="default-height">400</property>
+    <property name="child">
+      <object class="BobguiScrolledWindow">
+        <property name="hscrollbar-policy">never</property>
+        <property name="min-content-height">200</property>
+        <property name="hexpand">0</property>
+        <property name="vexpand">1</property>
+        <property name="child">
+          <object class="BobguiViewport">
+            <property name="scroll-to-focus">1</property>
+            <property name="child">
+              <object class="BobguiBox">
+                <property name="orientation">vertical</property>
+                <property name="margin-start">60</property>
+                <property name="margin-end">60</property>
+                <property name="margin-top">30</property>
+                <property name="margin-bottom">30</property>
+                <child>
+                  <object class="BobguiLabel">
+                    <property name="label">Group 1</property>
+                    <property name="xalign">0</property>
+                    <property name="margin-bottom">10</property>
+                    <style>
+                      <class name="title-2"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiListBox">
+                    <property name="selection-mode">none</property>
+                    <signal name="row-activated" handler="row_activated"/>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="selectable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <child>
+                              <object class="BobguiLabel" id="switch_label">
+                                <property name="label" translatable="yes">Switch</property>
+                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="hexpand">1</property>
+                                <property name="mnemonic-widget">switch</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiSwitch" id="switch">
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="selectable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <child>
+                              <object class="BobguiLabel" id="check_label">
+                                <property name="label" translatable="yes">Check</property>
+                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="hexpand">1</property>
+                                <property name="mnemonic-widget">check</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiCheckButton" id="check">
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-end">10</property>
+                                <property name="active">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="selectable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <child>
+                              <object class="BobguiLabel" id="image_label">
+                                <property name="label" translatable="yes">Click here!</property>
+                                <property name="xalign">0</property>
+                                <property name="halign">start</property>
+                                <property name="valign">center</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiImage" id="image">
+                                <property name="icon-name">object-select-symbolic</property>
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                                <property name="margin-start">10</property>
+                                <property name="margin-end">10</property>
+                                <property name="opacity">0</property>
+                                <property name="accessible-role">status</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="BobguiLabel">
+                    <property name="margin-top">30</property>
+                    <property name="margin-bottom">10</property>
+                    <property name="label">Group 2</property>
+                    <property name="xalign">0</property>
+                    <style>
+                      <class name="title-2"/>
+                    </style>
+                  </object>
+                </child>
+                  <child>
+                    <object class="BobguiListBox">
+                      <property name="selection-mode">none</property>
+                      <style>
+                        <class name="rich-list"/>
+                        <class name="boxed-list"/>
+                      </style>
+
+                      <child>
+                        <object class="BobguiListBoxRow">
+                          <property name="selectable">0</property>
+                          <property name="activatable">0</property>
+                          <child>
+                            <object class="BobguiBox">
+                              <child>
+                                <object class="BobguiLabel" id="scale_label">
+                                  <property name="label" translatable="yes">Scale</property>
+                                  <property name="xalign">0</property>
+                                  <property name="halign">start</property>
+                                  <property name="valign">center</property>
+                                  <property name="hexpand">1</property>
+                                  <property name="mnemonic-widget">scale</property>
+                                </object>
+                              </child>
+                              <child>
+                                <object class="BobguiScale" id="scale">
+                                  <property name="halign">end</property>
+                                  <property name="valign">center</property>
+                                  <property name="draw-value">0</property>
+                                  <property name="width-request">150</property>
+                                  <property name="adjustment">
+                                    <object class="BobguiAdjustment">
+                                      <property name="upper">100</property>
+                                      <property name="value">50</property>
+                                      <property name="step-increment">1</property>
+                                      <property name="page-increment">10</property>
+                                    </object>
+                                  </property>
+                                </object>
+                              </child>
+                            </object>
+                          </child>
+                        </object>
+                      </child>
+
+                      <child>
+                        <object class="BobguiListBoxRow">
+                          <property name="selectable">0</property>
+                          <property name="activatable">0</property>
+                          <child>
+                            <object class="BobguiBox">
+                              <child>
+                                <object class="BobguiLabel" id="spin_label">
+                                  <property name="label" translatable="yes">Spinbutton</property>
+                                  <property name="xalign">0</property>
+                                  <property name="halign">start</property>
+                                  <property name="valign">center</property>
+                                  <property name="hexpand">1</property>
+                                  <property name="mnemonic-widget">spin</property>
+                                </object>
+                              </child>
+                              <child>
+                                <object class="BobguiSpinButton" id="spin">
+                                  <property name="halign">end</property>
+                                  <property name="valign">center</property>
+                                  <property name="adjustment">
+                                    <object class="BobguiAdjustment">
+                                      <property name="upper">100</property>
+                                      <property name="value">50</property>
+                                      <property name="step-increment">1</property>
+                                      <property name="page-increment">10</property>
+                                    </object>
+                                  </property>
+                                </object>
+                              </child>
+                            </object>
+                          </child>
+                        </object>
+                      </child>
+                      <child>
+                        <object class="BobguiListBoxRow">
+                          <property name="selectable">0</property>
+                          <property name="activatable">0</property>
+                          <child>
+                            <object class="BobguiBox">
+                              <child>
+                                <object class="BobguiLabel" id="dropdown_label">
+                                  <property name="label" translatable="yes">Dropdown</property>
+                                  <property name="xalign">0</property>
+                                  <property name="halign">start</property>
+                                  <property name="valign">center</property>
+                                  <property name="hexpand">1</property>
+                                  <property name="mnemonic-widget">dropdown</property>
+                                </object>
+                              </child>
+                              <child>
+                                <object class="BobguiDropDown" id="dropdown">
+                                  <property name="halign">end</property>
+                                  <property name="valign">center</property>
+                                  <property name="model">
+                                    <object class="BobguiStringList">
+                                      <property name="strings">Choice 1
+Choice 2
+Choice 3
+Choice 4</property>
+                                    </object>
+                                  </property>
+                                </object>
+                              </child>
+                            </object>
+                          </child>
+                        </object>
+                      </child>
+
+                      <child>
+                        <object class="BobguiListBoxRow">
+                          <property name="selectable">0</property>
+                          <property name="activatable">0</property>
+                          <child>
+                            <object class="BobguiBox">
+                              <child>
+                                <object class="BobguiLabel" id="entry_label">
+                                  <property name="label" translatable="yes">Entry</property>
+                                  <property name="xalign">0</property>
+                                  <property name="halign">start</property>
+                                  <property name="valign">center</property>
+                                  <property name="hexpand">1</property>
+                                  <property name="mnemonic-widget">entry</property>
+                                </object>
+                              </child>
+                              <child>
+                                <object class="BobguiEntry" id="entry">
+                                  <property name="halign">end</property>
+                                  <property name="valign">center</property>
+                                  <property name="placeholder-text">Type here…</property>
+                                </object>
+                              </child>
+                            </object>
+                          </child>
+                        </object>
+                      </child>
+
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </object>
+  <object class="BobguiSizeGroup">
+    <property name="mode">horizontal</property>
+    <widgets>
+      <widget name="switch_label"/>
+      <widget name="check_label"/>
+      <widget name="image_label"/>
+      <widget name="scale_label"/>
+      <widget name="spin_label"/>
+      <widget name="dropdown_label"/>
+      <widget name="entry_label"/>
+    </widgets>
+  </object>
+</interface>

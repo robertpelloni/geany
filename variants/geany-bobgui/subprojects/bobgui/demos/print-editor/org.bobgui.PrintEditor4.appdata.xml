@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns="https://specifications.freedesktop.org/metainfo/1.0" type="desktop">
+  <id>org.bobgui.PrintEditor4</id>
+  <launchable type="desktop-id">org.bobgui.PrintEditor4.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LGPL-2.1-or-later</project_license>
+  <name>BOBGUI Print Editor</name>
+  <summary>Program to demonstrate BOBGUI printing</summary>
+  <description>
+    <p>
+      BOBGUI Print Editor is a simple editor to demonstrate BOBGUI printing.
+    </p>
+  </description>
+  <screenshots>
+    <screenshot>
+      <image>https://static.gnome.org/appdata/bobgui4-print-editor/bobgui-print-editor1.png</image>
+      <caption>Print Editor</caption>
+    </screenshot>
+  </screenshots>
+  <kudos>
+    <kudo>HiDpiIcon</kudo>
+    <kudo>ModernToolkit</kudo>
+  </kudos>
+  <url type="homepage">https://www.bobgui.org</url>
+  <translation type="gettext">bobgui40</translation>
+  <update_contact>matthias.clasen_at_gmail.com</update_contact>
+  <developer_name>Matthias Clasen and others</developer_name>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="3.99.0" date="2020-07-30">
+      <description>
+        <p>A new developers snapshot towards BOBGUI 4.0.</p>
+      </description>
+    </release>
+  </releases>
+</component>

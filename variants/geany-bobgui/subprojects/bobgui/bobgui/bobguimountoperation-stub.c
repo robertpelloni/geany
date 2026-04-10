@@ -1,0 +1,65 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
+/* BOBGUI - The Bobgui Framework
+ * Copyright (C) David Zeuthen <davidz@redhat.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Modified by the BOBGUI Team and others 1997-2000.  See the AUTHORS
+ * file for a list of people on the BOBGUI Team.  See the ChangeLog
+ * files for a list of changes.  These files are distributed with
+ * BOBGUI at ftp://ftp.bobgui.org/pub/bobgui/.
+ */
+
+#include "config.h"
+
+#include <gio/gio.h>
+#include <glib/gi18n-lib.h>
+#include "bobguimountoperationprivate.h"
+
+BobguiMountOperationLookupContext *
+_bobgui_mount_operation_lookup_context_get (GdkDisplay *display)
+{
+  return NULL;
+}
+
+void
+_bobgui_mount_operation_lookup_context_free (BobguiMountOperationLookupContext *context)
+{
+}
+
+gboolean
+_bobgui_mount_operation_lookup_info (BobguiMountOperationLookupContext *context,
+                                  GPid                            pid,
+                                  int                             size_pixels,
+                                  char                          **out_name,
+                                  char                          **out_command_line,
+                                  GdkTexture                    **out_texture)
+{
+  return FALSE;
+}
+
+gboolean
+_bobgui_mount_operation_kill_process (GPid      pid,
+                                   GError  **error)
+{
+  g_set_error (error,
+               G_IO_ERROR,
+               G_IO_ERROR_NOT_SUPPORTED,
+               _("Cannot kill process with PID %d. Operation is not implemented."),
+               (int) (gssize) pid);
+  return FALSE;
+}
+

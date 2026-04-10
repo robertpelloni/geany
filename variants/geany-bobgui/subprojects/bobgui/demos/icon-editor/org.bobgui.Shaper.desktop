@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Icon Editor
+Comment=An application that edits icons
+Exec=bobgui4-icon-editor
+Icon=org.bobgui.Shaper
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Development;BOBGUI;
+MimeType=image/svg+xml;image/x-bobgui-path-animation;

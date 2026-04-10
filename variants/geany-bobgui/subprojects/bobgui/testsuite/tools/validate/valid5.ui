@@ -1,0 +1,16 @@
+<interface>
+  <requires lib="bobgui" version="4.0"/>
+  <object class="BobguiWindow">
+    <property name="title" translatable="yes">Boo</property>
+    <property name="titlebar">
+      <object class="BobguiLabel">
+        <property name="label" translatable="no">Boo</property>
+      </object>
+    </property>
+    <property name="child">
+      <object class="BobguiLabel">
+        <property name="label" translatable="1">Boo</property>
+      </object>
+    </property>
+  </object>
+</interface>

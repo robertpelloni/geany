@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <object class="BobguiWindow">
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiLabel">
+        <property name="label">Hello
+World</property>
+      </object>
+    </child>
+  </object>
+</interface>

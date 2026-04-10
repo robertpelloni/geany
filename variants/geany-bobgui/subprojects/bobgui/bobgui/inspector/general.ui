@@ -1,0 +1,1332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <template class="BobguiInspectorGeneral" parent="BobguiWidget">
+    <child>
+      <object class="BobguiOverlay" id="overlay">
+        <child type="overlay">
+          <object class="BobguiButton" id="copy_button">
+            <property name="halign">start</property>
+            <property name="valign">start</property>
+            <property name="margin-top">10</property>
+            <property name="margin-start">10</property>
+            <property name="child">
+              <object class="BobguiImage">
+                <property name="paintable">
+                  <object class="BobguiSvg">
+                    <property name="resource">/org/bobgui/libbobgui/icons/edit-copy-symbolic.svg</property>
+                  </object>
+                </property>
+              </object>
+            </property>
+            <property name="tooltip-text" translatable="yes">Copy to clipboard as gitlab markdown</property>
+            <signal name="clicked" handler="bobgui_inspector_general_clip"/>
+          </object>
+        </child>
+        <property name="child">
+          <object class="BobguiScrolledWindow" id="swin">
+            <property name="vexpand">1</property>
+            <property name="hscrollbar-policy">never</property>
+            <child>
+              <object class="BobguiBox" id="box">
+                <property name="orientation">vertical</property>
+                <property name="margin-start">60</property>
+                <property name="margin-end">60</property>
+                <property name="margin-top">60</property>
+                <property name="margin-bottom">60</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="BobguiListBox" id="version_box">
+                    <property name="selection-mode">none</property>
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="os_label">
+                                <property name="label" translatable="yes">Operating System</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="os_info">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="bobgui_version_label">
+                                <property name="label" translatable="yes">BOBGUI Version</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="bobgui_version">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gdk_backend_label">
+                                <property name="label" translatable="yes">GDK Backend</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="gdk_backend">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gsk_renderer_label">
+                                <property name="label" translatable="yes">GSK Renderer</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="gsk_renderer">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="pango_fontmap_label">
+                                <property name="label" translatable="yes">Pango Fontmap</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="pango_fontmap">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="media_backend_label">
+                                <property name="label" translatable="yes">Media Backend</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="media_backend">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="input_method_label">
+                                <property name="label" translatable="yes">Input Method</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="im_module">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="a11y_backend_label">
+                                <property name="label" translatable="yes">Accessibility Backend</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="a11y_backend">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="BobguiListBox" id="app_id_box">
+                    <property name="selection-mode">none</property>
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="app_id_label">
+                                <property name="label" translatable="yes">Application ID</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="app_id">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="resource_path_label">
+                                <property name="label" translatable="yes">Resource Path</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="resource_path">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="BobguiListBox" id="env_box">
+                    <property name="selection-mode">none</property>
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="prefix_label">
+                                <property name="label" translatable="yes">Prefix</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="prefix">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="environment_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiExpander">
+                            <property name="valign">center</property>
+                            <property name="label-widget">
+                              <object class="BobguiLabel">
+                                <property name="label" translatable="yes">Environment</property>
+                                <property name="margin-start">10</property>
+                              </object>
+                            </property>
+                            <child>
+                              <object class="BobguiBox">
+                                <property name="margin-top">20</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="BobguiListView">
+                                    <style>
+                                      <class name="rich-list"/>
+                                    </style>
+                                    <property name="model">
+                                      <object class="BobguiNoSelection">
+                                        <property name="model">
+                                          <object class="BobguiSortListModel">
+                                            <property name="sorter">
+                                              <object class="BobguiStringSorter">
+                                                <property name='expression'>
+                                                  <lookup name='id' type='BobguiStringPair' />
+                                                </property>
+                                              </object>
+                                            </property>
+                                            <property name="model">
+                                              <object class="GListStore" id="environment_list" />
+                                            </property>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </property>
+                                    <property name="factory">
+                                      <object class="BobguiBuilderListItemFactory">
+                                        <property name="bytes"><![CDATA[
+    <?xml version="1.0" encoding="UTF-8"?>
+    <interface>
+      <template class='BobguiListItem'>
+        <property name='activatable'>0</property>
+        <property name='child'>
+          <object class='BobguiBox'>
+            <property name='orientation'>horizontal</property>
+            <property name='spacing'>40</property>
+            <child>
+              <object class='BobguiLabel'>
+                <property name='halign'>start</property>
+                <property name='valign'>baseline</property>
+                <property name='xalign'>0</property>
+                <binding name='label'>
+                  <lookup name='id' type='BobguiStringPair'>
+                    <lookup name='item'>BobguiListItem</lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
+            <child>
+              <object class='BobguiLabel'>
+                <property name='selectable'>1</property>
+                <property name='halign'>end</property>
+                <property name='valign'>baseline</property>
+                <property name='ellipsize'>end</property>
+                <property name='hexpand'>1</property>
+                <property name='attributes'>0 -1 family Monospace, 0 -1 fallback false</property>
+                <binding name='label'>
+                  <lookup name='string' type='BobguiStringPair'>
+                    <lookup name='item'>BobguiListItem</lookup>
+                  </lookup>
+                </binding>
+              </object>
+            </child>
+          </object>
+        </property>
+      </template>
+    </interface>
+                                        ]]></property>
+                                      </object>
+                                    </property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiListBox" id="display_box">
+                    <property name="selection-mode">none</property>
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="display_label">
+                                <property name="label" translatable="yes">Display</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="display_name">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="display_rgba_label">
+                                <property name="label" translatable="yes">RGBA Visual</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiImage" id="display_rgba">
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="paintable">
+                                  <object class="BobguiSvg" id="object-select-symbolic">
+                                    <property name="resource">/org/bobgui/libbobgui/icons/object-select-symbolic.svg</property>
+                                  </object>
+                                </property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="display_composited_label">
+                                <property name="label" translatable="yes">Composited</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiImage" id="display_composited">
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="paintable">object-select-symbolic</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="display_extensions_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiExpander">
+                            <property name="label-widget">
+                              <object class="BobguiLabel">
+                                <property name="label" translatable="yes">Protocols</property>
+                                <property name="margin-start">10</property>
+                              </object>
+                            </property>
+                            <child>
+                              <object class="BobguiListBox" id="display_extensions_box">
+                                <property name="margin-top">20</property>
+                                <property name="selection-mode">none</property>
+                                <property name="halign">center</property>
+                                <style>
+                                  <class name="rich-list"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiListBox" id="monitor_box">
+                    <property name="selection-mode">none</property>
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiListBox" id="device_box">
+                    <property name="selection-mode">none</property>
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiListBox" id="gl_box">
+                    <property name="selection-mode">none</property>
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_renderer_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gl_renderer_label">
+                                <property name="label" translatable="yes">GL Renderer</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="gl_renderer">
+                                <property name="selectable">1</property>
+                                <property name="xalign">1.0</property>
+                                <property name="valign">baseline</property>
+                                <property name="wrap">1</property>
+                                <property name="wrap-mode">word-char</property>
+                                <property name="justify">right</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_vendor_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gl_vendor_label">
+                                <property name="label" translatable="yes">GL Vendor</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="gl_vendor">
+                                <property name="selectable">1</property>
+                                <property name="xalign">1.0</property>
+                                <property name="valign">baseline</property>
+                                <property name="wrap">1</property>
+                                <property name="wrap-mode">word-char</property>
+                                <property name="justify">right</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_version_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gl_version_label">
+                                <property name="label" translatable="yes">GL Version</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="gl_version">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_backend_vendor_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gl_backend_vendor_label">
+                                <property name="label" translatable="yes">GL Backend Vendor</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="gl_backend_vendor">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_backend_version_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gl_backend_version_label">
+                                <property name="label" translatable="yes">GL Backend Version</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="gl_backend_version">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_error_row">
+                        <property name="activatable">0</property>
+                        <property name="visible">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gl_error">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                                <style>
+                                  <class name="error"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_full_version_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="gl_full_version_label">
+                                <property name="label" translatable="yes">GL Full Version</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="gl_full_version">
+                                <property name="selectable">1</property>
+                                <property name="xalign">1.0</property>
+                                <property name="valign">baseline</property>
+                                <property name="wrap">1</property>
+                                <property name="wrap-mode">word-char</property>
+                                <property name="justify">right</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="glsl_version_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="glsl_version_label">
+                                <property name="label" translatable="yes">GLSL Version</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="glsl_version">
+                                <property name="selectable">1</property>
+                                <property name="xalign">1.0</property>
+                                <property name="valign">baseline</property>
+                                <property name="wrap">1</property>
+                                <property name="wrap-mode">word-char</property>
+                                <property name="justify">right</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_extensions_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiExpander">
+                            <property name="valign">center</property>
+                            <property name="label-widget">
+                              <object class="BobguiLabel">
+                                <property name="label" translatable="yes">GL Extensions</property>
+                                <property name="margin-start">10</property>
+                              </object>
+                            </property>
+                            <child>
+                              <object class="BobguiBox">
+                                <property name="margin-top">20</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="BobguiSearchEntry" id="gl_extensions_searchentry"/>
+                                </child>
+                                <child>
+                                  <object class="BobguiListView">
+                                    <style>
+                                      <class name="rich-list"/>
+                                    </style>
+                                    <property name="model">
+                                      <object class="BobguiNoSelection">
+                                        <property name="model">
+                                          <object class="BobguiFilterListModel">
+                                            <property name="filter">
+                                              <object class="BobguiStringFilter">
+                                                <property name="expression">
+                                                  <lookup name='string' type='BobguiStringObject' />
+                                                </property>
+                                                <binding name="search">
+                                                  <lookup name="text" type="BobguiSearchEntry">
+                                                    gl_extensions_searchentry
+                                                  </lookup>
+                                                </binding>
+                                              </object>
+                                            </property>
+                                            <property name="model">
+                                              <object class="BobguiSortListModel">
+                                                <property name="sorter">
+                                                  <object class="BobguiStringSorter">
+                                                    <property name='expression'>
+                                                      <lookup name='string' type='BobguiStringObject' />
+                                                    </property>
+                                                  </object>
+                                                </property>
+                                                <property name="model">
+                                                  <object class="BobguiStringList" id="gl_extensions_list" />
+                                                </property>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </property>
+                                    <property name="factory">
+                                      <object class="BobguiBuilderListItemFactory">
+                                        <property name="bytes"><![CDATA[
+    <?xml version="1.0" encoding="UTF-8"?>
+    <interface>
+      <template class='BobguiListItem'>
+        <property name='activatable'>0</property>
+        <property name='child'>
+          <object class='BobguiInscription'>
+            <property name='xalign'>0</property>
+            <binding name='text'>
+              <lookup name='string' type='BobguiStringObject'>
+                <lookup name='item'>BobguiListItem</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </property>
+      </template>
+    </interface>
+                                        ]]></property>
+                                      </object>
+                                    </property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="egl_extensions_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiExpander">
+                            <property name="valign">center</property>
+                            <property name="label-widget">
+                              <object class="BobguiLabel" id="egl_extensions_row_name">
+                                <property name="label" translatable="yes">EGL Extensions</property>
+                                <property name="margin-start">10</property>
+                              </object>
+                            </property>
+                            <child>
+                              <object class="BobguiBox">
+                                <property name="margin-top">20</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="BobguiSearchEntry" id="egl_extensions_searchentry"/>
+                                </child>
+                                <child>
+                                  <object class="BobguiListView">
+                                    <style>
+                                      <class name="rich-list"/>
+                                    </style>
+                                    <property name="model">
+                                      <object class="BobguiNoSelection">
+                                        <property name="model">
+                                          <object class="BobguiFilterListModel">
+                                            <property name="filter">
+                                              <object class="BobguiStringFilter">
+                                                <property name="expression">
+                                                  <lookup name='string' type='BobguiStringObject' />
+                                                </property>
+                                                <binding name="search">
+                                                  <lookup name="text" type="BobguiSearchEntry">
+                                                    egl_extensions_searchentry
+                                                  </lookup>
+                                                </binding>
+                                              </object>
+                                            </property>
+                                            <property name="model">
+                                              <object class="BobguiSortListModel">
+                                                <property name="sorter">
+                                                  <object class="BobguiStringSorter">
+                                                    <property name='expression'>
+                                                      <lookup name='string' type='BobguiStringObject' />
+                                                    </property>
+                                                  </object>
+                                                </property>
+                                                <property name="model">
+                                                  <object class="BobguiStringList" id="egl_extensions_list" />
+                                                </property>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </property>
+                                    <property name="factory">
+                                      <object class="BobguiBuilderListItemFactory">
+                                        <property name="bytes"><![CDATA[
+    <?xml version="1.0" encoding="UTF-8"?>
+    <interface>
+      <template class='BobguiListItem'>
+        <property name='activatable'>0</property>
+        <property name='child'>
+          <object class='BobguiInscription'>
+            <property name='xalign'>0</property>
+            <binding name='text'>
+              <lookup name='string' type='BobguiStringObject'>
+                <lookup name='item'>BobguiListItem</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </property>
+      </template>
+    </interface>
+                                        ]]></property>
+                                      </object>
+                                    </property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="gl_features_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiExpander">
+                            <property name="label-widget">
+                              <object class="BobguiLabel">
+                                <property name="label" translatable="yes">GL Features</property>
+                                <property name="margin-start">10</property>
+                              </object>
+                            </property>
+                            <child>
+                              <object class="BobguiListBox" id="gl_features_box">
+                                <property name="margin-top">20</property>
+                                <property name="selection-mode">none</property>
+                                <property name="halign">fill</property>
+                                <style>
+                                  <class name="rich-list"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiListBox" id="vulkan_box">
+                    <property name="selection-mode">none</property>
+                    <property name="halign">center</property>
+                    <style>
+                      <class name="rich-list"/>
+                      <class name="boxed-list"/>
+                    </style>
+                    <child>
+                      <object class="BobguiListBoxRow">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="vk_device_label">
+                                <property name="label" translatable="yes">Vulkan Device</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="vk_device">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="vk_api_version_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="vk_api_version_label">
+                                <property name="label" translatable="yes">Vulkan API Version</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="vk_api_version">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="vk_driver_version_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="vk_driver_version_label">
+                                <property name="label" translatable="yes">Vulkan Driver Version</property>
+                                <property name="halign">start</property>
+                                <property name="valign">baseline</property>
+                                <property name="xalign">0.0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="BobguiLabel" id="vk_driver_version">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="vk_error_row">
+                        <property name="activatable">0</property>
+                        <property name="visible">0</property>
+                        <child>
+                          <object class="BobguiBox">
+                            <property name="spacing">40</property>
+                            <child>
+                              <object class="BobguiLabel" id="vk_error">
+                                <property name="selectable">1</property>
+                                <property name="halign">end</property>
+                                <property name="valign">baseline</property>
+                                <property name="ellipsize">end</property>
+                                <property name="hexpand">1</property>
+                                <style>
+                                  <class name="error"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="vulkan_layers_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiExpander">
+                            <property name="label-widget">
+                              <object class="BobguiLabel">
+                                <property name="label" translatable="yes">Vulkan Layers</property>
+                                <property name="margin-start">10</property>
+                              </object>
+                            </property>
+                            <child>
+                              <object class="BobguiBox">
+                                <property name="margin-top">20</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="BobguiListView">
+                                    <style>
+                                      <class name="rich-list"/>
+                                    </style>
+                                    <property name="model">
+                                      <object class="BobguiNoSelection">
+                                        <property name="model">
+                                          <object class="BobguiSortListModel">
+                                            <property name="sorter">
+                                              <object class="BobguiStringSorter">
+                                                <property name='expression'>
+                                                  <lookup name='string' type='BobguiStringObject' />
+                                                </property>
+                                              </object>
+                                            </property>
+                                            <property name="model">
+                                              <object class="BobguiStringList" id="vulkan_layers_list" />
+                                            </property>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </property>
+                                    <property name="factory">
+                                      <object class="BobguiBuilderListItemFactory">
+                                        <property name="bytes"><![CDATA[
+    <?xml version="1.0" encoding="UTF-8"?>
+    <interface>
+      <template class='BobguiListItem'>
+        <property name='activatable'>0</property>
+        <property name='child'>
+          <object class='BobguiInscription'>
+            <property name='xalign'>0</property>
+            <binding name='text'>
+              <lookup name='string' type='BobguiStringObject'>
+                <lookup name='item'>BobguiListItem</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </property>
+      </template>
+    </interface>
+                                        ]]></property>
+                                      </object>
+                                    </property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="vulkan_extensions_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiExpander">
+                            <property name="valign">center</property>
+                            <property name="label-widget">
+                              <object class="BobguiLabel">
+                                <property name="label" translatable="yes">Vulkan Extensions</property>
+                                <property name="margin-start">10</property>
+                              </object>
+                            </property>
+                            <child>
+                              <object class="BobguiBox">
+                                <property name="margin-top">20</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="BobguiSearchEntry" id="vulkan_extensions_searchentry"/>
+                                </child>
+                                <child>
+                                  <object class="BobguiListView">
+                                    <style>
+                                      <class name="rich-list"/>
+                                    </style>
+                                    <property name="model">
+                                      <object class="BobguiNoSelection">
+                                        <property name="model">
+                                          <object class="BobguiFilterListModel">
+                                            <property name="filter">
+                                              <object class="BobguiStringFilter">
+                                                <property name="expression">
+                                                  <lookup name='string' type='BobguiStringObject' />
+                                                </property>
+                                                <binding name="search">
+                                                  <lookup name="text" type="BobguiSearchEntry">
+                                                    vulkan_extensions_searchentry
+                                                  </lookup>
+                                                </binding>
+                                              </object>
+                                            </property>
+                                            <property name="model">
+                                              <object class="BobguiSortListModel">
+                                                <property name="sorter">
+                                                  <object class="BobguiStringSorter">
+                                                    <property name='expression'>
+                                                      <lookup name='string' type='BobguiStringObject' />
+                                                    </property>
+                                                  </object>
+                                                </property>
+                                                <property name="model">
+                                                  <object class="BobguiStringList" id="vulkan_extensions_list" />
+                                                </property>
+                                              </object>
+                                            </property>
+                                          </object>
+                                        </property>
+                                      </object>
+                                    </property>
+                                    <property name="factory">
+                                      <object class="BobguiBuilderListItemFactory">
+                                        <property name="bytes"><![CDATA[
+    <?xml version="1.0" encoding="UTF-8"?>
+    <interface>
+      <template class='BobguiListItem'>
+        <property name='activatable'>0</property>
+        <property name='child'>
+          <object class='BobguiInscription'>
+            <property name='xalign'>0</property>
+            <binding name='text'>
+              <lookup name='string' type='BobguiStringObject'>
+                <lookup name='item'>BobguiListItem</lookup>
+              </lookup>
+            </binding>
+          </object>
+        </property>
+      </template>
+    </interface>
+                                        ]]></property>
+                                      </object>
+                                    </property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="BobguiListBoxRow" id="vulkan_features_row">
+                        <property name="activatable">0</property>
+                        <child>
+                          <object class="BobguiExpander">
+                            <property name="label-widget">
+                              <object class="BobguiLabel">
+                                <property name="label" translatable="yes">Vulkan Features</property>
+                                <property name="margin-start">10</property>
+                              </object>
+                            </property>
+                            <child>
+                              <object class="BobguiListBox" id="vulkan_features_box">
+                                <property name="margin-top">20</property>
+                                <property name="selection-mode">none</property>
+                                <property name="halign">fill</property>
+                                <style>
+                                  <class name="rich-list"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </property>
+      </object>
+    </child>
+  </template>
+  <object class="BobguiSizeGroup">
+    <widgets>
+      <widget name="version_box"/>
+      <widget name="app_id_box"/>
+      <widget name="gl_box"/>
+      <widget name="monitor_box"/>
+      <widget name="vulkan_box"/>
+      <widget name="env_box"/>
+      <widget name="display_box"/>
+      <widget name="device_box"/>
+    </widgets>
+  </object>
+</interface>

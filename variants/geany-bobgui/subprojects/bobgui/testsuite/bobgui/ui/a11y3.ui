@@ -1,0 +1,16 @@
+<!-- test accessible relations -->
+<interface>
+  <object class="BobguiBox">
+    <child>
+      <object class="BobguiButton">
+        <accessibility>
+          <relation name="labelled-by">label</relation>
+          <relation name="controls">label</relation>
+        </accessibility>
+      </object>
+    </child>
+    <child>
+      <object class="BobguiLabel" id="label"/>
+    </child>
+  </object>
+</interface>

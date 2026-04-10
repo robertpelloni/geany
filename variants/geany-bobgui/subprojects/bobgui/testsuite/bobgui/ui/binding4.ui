@@ -1,0 +1,7 @@
+<interface>
+  <object class="BobguiDropDown">
+    <property name="expression">
+      <constant type="nosuchtype">bla</constant>
+    </property>
+  </object>
+</interface>

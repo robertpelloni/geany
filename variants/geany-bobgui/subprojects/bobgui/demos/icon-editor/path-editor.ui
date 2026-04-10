@@ -1,0 +1,87 @@
+<interface>
+  <template class="PathEditor" parent="BobguiWidget">
+    <child>
+      <object class="BobguiStack" id="path_cmds_stack">
+        <child>
+          <object class="BobguiStackPage">
+            <property name="name">label</property>
+            <property name="child">
+              <object class="BobguiBox">
+                <property name="hexpand">0</property>
+                <child>
+                  <object class="BobguiLabel" id="path_cmds_label">
+                    <property name="ellipsize">end</property>
+                    <child>
+                      <object class="BobguiGestureClick">
+                        <signal name="pressed" handler="path_cmds_clicked" swapped="yes"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiButton" id="external_edit_button">
+                    <style>
+                      <class name="circular"/>
+                      <class name="small"/>
+                    </style>
+                    <property name="hexpand">1</property>
+                    <property name="halign">end</property>
+                    <property name="focus-on-click">0</property>
+                    <property name="has-frame">0</property>
+                    <property name="tooltip-text" translatable="yes">Edit path geometry</property>
+                    <property name="child">
+                      <object class="BobguiImage">
+                        <property name="paintable">
+                          <object class="BobguiIconPaintable">
+                            <property name="file">resource:///org/bobgui/Shaper/document-edit-symbolic.svg</property>
+                          </object>
+                        </property>
+                      </object>
+                    </property>
+                    <signal name="clicked" handler="edit_path" swapped="yes"/>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiStackPage">
+            <property name="name">entry</property>
+            <property name="child">
+              <object class="BobguiBox">
+                <property name="hexpand">0</property>
+                <child>
+                  <object class="BobguiEntry" id="path_cmds_entry">
+                    <property name="hexpand">1</property>
+                    <signal name="activate" handler="path_cmds_activated" swapped="yes"/>
+                    <child>
+                      <object class="BobguiEventControllerKey">
+                        <signal name="key-pressed" handler="path_cmds_key" swapped="yes"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="BobguiMenuButton" id="id_dropdown">
+                    <property name="visible">0</property>
+                    <property name="menu-model">
+                      <menu>
+                        <item>
+                          <attribute name="label">clip1</attribute>
+                        </item>
+                        <item>
+                          <attribute name="label">clip2</attribute>
+                        </item>
+                      </menu>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

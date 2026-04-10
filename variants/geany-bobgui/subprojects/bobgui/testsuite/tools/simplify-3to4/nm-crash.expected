@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="nm-applet">
+  <requires lib="bobgui" version="4.0"/>
+  <object class="BobguiAssistant">
+    <child>
+      <object class="BobguiAssistantPage">
+        <property name="page_type">confirm</property>
+        <property name="complete">True</property>
+        <property name="child">
+          <object class="BobguiBox" id="confirm_page">
+            <property name="visible">0</property>
+          </object>
+        </property>
+      </object>
+    </child>
+  </object>
+</interface>

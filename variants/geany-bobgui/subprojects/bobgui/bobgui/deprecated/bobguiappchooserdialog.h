@@ -1,0 +1,65 @@
+/*
+ * bobguiappchooserdialog.h: an app-chooser dialog
+ *
+ * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 2007, 2010 Red Hat, Inc.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors: Dave Camp <dave@novell.com>
+ *          Alexander Larsson <alexl@redhat.com>
+ *          Cosimo Cecchi <ccecchi@redhat.com>
+ */
+
+#pragma once
+
+#if !defined (__BOBGUI_H_INSIDE__) && !defined (BOBGUI_COMPILATION)
+#error "Only <bobgui/bobgui.h> can be included directly."
+#endif
+
+#include <bobgui/deprecated/bobguidialog.h>
+#include <gio/gio.h>
+
+G_BEGIN_DECLS
+
+#define BOBGUI_TYPE_APP_CHOOSER_DIALOG            (bobgui_app_chooser_dialog_get_type ())
+#define BOBGUI_APP_CHOOSER_DIALOG(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), BOBGUI_TYPE_APP_CHOOSER_DIALOG, BobguiAppChooserDialog))
+#define BOBGUI_IS_APP_CHOOSER_DIALOG(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), BOBGUI_TYPE_APP_CHOOSER_DIALOG))
+
+typedef struct _BobguiAppChooserDialog        BobguiAppChooserDialog;
+
+GDK_AVAILABLE_IN_ALL
+GType         bobgui_app_chooser_dialog_get_type             (void) G_GNUC_CONST;
+
+GDK_DEPRECATED_IN_4_10
+BobguiWidget *   bobgui_app_chooser_dialog_new                  (BobguiWindow           *parent,
+                                                           BobguiDialogFlags       flags,
+                                                           GFile               *file);
+GDK_DEPRECATED_IN_4_10
+BobguiWidget *   bobgui_app_chooser_dialog_new_for_content_type (BobguiWindow           *parent,
+                                                           BobguiDialogFlags       flags,
+                                                           const char          *content_type);
+
+GDK_DEPRECATED_IN_4_10
+BobguiWidget *   bobgui_app_chooser_dialog_get_widget           (BobguiAppChooserDialog *self);
+GDK_DEPRECATED_IN_4_10
+void          bobgui_app_chooser_dialog_set_heading          (BobguiAppChooserDialog *self,
+                                                           const char          *heading);
+GDK_DEPRECATED_IN_4_10
+const char * bobgui_app_chooser_dialog_get_heading          (BobguiAppChooserDialog *self);
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(BobguiAppChooserDialog, g_object_unref)
+
+G_END_DECLS
+

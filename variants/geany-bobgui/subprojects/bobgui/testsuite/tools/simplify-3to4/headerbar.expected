@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="bobgui" version="4.0"/>
+  <object class="BobguiWindow" id="window1">
+    <child type="titlebar">
+      <object class="BobguiHeaderBar" id="headerbar1">
+        <property name="title-widget">box1</property>
+        <child type="end">
+          <object class="BobguiButton">
+            <property name="label">A!</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="BobguiBox" id="box1"/>
+</interface>

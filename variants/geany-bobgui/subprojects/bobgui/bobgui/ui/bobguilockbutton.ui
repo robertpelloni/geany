@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <template class="BobguiLockButton" parent="BobguiButton">
+    <property name="receives-default">1</property>
+    <property name="child">
+      <object class="BobguiBox" id="box">
+        <property name="halign">3</property>
+        <property name="valign">3</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="BobguiImage" id="image">
+            <property name="icon-name">image-missing</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiStack" id="stack">
+            <child>
+              <object class="BobguiLabel" id="label_lock">
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Lock</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiLabel" id="label_unlock">
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Unlock</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>

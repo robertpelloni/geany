@@ -1,0 +1,12 @@
+<!-- test invalid cell layout custom element -->
+<interface>
+  <object class="BobguiIconView">
+    <child>
+      <object class="BobguiCellRendererText">
+      </object>
+      <cell-packing>
+        <warbl/>
+      </cell-packing>
+    </child>
+  </object>
+</interface>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow" id="window1">
+    <property name="can_focus">False</property>
+    <property name="decorated">0</property>
+    <child>
+      <object class="BobguiBox">
+        <property name="visible">True</property>
+        <child>
+          <object class="BobguiBox">
+            <property name="visible">True</property>
+            <child>
+              <object class="BobguiCheckButton">
+                <property name="visible">True</property>
+                <property name="active">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiLabel">
+                <property name="visible">True</property>
+                <property name="name">label1</property>
+                <property name="label" translatable="yes">Hello World!</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox">
+            <property name="visible">True</property>
+            <child>
+              <object class="BobguiCheckButton">
+                <property name="visible">True</property>
+                <property name="active">False</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiLabel">
+                <property name="visible">True</property>
+                <property name="name">label2</property>
+                <property name="label" translatable="yes">Hello World!</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

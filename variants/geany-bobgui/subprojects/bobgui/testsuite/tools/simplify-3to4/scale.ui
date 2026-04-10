@@ -1,0 +1,10 @@
+<interface>
+  <object class="BobguiScale">
+  </object>
+  <object class="BobguiScale">
+    <property name="draw-value">1</property>
+  </object>
+  <object class="BobguiScale">
+    <property name="draw_value">0</property>
+  </object>
+</interface>

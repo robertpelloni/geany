@@ -1,0 +1,9 @@
+<interface>
+  <object class="BobguiWindow">
+    <child>
+      <object class="BobguiLabel">
+        <property name="label">start</property>
+      </object>
+    </child>
+  </object>
+</interface>

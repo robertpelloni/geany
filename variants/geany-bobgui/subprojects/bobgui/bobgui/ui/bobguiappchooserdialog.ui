@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <template class="BobguiAppChooserDialog" parent="BobguiDialog">
+    <property name="title" translatable="yes">Select App</property>
+    <property name="default-height">500</property>
+    <style>
+      <class name="appchooser"/>
+    </style>
+    <child internal-child="content_area">
+      <object class="BobguiBox" id="dialog-vbox1">
+        <property name="orientation">1</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="BobguiSearchBar" id="search_bar">
+            <property name="child">
+              <object class="BobguiSearchEntry" id="search_entry">
+                <property name="hexpand">1</property>
+                <property name="max-width-chars">40</property>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child internal-child="action_area">
+          <object class="BobguiBox" id="dialog-action_area1">
+            <property name="hexpand">1</property>
+            <property name="halign">2</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox" id="inner_box">
+            <property name="orientation">1</property>
+            <property name="spacing">6</property>
+            <child>
+              <object class="BobguiLabel" id="label">
+                <property name="halign">3</property>
+                <property name="valign">3</property>
+                <property name="label">label</property>
+                <property name="wrap">1</property>
+                <property name="vexpand">0</property>
+                <property name="margin-top">20</property>
+                <property name="margin-bottom">20</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child type="action">
+      <object class="BobguiButton" id="cancel_button">
+        <property name="use-underline">1</property>
+        <property name="label" translatable="yes">_Cancel</property>
+      </object>
+    </child>
+    <child type="action">
+      <object class="BobguiButton" id="ok_button">
+        <property name="label" translatable="yes">_Select</property>
+        <property name="use-underline">1</property>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="cancel">cancel_button</action-widget>
+      <action-widget response="ok" default="true">ok_button</action-widget>
+    </action-widgets>
+  </template>
+  <object class="BobguiButton" id="show_more_button">
+    <property name="label" translatable="yes">_View All Apps</property>
+    <property name="use-underline">1</property>
+    <property name="receives-default">1</property>
+    <signal name="clicked" handler="show_more_button_clicked_cb" swapped="no"/>
+  </object>
+  <object class="BobguiButton" id="software_button">
+    <property name="label" translatable="yes">_Find New Apps</property>
+    <property name="use-underline">1</property>
+    <property name="receives-default">1</property>
+    <signal name="clicked" handler="software_button_clicked_cb" swapped="no"/>
+  </object>
+  <object class="BobguiSizeGroup" id="buttons">
+    <property name="mode">2</property>
+    <widgets>
+      <widget name="cancel_button"/>
+      <widget name="ok_button"/>
+    </widgets>
+  </object>
+</interface>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="ExampleAppPrefs" parent="BobguiDialog">
+    <property name="title" translatable="yes">Preferences</property>
+    <property name="resizable">0</property>
+    <property name="modal">1</property>
+    <child internal-child="content_area">
+      <object class="BobguiBox" id="content_area">
+        <child>
+          <object class="BobguiGrid" id="grid">
+            <property name="margin-start">12</property>
+            <property name="margin-end">12</property>
+            <property name="margin-top">12</property>
+            <property name="margin-bottom">12</property>
+            <property name="row-spacing">12</property>
+            <property name="column-spacing">12</property>
+            <child>
+              <object class="BobguiLabel" id="fontlabel">
+                <property name="label">_Font:</property>
+                <property name="use-underline">1</property>
+                <property name="mnemonic-widget">font</property>
+                <property name="xalign">1</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiFontDialogButton" id="font">
+                <property name="dialog">
+                  <object class="BobguiFontDialog"/>
+                </property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiLabel" id="transitionlabel">
+                <property name="label">_Transition:</property>
+                <property name="use-underline">1</property>
+                <property name="mnemonic-widget">transition</property>
+                <property name="xalign">1</property>
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiDropDown" id="transition">
+                <property name="model">
+                  <object class="BobguiStringList">
+                    <items>
+                      <item translatable="yes">None</item>
+                      <item translatable="yes">Fade</item>
+                      <item translatable="yes">Slide</item>
+                    </items>
+                  </object>
+                </property>
+                <layout>
+                  <property name="column">1</property>
+                  <property name="row">1</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

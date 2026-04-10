@@ -1,0 +1,11 @@
+BobguiBox > :nth-child(1) {
+  -bobgui-icon-filter: none;
+}
+
+BobguiBox > :nth-child(2) {
+  -bobgui-icon-filter: brightness(1.2);
+}
+
+BobguiBox > :nth-child(3) {
+  -bobgui-icon-filter: opacity(0.5);
+}

@@ -1,0 +1,8 @@
+window {
+  background-image: -bobgui-icontheme("edit-delete");
+  background-repeat: no-repeat;
+}
+
+#reference {
+  background-size: 24px 24px;
+}

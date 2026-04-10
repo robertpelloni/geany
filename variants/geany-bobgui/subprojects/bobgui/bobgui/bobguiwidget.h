@@ -1,0 +1,999 @@
+/* BOBGUI - The Bobgui Framework
+ * Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Modified by the BOBGUI Team and others 1997-2000.  See the AUTHORS
+ * file for a list of people on the BOBGUI Team.  See the ChangeLog
+ * files for a list of changes.  These files are distributed with
+ * BOBGUI at ftp://ftp.bobgui.org/pub/bobgui/.
+ */
+
+#pragma once
+
+#if !defined (__BOBGUI_H_INSIDE__) && !defined (BOBGUI_COMPILATION)
+#error "Only <bobgui/bobgui.h> can be included directly."
+#endif
+
+#include <gdk/gdk.h>
+#include <gsk/gsk.h>
+#include <bobgui/bobguienums.h>
+#include <bobgui/bobguishortcut.h>
+#include <bobgui/bobguishortcutaction.h>
+#include <bobgui/bobguitypes.h>
+
+G_BEGIN_DECLS
+
+/* Macro for casting a pointer to a BobguiWidget or BobguiWidgetClass pointer.
+ * Macros for testing whether widget or klass are of type BOBGUI_TYPE_WIDGET.
+ */
+#define BOBGUI_TYPE_WIDGET                   (bobgui_widget_get_type ())
+#define BOBGUI_WIDGET(widget)                (G_TYPE_CHECK_INSTANCE_CAST ((widget), BOBGUI_TYPE_WIDGET, BobguiWidget))
+#define BOBGUI_WIDGET_CLASS(klass)           (G_TYPE_CHECK_CLASS_CAST ((klass), BOBGUI_TYPE_WIDGET, BobguiWidgetClass))
+#define BOBGUI_IS_WIDGET(widget)             (G_TYPE_CHECK_INSTANCE_TYPE ((widget), BOBGUI_TYPE_WIDGET))
+#define BOBGUI_IS_WIDGET_CLASS(klass)        (G_TYPE_CHECK_CLASS_TYPE ((klass), BOBGUI_TYPE_WIDGET))
+#define BOBGUI_WIDGET_GET_CLASS(obj)         (G_TYPE_INSTANCE_GET_CLASS ((obj), BOBGUI_TYPE_WIDGET, BobguiWidgetClass))
+
+#define BOBGUI_TYPE_REQUISITION              (bobgui_requisition_get_type ())
+
+typedef struct _BobguiWidgetPrivate       BobguiWidgetPrivate;
+typedef struct _BobguiWidgetClass         BobguiWidgetClass;
+typedef struct _BobguiWidgetClassPrivate  BobguiWidgetClassPrivate;
+
+/**
+ * BobguiAllocation:
+ * @x: the X position of the widget’s area relative to its parents allocation.
+ * @y: the Y position of the widget’s area relative to its parents allocation.
+ * @width: the width of the widget’s allocated area.
+ * @height: the height of the widget’s allocated area.
+ *
+ * The rectangle representing the area allocated for a widget by its parent.
+ */
+typedef         GdkRectangle       BobguiAllocation;
+
+/**
+ * BobguiTickCallback:
+ * @widget: the widget
+ * @frame_clock: the frame clock for the widget
+ * @user_data: user data passed to [method@Bobgui.Widget.add_tick_callback].
+ *
+ * Callback type for adding a function to update animations.
+ *
+ * See [method@Bobgui.Widget.add_tick_callback].
+ *
+ * Returns: `G_SOURCE_CONTINUE` if the tick callback should continue
+ *   to be called, `G_SOURCE_REMOVE` if it should be removed
+ */
+typedef gboolean (*BobguiTickCallback) (BobguiWidget     *widget,
+                                     GdkFrameClock *frame_clock,
+                                     gpointer       user_data);
+
+/**
+ * BobguiRequisition:
+ * @width: the widget’s desired width
+ * @height: the widget’s desired height
+ *
+ * Represents the desired size of a widget.
+ *
+ * See [BobguiWidget’s geometry management section](class.Widget.html#height-for-width-geometry-management)
+ * for more information.
+ */
+struct _BobguiRequisition
+{
+  int width;
+  int height;
+};
+
+/* The widget is the base of the tree for displayable objects.
+ *  (A displayable object is one which takes up some amount
+ *  of screen real estate). It provides a common base and interface
+ *  which actual widgets must adhere to.
+ */
+struct _BobguiWidget
+{
+  GInitiallyUnowned parent_instance;
+
+  /*< private >*/
+
+  BobguiWidgetPrivate *priv;
+};
+
+/**
+ * BobguiWidgetClass:
+ * @parent_class: The object class structure needs to be the first
+ *   element in the widget class structure in order for the class mechanism
+ *   to work correctly. This allows a BobguiWidgetClass pointer to be cast to
+ *   a GObjectClass pointer.
+ * @show: Signal emitted when widget is shown
+ * @hide: Signal emitted when widget is hidden.
+ * @map: Signal emitted when widget is going to be mapped, that is
+ *   when the widget is visible (which is controlled with
+ *   bobgui_widget_set_visible()) and all its parents up to the toplevel
+ *   widget are also visible.
+ * @unmap: Signal emitted when widget is going to be unmapped, which
+ *   means that either it or any of its parents up to the toplevel
+ *   widget have been set as hidden.
+ * @realize: Signal emitted when widget is associated with a
+ *   `GdkSurface`, which means that bobgui_widget_realize() has been called or
+ *   the widget has been mapped (that is, it is going to be drawn).
+ * @unrealize: Signal emitted when the GdkSurface associated with
+ *   widget is destroyed, which means that bobgui_widget_unrealize() has
+ *   been called or the widget has been unmapped (that is, it is going
+ *   to be hidden).
+ * @root: Called when the widget gets added to a `BobguiRoot` widget. Must
+ *   chain up
+ * @unroot: Called when the widget is about to be removed from its
+ *   `BobguiRoot` widget. Must chain up
+ * @size_allocate: Called to set the allocation, if the widget does
+ *   not have a layout manager.
+ * @state_flags_changed: Signal emitted when the widget state changes,
+ *   see bobgui_widget_get_state_flags().
+ * @direction_changed: Signal emitted when the text direction of a
+ *   widget changes.
+ * @get_request_mode: Called to get the request mode, if the widget
+ *   does not have a layout manager.
+ *   This allows a widget to tell its parent container whether
+ *   it prefers to be allocated in %BOBGUI_SIZE_REQUEST_HEIGHT_FOR_WIDTH or
+ *   %BOBGUI_SIZE_REQUEST_WIDTH_FOR_HEIGHT mode.
+ *   %BOBGUI_SIZE_REQUEST_HEIGHT_FOR_WIDTH means the widget prefers to have
+ *   `BobguiWidgetClass.measure()` called first to get the default width (passing
+ *   a for_size of -1), then again to get the height for said default width.
+ *   %BOBGUI_SIZE_REQUEST_CONSTANT_SIZE disables any height-for-width or
+ *   width-for-height geometry management for said widget and is the
+ *   default return.
+ *   It’s important to note that any widget
+ *   which trades height-for-width or width-for-height must respond properly
+ *   to a for_size value >= -1 passed to `BobguiWidgetClass.measure`, for both
+ *   possible orientations.
+ * @measure: Called to obtain the minimum and natural size of the widget,
+ *   if the widget does not have a layout manager.
+ *   Depending on the orientation parameter, the passed for_size can be
+ *   interpreted as width or height. A widget will never be allocated less
+ *   than its minimum size.
+ * @mnemonic_activate: Activates the @widget if @group_cycling is
+ *   %FALSE, and just grabs the focus if @group_cycling is %TRUE.
+ * @grab_focus: Causes @widget to have the keyboard focus for the
+ *   `BobguiWindow` it’s inside.
+ * @focus: Vfunc for bobgui_widget_child_focus()
+ * @set_focus_child: Sets the focused child of a widget. Must chain up
+ * @move_focus: Signal emitted when a change of focus is requested
+ * @keynav_failed: Signal emitted if keyboard navigation fails.
+ * @query_tooltip: Signal emitted when “has-tooltip” is %TRUE and the
+ *   hover timeout has expired with the cursor hovering “above”
+ *   widget; or emitted when widget got focus in keyboard mode.
+ * @compute_expand: Computes whether a container should give this
+ *   widget extra space when possible.
+ * @css_changed: Vfunc called when the CSS used by widget was changed. Widgets
+ *   should then discard their caches that depend on CSS and queue resizes or
+ *   redraws accordingly. The default implementation will take care of this for
+ *   all the default CSS properties, so implementations must chain up.
+ * @system_setting_changed: Emitted when a system setting was changed. Must chain up.
+ * @snapshot: Vfunc called when a new snapshot of the widget has to be taken.
+ * @contains: Vfunc for bobgui_widget_contains().
+ */
+struct _BobguiWidgetClass
+{
+  GInitiallyUnownedClass parent_class;
+
+  /*< public >*/
+
+  /* basics */
+  void (* show)                (BobguiWidget        *widget);
+  void (* hide)                (BobguiWidget        *widget);
+  void (* map)                 (BobguiWidget        *widget);
+  void (* unmap)               (BobguiWidget        *widget);
+  void (* realize)             (BobguiWidget        *widget);
+  void (* unrealize)           (BobguiWidget        *widget);
+  void (* root)                (BobguiWidget        *widget);
+  void (* unroot)              (BobguiWidget        *widget);
+  void (* size_allocate)       (BobguiWidget           *widget,
+                                int                  width,
+                                int                  height,
+                                int                  baseline);
+  void (* state_flags_changed) (BobguiWidget        *widget,
+                                BobguiStateFlags     previous_state_flags);
+  void (* direction_changed)   (BobguiWidget        *widget,
+                                BobguiTextDirection  previous_direction);
+
+  /* size requests */
+  BobguiSizeRequestMode (* get_request_mode)               (BobguiWidget      *widget);
+  void              (* measure) (BobguiWidget      *widget,
+                                 BobguiOrientation  orientation,
+                                 int             for_size,
+                                 int            *minimum,
+                                 int            *natural,
+                                 int            *minimum_baseline,
+                                 int            *natural_baseline);
+
+  /* Mnemonics */
+  gboolean (* mnemonic_activate)        (BobguiWidget           *widget,
+                                         gboolean             group_cycling);
+
+  /* explicit focus */
+  gboolean (* grab_focus)               (BobguiWidget           *widget);
+  gboolean (* focus)                    (BobguiWidget           *widget,
+                                         BobguiDirectionType     direction);
+  void     (* set_focus_child)          (BobguiWidget           *widget,
+                                         BobguiWidget           *child);
+
+  /* keyboard navigation */
+  void     (* move_focus)               (BobguiWidget           *widget,
+                                         BobguiDirectionType     direction);
+  gboolean (* keynav_failed)            (BobguiWidget           *widget,
+                                         BobguiDirectionType     direction);
+
+  gboolean     (* query_tooltip)      (BobguiWidget  *widget,
+                                       int         x,
+                                       int         y,
+                                       gboolean    keyboard_tooltip,
+                                       BobguiTooltip *tooltip);
+
+  void         (* compute_expand)     (BobguiWidget  *widget,
+                                       gboolean   *hexpand_p,
+                                       gboolean   *vexpand_p);
+
+  void         (* css_changed)                 (BobguiWidget            *widget,
+                                                BobguiCssStyleChange    *change);
+
+  void         (* system_setting_changed)      (BobguiWidget            *widget,
+                                                BobguiSystemSetting      settings);
+
+  void         (* snapshot)                    (BobguiWidget            *widget,
+                                                BobguiSnapshot          *snapshot);
+
+  gboolean     (* contains)                    (BobguiWidget *widget,
+                                                double     x,
+                                                double     y);
+
+  /*< private >*/
+
+  BobguiWidgetClassPrivate *priv;
+
+  gpointer padding[8];
+};
+
+
+GDK_AVAILABLE_IN_ALL
+GType      bobgui_widget_get_type            (void) G_GNUC_CONST;
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_unparent            (BobguiWidget           *widget);
+GDK_DEPRECATED_IN_4_10_FOR(bobgui_widget_set_visible or bobgui_window_present)
+void       bobgui_widget_show                (BobguiWidget           *widget);
+GDK_DEPRECATED_IN_4_10_FOR(bobgui_widget_set_visible)
+void       bobgui_widget_hide                (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_map                 (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_unmap               (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_realize             (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_unrealize           (BobguiWidget           *widget);
+
+/* Queuing draws */
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_queue_draw          (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_queue_resize        (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_queue_allocate      (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+GdkFrameClock* bobgui_widget_get_frame_clock (BobguiWidget           *widget);
+
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_size_allocate       (BobguiWidget           *widget,
+                                           const BobguiAllocation *allocation,
+                                           int                  baseline);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_allocate            (BobguiWidget               *widget,
+                                           int                      width,
+                                           int                      height,
+                                           int                      baseline,
+                                           GskTransform            *transform);
+
+GDK_AVAILABLE_IN_ALL
+BobguiSizeRequestMode  bobgui_widget_get_request_mode               (BobguiWidget      *widget);
+GDK_AVAILABLE_IN_ALL
+void bobgui_widget_measure (BobguiWidget      *widget,
+                         BobguiOrientation  orientation,
+                         int             for_size,
+                         int            *minimum,
+                         int            *natural,
+                         int            *minimum_baseline,
+                         int            *natural_baseline);
+GDK_AVAILABLE_IN_ALL
+void                bobgui_widget_get_preferred_size             (BobguiWidget      *widget,
+                                                               BobguiRequisition *minimum_size,
+                                                               BobguiRequisition *natural_size);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_set_layout_manager   (BobguiWidget        *widget,
+                                                         BobguiLayoutManager *layout_manager);
+GDK_AVAILABLE_IN_ALL
+BobguiLayoutManager *      bobgui_widget_get_layout_manager   (BobguiWidget        *widget);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_class_set_layout_manager_type        (BobguiWidgetClass *widget_class,
+                                                                         GType           type);
+GDK_AVAILABLE_IN_ALL
+GType                   bobgui_widget_class_get_layout_manager_type        (BobguiWidgetClass *widget_class);
+
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_class_add_binding   (BobguiWidgetClass      *widget_class,
+                                           guint                keyval,
+                                           GdkModifierType      mods,
+                                           BobguiShortcutFunc      callback,
+                                           const char          *format_string,
+                                           ...);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_class_add_binding_signal
+                                          (BobguiWidgetClass      *widget_class,
+                                           guint                keyval,
+                                           GdkModifierType      mods,
+                                           const char          *signal,
+                                           const char          *format_string,
+                                           ...);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_class_add_binding_action
+                                          (BobguiWidgetClass      *widget_class,
+                                           guint                keyval,
+                                           GdkModifierType      mods,
+                                           const char          *action_name,
+                                           const char          *format_string,
+                                           ...);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_class_add_shortcut  (BobguiWidgetClass      *widget_class,
+                                           BobguiShortcut         *shortcut);
+
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_class_set_activate_signal                 (BobguiWidgetClass *widget_class,
+                                                                 guint           signal_id);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_class_set_activate_signal_from_name       (BobguiWidgetClass *widget_class,
+                                                                 const char     *signal_name);
+GDK_AVAILABLE_IN_ALL
+guint      bobgui_widget_class_get_activate_signal                 (BobguiWidgetClass *widget_class);
+
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_mnemonic_activate   (BobguiWidget           *widget,
+                                           gboolean             group_cycling);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_activate               (BobguiWidget        *widget);
+
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_set_can_focus       (BobguiWidget           *widget,
+                                           gboolean             can_focus);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_get_can_focus       (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_set_focusable       (BobguiWidget           *widget,
+                                           gboolean             focusable);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_get_focusable       (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_has_focus           (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_is_focus            (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_has_visible_focus   (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_grab_focus          (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_set_focus_on_click  (BobguiWidget           *widget,
+                                           gboolean             focus_on_click);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_get_focus_on_click  (BobguiWidget           *widget);
+
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_set_can_target      (BobguiWidget           *widget,
+                                           gboolean             can_target);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_get_can_target      (BobguiWidget           *widget);
+
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_has_default         (BobguiWidget           *widget);
+
+GDK_AVAILABLE_IN_ALL
+void      bobgui_widget_set_receives_default (BobguiWidget           *widget,
+                                           gboolean             receives_default);
+GDK_AVAILABLE_IN_ALL
+gboolean  bobgui_widget_get_receives_default (BobguiWidget           *widget);
+
+
+GDK_AVAILABLE_IN_ALL
+void                  bobgui_widget_set_name               (BobguiWidget    *widget,
+                                                         const char   *name);
+GDK_AVAILABLE_IN_ALL
+const char *         bobgui_widget_get_name               (BobguiWidget    *widget);
+
+
+GDK_AVAILABLE_IN_ALL
+void                  bobgui_widget_set_state_flags        (BobguiWidget     *widget,
+                                                         BobguiStateFlags  flags,
+                                                         gboolean       clear);
+GDK_AVAILABLE_IN_ALL
+void                  bobgui_widget_unset_state_flags      (BobguiWidget     *widget,
+                                                         BobguiStateFlags  flags);
+GDK_AVAILABLE_IN_ALL
+BobguiStateFlags         bobgui_widget_get_state_flags        (BobguiWidget     *widget);
+
+GDK_AVAILABLE_IN_ALL
+void                  bobgui_widget_set_sensitive          (BobguiWidget    *widget,
+                                                         gboolean      sensitive);
+GDK_AVAILABLE_IN_ALL
+gboolean              bobgui_widget_get_sensitive          (BobguiWidget    *widget);
+GDK_AVAILABLE_IN_ALL
+gboolean              bobgui_widget_is_sensitive           (BobguiWidget    *widget);
+
+GDK_AVAILABLE_IN_ALL
+void                  bobgui_widget_set_visible            (BobguiWidget    *widget,
+                                                         gboolean      visible);
+GDK_AVAILABLE_IN_ALL
+gboolean              bobgui_widget_get_visible            (BobguiWidget    *widget);
+GDK_AVAILABLE_IN_ALL
+gboolean              bobgui_widget_is_visible             (BobguiWidget    *widget);
+
+GDK_AVAILABLE_IN_ALL
+gboolean              bobgui_widget_is_drawable            (BobguiWidget    *widget);
+GDK_AVAILABLE_IN_ALL
+gboolean              bobgui_widget_get_realized           (BobguiWidget    *widget);
+GDK_AVAILABLE_IN_ALL
+gboolean              bobgui_widget_get_mapped             (BobguiWidget    *widget);
+
+GDK_AVAILABLE_IN_ALL
+void                  bobgui_widget_set_parent             (BobguiWidget    *widget,
+                                                         BobguiWidget    *parent);
+GDK_AVAILABLE_IN_ALL
+BobguiWidget *           bobgui_widget_get_parent             (BobguiWidget    *widget);
+
+GDK_AVAILABLE_IN_ALL
+BobguiRoot *             bobgui_widget_get_root               (BobguiWidget    *widget);
+
+GDK_AVAILABLE_IN_ALL
+BobguiNative *           bobgui_widget_get_native             (BobguiWidget    *widget);
+
+GDK_AVAILABLE_IN_ALL
+void                  bobgui_widget_set_child_visible      (BobguiWidget    *widget,
+                                                         gboolean      child_visible);
+GDK_AVAILABLE_IN_ALL
+gboolean              bobgui_widget_get_child_visible      (BobguiWidget    *widget);
+
+GDK_DEPRECATED_IN_4_12_FOR(bobgui_widget_get_width)
+int                   bobgui_widget_get_allocated_width    (BobguiWidget     *widget);
+GDK_DEPRECATED_IN_4_12_FOR(bobgui_widget_get_height)
+int                   bobgui_widget_get_allocated_height   (BobguiWidget     *widget);
+GDK_DEPRECATED_IN_4_12_FOR(bobgui_widget_get_baseline)
+int                   bobgui_widget_get_allocated_baseline (BobguiWidget     *widget);
+
+GDK_DEPRECATED_IN_4_12_FOR(bobgui_widget_compute_bounds)
+void                  bobgui_widget_get_allocation         (BobguiWidget     *widget,
+                                                         BobguiAllocation *allocation);
+GDK_AVAILABLE_IN_ALL
+gboolean                bobgui_widget_compute_transform            (BobguiWidget              *widget,
+                                                                 BobguiWidget              *target,
+                                                                 graphene_matrix_t      *out_transform) G_GNUC_WARN_UNUSED_RESULT;
+GDK_AVAILABLE_IN_ALL
+gboolean                bobgui_widget_compute_bounds               (BobguiWidget              *widget,
+                                                                 BobguiWidget              *target,
+                                                                 graphene_rect_t        *out_bounds) G_GNUC_WARN_UNUSED_RESULT;
+GDK_AVAILABLE_IN_ALL
+gboolean                bobgui_widget_compute_point                (BobguiWidget              *widget,
+                                                                 BobguiWidget              *target,
+                                                                 const graphene_point_t *point,
+                                                                 graphene_point_t       *out_point) G_GNUC_WARN_UNUSED_RESULT;
+
+GDK_AVAILABLE_IN_ALL
+int                   bobgui_widget_get_width              (BobguiWidget     *widget);
+GDK_AVAILABLE_IN_ALL
+int                   bobgui_widget_get_height             (BobguiWidget     *widget);
+GDK_AVAILABLE_IN_4_12
+int                   bobgui_widget_get_baseline           (BobguiWidget     *widget);
+GDK_AVAILABLE_IN_ALL
+int                   bobgui_widget_get_size               (BobguiWidget     *widget,
+                                                         BobguiOrientation orientation);
+
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_child_focus         (BobguiWidget           *widget,
+                                           BobguiDirectionType     direction);
+GDK_AVAILABLE_IN_ALL
+gboolean   bobgui_widget_keynav_failed       (BobguiWidget           *widget,
+                                           BobguiDirectionType     direction);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_error_bell          (BobguiWidget           *widget);
+
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_set_size_request    (BobguiWidget           *widget,
+                                           int                  width,
+                                           int                  height);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_get_size_request    (BobguiWidget           *widget,
+                                           int                 *width,
+                                           int                 *height);
+GDK_AVAILABLE_IN_ALL
+void       bobgui_widget_set_opacity         (BobguiWidget           *widget,
+                                           double               opacity);
+GDK_AVAILABLE_IN_ALL
+double     bobgui_widget_get_opacity         (BobguiWidget           *widget);
+GDK_AVAILABLE_IN_ALL
+void         bobgui_widget_set_overflow      (BobguiWidget           *widget,
+                                           BobguiOverflow          overflow);
+GDK_AVAILABLE_IN_ALL
+BobguiOverflow  bobgui_widget_get_overflow      (BobguiWidget           *widget);
+
+GDK_AVAILABLE_IN_ALL
+BobguiWidget*   bobgui_widget_get_ancestor    (BobguiWidget      *widget,
+                                         GType           widget_type);
+
+GDK_AVAILABLE_IN_ALL
+int           bobgui_widget_get_scale_factor (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+GdkDisplay *  bobgui_widget_get_display     (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+BobguiSettings*  bobgui_widget_get_settings    (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+GdkClipboard *bobgui_widget_get_clipboard   (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+GdkClipboard *bobgui_widget_get_primary_clipboard (BobguiWidget *widget);
+
+
+/* Expand flags and related support */
+GDK_AVAILABLE_IN_ALL
+gboolean bobgui_widget_get_hexpand          (BobguiWidget      *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_hexpand          (BobguiWidget      *widget,
+                                          gboolean        expand);
+GDK_AVAILABLE_IN_ALL
+gboolean bobgui_widget_get_hexpand_set      (BobguiWidget      *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_hexpand_set      (BobguiWidget      *widget,
+                                          gboolean        set);
+GDK_AVAILABLE_IN_ALL
+gboolean bobgui_widget_get_vexpand          (BobguiWidget      *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_vexpand          (BobguiWidget      *widget,
+                                          gboolean        expand);
+GDK_AVAILABLE_IN_ALL
+gboolean bobgui_widget_get_vexpand_set      (BobguiWidget      *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_vexpand_set      (BobguiWidget      *widget,
+                                          gboolean        set);
+GDK_AVAILABLE_IN_ALL
+gboolean bobgui_widget_compute_expand       (BobguiWidget      *widget,
+                                          BobguiOrientation  orientation);
+
+/* Margin and alignment */
+GDK_AVAILABLE_IN_ALL
+BobguiAlign bobgui_widget_get_halign        (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_halign        (BobguiWidget *widget,
+                                       BobguiAlign   align);
+GDK_AVAILABLE_IN_ALL
+BobguiAlign bobgui_widget_get_valign        (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_valign        (BobguiWidget *widget,
+                                       BobguiAlign   align);
+GDK_AVAILABLE_IN_ALL
+int      bobgui_widget_get_margin_start  (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_margin_start  (BobguiWidget *widget,
+                                       int        margin);
+GDK_AVAILABLE_IN_ALL
+int      bobgui_widget_get_margin_end    (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_margin_end    (BobguiWidget *widget,
+                                       int        margin);
+GDK_AVAILABLE_IN_ALL
+int      bobgui_widget_get_margin_top    (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_margin_top    (BobguiWidget *widget,
+                                       int        margin);
+GDK_AVAILABLE_IN_ALL
+int      bobgui_widget_get_margin_bottom (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+void     bobgui_widget_set_margin_bottom (BobguiWidget *widget,
+                                       int        margin);
+
+GDK_AVAILABLE_IN_ALL
+gboolean     bobgui_widget_is_ancestor     (BobguiWidget      *widget,
+                                         BobguiWidget      *ancestor);
+
+GDK_DEPRECATED_IN_4_12_FOR(bobgui_widget_compute_point)
+gboolean     bobgui_widget_translate_coordinates (BobguiWidget  *src_widget,
+                                               BobguiWidget  *dest_widget,
+                                               double      src_x,
+                                               double      src_y,
+                                               double     *dest_x,
+                                               double     *dest_y);
+
+GDK_AVAILABLE_IN_ALL
+gboolean     bobgui_widget_contains              (BobguiWidget  *widget,
+                                               double      x,
+                                               double      y);
+GDK_AVAILABLE_IN_ALL
+BobguiWidget *  bobgui_widget_pick                  (BobguiWidget   *widget,
+                                               double       x,
+                                               double       y,
+                                               BobguiPickFlags flags);
+
+GDK_AVAILABLE_IN_ALL
+void         bobgui_widget_add_controller        (BobguiWidget          *widget,
+                                               BobguiEventController *controller);
+GDK_AVAILABLE_IN_ALL
+void         bobgui_widget_remove_controller     (BobguiWidget          *widget,
+                                               BobguiEventController *controller);
+
+GDK_AVAILABLE_IN_ALL
+PangoContext *bobgui_widget_create_pango_context (BobguiWidget   *widget);
+GDK_AVAILABLE_IN_ALL
+PangoContext *bobgui_widget_get_pango_context    (BobguiWidget   *widget);
+GDK_DEPRECATED_IN_4_16
+void bobgui_widget_set_font_options (BobguiWidget                  *widget,
+                                  const cairo_font_options_t *options);
+GDK_DEPRECATED_IN_4_16
+const cairo_font_options_t *bobgui_widget_get_font_options (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+PangoLayout  *bobgui_widget_create_pango_layout  (BobguiWidget   *widget,
+                                               const char *text);
+
+/* Functions for setting directionality for widgets */
+
+GDK_AVAILABLE_IN_ALL
+void             bobgui_widget_set_direction         (BobguiWidget        *widget,
+                                                   BobguiTextDirection  dir);
+GDK_AVAILABLE_IN_ALL
+BobguiTextDirection bobgui_widget_get_direction         (BobguiWidget        *widget);
+
+GDK_AVAILABLE_IN_ALL
+void             bobgui_widget_set_default_direction (BobguiTextDirection  dir);
+GDK_AVAILABLE_IN_ALL
+BobguiTextDirection bobgui_widget_get_default_direction (void);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_set_cursor                   (BobguiWidget              *widget,
+                                                                 GdkCursor              *cursor);
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_set_cursor_from_name         (BobguiWidget              *widget,
+                                                                 const char             *name);
+GDK_AVAILABLE_IN_ALL
+GdkCursor *             bobgui_widget_get_cursor                   (BobguiWidget              *widget);
+
+GDK_AVAILABLE_IN_ALL
+GList* bobgui_widget_list_mnemonic_labels  (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+void   bobgui_widget_add_mnemonic_label    (BobguiWidget *widget,
+                                         BobguiWidget *label);
+GDK_AVAILABLE_IN_ALL
+void   bobgui_widget_remove_mnemonic_label (BobguiWidget *widget,
+                                         BobguiWidget *label);
+
+GDK_AVAILABLE_IN_ALL
+void            bobgui_widget_trigger_tooltip_query        (BobguiWidget   *widget);
+GDK_AVAILABLE_IN_ALL
+void            bobgui_widget_set_tooltip_text             (BobguiWidget   *widget,
+                                                         const char  *text);
+GDK_AVAILABLE_IN_ALL
+const char *    bobgui_widget_get_tooltip_text             (BobguiWidget   *widget);
+GDK_AVAILABLE_IN_ALL
+void            bobgui_widget_set_tooltip_markup           (BobguiWidget   *widget,
+                                                         const char  *markup);
+GDK_AVAILABLE_IN_ALL
+const char *    bobgui_widget_get_tooltip_markup           (BobguiWidget   *widget);
+GDK_AVAILABLE_IN_ALL
+void            bobgui_widget_set_has_tooltip              (BobguiWidget   *widget,
+                                                         gboolean     has_tooltip);
+GDK_AVAILABLE_IN_ALL
+gboolean        bobgui_widget_get_has_tooltip              (BobguiWidget   *widget);
+
+GDK_AVAILABLE_IN_ALL
+GType           bobgui_requisition_get_type (void) G_GNUC_CONST;
+GDK_AVAILABLE_IN_ALL
+BobguiRequisition *bobgui_requisition_new      (void) G_GNUC_MALLOC;
+GDK_AVAILABLE_IN_ALL
+BobguiRequisition *bobgui_requisition_copy     (const BobguiRequisition *requisition);
+GDK_AVAILABLE_IN_ALL
+void            bobgui_requisition_free     (BobguiRequisition       *requisition);
+
+GDK_AVAILABLE_IN_ALL
+gboolean     bobgui_widget_in_destruction (BobguiWidget *widget);
+
+GDK_DEPRECATED_IN_4_10
+BobguiStyleContext * bobgui_widget_get_style_context (BobguiWidget *widget);
+
+GDK_AVAILABLE_IN_ALL
+void              bobgui_widget_class_set_css_name (BobguiWidgetClass *widget_class,
+                                                 const char     *name);
+GDK_AVAILABLE_IN_ALL
+const char *      bobgui_widget_class_get_css_name (BobguiWidgetClass *widget_class);
+
+GDK_AVAILABLE_IN_ALL
+guint bobgui_widget_add_tick_callback (BobguiWidget       *widget,
+                                    BobguiTickCallback  callback,
+                                    gpointer         user_data,
+                                    GDestroyNotify   notify);
+
+GDK_AVAILABLE_IN_ALL
+void bobgui_widget_remove_tick_callback (BobguiWidget       *widget,
+                                      guint            id);
+
+/**
+ * bobgui_widget_class_bind_template_callback:
+ * @widget_class: a widget class
+ * @callback: the callback symbol
+ *
+ * Binds a callback function defined in a template to the @widget_class.
+ *
+ * This macro is a convenience wrapper around
+ * [method@Bobgui.WidgetClass.bind_template_callback_full]. It is not
+ * supported after [method@Bobgui.WidgetClass.set_template_scope] has been
+ * called on @widget_class.
+ */
+#define bobgui_widget_class_bind_template_callback(widget_class, callback) \
+  bobgui_widget_class_bind_template_callback_full (BOBGUI_WIDGET_CLASS (widget_class), \
+                                                #callback, \
+                                                G_CALLBACK (callback))
+
+/**
+ * bobgui_widget_class_bind_template_child:
+ * @widget_class: a widget class
+ * @TypeName: the type name of this widget
+ * @member_name: name of the instance member in the instance struct for @data_type
+ *
+ * Binds a child widget defined in a template to the @widget_class.
+ *
+ * This macro is a convenience wrapper around
+ * [method@Bobgui.WidgetClass.bind_template_child_full].
+ *
+ * This macro will use the offset of the @member_name inside the @TypeName
+ * instance structure.
+ */
+#define bobgui_widget_class_bind_template_child(widget_class, TypeName, member_name) \
+  bobgui_widget_class_bind_template_child_full (widget_class, \
+                                             #member_name, \
+                                             FALSE, \
+                                             G_STRUCT_OFFSET (TypeName, member_name))
+
+/**
+ * bobgui_widget_class_bind_template_child_internal:
+ * @widget_class: a widget class
+ * @TypeName: the type name, in CamelCase
+ * @member_name: name of the instance member in the instance struct for @data_type
+ *
+ * Binds a child widget defined in a template to the @widget_class.
+ *
+ * Additionally, the child widget is made available as an internal
+ * child in `BobguiBuilder`, under the name @member_name.
+ *
+ * This macro is a convenience wrapper around
+ * [method@Bobgui.WidgetClass.bind_template_child_full].
+ *
+ * This macro will use the offset of the @member_name inside the @TypeName
+ * instance structure.
+ */
+#define bobgui_widget_class_bind_template_child_internal(widget_class, TypeName, member_name) \
+  bobgui_widget_class_bind_template_child_full (widget_class, \
+                                             #member_name, \
+                                             TRUE, \
+                                             G_STRUCT_OFFSET (TypeName, member_name))
+
+/**
+ * bobgui_widget_class_bind_template_child_private:
+ * @widget_class: a widget class
+ * @TypeName: the type name of this widget
+ * @member_name: name of the instance private member in the private struct for @data_type
+ *
+ * Binds a child widget defined in a template to the @widget_class.
+ *
+ * This macro is a convenience wrapper around
+ * [method@BobguiWidgetClass.bind_template_child_full].
+ *
+ * This macro will use the offset of the @member_name inside the @TypeName
+ * private data structure (it uses `G_PRIVATE_OFFSET()`, so the private struct
+ * must be added with `G_ADD_PRIVATE())`.
+ */
+#define bobgui_widget_class_bind_template_child_private(widget_class, TypeName, member_name) \
+  bobgui_widget_class_bind_template_child_full (widget_class, \
+                                             #member_name, \
+                                             FALSE, \
+                                             G_PRIVATE_OFFSET (TypeName, member_name))
+
+/**
+ * bobgui_widget_class_bind_template_child_internal_private:
+ * @widget_class: a widget class
+ * @TypeName: the type name, in CamelCase
+ * @member_name: name of the instance private member on the private struct for @data_type
+ *
+ * Binds a child widget defined in a template to the @widget_class.
+ *
+ * Additionally, the child is made available as an internal child
+ * in `BobguiBuilder`, under the name @member_name.
+ *
+ * This macro is a convenience wrapper around
+ * [method@Bobgui.WidgetClass.bind_template_child_full].
+ *
+ * This macro will use the offset of the @member_name inside the @TypeName
+ * private data structure.
+ */
+#define bobgui_widget_class_bind_template_child_internal_private(widget_class, TypeName, member_name) \
+  bobgui_widget_class_bind_template_child_full (widget_class, \
+                                             #member_name, \
+                                             TRUE, \
+                                             G_PRIVATE_OFFSET (TypeName, member_name))
+
+GDK_AVAILABLE_IN_ALL
+void    bobgui_widget_init_template                        (BobguiWidget             *widget);
+GDK_AVAILABLE_IN_ALL
+GObject *bobgui_widget_get_template_child                  (BobguiWidget             *widget,
+                                                         GType                  widget_type,
+                                                         const char            *name);
+GDK_AVAILABLE_IN_4_8
+void    bobgui_widget_dispose_template                     (BobguiWidget             *widget,
+                                                         GType                  widget_type);
+GDK_AVAILABLE_IN_ALL
+void    bobgui_widget_class_set_template                   (BobguiWidgetClass        *widget_class,
+                                                         GBytes                *template_bytes);
+GDK_AVAILABLE_IN_ALL
+void    bobgui_widget_class_set_template_from_resource     (BobguiWidgetClass        *widget_class,
+                                                         const char            *resource_name);
+GDK_AVAILABLE_IN_ALL
+void    bobgui_widget_class_bind_template_callback_full    (BobguiWidgetClass        *widget_class,
+                                                         const char            *callback_name,
+                                                         GCallback              callback_symbol);
+GDK_AVAILABLE_IN_ALL
+void    bobgui_widget_class_set_template_scope             (BobguiWidgetClass        *widget_class,
+                                                         BobguiBuilderScope       *scope);
+GDK_AVAILABLE_IN_ALL
+void    bobgui_widget_class_bind_template_child_full       (BobguiWidgetClass        *widget_class,
+                                                         const char            *name,
+                                                         gboolean               internal_child,
+                                                         gssize                 struct_offset);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_insert_action_group  (BobguiWidget    *widget,
+                                                         const char   *name,
+                                                         GActionGroup *group);
+
+GDK_AVAILABLE_IN_ALL
+gboolean                bobgui_widget_activate_action      (BobguiWidget  *widget,
+                                                         const char *name,
+                                                         const char *format_string,
+                                                         ...);
+GDK_AVAILABLE_IN_ALL
+gboolean                bobgui_widget_activate_action_variant (BobguiWidget  *widget,
+                                                            const char *name,
+                                                            GVariant   *args);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_activate_default     (BobguiWidget *widget);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_set_font_map         (BobguiWidget             *widget,
+                                                         PangoFontMap          *font_map);
+GDK_AVAILABLE_IN_ALL
+PangoFontMap *          bobgui_widget_get_font_map         (BobguiWidget             *widget);
+
+GDK_AVAILABLE_IN_ALL
+BobguiWidget *             bobgui_widget_get_first_child      (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+BobguiWidget *             bobgui_widget_get_last_child       (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+BobguiWidget *             bobgui_widget_get_next_sibling     (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+BobguiWidget *             bobgui_widget_get_prev_sibling     (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+GListModel *            bobgui_widget_observe_children     (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+GListModel *            bobgui_widget_observe_controllers  (BobguiWidget *widget);
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_insert_after         (BobguiWidget *widget,
+                                                         BobguiWidget *parent,
+                                                         BobguiWidget *previous_sibling);
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_insert_before        (BobguiWidget *widget,
+                                                         BobguiWidget *parent,
+                                                         BobguiWidget *next_sibling);
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_set_focus_child      (BobguiWidget *widget,
+                                                         BobguiWidget *child);
+GDK_AVAILABLE_IN_ALL
+BobguiWidget *             bobgui_widget_get_focus_child      (BobguiWidget *widget);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_snapshot_child       (BobguiWidget   *widget,
+                                                         BobguiWidget   *child,
+                                                         BobguiSnapshot *snapshot);
+GDK_AVAILABLE_IN_ALL
+gboolean                bobgui_widget_should_layout        (BobguiWidget   *widget);
+GDK_AVAILABLE_IN_ALL
+const char *            bobgui_widget_get_css_name         (BobguiWidget   *self) G_GNUC_PURE;
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_add_css_class        (BobguiWidget   *widget,
+                                                         const char  *css_class);
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_remove_css_class     (BobguiWidget   *widget,
+                                                         const char  *css_class);
+GDK_AVAILABLE_IN_ALL
+gboolean                bobgui_widget_has_css_class        (BobguiWidget   *widget,
+                                                         const char  *css_class);
+GDK_AVAILABLE_IN_ALL
+char **                 bobgui_widget_get_css_classes      (BobguiWidget   *widget);
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_set_css_classes      (BobguiWidget   *widget,
+                                                         const char **classes);
+
+GDK_AVAILABLE_IN_4_10
+void                    bobgui_widget_get_color            (BobguiWidget   *widget,
+                                                         GdkRGBA     *color);
+
+
+/**
+ * BobguiWidgetActionActivateFunc:
+ * @widget: the widget to which the action belongs
+ * @action_name: the action name
+ * @parameter: (nullable): parameter for activation
+ *
+ * The type of the callback functions used for activating
+ * actions installed with [method@Bobgui.WidgetClass.install_action].
+ *
+ * The @parameter must match the @parameter_type of the action.
+ */
+typedef void (* BobguiWidgetActionActivateFunc) (BobguiWidget  *widget,
+                                              const char *action_name,
+                                              GVariant   *parameter);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_class_install_action (BobguiWidgetClass              *widget_class,
+                                                         const char                  *action_name,
+                                                         const char                  *parameter_type,
+                                                         BobguiWidgetActionActivateFunc  activate);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_class_install_property_action (BobguiWidgetClass *widget_class,
+                                                                  const char     *action_name,
+                                                                  const char     *property_name);
+
+GDK_AVAILABLE_IN_ALL
+gboolean               bobgui_widget_class_query_action  (BobguiWidgetClass      *widget_class,
+                                                       guint                index_,
+                                                       GType               *owner,
+                                                       const char         **action_name,
+                                                       const GVariantType **parameter_type,
+                                                       const char         **property_name);
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_action_set_enabled (BobguiWidget  *widget,
+                                                       const char *action_name,
+                                                       gboolean    enabled);
+
+
+GDK_AVAILABLE_IN_ALL
+void                    bobgui_widget_class_set_accessible_role    (BobguiWidgetClass    *widget_class,
+                                                                 BobguiAccessibleRole  accessible_role);
+GDK_AVAILABLE_IN_ALL
+BobguiAccessibleRole       bobgui_widget_class_get_accessible_role    (BobguiWidgetClass    *widget_class);
+
+GDK_AVAILABLE_IN_4_18
+void                    bobgui_widget_set_limit_events             (BobguiWidget         *widget,
+                                                                 gboolean           limit_events);
+GDK_AVAILABLE_IN_4_18
+gboolean                bobgui_widget_get_limit_events             (BobguiWidget         *widget);
+
+
+
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(BobguiWidget, g_object_unref)
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(BobguiRequisition, bobgui_requisition_free)
+
+G_END_DECLS
+

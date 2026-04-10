@@ -1,0 +1,6 @@
+
+<interface>
+  <object class="BobguiMenuButton">
+    <property name="popover">xyzzy</property>
+  </object>
+</interface>

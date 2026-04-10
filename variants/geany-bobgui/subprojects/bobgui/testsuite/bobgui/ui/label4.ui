@@ -1,0 +1,8 @@
+<!-- test invalid tag in BobguiLabel attributes -->
+<interface>
+  <object class="BobguiLabel">
+    <attributes>
+      <blarg/>
+    </attributes>
+  </object>
+</interface>

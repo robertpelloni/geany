@@ -1,0 +1,11 @@
+<interface>
+  <object class="BobguiLabel" id="bla"/>
+  <object class="BobguiDropDown">
+    <property name="expression">
+      <closure type='gchararray' function="strcmp">
+        <constant type="gchararray">File size:</constant>
+        <lookup type="BobguiLabel" name="max-width-chars">bla</lookup>
+      </closure>
+    </property>
+  </object>
+</interface>

@@ -1,0 +1,18 @@
+/* bobguiaccessiblerangeprivate.h: Accessible range private API
+ *
+ * SPDX-FileCopyrightText: 2022  Emmanuele Bassi
+ * SPDX-FileCopyrightText: 2022  Red Hat Inc
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ */
+
+#pragma once
+
+#include "bobguiaccessiblerange.h"
+
+G_BEGIN_DECLS
+
+gboolean
+bobgui_accessible_range_set_current_value (BobguiAccessibleRange *self,
+                                        double              value);
+
+G_END_DECLS

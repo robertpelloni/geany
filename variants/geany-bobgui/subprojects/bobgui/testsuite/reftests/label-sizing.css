@@ -1,0 +1,10 @@
+* {
+  font: 12px Monospace;
+  padding: 0;
+  border: none;
+  margin: 0;
+}
+
+BobguiPaned label {
+  background-color: pink;
+}

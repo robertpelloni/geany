@@ -1,0 +1,2 @@
+ERROR: bobgui-builder-error-quark 1
+.:5:15 Unsupported tag for BobguiWidget: <blarg>

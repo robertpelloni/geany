@@ -1,0 +1,4803 @@
+# translation of po_bobgui30-km.po to Khmer
+# Khmer translation for bobgui+3.0
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the bobgui+3.0 package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+# Khoem Sokhem <khoemsokhem@khmeros.info>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: po_bobgui30-km\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=bobgui"
+"%2b&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-10-02 17:34+0000\n"
+"PO-Revision-Date: 2012-04-05 02:15+0000\n"
+"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"Language-Team: Khmer <support@khmeros.info>\n"
+"Language: km\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Launchpad (build 15890)\n"
+"X-Launchpad-Export-Date: 2012-09-03 19:16+0000\n"
+"X-Language: km-KH\n"
+
+#: ../gdk/gdk.c:155
+#, c-format
+msgid "Error parsing option --gdk-debug"
+msgstr "កំហុស​ក្នុង​ការ​ញែក​ជម្រើស --gdk-debug"
+
+#: ../gdk/gdk.c:175
+#, c-format
+msgid "Error parsing option --gdk-no-debug"
+msgstr "កំហុស​ក្នុង​ការ​ញែក​ជម្រើស --gdk-no-debug"
+
+#. Description of --class=CLASS in --help output
+#: ../gdk/gdk.c:203
+msgid "Program class as used by the window manager"
+msgstr "class កម្មវិធី​​​បាន​ប្រើ​ដោយ​កម្មវិធី​គ្រប់គ្រង​បង្អួច"
+
+#. Placeholder in --class=CLASS in --help output
+#: ../gdk/gdk.c:204
+msgid "CLASS"
+msgstr "CLASS"
+
+#. Description of --name=NAME in --help output
+#: ../gdk/gdk.c:206
+msgid "Program name as used by the window manager"
+msgstr "ឈ្មោះ​​កម្មវិធី​​ដូច​ដែល​​បាន​ប្រើ​ដោយ​កម្មវិធី​គ្រប់គ្រង​បង្អួច"
+
+#. Placeholder in --name=NAME in --help output
+#: ../gdk/gdk.c:207
+msgid "NAME"
+msgstr "ឈ្មោះ"
+
+#. Description of --display=DISPLAY in --help output
+#: ../gdk/gdk.c:209
+msgid "X display to use"
+msgstr "X display ដែល​ត្រូវ​ប្រើ"
+
+#. Placeholder in --display=DISPLAY in --help output
+#: ../gdk/gdk.c:210
+msgid "DISPLAY"
+msgstr "បង្ហាញ"
+
+#. Description of --gdk-debug=FLAGS in --help output
+#: ../gdk/gdk.c:213
+msgid "GDK debugging flags to set"
+msgstr "កំណត់​ទង់​បំបាត់​កំហុស​របស់ GDK"
+
+#. Placeholder in --gdk-debug=FLAGS in --help output
+#. Placeholder in --gdk-no-debug=FLAGS in --help output
+#. Placeholder in --bobgui-debug=FLAGS in --help output
+#. Placeholder in --bobgui-no-debug=FLAGS in --help output
+#: ../gdk/gdk.c:214 ../gdk/gdk.c:217 ../bobgui/bobguimain.c:454 ../bobgui/bobguimain.c:457
+msgid "FLAGS"
+msgstr "ទង់"
+
+#. Description of --gdk-no-debug=FLAGS in --help output
+#: ../gdk/gdk.c:216
+msgid "GDK debugging flags to unset"
+msgstr "មិន​កំណត់​ទង់​បំបាត់​កំហុស​​របស់ GDK"
+
+#.
+#. * Translators, the strings in the 'keyboard label' context are
+#. * display names for keyboard keys. Some of them have prefixes like
+#. * XF86 or ISO_ - these should be removed in the translation. Similarly,
+#. * underscores should be replaced by spaces. The prefix 'KP_' stands
+#. * for 'key pad' and you may want to include that in your translation.
+#. * Here are some examples of English translations:
+#. * XF86AudioMute - Audio mute
+#. * Scroll_lock   - Scroll lock
+#. * KP_Space      - Space (keypad)
+#. * Page_Up       - Page up
+#.
+#: ../gdk/keyname-table.h:3952
+msgctxt "keyboard label"
+msgid "BackSpace"
+msgstr "គ្រាប់ចុច​លុប​ថយក្រោយ"
+
+#: ../gdk/keyname-table.h:3953
+msgctxt "keyboard label"
+msgid "Tab"
+msgstr "ថេប"
+
+#: ../gdk/keyname-table.h:3954
+msgctxt "keyboard label"
+msgid "Return"
+msgstr "ត្រឡប់"
+
+#: ../gdk/keyname-table.h:3955
+msgctxt "keyboard label"
+msgid "Pause"
+msgstr "ផ្អាក"
+
+#: ../gdk/keyname-table.h:3956
+msgctxt "keyboard label"
+msgid "Scroll_Lock"
+msgstr "Scroll_Lock"
+
+#: ../gdk/keyname-table.h:3957
+msgctxt "keyboard label"
+msgid "Sys_Req"
+msgstr "Sys_Req"
+
+#: ../gdk/keyname-table.h:3958
+msgctxt "keyboard label"
+msgid "Escape"
+msgstr "គេច"
+
+#: ../gdk/keyname-table.h:3959
+msgctxt "keyboard label"
+msgid "Multi_key"
+msgstr "Multi_key"
+
+#: ../gdk/keyname-table.h:3960
+msgctxt "keyboard label"
+msgid "Home"
+msgstr "ផ្ទះ"
+
+#: ../gdk/keyname-table.h:3961
+msgctxt "keyboard label"
+msgid "Left"
+msgstr "ឆ្វេង"
+
+#: ../gdk/keyname-table.h:3962
+msgctxt "keyboard label"
+msgid "Up"
+msgstr "ឡើង​លើ"
+
+#: ../gdk/keyname-table.h:3963
+msgctxt "keyboard label"
+msgid "Right"
+msgstr "ស្ដាំ"
+
+#: ../gdk/keyname-table.h:3964
+msgctxt "keyboard label"
+msgid "Down"
+msgstr "ចុះក្រោម"
+
+#: ../gdk/keyname-table.h:3965
+msgctxt "keyboard label"
+msgid "Page_Up"
+msgstr "ទំព័រ​លើ (Page_Up)"
+
+#: ../gdk/keyname-table.h:3966
+msgctxt "keyboard label"
+msgid "Page_Down"
+msgstr "ទំព័រ​ក្រោម (Page_Down)"
+
+#: ../gdk/keyname-table.h:3967
+msgctxt "keyboard label"
+msgid "End"
+msgstr "ចុង"
+
+#: ../gdk/keyname-table.h:3968
+msgctxt "keyboard label"
+msgid "Begin"
+msgstr "ដើម"
+
+#: ../gdk/keyname-table.h:3969
+msgctxt "keyboard label"
+msgid "Print"
+msgstr "បោះពុម្ព"
+
+#: ../gdk/keyname-table.h:3970
+msgctxt "keyboard label"
+msgid "Insert"
+msgstr "បញ្ចូល"
+
+#: ../gdk/keyname-table.h:3971
+msgctxt "keyboard label"
+msgid "Num_Lock"
+msgstr "លេខ (Num_Lock)"
+
+#. Translators: KP_ means 'key pad' here
+#: ../gdk/keyname-table.h:3973
+msgctxt "keyboard label"
+msgid "KP_Space"
+msgstr "KP_Space"
+
+#: ../gdk/keyname-table.h:3974
+msgctxt "keyboard label"
+msgid "KP_Tab"
+msgstr "KP_Tab"
+
+#: ../gdk/keyname-table.h:3975
+msgctxt "keyboard label"
+msgid "KP_Enter"
+msgstr "KP_Enter"
+
+#: ../gdk/keyname-table.h:3976
+msgctxt "keyboard label"
+msgid "KP_Home"
+msgstr "KP_Home"
+
+#: ../gdk/keyname-table.h:3977
+msgctxt "keyboard label"
+msgid "KP_Left"
+msgstr "KP_Left"
+
+#: ../gdk/keyname-table.h:3978
+msgctxt "keyboard label"
+msgid "KP_Up"
+msgstr "KP_Up"
+
+#: ../gdk/keyname-table.h:3979
+msgctxt "keyboard label"
+msgid "KP_Right"
+msgstr "KP_Right"
+
+#: ../gdk/keyname-table.h:3980
+msgctxt "keyboard label"
+msgid "KP_Down"
+msgstr "KP_Down"
+
+#: ../gdk/keyname-table.h:3981
+msgctxt "keyboard label"
+msgid "KP_Page_Up"
+msgstr "KP_Page_Up"
+
+#: ../gdk/keyname-table.h:3982
+msgctxt "keyboard label"
+msgid "KP_Prior"
+msgstr "KP_Prior"
+
+#: ../gdk/keyname-table.h:3983
+msgctxt "keyboard label"
+msgid "KP_Page_Down"
+msgstr "KP_Page_Down"
+
+#: ../gdk/keyname-table.h:3984
+msgctxt "keyboard label"
+msgid "KP_Next"
+msgstr "KP_Next"
+
+#: ../gdk/keyname-table.h:3985
+msgctxt "keyboard label"
+msgid "KP_End"
+msgstr "KP_End"
+
+#: ../gdk/keyname-table.h:3986
+msgctxt "keyboard label"
+msgid "KP_Begin"
+msgstr "KP_Begin"
+
+#: ../gdk/keyname-table.h:3987
+msgctxt "keyboard label"
+msgid "KP_Insert"
+msgstr "KP_Insert"
+
+#: ../gdk/keyname-table.h:3988
+msgctxt "keyboard label"
+msgid "KP_Delete"
+msgstr "KP_Delete"
+
+#: ../gdk/keyname-table.h:3989
+msgctxt "keyboard label"
+msgid "Delete"
+msgstr "លុប"
+
+#. Translators: 'Mon' means Monitor here, and the XF86 prefix should be removed
+#: ../gdk/keyname-table.h:3991
+msgctxt "keyboard label"
+msgid "MonBrightnessUp"
+msgstr "MonBrightnessUp"
+
+#: ../gdk/keyname-table.h:3992
+msgctxt "keyboard label"
+msgid "MonBrightnessDown"
+msgstr "MonBrightnessDown"
+
+#: ../gdk/keyname-table.h:3993
+msgctxt "keyboard label"
+msgid "AudioMute"
+msgstr "AudioMute"
+
+#: ../gdk/keyname-table.h:3994
+msgctxt "keyboard label"
+msgid "AudioLowerVolume"
+msgstr "AudioLowerVolume"
+
+#: ../gdk/keyname-table.h:3995
+msgctxt "keyboard label"
+msgid "AudioRaiseVolume"
+msgstr "AudioRaiseVolume"
+
+#: ../gdk/keyname-table.h:3996
+msgctxt "keyboard label"
+msgid "AudioPlay"
+msgstr "AudioPlay"
+
+#: ../gdk/keyname-table.h:3997
+msgctxt "keyboard label"
+msgid "AudioStop"
+msgstr "AudioStop"
+
+#: ../gdk/keyname-table.h:3998
+msgctxt "keyboard label"
+msgid "AudioNext"
+msgstr "AudioNext"
+
+#: ../gdk/keyname-table.h:3999
+msgctxt "keyboard label"
+msgid "AudioPrev"
+msgstr "AudioPrev"
+
+#: ../gdk/keyname-table.h:4000
+msgctxt "keyboard label"
+msgid "AudioRecord"
+msgstr "AudioRecord"
+
+#: ../gdk/keyname-table.h:4001
+msgctxt "keyboard label"
+msgid "AudioPause"
+msgstr "AudioPause"
+
+#: ../gdk/keyname-table.h:4002
+msgctxt "keyboard label"
+msgid "AudioRewind"
+msgstr "AudioRewind"
+
+#: ../gdk/keyname-table.h:4003
+msgctxt "keyboard label"
+msgid "AudioMedia"
+msgstr "AudioMedia"
+
+#: ../gdk/keyname-table.h:4004
+msgctxt "keyboard label"
+msgid "ScreenSaver"
+msgstr "ScreenSaver"
+
+#: ../gdk/keyname-table.h:4005
+msgctxt "keyboard label"
+msgid "Battery"
+msgstr "Battery"
+
+#: ../gdk/keyname-table.h:4006
+msgctxt "keyboard label"
+msgid "Launch1"
+msgstr "Launch1"
+
+#: ../gdk/keyname-table.h:4007
+msgctxt "keyboard label"
+msgid "Forward"
+msgstr "Forward"
+
+#: ../gdk/keyname-table.h:4008
+msgctxt "keyboard label"
+msgid "Back"
+msgstr "Back"
+
+#: ../gdk/keyname-table.h:4009
+msgctxt "keyboard label"
+msgid "Sleep"
+msgstr "Sleep"
+
+#: ../gdk/keyname-table.h:4010
+msgctxt "keyboard label"
+msgid "Hibernate"
+msgstr "Hibernate"
+
+#: ../gdk/keyname-table.h:4011
+msgctxt "keyboard label"
+msgid "WLAN"
+msgstr "WLAN"
+
+#: ../gdk/keyname-table.h:4012
+msgctxt "keyboard label"
+msgid "WebCam"
+msgstr "WebCam"
+
+#: ../gdk/keyname-table.h:4013
+msgctxt "keyboard label"
+msgid "Display"
+msgstr "Display"
+
+#: ../gdk/keyname-table.h:4014
+msgctxt "keyboard label"
+msgid "TouchpadToggle"
+msgstr "TouchpadToggle"
+
+#: ../gdk/keyname-table.h:4015
+msgctxt "keyboard label"
+msgid "WakeUp"
+msgstr "WakeUp"
+
+#: ../gdk/keyname-table.h:4016
+msgctxt "keyboard label"
+msgid "Suspend"
+msgstr "Suspend"
+
+#. Description of --sync in --help output
+#: ../gdk/win32/gdkmain-win32.c:53
+msgid "Don't batch GDI requests"
+msgstr "កុំ​ដាក់​ជា​ក្រុម​ក្នុង​សំណើ GDI"
+
+#. Description of --no-wintab in --help output
+#: ../gdk/win32/gdkmain-win32.c:55
+msgid "Don't use the Wintab API for tablet support"
+msgstr "កុំ​ប្រើ Wintab API សម្រាប់​​គាំទ្រ tablet"
+
+#. Description of --ignore-wintab in --help output
+#: ../gdk/win32/gdkmain-win32.c:57
+msgid "Same as --no-wintab"
+msgstr "ដូច​គ្នា​ជា --no-wintab"
+
+#. Description of --use-wintab in --help output
+#: ../gdk/win32/gdkmain-win32.c:59
+msgid "Do use the Wintab API [default]"
+msgstr "ប្រើ Wintab API [លំនាំដើម]"
+
+#. Description of --max-colors=COLORS in --help output
+#: ../gdk/win32/gdkmain-win32.c:61
+msgid "Size of the palette in 8 bit mode"
+msgstr "ប្រើ​ក្ដារ​ពណ៌​ជា​របៀប ៨ ប៊ីត"
+
+#. Placeholder in --max-colors=COLORS in --help output
+#: ../gdk/win32/gdkmain-win32.c:62
+msgid "COLORS"
+msgstr "ពណ៌"
+
+#: ../gdk/x11/gdkapplaunchcontext-x11.c:292
+#, c-format
+msgid "Starting %s"
+msgstr "ចាប់ផ្ដើម %s"
+
+#: ../gdk/x11/gdkapplaunchcontext-x11.c:305
+#, c-format
+msgid "Opening %s"
+msgstr "បើក %s"
+
+#: ../gdk/x11/gdkapplaunchcontext-x11.c:310
+#, c-format
+msgid "Opening %d Item"
+msgid_plural "Opening %d Items"
+msgstr[0] "បើក​ធាតុ %d"
+
+#: ../bobgui/a11y/bobguispinneraccessible.c:40
+msgctxt "throbbing progress animation widget"
+msgid "Spinner"
+msgstr "Spinner"
+
+#: ../bobgui/a11y/bobguispinneraccessible.c:41
+msgid "Provides visual indication of progress"
+msgstr "ផ្ដល់​ការ​បង្ហាញ​វឌ្ឍនភាព​ដែល​អាច​មើល​ឃើញ"
+
+#: ../bobgui/a11y/bobguiswitchaccessible.c:63
+msgctxt "light switch widget"
+msgid "Switch"
+msgstr "ប្ដូរ"
+
+#: ../bobgui/a11y/bobguiswitchaccessible.c:64
+msgid "Switches between on and off states"
+msgstr "ប្ដូរ​​រវាង​​​សភាព​​បិទ និង​សភាព​​បើក"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:425
+msgid ""
+"Select the color you want from the outer ring. Select the darkness or "
+"lightness of that color using the inner triangle."
+msgstr ""
+"ជ្រើស​ពណ៌​ដែល​អ្នក​ចង់​បាន​ពី​រង្វង់​ខាងក្រៅ ។ ជ្រើស​ភាព​ងងឹត ឬ​ភាព​ភ្លឺ​របស់​ពណ៌​ដែល​ប្រើ​​ត្រីកោណ​ខាងក្នុង ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:451
+msgid ""
+"Click the eyedropper, then click a color anywhere on your screen to select "
+"that color."
+msgstr "ចុច​លើ​ឧបករណ៍​ចាក់​ពណ៌ បន្ទាប់​​មក​ចុច​លើ​ពណ៌​នៅ​លើ​អេក្រង់​របស់​អ្នក​ដើម្បី​ជ្រើស​ពណ៌​នោះ ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:461
+msgid "_Hue:"
+msgstr "ពណ៌លាំៗ ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:462
+msgid "Position on the color wheel."
+msgstr "ទីតាំង​នៅ​ពេល​​បង្វិល​ពណ៌ ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:464
+msgid "S_aturation:"
+msgstr "តិត្ថិភាព ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:465
+msgid "Intensity of the color."
+msgstr "អាំងតង់ស៊ីតេ​របស់​ពណ៌ ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:466
+msgid "_Value:"
+msgstr "តម្លៃ ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:467
+msgid "Brightness of the color."
+msgstr "ពន្លឺ​របស់​ពណ៌ ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:468
+msgid "_Red:"
+msgstr "ក្រហម ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:469
+msgid "Amount of red light in the color."
+msgstr "ចំនួន​ពណ៌​ក្រហម​ស្រាល ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:470
+msgid "_Green:"
+msgstr "បៃតង ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:471
+msgid "Amount of green light in the color."
+msgstr "ចំនួន​ពណ៌​បៃតង​ស្រាល ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:472
+msgid "_Blue:"
+msgstr "ខៀវ ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:473
+msgid "Amount of blue light in the color."
+msgstr "ចំនួន​ពណ៌​ខៀវ​ស្រាល ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:476
+msgid "Op_acity:"
+msgstr "ភាព​ស្រអាប់ ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:484 ../bobgui/deprecated/bobguicolorsel.c:494
+msgid "Transparency of the color."
+msgstr "ភាព​ថ្លា​របស់​ពណ៌ ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:501
+msgid "Color _name:"
+msgstr "ឈ្មោះ​ពណ៌ ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:516
+msgid ""
+"You can enter an HTML-style hexadecimal color value, or simply a color name "
+"such as 'orange' in this entry."
+msgstr ""
+"អ្នក​អាច​បញ្ចូល​តម្លៃ​ពណ៌​ចំនួន​គោល​ដប់​ប្រាំ​មួយ​រចនាប័ទ្ម HTML ឬ​ឈ្មោះ​ពណ៌​សាមញ្ញ​ដូច​ជា 'ពណ៌​ទឹកក្រូច' នៅ​ក្នុង​ធាតុ​"
+"នេះ ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:548
+msgid "_Palette:"
+msgstr "ក្ដារ​ពណ៌ ៖"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:578
+msgid "Color Wheel"
+msgstr "កង់​បង្វិល​​ពណ៌"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:1072
+msgid ""
+"The previously-selected color, for comparison to the color you're selecting "
+"now. You can drag this color to a palette entry, or select this color as "
+"current by dragging it to the other color swatch alongside."
+msgstr ""
+"ពណ៌​ដែល​បាន​ជ្រើស​ពី​មុន សម្រាប់​ការ​ប្រៀបធៀប​ពណ៌​ដែល​អ្នក​ជ្រើស​​​​ឥឡូវ​នេះ ។ អ្នក​អាច​អូស​ពណ៌​នេះ​ទៅកាន់​ធាតុ​ក្ដារ​"
+"ពណ៌ ឬ​​ជ្រើស​ពណ៌​នេះ​ជា​ពណ៌​បច្ចុប្បន្ន ដោយ​អូស​​វា​ទៅកាន់​ពណ៌​ផ្សេង​ទៀត​នៅ​ជិត​នោះ ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:1078
+msgid ""
+"The color you've chosen. You can drag this color to a palette entry to save "
+"it for use in the future."
+msgstr ""
+"ពណ៌​ដែល​អ្នក​បាន​ជ្រើស ។ អ្នក​អាច​អូស​ពណ៌​នេះ​ទៅកាន់​ធាតុ​ក្ដារ​ពណ៌ ដើម្បី​រក្សាទុក​វា​សម្រាប់​ប្រើ​នៅ​ពេល​អនាគត "
+"។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:1084
+msgid ""
+"The previously-selected color, for comparison to the color you're selecting "
+"now."
+msgstr "ពណ៌​ដែល​បាន​ជ្រើស​មុន សម្រាប់​ការ​ប្រៀបធៀប​ពណ៌​ដែល​អ្នក​ជ្រើស​​ឥឡូវ​នេះ ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:1088
+msgid "The color you've chosen."
+msgstr "ពណ៌​ដែល​អ្នក​បាន​ជ្រើស ។"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:1491
+msgid "_Save color here"
+msgstr "រក្សាទុក​ពណ៌​នៅ​ទីនេះ"
+
+#: ../bobgui/deprecated/bobguicolorsel.c:1695
+msgid ""
+"Click this palette entry to make it the current color. To change this entry, "
+"drag a color swatch here or right-click it and select \"Save color here.\""
+msgstr ""
+"ចុច​​លើ​ធាតុ​ក្ដារ​ពណ៌​នេះ ដើម្បី​​ដាក់​ពណ៌​វា​បច្ចុប្បន្ន ។ ប្ដូរ​ធាតុ​នេះ អូស​ពណ៌​នៅ​ទី​នេះ ចុច​កណ្ដុរ​ស្ដាំ​លើ​វា ហើយ​"
+"ជ្រើស \"រក្សាទុក​ពណ៌​នៅ​ទីនេះ ។\""
+
+#. We emit the response for the Select button manually,
+#. * since we want to save the color first
+#.
+#: ../bobgui/deprecated/bobguicolorseldialog.c:201 ../bobgui/bobguiappchooserdialog.c:574
+#: ../bobgui/bobguicolorchooserdialog.c:150 ../bobgui/bobguifontchooserdialog.c:174
+#: ../bobgui/bobguiprinteroptionwidget.c:550
+msgid "_Select"
+msgstr "ជ្រើស"
+
+#: ../bobgui/deprecated/bobguicolorseldialog.c:219
+msgid "Color Selection"
+msgstr "ជម្រើស​ពណ៌"
+
+#. This is the default text shown in the preview entry, though the user
+#. can set it. Remember that some fonts only have capital letters.
+#: ../bobgui/deprecated/bobguifontsel.c:124
+msgid "abcdefghijk ABCDEFGHIJK"
+msgstr "abcdefghijk ABCDEFGHIJK"
+
+#: ../bobgui/deprecated/bobguifontsel.c:393
+msgid "_Family:"
+msgstr "ក្រុម ៖"
+
+#: ../bobgui/deprecated/bobguifontsel.c:400
+msgid "_Style:"
+msgstr "រចនាប័ទ្ម ៖"
+
+#: ../bobgui/deprecated/bobguifontsel.c:407
+msgid "Si_ze:"
+msgstr "ទំហំ ៖"
+
+#. create the text entry widget
+#: ../bobgui/deprecated/bobguifontsel.c:584
+msgid "_Preview:"
+msgstr "មើល​ទំព័រ​ជា​មុន ៖"
+
+#: ../bobgui/deprecated/bobguifontsel.c:1720 ../bobgui/bobguifontchooserdialog.c:183
+msgid "Font Selection"
+msgstr "ជម្រើស​ពុម្ព​អក្សរ"
+
+#. Translators: this is the license preamble; the string at the end
+#. * contains the URL of the license.
+#.
+#: ../bobgui/bobguiaboutdialog.c:104
+#, c-format
+msgid ""
+"This program comes with ABSOLUTELY NO WARRANTY;\n"
+"for details, visit <a href=\"%s\">%s</a>"
+msgstr "កម្មវិធី​នេះ​ចេញ​មក​ដោយ​គ្មាន​ការ​ធនា​ទេ ចំពោះ​សេចក្ដី​លម្អិត​ សូម​មើល <a href=\"%s\">%s</a>"
+
+#: ../bobgui/bobguiaboutdialog.c:357
+msgid "License"
+msgstr "អាជ្ញាប័ណ្ណ"
+
+#: ../bobgui/bobguiaboutdialog.c:358
+msgid "The license of the program"
+msgstr "អាជ្ញាប័ណ្ណ​របស់​កម្មវិធី"
+
+#. Add the credits button
+#: ../bobgui/bobguiaboutdialog.c:751
+msgid "C_redits"
+msgstr "ឥណទាន"
+
+#. Add the license button
+#: ../bobgui/bobguiaboutdialog.c:764
+msgid "_License"
+msgstr "អាជ្ញាប័ណ្ណ"
+
+#: ../bobgui/bobguiaboutdialog.c:980
+msgid "Could not show link"
+msgstr "មិន​អាច​បង្ហាញ​តំណ​បាន​ទេ"
+
+#: ../bobgui/bobguiaboutdialog.c:1017
+msgid "Homepage"
+msgstr "គេហទំព័រ"
+
+#: ../bobgui/bobguiaboutdialog.c:1071
+#, c-format
+msgid "About %s"
+msgstr "អំពី %s"
+
+#: ../bobgui/bobguiaboutdialog.c:2399
+msgid "Created by"
+msgstr "បាន​បង្កើត​ដោយ"
+
+#: ../bobgui/bobguiaboutdialog.c:2402
+msgid "Documented by"
+msgstr "បាន​បង្កើត​ឯកសារ​ដោយ"
+
+#: ../bobgui/bobguiaboutdialog.c:2412
+msgid "Translated by"
+msgstr "បាន​បកប្រែ​ដោយ"
+
+#: ../bobgui/bobguiaboutdialog.c:2417
+msgid "Artwork by"
+msgstr "ការងារ​សិល្ប​ដោយ"
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the shift key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: ../bobgui/bobguiaccellabel.c:159
+msgctxt "keyboard label"
+msgid "Shift"
+msgstr "ប្ដូរ (Shift)"
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the control key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: ../bobgui/bobguiaccellabel.c:165
+msgctxt "keyboard label"
+msgid "Ctrl"
+msgstr "បញ្ជា (Ctrl)"
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the alt key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: ../bobgui/bobguiaccellabel.c:171
+msgctxt "keyboard label"
+msgid "Alt"
+msgstr "ជំនួស (Alt)"
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the super key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: ../bobgui/bobguiaccellabel.c:805
+msgctxt "keyboard label"
+msgid "Super"
+msgstr "Super"
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the hyper key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: ../bobgui/bobguiaccellabel.c:818
+msgctxt "keyboard label"
+msgid "Hyper"
+msgstr "Hyper"
+
+#. This is the text that should appear next to menu accelerators
+#. * that use the meta key. If the text on this key isn't typically
+#. * translated on keyboards used for your language, don't translate
+#. * this.
+#.
+#: ../bobgui/bobguiaccellabel.c:832
+msgctxt "keyboard label"
+msgid "Meta"
+msgstr "មេតា"
+
+#: ../bobgui/bobguiaccellabel.c:848
+msgctxt "keyboard label"
+msgid "Space"
+msgstr "ចន្លោះ"
+
+#: ../bobgui/bobguiaccellabel.c:851
+msgctxt "keyboard label"
+msgid "Backslash"
+msgstr "សញ្ញាស្លាស"
+
+#: ../bobgui/bobguiappchooserbutton.c:290
+msgid "Other application..."
+msgstr "កម្មវិធី​ផ្សេង..."
+
+#: ../bobgui/bobguiappchooserdialog.c:137
+msgid "Failed to look for applications online"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​ស្វែងរក​កម្មវិធី​លើ​បណ្ដាញ"
+
+#: ../bobgui/bobguiappchooserdialog.c:188
+msgid "_Find applications online"
+msgstr "រក​កម្មវិធី​លើ​បណ្ដាញ"
+
+#: ../bobgui/bobguiappchooserdialog.c:247
+msgid "Could not run application"
+msgstr "មិន​អាច​ដំណើរការ​កម្មវិធី​បាន​ទេ"
+
+#: ../bobgui/bobguiappchooserdialog.c:260
+#, c-format
+msgid "Could not find '%s'"
+msgstr "មិន​អាច​រក '%s' បាន​ទេ"
+
+#: ../bobgui/bobguiappchooserdialog.c:263
+msgid "Could not find application"
+msgstr "មិន​អាច​រក​កម្មវិធី​បាន​ទេ"
+
+#. Translators: %s is a filename
+#: ../bobgui/bobguiappchooserdialog.c:397
+#, c-format
+msgid "Select an application to open \"%s\""
+msgstr "ជ្រើស​កម្មវិធី​ត្រូវ​បើក \"%s\""
+
+#: ../bobgui/bobguiappchooserdialog.c:398 ../bobgui/bobguiappchooserwidget.c:654
+#, c-format
+msgid "No applications available to open \"%s\""
+msgstr "រក​មិន​ឃើញ​កម្មវិធី​ ដើម្បី​បើក​ឡើយ \"%s\""
+
+#. Translators: %s is a file type description
+#: ../bobgui/bobguiappchooserdialog.c:404
+#, c-format
+msgid "Select an application for \"%s\" files"
+msgstr "ជ្រើស​កម្មវិធី​សម្រាប់​ឯកសារ \"%s\""
+
+#: ../bobgui/bobguiappchooserdialog.c:406
+#, c-format
+msgid "No applications available to open \"%s\" files"
+msgstr "រក​មិន​ឃើញ​កម្មវិធី​ដើម្បី​បើក​ឯកសារ​ឡើយ \"%s\""
+
+#: ../bobgui/bobguiappchooserdialog.c:422
+msgid ""
+"Click \"Show other applications\", for more options, or \"Find applications "
+"online\" to install a new application"
+msgstr ""
+"ចុច \"បង្ហាញ​កម្មវិធី​ផ្សេងៗ\" សម្រាប់​ជម្រើស​ជាច្រើន ឬ \"រក​កម្មវិធី​លើ​បណ្ដាញ\" ដើម្បី​ដំឡើង​កម្មវិធី​ថ្មី"
+
+#: ../bobgui/bobguiappchooserdialog.c:492
+msgid "Forget association"
+msgstr "បំភ្លេច​ការ​ចូលរួម"
+
+#: ../bobgui/bobguiappchooserdialog.c:558
+msgid "Show other applications"
+msgstr "បង្ហាញ​កម្មវិធី​ផ្សេងៗ"
+
+#: ../bobgui/bobguiappchooserwidget.c:603
+msgid "Default Application"
+msgstr "កម្មវិធី​លំនាំដើម"
+
+#: ../bobgui/bobguiappchooserwidget.c:741
+msgid "Recommended Applications"
+msgstr "បាន​ផ្ដល់​អនុសាសន៍​កម្មវិធី"
+
+#: ../bobgui/bobguiappchooserwidget.c:756
+msgid "Related Applications"
+msgstr "កម្មវិធី​ដែល​ទាក់ទង"
+
+#: ../bobgui/bobguiappchooserwidget.c:770
+msgid "Other Applications"
+msgstr "កម្មវិធី​ផ្សេងៗ"
+
+#: ../bobgui/bobguiapplication.c:1558
+#, c-format
+msgid ""
+"%s cannot quit at this time:\n"
+"\n"
+"%s"
+msgstr ""
+"%s មិន​អាច​ចាកចេញ​​នៅ​ពេល​នេះ​បាន​ទេ ៖\n"
+"\n"
+"%s"
+
+#: ../bobgui/bobguiapplicationwindow.c:333 ../bobgui/bobguiprintoperation-unix.c:480
+#: ../bobgui/bobguiprintoperation-win32.c:1445
+msgid "Application"
+msgstr "កម្មវិធី"
+
+#: ../bobgui/bobguiassistant.c:1008
+msgid "C_ontinue"
+msgstr "បន្ត"
+
+#: ../bobgui/bobguiassistant.c:1011
+msgid "Go _Back"
+msgstr "ត្រឡប់​ទៅ​ដើម"
+
+#: ../bobgui/bobguiassistant.c:1015
+msgid "_Finish"
+msgstr "បញ្ចប់"
+
+#: ../bobgui/bobguibuilder-menus.c:220
+#, c-format
+msgid "Element <%s> not allowed inside <%s>"
+msgstr "ធាតុ <%s> មិន​បាន​អនុញ្ញាត​នៅ​ក្នុង <%s>"
+
+#: ../bobgui/bobguibuilder-menus.c:225
+#, c-format
+msgid "Element <%s> not allowed at toplevel"
+msgstr "ធាតុ <%s> មិន​បាន​អនុញ្ញាត​នៅ​កម្រិត​កំពូល​ទេ"
+
+#: ../bobgui/bobguibuilder-menus.c:314
+#, c-format
+msgid "text may not appear inside <%s>"
+msgstr "អត្ថបទ​អាច​មិន​បង្ហាញ​ខាង​ក្នុង <%s>"
+
+#: ../bobgui/bobguibuilderparser.c:341
+#, c-format
+msgid "Invalid type function on line %d: '%s'"
+msgstr "មុខងារ​ប្រភេទ​មិន​ត្រឹមត្រូវ​លើ​បណ្ដាញ %d ៖ '%s'"
+
+#: ../bobgui/bobguibuilderparser.c:405
+#, c-format
+msgid "Duplicate object ID '%s' on line %d (previously on line %d)"
+msgstr "ស្ទួន​លេខ​សម្គាល់​វត្ថុ '%s' លើ​បណ្ដាញ %d (លើ​បណ្ដាញ​មុន %d)"
+
+#: ../bobgui/bobguibuilderparser.c:865
+#, c-format
+msgid "Invalid root element: '%s'"
+msgstr "ធាតុ root មិន​ត្រឹមត្រូវ ៖ '%s'"
+
+#: ../bobgui/bobguibuilderparser.c:906
+#, c-format
+msgid "Unhandled tag: '%s'"
+msgstr "ស្លាក​ដែល​មិន​បាន​ដោះស្រាយ ៖ '%s'"
+
+#. Translate to calendar:YM if you want years to be displayed
+#. * before months; otherwise translate to calendar:MY.
+#. * Do *not* translate it to anything else, if it
+#. * it isn't calendar:YM or calendar:MY it will not work.
+#. *
+#. * Note that the ordering described here is logical order, which is
+#. * further influenced by BIDI ordering. Thus, if you have a default
+#. * text direction of RTL and specify "calendar:YM", then the year
+#. * will appear to the right of the month.
+#.
+#: ../bobgui/bobguicalendar.c:872
+msgid "calendar:MY"
+msgstr "calendar:MY"
+
+#. Translate to calendar:week_start:0 if you want Sunday to be the
+#. * first day of the week to calendar:week_start:1 if you want Monday
+#. * to be the first day of the week, and so on.
+#.
+#: ../bobgui/bobguicalendar.c:910
+msgid "calendar:week_start:0"
+msgstr "calendar:week_start:0"
+
+#. Translators:  This is a text measurement template.
+#. * Translate it to the widest year text
+#. *
+#. * If you don't understand this, leave it as "2000"
+#.
+#: ../bobgui/bobguicalendar.c:1910
+msgctxt "year measurement template"
+msgid "2000"
+msgstr "២០០០"
+
+#. Translators: this defines whether the day numbers should use
+#. * localized digits or the ones used in English (0123...).
+#. *
+#. * Translate to "%Id" if you want to use localized digits, or
+#. * translate to "%d" otherwise.
+#. *
+#. * Note that translating this doesn't guarantee that you get localized
+#. * digits. That needs support from your system and locale definition
+#. * too.
+#.
+#: ../bobgui/bobguicalendar.c:1941 ../bobgui/bobguicalendar.c:2633
+#, c-format
+msgctxt "calendar:day:digits"
+msgid "%d"
+msgstr "%d"
+
+#. Translators: this defines whether the week numbers should use
+#. * localized digits or the ones used in English (0123...).
+#. *
+#. * Translate to "%Id" if you want to use localized digits, or
+#. * translate to "%d" otherwise.
+#. *
+#. * Note that translating this doesn't guarantee that you get localized
+#. * digits. That needs support from your system and locale definition
+#. * too.
+#.
+#: ../bobgui/bobguicalendar.c:1973 ../bobgui/bobguicalendar.c:2499
+#, c-format
+msgctxt "calendar:week:digits"
+msgid "%d"
+msgstr "%d"
+
+#. Translators: This dictates how the year is displayed in
+#. * bobguicalendar widget.  See strftime() manual for the format.
+#. * Use only ASCII in the translation.
+#. *
+#. * Also look for the msgid "2000".
+#. * Translate that entry to a year with the widest output of this
+#. * msgid.
+#. *
+#. * "%Y" is appropriate for most locales.
+#.
+#: ../bobgui/bobguicalendar.c:2268
+msgctxt "calendar year format"
+msgid "%Y"
+msgstr "%Y"
+
+#. This label is displayed in a treeview cell displaying
+#. * a disabled accelerator key combination.
+#.
+#: ../bobgui/bobguicellrendereraccel.c:282
+msgctxt "Accelerator"
+msgid "Disabled"
+msgstr "បាន​បិទ"
+
+#. This label is displayed in a treeview cell displaying
+#. * an accelerator key combination that is not valid according
+#. * to bobgui_accelerator_valid().
+#.
+#: ../bobgui/bobguicellrendereraccel.c:292
+msgctxt "Accelerator"
+msgid "Invalid"
+msgstr "មិន​ត្រឹមត្រូវ"
+
+#. This label is displayed in a treeview cell displaying
+#. * an accelerator when the cell is clicked to change the
+#. * acelerator.
+#.
+#: ../bobgui/bobguicellrendereraccel.c:416 ../bobgui/bobguicellrendereraccel.c:747
+msgid "New accelerator..."
+msgstr "បង្កើន​ល្បឿន​ថ្មី..."
+
+#: ../bobgui/bobguicellrendererprogress.c:372 ../bobgui/bobguicellrendererprogress.c:462
+#, c-format
+msgctxt "progress bar label"
+msgid "%d %%"
+msgstr "%d %%"
+
+#: ../bobgui/bobguicolorbutton.c:188 ../bobgui/bobguicolorbutton.c:449
+msgid "Pick a Color"
+msgstr "ជ្រើស​ពណ៌"
+
+#: ../bobgui/bobguicolorchooserdialog.c:164
+msgid "Select a Color"
+msgstr "ពណ៌"
+
+#: ../bobgui/bobguicolorchooserwidget.c:281
+#, c-format
+msgid "Red %d%%, Green %d%%, Blue %d%%, Alpha %d%%"
+msgstr "Red %d%%, Green %d%%, Blue %d%%, Alpha %d%%"
+
+#: ../bobgui/bobguicolorchooserwidget.c:287
+#, c-format
+msgid "Red %d%%, Green %d%%, Blue %d%%"
+msgstr "Red %d%%, Green %d%%, Blue %d%%"
+
+#: ../bobgui/bobguicolorchooserwidget.c:360
+#, c-format
+msgid "Color: %s"
+msgstr "ពណ៌ ៖ %s"
+
+#: ../bobgui/bobguicolorchooserwidget.c:419
+msgctxt "Color name"
+msgid "Light Scarlet Red"
+msgstr "Scarlet Red ភ្លឺ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:420
+msgctxt "Color name"
+msgid "Scarlet Red"
+msgstr "Scarlet Red"
+
+#: ../bobgui/bobguicolorchooserwidget.c:421
+msgctxt "Color name"
+msgid "Dark Scarlet Red"
+msgstr "Scarlet Red ងងឹត"
+
+#: ../bobgui/bobguicolorchooserwidget.c:422
+msgctxt "Color name"
+msgid "Light Orange"
+msgstr "ទឹកក្រូច​ភ្លឺ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:423
+msgctxt "Color name"
+msgid "Orange"
+msgstr "ទឹកក្រូច"
+
+#: ../bobgui/bobguicolorchooserwidget.c:424
+msgctxt "Color name"
+msgid "Dark Orange"
+msgstr "ទឹក​ក្រូច​ងងឹត"
+
+#: ../bobgui/bobguicolorchooserwidget.c:425
+msgctxt "Color name"
+msgid "Light Butter"
+msgstr "ខ្លាញ់​ភ្លឺ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:426
+msgctxt "Color name"
+msgid "Butter"
+msgstr "ខ្លាញ់"
+
+#: ../bobgui/bobguicolorchooserwidget.c:427
+msgctxt "Color name"
+msgid "Dark Butter"
+msgstr "ខ្លាញ់​ងងឹត"
+
+#: ../bobgui/bobguicolorchooserwidget.c:428
+msgctxt "Color name"
+msgid "Light Chameleon"
+msgstr "Chameleon ភ្លឺ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:429
+msgctxt "Color name"
+msgid "Chameleon"
+msgstr "Chameleon"
+
+#: ../bobgui/bobguicolorchooserwidget.c:430
+msgctxt "Color name"
+msgid "Dark Chameleon"
+msgstr "Chameleon ងងឹត"
+
+#: ../bobgui/bobguicolorchooserwidget.c:431
+msgctxt "Color name"
+msgid "Light Sky Blue"
+msgstr "ផ្ទៃ​មេឃ​ស្រាល"
+
+#: ../bobgui/bobguicolorchooserwidget.c:432
+msgctxt "Color name"
+msgid "Sky Blue"
+msgstr "ផ្ទៃ​មេឃ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:433
+msgctxt "Color name"
+msgid "Dark Sky Blue"
+msgstr "ផ្ទៃ​មេឃ​ងងឹត"
+
+#: ../bobgui/bobguicolorchooserwidget.c:434
+msgctxt "Color name"
+msgid "Light Plum"
+msgstr "Plum ភ្លឺ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:435
+msgctxt "Color name"
+msgid "Plum"
+msgstr "Plum"
+
+#: ../bobgui/bobguicolorchooserwidget.c:436
+msgctxt "Color name"
+msgid "Dark Plum"
+msgstr "Plum ងងឹត"
+
+#: ../bobgui/bobguicolorchooserwidget.c:437
+msgctxt "Color name"
+msgid "Light Chocolate"
+msgstr "សូកូឡា​ភ្លឺ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:438
+msgctxt "Color name"
+msgid "Chocolate"
+msgstr "សូកូឡា"
+
+#: ../bobgui/bobguicolorchooserwidget.c:439
+msgctxt "Color name"
+msgid "Dark Chocolate"
+msgstr "សូកូឡា​ងងឹត"
+
+#: ../bobgui/bobguicolorchooserwidget.c:440
+msgctxt "Color name"
+msgid "Light Aluminum 1"
+msgstr "អាលុយមីញ៉ូម​ភ្លឺ​ ១"
+
+#: ../bobgui/bobguicolorchooserwidget.c:441
+msgctxt "Color name"
+msgid "Aluminum 1"
+msgstr "អាលុយមីញ៉ូម ១"
+
+#: ../bobgui/bobguicolorchooserwidget.c:442
+msgctxt "Color name"
+msgid "Dark Aluminum 1"
+msgstr "អាលុយមីញ៉ូម​ងងឹត​ ១"
+
+#: ../bobgui/bobguicolorchooserwidget.c:443
+msgctxt "Color name"
+msgid "Light Aluminum 2"
+msgstr "អាលុយមីញ៉ូម​ភ្លឺ ២"
+
+#: ../bobgui/bobguicolorchooserwidget.c:444
+msgctxt "Color name"
+msgid "Aluminum 2"
+msgstr "អាលុយមីញ៉ូម​ ២"
+
+#: ../bobgui/bobguicolorchooserwidget.c:445
+msgctxt "Color name"
+msgid "Dark Aluminum 2"
+msgstr "អាលុយ​មីញ៉ូម​ងងឹត ២"
+
+#: ../bobgui/bobguicolorchooserwidget.c:459
+msgctxt "Color name"
+msgid "Black"
+msgstr "ខ្មៅ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:460
+msgctxt "Color name"
+msgid "Very Dark Gray"
+msgstr "ប្រផះ​ខ្លាំង"
+
+#: ../bobgui/bobguicolorchooserwidget.c:461
+msgctxt "Color name"
+msgid "Darker Gray"
+msgstr "ប្រផះ"
+
+#: ../bobgui/bobguicolorchooserwidget.c:462
+msgctxt "Color name"
+msgid "Dark Gray"
+msgstr "ប្រផេះខ្លាំង"
+
+#: ../bobgui/bobguicolorchooserwidget.c:463
+msgctxt "Color name"
+msgid "Medium Gray"
+msgstr "មធ្យម"
+
+#: ../bobgui/bobguicolorchooserwidget.c:464
+msgctxt "Color name"
+msgid "Light Gray"
+msgstr "ប្រផេះ ស្រាល"
+
+#: ../bobgui/bobguicolorchooserwidget.c:465
+msgctxt "Color name"
+msgid "Lighter Gray"
+msgstr "ប្រផះ​ស្រាល"
+
+#: ../bobgui/bobguicolorchooserwidget.c:466
+msgctxt "Color name"
+msgid "Very Light Gray"
+msgstr "ប្រផះ​ស្រាល"
+
+#: ../bobgui/bobguicolorchooserwidget.c:467
+msgctxt "Color name"
+msgid "White"
+msgstr "ស"
+
+#. translators: label for the custom section in the color chooser
+#: ../bobgui/bobguicolorchooserwidget.c:516
+msgid "Custom"
+msgstr "ផ្ទាល់ខ្លួន"
+
+#: ../bobgui/bobguicolorchooserwidget.c:524
+msgid "Create custom color"
+msgstr "បង្កើត​ពណ៌​ផ្ទាល់​ខ្លួន"
+
+#: ../bobgui/bobguicolorchooserwidget.c:543
+#, c-format
+msgid "Custom color %d: %s"
+msgstr "ពណ៌​ផ្ទាល់​ខ្លួន %d: %s"
+
+#: ../bobgui/bobguicoloreditor.c:412
+msgid "Color Name"
+msgstr "ពណ៌ ឈ្មោះ"
+
+#: ../bobgui/bobguicoloreditor.c:457
+msgctxt "Color channel"
+msgid "Saturation"
+msgstr "តិត្ថិភាព"
+
+#: ../bobgui/bobguicoloreditor.c:463
+msgctxt "Color channel"
+msgid "Value"
+msgstr "តម្លៃ"
+
+#: ../bobgui/bobguicoloreditor.c:471
+msgctxt "Color channel"
+msgid "S"
+msgstr "S"
+
+#: ../bobgui/bobguicoloreditor.c:473
+msgctxt "Color channel"
+msgid "V"
+msgstr "V"
+
+#: ../bobgui/bobguicoloreditor.c:481 ../bobgui/bobguicolorscale.c:301
+msgctxt "Color channel"
+msgid "Hue"
+msgstr "ពណ៌​លាំៗ"
+
+#: ../bobgui/bobguicoloreditor.c:488
+msgctxt "Color channel"
+msgid "H"
+msgstr "H"
+
+#: ../bobgui/bobguicoloreditor.c:496 ../bobgui/bobguicolorscale.c:303
+msgctxt "Color channel"
+msgid "Alpha"
+msgstr "អាល់ហ្វា"
+
+#: ../bobgui/bobguicoloreditor.c:503
+msgctxt "Color channel"
+msgid "A"
+msgstr "A"
+
+#: ../bobgui/bobguicolorplane.c:438
+msgid "Color Plane"
+msgstr "ពណ៌"
+
+#: ../bobgui/bobguicolorswatch.c:447
+msgid "_Customize"
+msgstr "ផ្ទាល់​ខ្លួន"
+
+#. Translate to the default units to use for presenting
+#. * lengths to the user. Translate to default:inch if you
+#. * want inches, otherwise translate to default:mm.
+#. * Do *not* translate it to "predefinito:mm", if it
+#. * it isn't default:mm or default:inch it will not work
+#.
+#: ../bobgui/bobguicustompaperunixdialog.c:115
+msgid "default:mm"
+msgstr "default:mm"
+
+#. And show the custom paper dialog
+#: ../bobgui/bobguicustompaperunixdialog.c:397 ../bobgui/bobguiprintunixdialog.c:3275
+msgid "Manage Custom Sizes"
+msgstr "គ្រប់គ្រង​ទំហំ​ផ្ទាល់ខ្លួន"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:558 ../bobgui/bobguipagesetupunixdialog.c:778
+msgid "inch"
+msgstr "អ៊ិន្ឈន៍"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:560 ../bobgui/bobguipagesetupunixdialog.c:776
+msgid "mm"
+msgstr "ម.ម."
+
+#: ../bobgui/bobguicustompaperunixdialog.c:605
+msgid "Margins from Printer..."
+msgstr "រឹម​ពី​ម៉ាស៊ីន​បោះពុម្ព..."
+
+#: ../bobgui/bobguicustompaperunixdialog.c:771
+#, c-format
+msgid "Custom Size %d"
+msgstr "ទំហំ​ផ្ទាល់ខ្លួន %d"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:1109
+msgid "_Width:"
+msgstr "ទទឹង ៖"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:1120
+msgid "_Height:"
+msgstr "កម្ពស់ ៖"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:1131
+msgid "Paper Size"
+msgstr "ទំហំ​ក្រដាស"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:1140
+msgid "_Top:"
+msgstr "កំពូល ៖"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:1151
+msgid "_Bottom:"
+msgstr "បាត ៖"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:1162
+msgid "_Left:"
+msgstr "ឆ្វេង ៖"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:1173
+msgid "_Right:"
+msgstr "ស្ដាំ ៖"
+
+#: ../bobgui/bobguicustompaperunixdialog.c:1212
+msgid "Paper Margins"
+msgstr "រឹម​ក្រដាស"
+
+#: ../bobgui/bobguientry.c:9140 ../bobgui/bobguitextview.c:8583
+msgid "Input _Methods"
+msgstr "វិធីសាស្ត្រ​ក្នុង​ការ​ចូល"
+
+#: ../bobgui/bobguientry.c:9154 ../bobgui/bobguitextview.c:8597
+msgid "_Insert Unicode Control Character"
+msgstr "បញ្ចូល​តួអក្សរ​ត្រួតពិនិត្យ​យូនីកូដ"
+
+#: ../bobgui/bobguientry.c:10107
+msgid "Caps Lock is on"
+msgstr "ប្ដូរ​ជាប់ (Caps Lock) គឺ​បើក"
+
+#. *
+#. * SECTION:bobguifilechooserbutton
+#. * @Short_description: A button to launch a file selection dialog
+#. * @Title: BobguiFileChooserButton
+#. * @See_also:#BobguiFileChooserDialog
+#. *
+#. * The #BobguiFileChooserButton is a widget that lets the user select a
+#. * file.  It implements the #BobguiFileChooser interface.  Visually, it is a
+#. * file name with a button to bring up a #BobguiFileChooserDialog.
+#. * The user can then use that dialog to change the file associated with
+#. * that button.  This widget does not support setting the
+#. * #BobguiFileChooser:select-multiple property to %TRUE.
+#. *
+#. * <example>
+#. * <title>Create a button to let the user select a file in /etc</title>
+#. * <programlisting>
+#. * {
+#. *   BobguiWidget *button;
+#. *
+#. *   button = bobgui_file_chooser_button_new (_("Select a file"),
+#. *                                         BOBGUI_FILE_CHOOSER_ACTION_OPEN);
+#. *   bobgui_file_chooser_set_current_folder (BOBGUI_FILE_CHOOSER (button),
+#. *                                        "/etc");
+#. * }
+#. * </programlisting>
+#. * </example>
+#. *
+#. * The #BobguiFileChooserButton supports the #BobguiFileChooserAction<!-- -->s
+#. * %BOBGUI_FILE_CHOOSER_ACTION_OPEN and %BOBGUI_FILE_CHOOSER_ACTION_SELECT_FOLDER.
+#. *
+#. * <important>
+#. * The #BobguiFileChooserButton will ellipsize the label,
+#. * and thus will thus request little horizontal space.  To give the button
+#. * more space, you should call bobgui_widget_get_preferred_size(),
+#. * bobgui_file_chooser_button_set_width_chars(), or pack the button in
+#. * such a way that other interface elements give space to the widget.
+#. * </important>
+#.
+#. **************** *
+#. *  Private Macros  *
+#. * ****************
+#: ../bobgui/bobguifilechooserbutton.c:104
+msgid "Select a File"
+msgstr "ជ្រើស​ឯកសារ"
+
+#: ../bobgui/bobguifilechooserbutton.c:105 ../bobgui/bobguifilechooserdefault.c:1819
+msgid "Desktop"
+msgstr "ផ្ទៃតុ"
+
+#: ../bobgui/bobguifilechooserbutton.c:106
+msgid "(None)"
+msgstr "(គ្មាន)"
+
+#: ../bobgui/bobguifilechooserbutton.c:2046
+msgid "Other..."
+msgstr "ផ្សេង​​ទៀត..."
+
+#: ../bobgui/bobguifilechooserdefault.c:152
+msgid "Type name of new folder"
+msgstr "ប្រភេទ​ឈ្មោះ​របស់​ថត​ថ្មី"
+
+#: ../bobgui/bobguifilechooserdefault.c:970
+msgid "Could not retrieve information about the file"
+msgstr "មិន​អាច​ទៅ​យក​ព័ត៌មាន​អំពី​ឯកសារ​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:981
+msgid "Could not add a bookmark"
+msgstr "មិន​អាច​បន្ថែម​ចំណាំ​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:992
+msgid "Could not remove bookmark"
+msgstr "មិន​អាច​យក​ចំណាំ​ចេញ​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:1003
+msgid "The folder could not be created"
+msgstr "មិន​អាច​​បង្កើត​ថត​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:1016
+msgid ""
+"The folder could not be created, as a file with the same name already "
+"exists.  Try using a different name for the folder, or rename the file first."
+msgstr ""
+"មិន​អាច​បង្កើត​ថត​បាន​ទេ ឯកសារ​មាន​ឈ្មោះ​​​នេះ​រួចហើយ ។ សាកល្បង​ប្រើ​ឈ្មោះ​​ថត​ផ្សេង ឬ​ប្ដូរ​ឈ្មោះ​ឯកសារ​"
+"ដំបូង ។"
+
+#: ../bobgui/bobguifilechooserdefault.c:1030
+msgid "You need to choose a valid filename."
+msgstr "អ្នក​ត្រូវ​ជ្រើស​ឈ្មោះ​ឯកសារ​ត្រឹមត្រូវ ។"
+
+#: ../bobgui/bobguifilechooserdefault.c:1033
+#, c-format
+msgid "Cannot create a file under %s as it is not a folder"
+msgstr "មិន​អាច​បង្កើត​ឯកសារ​បាន​ទេ %s វា​​​មិន​មែន​​ជា​ថត​ឡើយ"
+
+#: ../bobgui/bobguifilechooserdefault.c:1045
+msgid ""
+"You may only select folders.  The item that you selected is not a folder; "
+"try using a different item."
+msgstr ""
+"អ្នក​អាច​ជ្រើស​តែ​ថត​ប៉ុណ្ណោះ ។ ធាតុ​ដែល​អ្នក​បាន​ជ្រើស គឺ​មិន​មែន​ជា​​ថត​ឡើយ សាកល្បង​ប្រើ​ធាតុ​ផ្សេង ។"
+
+#: ../bobgui/bobguifilechooserdefault.c:1055
+msgid "Invalid file name"
+msgstr "ឈ្មោះ​ឯកសារ​មិន​ត្រឹមត្រូវ"
+
+#: ../bobgui/bobguifilechooserdefault.c:1065
+msgid "The folder contents could not be displayed"
+msgstr "មិន​អាច​បង្ហាញ​មាតិកា​ថត​បាន​ទេ"
+
+#. Translators: the first string is a path and the second string
+#. * is a hostname. Nautilus and the panel contain the same string
+#. * to translate.
+#.
+#: ../bobgui/bobguifilechooserdefault.c:1591
+#, c-format
+msgid "%1$s on %2$s"
+msgstr "%1$s លើ %2$s"
+
+#: ../bobgui/bobguifilechooserdefault.c:1740
+msgid "Search"
+msgstr "ស្វែងរក"
+
+#: ../bobgui/bobguifilechooserdefault.c:1764 ../bobgui/bobguifilechooserdefault.c:4990
+msgid "Recently Used"
+msgstr "បាន​ប្រើ​ថ្មី​ៗ​នេះ"
+
+#: ../bobgui/bobguifilechooserdefault.c:2363
+msgid "Select which types of files are shown"
+msgstr "ជ្រើស​ប្រភេទ​ឯកសារ​ត្រូវ​បាន​បង្ហាញ"
+
+#: ../bobgui/bobguifilechooserdefault.c:2722
+#, c-format
+msgid "Add the folder '%s' to the bookmarks"
+msgstr "បន្ថែម​ថត '%s' ដើម្បី​ចំណាំ"
+
+#: ../bobgui/bobguifilechooserdefault.c:2766
+#, c-format
+msgid "Add the current folder to the bookmarks"
+msgstr "បន្ថែម​ថត​បច្ចុប្បន្ន​ ដើម្បី​ចំណាំ"
+
+#: ../bobgui/bobguifilechooserdefault.c:2768
+#, c-format
+msgid "Add the selected folders to the bookmarks"
+msgstr "បន្ថែម​ថត​ដែល​បាន​ជ្រើស ដើម្បី​ចំណាំ"
+
+#: ../bobgui/bobguifilechooserdefault.c:2806
+#, c-format
+msgid "Remove the bookmark '%s'"
+msgstr "យក​ចំណាំ​ចេញ '%s'"
+
+#: ../bobgui/bobguifilechooserdefault.c:2808
+#, c-format
+msgid "Bookmark '%s' cannot be removed"
+msgstr "មិន​អាច​យក​ចំណាំ '%s' ចេញ​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:2815 ../bobgui/bobguifilechooserdefault.c:3701
+msgid "Remove the selected bookmark"
+msgstr "យក​ចំណាំ​ដែល​បាន​ជ្រើស​ចេញ"
+
+#: ../bobgui/bobguifilechooserdefault.c:3379
+msgid "Remove"
+msgstr "យកចេញ"
+
+#: ../bobgui/bobguifilechooserdefault.c:3388
+msgid "Rename..."
+msgstr "ប្ដូរ​ឈ្មោះ..."
+
+#. Accessible object name for the file chooser's shortcuts pane
+#: ../bobgui/bobguifilechooserdefault.c:3552
+msgid "Places"
+msgstr "ទីតាំង"
+
+#. Column header for the file chooser's shortcuts pane
+#: ../bobgui/bobguifilechooserdefault.c:3609
+msgid "_Places"
+msgstr "ទីតាំង"
+
+#: ../bobgui/bobguifilechooserdefault.c:3689
+msgid "Add the selected folder to the Bookmarks"
+msgstr "បន្ថែម​ថត​ដែល​បាន​ជ្រើស ​ដើម្បីចំណាំ"
+
+#: ../bobgui/bobguifilechooserdefault.c:3950
+msgid "Could not select file"
+msgstr "មិន​អាច​ជ្រើស​ឯកសារ​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4175
+msgid "_Visit this file"
+msgstr "មើល​ឯកសារ​នេះ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4178
+msgid "_Copy file’s location"
+msgstr "ចម្លង​ទីតាំង​របស់​ឯកសារ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4181
+msgid "_Add to Bookmarks"
+msgstr "បន្ថែម​ទៅ​ចំណាំ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4188
+msgid "Show _Hidden Files"
+msgstr "បង្ហាញ​ឯកសារ​ដែល​លាក់"
+
+#: ../bobgui/bobguifilechooserdefault.c:4191
+msgid "Show _Size Column"
+msgstr "បង្ហាញ​ទំហំ​ជួរឈរ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4416
+msgid "Files"
+msgstr "ឯកសារ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4467
+msgid "Name"
+msgstr "ឈ្មោះ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4490
+msgid "Size"
+msgstr "ទំហំ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4504
+msgid "Modified"
+msgstr "បាន​កែប្រែ"
+
+#. Label
+#: ../bobgui/bobguifilechooserdefault.c:4597
+msgid "_Name:"
+msgstr "ឈ្មោះ ៖"
+
+#: ../bobgui/bobguifilechooserdefault.c:4828
+msgid "Type a file name"
+msgstr "វាយ​ឈ្មោះ​ឯកសារ"
+
+#: ../bobgui/bobguifilechooserdefault.c:4875 ../bobgui/bobguifilechooserdefault.c:4886
+msgid "Please select a folder below"
+msgstr "សូម​ជ្រើស​ថត​ខាងក្រោម"
+
+#: ../bobgui/bobguifilechooserdefault.c:4881
+msgid "Please type a file name"
+msgstr "សូម​វាយ​ឈ្មោះ​ឯកសារ"
+
+#. Create Folder
+#: ../bobgui/bobguifilechooserdefault.c:4952
+msgid "Create Fo_lder"
+msgstr "បង្កើត​ថត"
+
+#: ../bobgui/bobguifilechooserdefault.c:5000
+msgid "Search:"
+msgstr "ស្វែងរក ៖"
+
+#: ../bobgui/bobguifilechooserdefault.c:5051
+msgid "_Location:"
+msgstr "ទីតាំង ៖"
+
+#: ../bobgui/bobguifilechooserdefault.c:5502
+msgid "Save in _folder:"
+msgstr "រក្សាទុក​នៅ​ក្នុង​ថត ៖"
+
+#: ../bobgui/bobguifilechooserdefault.c:5504
+msgid "Create in _folder:"
+msgstr "បង្កើត​នៅ​ក្នុង​ថត ៖"
+
+#: ../bobgui/bobguifilechooserdefault.c:6591
+#, c-format
+msgid "Could not read the contents of %s"
+msgstr "មិន​អាច​អាន​មាតិកា​របស់ %s បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:6595
+msgid "Could not read the contents of the folder"
+msgstr "មិន​អាច​អាន​មាតិកា​របស់​ថត​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:6688 ../bobgui/bobguifilechooserdefault.c:6756
+#: ../bobgui/bobguifilechooserdefault.c:6936
+msgid "Unknown"
+msgstr "មិន​ស្គាល់"
+
+#: ../bobgui/bobguifilechooserdefault.c:6703
+msgid "%H:%M"
+msgstr "%H:%M"
+
+#: ../bobgui/bobguifilechooserdefault.c:6705
+msgid "Yesterday at %H:%M"
+msgstr "ម្សិលមិញ​នៅ %H:%M"
+
+#: ../bobgui/bobguifilechooserdefault.c:7407
+msgid "Cannot change to folder because it is not local"
+msgstr "មិន​អាច​ប្ដូរ​​ទៅ​កាន់​ថត​បាន​ទេ ពី​ព្រោះ​វា​មិន​មែន​ជា​មូលដ្ឋាន"
+
+#: ../bobgui/bobguifilechooserdefault.c:8011 ../bobgui/bobguifilechooserdefault.c:8032
+#, c-format
+msgid "Shortcut %s already exists"
+msgstr "%s ផ្លូវ​កាត់​មាន​រួចហើយ"
+
+#: ../bobgui/bobguifilechooserdefault.c:8122
+#, c-format
+msgid "Shortcut %s does not exist"
+msgstr "%s ផ្លូវកាត់​មិន​ទាន់​មាន​ឡើយ"
+
+#: ../bobgui/bobguifilechooserdefault.c:8368 ../bobgui/bobguiprintunixdialog.c:548
+#, c-format
+msgid "A file named \"%s\" already exists.  Do you want to replace it?"
+msgstr "ឯកសារ​ដែល​មាន​ឈ្មោះ \"%s\" មាន​រួច​ហើយ ។ តើ​អ្នក​ចង់​ជំនួស​វា​ដែរ​ឬ​ទេ ?"
+
+#: ../bobgui/bobguifilechooserdefault.c:8371 ../bobgui/bobguiprintunixdialog.c:552
+#, c-format
+msgid ""
+"The file already exists in \"%s\".  Replacing it will overwrite its contents."
+msgstr "ឯកសារ​មាន​នៅ​ក្នុង \"%s\" រួចហើយ ។ ជំនួស​វា​នឹង​សរសេរ​ជាន់​លើ​មាតិកា​របស់​វា ។"
+
+#: ../bobgui/bobguifilechooserdefault.c:8376 ../bobgui/bobguiprintunixdialog.c:559
+msgid "_Replace"
+msgstr "ជំនួស"
+
+#: ../bobgui/bobguifilechooserdefault.c:9183
+msgid "Could not start the search process"
+msgstr "មិន​អាច​ចាប់ផ្ដើម​ស្វែងរក​ដំណើរការ​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:9184
+msgid ""
+"The program was not able to create a connection to the indexer daemon.  "
+"Please make sure it is running."
+msgstr ""
+"កម្មវិធី​មិន​អាច​ធ្វើ​ការ​តភ្ជាប់​ទៅកាន់ indexer daemon បាន​ទេ ។ សូម​ប្រាកដ​ថា​វា​កំពុង​តែ​ដំណើរការ ។"
+
+#: ../bobgui/bobguifilechooserdefault.c:9198
+msgid "Could not send the search request"
+msgstr "មិន​អាច​ផ្ញើ​សំណើ​ស្វែងរក​បាន​ទេ"
+
+#: ../bobgui/bobguifilechooserdefault.c:9808
+#, c-format
+msgid "Could not mount %s"
+msgstr "មិន​អាច​ម៉ោន​បាន​ទេ %s"
+
+#. The pointers we return for a BobguiFileSystemVolume are opaque tokens; they are
+#. * really pointers to GDrive, GVolume or GMount objects.  We need an extra
+#. * token for the fake "File System" volume.  So, we'll return a pointer to
+#. * this particular string.
+#.
+#: ../bobgui/bobguifilesystem.c:47
+msgid "File System"
+msgstr "ប្រព័ន្ធ​ឯកសារ"
+
+#: ../bobgui/bobguifontbutton.c:354
+msgid "Sans 12"
+msgstr "Sans 12"
+
+#: ../bobgui/bobguifontbutton.c:436 ../bobgui/bobguifontbutton.c:563
+msgid "Pick a Font"
+msgstr "ជ្រើស​ពុម្ព​អក្សរ"
+
+#: ../bobgui/bobguifontbutton.c:1121
+msgid "Font"
+msgstr "ពុម្ព​អក្សរ"
+
+#: ../bobgui/bobguifontchooserwidget.c:110
+msgid "No fonts matched your search. You can revise your search and try again."
+msgstr ""
+"គ្មាន​ពុម្ពអក្សរ​ដែល​ផ្គូផ្គង​ការ​ស្វែងរក​របស់​ឡើយ ។ អ្នក​អាច​ពិនិត្យ​មើល​ការ​ស្វែងរក​របស់​អ្នក​ឡើងវិញ ហើយ​"
+"ព្យាយាម​ម្តងទៀត ។"
+
+#: ../bobgui/bobguifontchooserwidget.c:557
+msgid "Search font name"
+msgstr "ស្វែងរក​ឈ្មោះ​ពុម្ព​អក្សរ"
+
+#: ../bobgui/bobguifontchooserwidget.c:891
+msgid "Font Family"
+msgstr "ក្រុម​ពុម្ព​អក្សរ"
+
+#: ../bobgui/bobguiicontheme.c:1627
+#, c-format
+msgid "Icon '%s' not present in theme"
+msgstr "រូបតំណាង '%s' មិន​ត្រូវ​បាន​បង្ហាញ​នៅ​ក្នុង​រូបរាង​ផ្ទាំង​​ឡើយ"
+
+#: ../bobgui/bobguiicontheme.c:3137
+msgid "Failed to load icon"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​ផ្ទុក​រូបតំណាង"
+
+#: ../bobgui/bobguiimmodule.c:515
+msgid "Simple"
+msgstr "ធម្មតា"
+
+#: ../bobgui/bobguiimmulticontext.c:608
+msgctxt "input method menu"
+msgid "System"
+msgstr "ប្រព័ន្ធ"
+
+#: ../bobgui/bobguiimmulticontext.c:618
+msgctxt "input method menu"
+msgid "None"
+msgstr "គ្មាន"
+
+#: ../bobgui/bobguiimmulticontext.c:701
+#, c-format
+msgctxt "input method menu"
+msgid "System (%s)"
+msgstr "ប្រព័ន្ធ (%s)"
+
+#. Open Link
+#: ../bobgui/bobguilabel.c:6224
+msgid "_Open Link"
+msgstr "បើក​តំណ"
+
+#. Copy Link Address
+#: ../bobgui/bobguilabel.c:6236
+msgid "Copy _Link Address"
+msgstr "ចម្លង​អាសយដ្ឋាន​តំណ"
+
+#: ../bobgui/bobgui-launch.c:69
+msgid "APPLICATION [URI...] - launch an APPLICATION with URI."
+msgstr "APPLICATION [URI...] - បើក​ដំណើរការ​កម្មវិធី​​ជាមួយ URI ។"
+
+#. Translators: this message will appear after the usage string
+#. and before the list of options.
+#: ../bobgui/bobgui-launch.c:73
+msgid ""
+"Launch specified application by its desktop file info\n"
+"optionally passing list of URIs as arguments."
+msgstr ""
+"បើក​ដំណើរការ​កម្មវិធី​ដែល​បាន​បញ្ជាក់​ដោយ​ព័ត៌មាន​ឯកសារ​ផ្ទៃតុ​របស់​វា\n"
+"បញ្ជី​ចម្លង​ជម្រើស​របស់ URIs ដែល​ជា​អាគុយម៉ង់ ។"
+
+#: ../bobgui/bobgui-launch.c:85
+#, c-format
+msgid "Error parsing commandline options: %s\n"
+msgstr "កំហុស​ក្នុង​ការ​ញែក​ជម្រើស​បន្ទាត់​ពាក្យ​បញ្ជា ៖ %s\n"
+
+#: ../bobgui/bobgui-launch.c:87 ../bobgui/bobgui-launch.c:100
+#, c-format
+msgid "Try \"%s --help\" for more information."
+msgstr "សាកល្បង \"%s --help\" សម្រាប់​ព័ត៌មាន​បន្ថែម ។"
+
+#. Translators: the %s is the program name. This error message
+#. means the user is calling bobgui-launch without any argument.
+#: ../bobgui/bobgui-launch.c:98
+#, c-format
+msgid "%s: missing application name"
+msgstr "%s ៖ បាត់​ឈ្មោះ​កម្មវិធី"
+
+#. Translators: the first %s is the program name, the second one
+#. is the application name.
+#: ../bobgui/bobgui-launch.c:122
+#, c-format
+msgid "%s: no such application %s"
+msgstr "%s ៖ មិន​មាន​កម្មវិធី​ %s"
+
+#. Translators: the first %s is the program name, the second one
+#. is the error message.
+#: ../bobgui/bobgui-launch.c:140
+#, c-format
+msgid "%s: error launching application: %s\n"
+msgstr "%s ៖ កំហុស​ក្នុង​ការ​បើក​ដំណើរការ​កម្មវិធី ៖ %s\n"
+
+#: ../bobgui/bobguilinkbutton.c:499
+msgid "Copy URL"
+msgstr "ចម្លង URL"
+
+#: ../bobgui/bobguilinkbutton.c:665
+msgid "Invalid URI"
+msgstr "URI មិន​ត្រឹមត្រូវ"
+
+#: ../bobgui/bobguilockbutton.c:290
+msgid "Lock"
+msgstr "ចាក់​សោ"
+
+#: ../bobgui/bobguilockbutton.c:299
+msgid "Unlock"
+msgstr "ដោះ​សោ"
+
+#: ../bobgui/bobguilockbutton.c:308
+msgid ""
+"Dialog is unlocked.\n"
+"Click to prevent further changes"
+msgstr ""
+"ប្រអប់​ត្រូវ​បាន​ដោះ​សោ ។\n"
+"ចុច​ដើម្បី​​​រារាំង​​ការ​ផ្លាស់ប្ដូរ​​នៅ​ពេល​ក្រោយ"
+
+#: ../bobgui/bobguilockbutton.c:317
+msgid ""
+"Dialog is locked.\n"
+"Click to make changes"
+msgstr ""
+"ប្រអប់​ត្រូវ​បាន​ចាក់​សោ ។\n"
+"ចុច​ដើម្បី​ធ្វើ​ការ​ផ្លាស់ប្ដូរ"
+
+#: ../bobgui/bobguilockbutton.c:326
+msgid ""
+"System policy prevents changes.\n"
+"Contact your system administrator"
+msgstr ""
+"ការ​ផ្លាស់ប្ដូរ​ការ​ការ​ពារ​គោលការណ៍​ប្រព័ន្ធ ។\n"
+"ទាក់ទង​អ្នក​គ្រប់គ្រង​ប្រព័ន្ធ​របស់​អ្នក"
+
+#. Description of --bobgui-module=MODULES in --help output
+#: ../bobgui/bobguimain.c:447
+msgid "Load additional BOBGUI+ modules"
+msgstr "ផ្ទុក​ម៉ូឌុល​បន្ថែម BOBGUI+"
+
+#. Placeholder in --bobgui-module=MODULES in --help output
+#: ../bobgui/bobguimain.c:448
+msgid "MODULES"
+msgstr "ម៉ូឌុល"
+
+#. Description of --g-fatal-warnings in --help output
+#: ../bobgui/bobguimain.c:450
+msgid "Make all warnings fatal"
+msgstr "ធ្វើ​ការ​ព្រមាន​ធ្ងន់ធ្ងរ​ទាំងអស់"
+
+#. Description of --bobgui-debug=FLAGS in --help output
+#: ../bobgui/bobguimain.c:453
+msgid "BOBGUI+ debugging flags to set"
+msgstr "កំណត់​ទង់​បាត់​កំហុស BOBGUI+"
+
+#. Description of --bobgui-no-debug=FLAGS in --help output
+#: ../bobgui/bobguimain.c:456
+msgid "BOBGUI+ debugging flags to unset"
+msgstr "មិន​កំណត់​ទង់​បំបាត់​កំហុស BOBGUI+"
+
+#. Translate to default:RTL if you want your widgets
+#. * to be RTL, otherwise translate to default:LTR.
+#. * Do *not* translate it to "predefinito:LTR", if it
+#. * it isn't default:LTR or default:RTL it will not work
+#.
+#: ../bobgui/bobguimain.c:704
+msgid "default:LTR"
+msgstr "default:LTR"
+
+#: ../bobgui/bobguimain.c:772
+#, c-format
+msgid "Cannot open display: %s"
+msgstr "មិន​អាច​បើក​ទិដ្ឋភាព​បាន​ទេ ៖ %s"
+
+#: ../bobgui/bobguimain.c:838
+msgid "BOBGUI+ Options"
+msgstr "ជម្រើស BOBGUI+"
+
+#: ../bobgui/bobguimain.c:838
+msgid "Show BOBGUI+ Options"
+msgstr "បង្ហាញ​ជម្រើស BOBGUI+"
+
+#: ../bobgui/bobguimountoperation.c:535
+msgid "Co_nnect"
+msgstr "តភ្ជាប់"
+
+#: ../bobgui/bobguimountoperation.c:609
+msgid "Connect As"
+msgstr "តភ្ជាប់​ជា"
+
+#: ../bobgui/bobguimountoperation.c:618
+msgid "_Anonymous"
+msgstr "អនាមិក"
+
+#: ../bobgui/bobguimountoperation.c:627
+msgid "Registered U_ser"
+msgstr "អ្នកប្រើ​ដែល​បាន​ចុះឈ្មោះ"
+
+#: ../bobgui/bobguimountoperation.c:638
+msgid "_Username"
+msgstr "ឈ្មោះ​អ្នកប្រើ"
+
+#: ../bobgui/bobguimountoperation.c:643
+msgid "_Domain"
+msgstr "ដែន"
+
+#: ../bobgui/bobguimountoperation.c:649
+msgid "_Password"
+msgstr "ពាក្យសម្ងាត់"
+
+#: ../bobgui/bobguimountoperation.c:671
+msgid "Forget password _immediately"
+msgstr "ភ្លេច​ពាក្យ​សម្ងាត់​រំពេច​នេះ"
+
+#: ../bobgui/bobguimountoperation.c:681
+msgid "Remember password until you _logout"
+msgstr "ចងចាំ​ពាក្យ​សម្ងាត់​រហូត​ដល់​អ្នក​ចេញ"
+
+#: ../bobgui/bobguimountoperation.c:691
+msgid "Remember _forever"
+msgstr "ចងចាំ​រហូត"
+
+#: ../bobgui/bobguimountoperation.c:1080
+#, c-format
+msgid "Unknown Application (PID %d)"
+msgstr "មិន​ស្គាល់​កម្មវិធី (PID %d)"
+
+#: ../bobgui/bobguimountoperation.c:1263
+msgid "Unable to end process"
+msgstr "មិន​អាច​បញ្ចប់​ដំណើរការ​បាន​ទេ"
+
+#: ../bobgui/bobguimountoperation.c:1300
+msgid "_End Process"
+msgstr "បញ្ចប់​ដំណើរការ"
+
+#: ../bobgui/bobguimountoperation-stub.c:62
+#, c-format
+msgid "Cannot kill process with PID %d. Operation is not implemented."
+msgstr "មិន​អាច​បោះបង់​ដំណើរការ​ជាមួយ PID %d បាន​ទេ ។ ប្រតិបត្តិការ​មិន​​ត្រូវ​បាន​ប្រតិបត្តិ​ឡើយ ។"
+
+#. translators: this string is a name for the 'less' command
+#: ../bobgui/bobguimountoperation-x11.c:954
+msgid "Terminal Pager"
+msgstr "Terminal Pager"
+
+#: ../bobgui/bobguimountoperation-x11.c:955
+msgid "Top Command"
+msgstr "ពាក្យ​បញ្ជា​​កំពូល"
+
+#: ../bobgui/bobguimountoperation-x11.c:956
+msgid "Bourne Again Shell"
+msgstr "Bourne Again Shell"
+
+#: ../bobgui/bobguimountoperation-x11.c:957
+msgid "Bourne Shell"
+msgstr "Bourne Shell"
+
+#: ../bobgui/bobguimountoperation-x11.c:958
+msgid "Z Shell"
+msgstr "Z Shell"
+
+#: ../bobgui/bobguimountoperation-x11.c:1055
+#, c-format
+msgid "Cannot end process with PID %d: %s"
+msgstr "មន​អាច​បញ្ចប់​ដំណើរការ​ជាមួយ %d ៖ %s បាន​ទេ"
+
+#: ../bobgui/bobguinotebook.c:5051 ../bobgui/bobguinotebook.c:7705
+#, c-format
+msgid "Page %u"
+msgstr "ទំព័រ %u"
+
+#. Translators: the format here is used to build the string that will be rendered
+#. * in the number emblem.
+#.
+#: ../bobgui/bobguinumerableicon.c:482
+#, c-format
+msgctxt "Number format"
+msgid "%d"
+msgstr "%d"
+
+#: ../bobgui/bobguipagesetup.c:646 ../bobgui/bobguipapersize.c:848
+#: ../bobgui/bobguipapersize.c:888
+msgid "Not a valid page setup file"
+msgstr "គ្មាន​ឯកសារ​​​រៀបចំ​ទំព័រ​ត្រឹមត្រូវ​ឡើយ"
+
+#: ../bobgui/bobguipagesetupunixdialog.c:167
+msgid "Any Printer"
+msgstr "ម៉ាស៊ីន​បោះពុម្ព​មួយ​ចំនួន"
+
+#: ../bobgui/bobguipagesetupunixdialog.c:167
+msgid "For portable documents"
+msgstr "ចំពោះ​ឯកសារ​ចល័ត"
+
+#: ../bobgui/bobguipagesetupunixdialog.c:796
+#, c-format
+msgid ""
+"Margins:\n"
+" Left: %s %s\n"
+" Right: %s %s\n"
+" Top: %s %s\n"
+" Bottom: %s %s"
+msgstr ""
+"រឹម ៖\n"
+" ឆ្វេង ៖ %s %s\n"
+" ស្ដាំ ៖ %s %s\n"
+" កំពូល ៖ %s %s\n"
+" បាត ៖ %s %s"
+
+#: ../bobgui/bobguipagesetupunixdialog.c:845 ../bobgui/bobguiprintunixdialog.c:3329
+msgid "Manage Custom Sizes..."
+msgstr "គ្រប់គ្រង​ទំហំ​ផ្ទាល់​ខ្លួន..."
+
+#: ../bobgui/bobguipagesetupunixdialog.c:896
+msgid "_Format for:"
+msgstr "ទ្រង់ទ្រាយ​សម្រាប់ ៖"
+
+#: ../bobgui/bobguipagesetupunixdialog.c:917 ../bobgui/bobguiprintunixdialog.c:3477
+msgid "_Paper size:"
+msgstr "ទំហំ​ក្រដាស ៖"
+
+#: ../bobgui/bobguipagesetupunixdialog.c:946
+msgid "_Orientation:"
+msgstr "ទិស ៖"
+
+#: ../bobgui/bobguipagesetupunixdialog.c:1006 ../bobgui/bobguiprintunixdialog.c:3531
+msgid "Page Setup"
+msgstr "រៀបចំ​ទំព័រ"
+
+#: ../bobgui/bobguipathbar.c:159
+msgid "Up Path"
+msgstr "ខាងលើ"
+
+#: ../bobgui/bobguipathbar.c:161
+msgid "Down Path"
+msgstr "ខាងក្រោម"
+
+#: ../bobgui/bobguipathbar.c:1644
+msgid "File System Root"
+msgstr "ប្រព័ន្ធ​ឯកសារ​ Root"
+
+#: ../bobgui/bobguiprintbackend.c:750
+msgid "Authentication"
+msgstr "ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ"
+
+#: ../bobgui/bobguiprinteroptionwidget.c:546
+msgid "Select a filename"
+msgstr "ជ្រើស​ឈ្មោះ​ឯកសារ"
+
+#: ../bobgui/bobguiprinteroptionwidget.c:770
+msgid "Not available"
+msgstr "មិន​មាន"
+
+#. translators: this string is the default job title for print
+#. * jobs. %s gets replaced by the application name, %d gets replaced
+#. * by the job number.
+#.
+#: ../bobgui/bobguiprintoperation.c:260
+#, c-format
+msgid "%s job #%d"
+msgstr "%s ការ​ងារ #%d"
+
+#: ../bobgui/bobguiprintoperation.c:1777
+msgctxt "print operation status"
+msgid "Initial state"
+msgstr "ស្ថានភាព​ដំបូង"
+
+#: ../bobgui/bobguiprintoperation.c:1778
+msgctxt "print operation status"
+msgid "Preparing to print"
+msgstr "រៀបចំ​បោះពុម្ព"
+
+#: ../bobgui/bobguiprintoperation.c:1779
+msgctxt "print operation status"
+msgid "Generating data"
+msgstr "បង្កើត​ទិន្នន័យ"
+
+#: ../bobgui/bobguiprintoperation.c:1780
+msgctxt "print operation status"
+msgid "Sending data"
+msgstr "ផ្ញើ​ទិន្នន័យ"
+
+#: ../bobgui/bobguiprintoperation.c:1781
+msgctxt "print operation status"
+msgid "Waiting"
+msgstr "រង់ចាំ"
+
+#: ../bobgui/bobguiprintoperation.c:1782
+msgctxt "print operation status"
+msgid "Blocking on issue"
+msgstr "ទប់ស្កាត់​នៅ​ពេល​ចេញ"
+
+#: ../bobgui/bobguiprintoperation.c:1783
+msgctxt "print operation status"
+msgid "Printing"
+msgstr "ការ​បោះពុម្ព"
+
+#: ../bobgui/bobguiprintoperation.c:1784
+msgctxt "print operation status"
+msgid "Finished"
+msgstr "បាន​បញ្ចប់"
+
+#: ../bobgui/bobguiprintoperation.c:1785
+msgctxt "print operation status"
+msgid "Finished with error"
+msgstr "បាន​បញ្ចប់​ដោយ​មាន​កំហុស"
+
+#: ../bobgui/bobguiprintoperation.c:2349
+#, c-format
+msgid "Preparing %d"
+msgstr "រៀបចំ %d"
+
+#: ../bobgui/bobguiprintoperation.c:2351 ../bobgui/bobguiprintoperation.c:2983
+msgid "Preparing"
+msgstr "រៀបចំ"
+
+#: ../bobgui/bobguiprintoperation.c:2354
+#, c-format
+msgid "Printing %d"
+msgstr "បោះពុម្ព %d"
+
+#: ../bobgui/bobguiprintoperation.c:3013
+msgid "Error creating print preview"
+msgstr "កំហុស​ក្នុង​ការ​​បង្កើត​​មើល​មុន​បោះពុម្ព"
+
+#: ../bobgui/bobguiprintoperation.c:3016
+msgid "The most probable reason is that a temporary file could not be created."
+msgstr "មូលហេតុ​ភាគ​ច្រើន​ គឺ​ថា​​ឯកសារ​បណ្ដោះ​អាសន្ន​មិន​អាច​ត្រូវ​បាន​បង្កើត ។"
+
+#: ../bobgui/bobguiprintoperation-unix.c:307
+msgid "Error launching preview"
+msgstr "កំហុស​ក្នុង​ការ​ចាប់ផ្ដើម​មើល​ជាមុន"
+
+#: ../bobgui/bobguiprintoperation-win32.c:609
+msgid "Printer offline"
+msgstr "ម៉ាស៊ីន​បោះពុម្ព​ក្រៅ​បណ្ដាញ"
+
+#: ../bobgui/bobguiprintoperation-win32.c:611
+msgid "Out of paper"
+msgstr "អស់​ក្រដាស"
+
+#. Translators: this is a printer status.
+#: ../bobgui/bobguiprintoperation-win32.c:613
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2126
+msgid "Paused"
+msgstr "បាន​ផ្អាក"
+
+#: ../bobgui/bobguiprintoperation-win32.c:615
+msgid "Need user intervention"
+msgstr "ត្រូវ​ការ​អន្តរាគមន៍​​អ្នក​ប្រើ"
+
+#: ../bobgui/bobguiprintoperation-win32.c:715
+msgid "Custom size"
+msgstr "ទំហំ​ផ្ទាល់​ខ្លួន"
+
+#: ../bobgui/bobguiprintoperation-win32.c:1537
+msgid "No printer found"
+msgstr "រក​មិន​ឃើញ​ម៉ាស៊ីន​បោះពុម្ព​ឡើយ"
+
+#: ../bobgui/bobguiprintoperation-win32.c:1564
+msgid "Invalid argument to CreateDC"
+msgstr "អាគុយម៉ង់​​មិន​ត្រឹមត្រូវ​ចំពោះ CreateDC"
+
+#: ../bobgui/bobguiprintoperation-win32.c:1600 ../bobgui/bobguiprintoperation-win32.c:1827
+msgid "Error from StartDoc"
+msgstr "កំហុស​ពី StartDoc"
+
+#: ../bobgui/bobguiprintoperation-win32.c:1682 ../bobgui/bobguiprintoperation-win32.c:1705
+#: ../bobgui/bobguiprintoperation-win32.c:1753
+msgid "Not enough free memory"
+msgstr "គ្មាន​អង្គ​ចងចាំ​ទំនេរ​គ្រប់គ្រាន់​ឡើយ"
+
+#: ../bobgui/bobguiprintoperation-win32.c:1758
+msgid "Invalid argument to PrintDlgEx"
+msgstr "អាគុយម៉ង់​មិន​ត្រឹមត្រូវ​ចំពោះ PrintDlgEx"
+
+#: ../bobgui/bobguiprintoperation-win32.c:1763
+msgid "Invalid pointer to PrintDlgEx"
+msgstr "ទ្រនិច​មិន​ត្រឹមត្រូវ​ចំពោះ PrintDlgEx"
+
+#: ../bobgui/bobguiprintoperation-win32.c:1768
+msgid "Invalid handle to PrintDlgEx"
+msgstr "ដោះស្រាយ​មិន​ត្រឹមត្រូវ​ចំពោះ PrintDlgEx"
+
+#: ../bobgui/bobguiprintoperation-win32.c:1773
+msgid "Unspecified error"
+msgstr "កំហុស​ដែល​មិន​បាន​បញ្ជាក់"
+
+#: ../bobgui/bobguiprintunixdialog.c:681
+msgid "Getting printer information failed"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​យក​ព័ត៌មាន​អំពី​ម៉ាស៊ីន​បោះពុម្ព"
+
+#: ../bobgui/bobguiprintunixdialog.c:1916
+msgid "Getting printer information..."
+msgstr "យក​ព័ត៌មាន​អំពី​ម៉ាស៊ីន​បោះពុម្ព..."
+
+#: ../bobgui/bobguiprintunixdialog.c:2184
+msgid "Printer"
+msgstr "ម៉ាស៊ីន​បោះពុម្ព"
+
+#. Translators: this is the header for the location column in the print dialog
+#: ../bobgui/bobguiprintunixdialog.c:2194
+msgid "Location"
+msgstr "ទីតាំង"
+
+#. Translators: this is the header for the printer status column in the print dialog
+#: ../bobgui/bobguiprintunixdialog.c:2205
+msgid "Status"
+msgstr "ស្ថានភាព"
+
+#: ../bobgui/bobguiprintunixdialog.c:2231
+msgid "Range"
+msgstr "ជួរ"
+
+#: ../bobgui/bobguiprintunixdialog.c:2235
+msgid "_All Pages"
+msgstr "ទំព័រ​ទាំងអស់"
+
+#: ../bobgui/bobguiprintunixdialog.c:2240
+msgid "C_urrent Page"
+msgstr "ទំព័រ​បច្ចុប្បន្ន"
+
+#: ../bobgui/bobguiprintunixdialog.c:2248
+msgid "Se_lection"
+msgstr "ជម្រើស"
+
+#: ../bobgui/bobguiprintunixdialog.c:2254
+msgid "Pag_es:"
+msgstr "ទំព័រ ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:2255
+msgid ""
+"Specify one or more page ranges,\n"
+" e.g. 1-3,7,11"
+msgstr ""
+"បញ្ជាក់​ជួរ​ទំព័រ​មួយ ឬ​ច្រើន\n"
+" ឧ. ១-៣,៧,១១"
+
+#: ../bobgui/bobguiprintunixdialog.c:2264
+msgid "Pages"
+msgstr "ទំព័រ"
+
+#: ../bobgui/bobguiprintunixdialog.c:2275
+msgid "Copies"
+msgstr "ចម្លង"
+
+#. FIXME chpe: too much space between Copies and spinbutton, put those 2 in a hbox and make it span 2 columns
+#: ../bobgui/bobguiprintunixdialog.c:2280
+msgid "Copie_s:"
+msgstr "ចម្លង ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:2296
+msgid "C_ollate"
+msgstr "រៀប​តាម​លំដាប់"
+
+#: ../bobgui/bobguiprintunixdialog.c:2302
+msgid "_Reverse"
+msgstr "បញ្ច្រាស"
+
+#: ../bobgui/bobguiprintunixdialog.c:2318
+msgid "General"
+msgstr "ទូទៅ"
+
+#. Translators: These strings name the possible arrangements of
+#. * multiple pages on a sheet when printing (same as in bobguiprintbackendcups.c)
+#.
+#. Translators: These strings name the possible arrangements of
+#. * multiple pages on a sheet when printing
+#.
+#: ../bobgui/bobguiprintunixdialog.c:3058
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3686
+msgid "Left to right, top to bottom"
+msgstr "ឆ្វេង​ទៅ​ស្ដាំ កំពូល​ទៅ​បាត"
+
+#: ../bobgui/bobguiprintunixdialog.c:3058
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3686
+msgid "Left to right, bottom to top"
+msgstr "ឆ្វេង​ទៅ​ស្ដាំ បាត​ទៅ​កំពូល"
+
+#: ../bobgui/bobguiprintunixdialog.c:3059
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3687
+msgid "Right to left, top to bottom"
+msgstr "ស្ដាំ​ទៅ​ឆ្វេង​ កំពូល​ទៅ​បាត"
+
+#: ../bobgui/bobguiprintunixdialog.c:3059
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3687
+msgid "Right to left, bottom to top"
+msgstr "ស្ដាំ​ទៅ​ឆ្វេង បាត់​ទៅ​កំពូល"
+
+#: ../bobgui/bobguiprintunixdialog.c:3060
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3688
+msgid "Top to bottom, left to right"
+msgstr "កំពូល​ទៅ​បាត ​ឆ្វេង​ទៅ​ស្ដាំ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3060
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3688
+msgid "Top to bottom, right to left"
+msgstr "កំពូល​ទៅ​បាត ស្ដាំ​ទៅ​ឆ្វេង"
+
+#: ../bobgui/bobguiprintunixdialog.c:3061
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3689
+msgid "Bottom to top, left to right"
+msgstr "បាត​ទៅ​កំពូល ឆ្វេង​ទៅ​ស្ដាំ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3061
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3689
+msgid "Bottom to top, right to left"
+msgstr "បាត​ទៅ​កំពូល ស្ដាំ​ទៅ​ឆ្វេង"
+
+#. Translators, this string is used to label the option in the print
+#. * dialog that controls in what order multiple pages are arranged
+#.
+#: ../bobgui/bobguiprintunixdialog.c:3065 ../bobgui/bobguiprintunixdialog.c:3078
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3766
+msgid "Page Ordering"
+msgstr "លំដាប់​ទំព័រ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3094
+msgid "Left to right"
+msgstr "ឆ្វេង​ទៅ​ស្ដាំ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3095
+msgid "Right to left"
+msgstr "ស្ដាំ​ទៅ​ឆ្វេង"
+
+#: ../bobgui/bobguiprintunixdialog.c:3107
+msgid "Top to bottom"
+msgstr "កំពូល​ទៅ​បាត"
+
+#: ../bobgui/bobguiprintunixdialog.c:3108
+msgid "Bottom to top"
+msgstr "បាត​ទៅ​កំពូល"
+
+#: ../bobgui/bobguiprintunixdialog.c:3352
+msgid "Layout"
+msgstr "ប្លង់"
+
+#: ../bobgui/bobguiprintunixdialog.c:3356
+msgid "T_wo-sided:"
+msgstr "សង់ខាង ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3368
+msgid "Pages per _side:"
+msgstr "ទំព័រ​ក្នុង​ម្ខាង ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3382
+msgid "Page or_dering:"
+msgstr "លំដាប់​ទំព័រ ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3395
+msgid "_Only print:"
+msgstr "បោះពុម្ព​ ៖"
+
+#. In enum order
+#: ../bobgui/bobguiprintunixdialog.c:3407
+msgid "All sheets"
+msgstr "សន្លឹក​ទាំងអស់"
+
+#: ../bobgui/bobguiprintunixdialog.c:3408
+msgid "Even sheets"
+msgstr "សន្លឹក​គូ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3409
+msgid "Odd sheets"
+msgstr "សន្លឹក​សេស"
+
+#: ../bobgui/bobguiprintunixdialog.c:3412
+msgid "Sc_ale:"
+msgstr "មាត្រដ្ឋាន ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3436
+msgid "Paper"
+msgstr "ក្រដាស"
+
+#: ../bobgui/bobguiprintunixdialog.c:3440
+msgid "Paper _type:"
+msgstr "ប្រភេទ​ក្រដាស ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3452
+msgid "Paper _source:"
+msgstr "ប្រភព​ក្រដាស ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3464
+msgid "Output t_ray:"
+msgstr "ដ្រាយ​លទ្ធផល ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3497
+msgid "Or_ientation:"
+msgstr "ទិស ៖"
+
+#. In enum order
+#: ../bobgui/bobguiprintunixdialog.c:3509
+msgid "Portrait"
+msgstr "បញ្ឈរ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3510
+msgid "Landscape"
+msgstr "ផ្ដេក"
+
+#: ../bobgui/bobguiprintunixdialog.c:3511
+msgid "Reverse portrait"
+msgstr "ដាក់​បញ្ច្រាស​ផ្ដេក"
+
+#: ../bobgui/bobguiprintunixdialog.c:3512
+msgid "Reverse landscape"
+msgstr "ដាក់​បញ្ច្រាស​បញ្ឈរ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3556
+msgid "Job Details"
+msgstr "សេចក្ដី​លម្អិត​ការងារ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3560
+msgid "Pri_ority:"
+msgstr "អាទិភាព ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3572
+msgid "_Billing info:"
+msgstr "ព័ត៌មាន​អំពី​ការ​ចេញ​វិក្កយបត្រ ៖"
+
+#: ../bobgui/bobguiprintunixdialog.c:3587
+msgid "Print Document"
+msgstr "បោះពុម្ព​ឯកសារ"
+
+#. Translators: this is one of the choices for the print at option
+#. * in the print dialog
+#.
+#: ../bobgui/bobguiprintunixdialog.c:3594
+msgid "_Now"
+msgstr "ថ្មី"
+
+#: ../bobgui/bobguiprintunixdialog.c:3603
+msgid "A_t:"
+msgstr "នៅ ៖"
+
+#. Translators: Ability to parse the am/pm format depends on actual locale.
+#. * You can remove the am/pm values below for your locale if they are not
+#. * supported.
+#.
+#: ../bobgui/bobguiprintunixdialog.c:3609
+msgid ""
+"Specify the time of print,\n"
+" e.g. 15:30, 2:35 pm, 14:15:20, 11:46:30 am, 4 pm"
+msgstr ""
+"បញ្ជាក់​ពេលវេលា​ត្រូវ​បោះពុម្ព\n"
+" ឧ. 15:30, 2:35 pm, 14:15:20, 11:46:30 am, 4 pm"
+
+#: ../bobgui/bobguiprintunixdialog.c:3617
+msgid "Time of print"
+msgstr "ពេលវេលា​បោះពុម្ព"
+
+#: ../bobgui/bobguiprintunixdialog.c:3631
+msgid "On _hold"
+msgstr "រង់ចាំ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3632
+msgid "Hold the job until it is explicitly released"
+msgstr "រង់ចាំ​ការងារ​រហូត​ដល់​វា​ត្រូវ​បាន​ចេញផ្សាយ​យ៉ាង​ច្បាស់លាស់"
+
+#: ../bobgui/bobguiprintunixdialog.c:3650
+msgid "Add Cover Page"
+msgstr "បន្ថែម​គ្រប​ទំព័រ"
+
+#. Translators, this is the label used for the option in the print
+#. * dialog that controls the front cover page.
+#.
+#: ../bobgui/bobguiprintunixdialog.c:3657
+msgid "Be_fore:"
+msgstr "មុខ ៖"
+
+#. Translators, this is the label used for the option in the print
+#. * dialog that controls the back cover page.
+#.
+#: ../bobgui/bobguiprintunixdialog.c:3672
+msgid "_After:"
+msgstr "ក្រោយ ៖"
+
+#. Translators: this is the tab label for the notebook tab containing
+#. * job-specific options in the print dialog
+#.
+#: ../bobgui/bobguiprintunixdialog.c:3687
+msgid "Job"
+msgstr "ការងារ"
+
+#: ../bobgui/bobguiprintunixdialog.c:3753
+msgid "Advanced"
+msgstr "កម្រិត​ខ្ពស់"
+
+#. Translators: this will appear as tab label in print dialog.
+#: ../bobgui/bobguiprintunixdialog.c:3791
+msgid "Image Quality"
+msgstr "គុណភាព​រូបភាព"
+
+#. Translators: this will appear as tab label in print dialog.
+#: ../bobgui/bobguiprintunixdialog.c:3795
+msgid "Color"
+msgstr "ពណ៌"
+
+#. Translators: this will appear as tab label in print dialog.
+#. It's a typographical term, as in "Binding and finishing"
+#: ../bobgui/bobguiprintunixdialog.c:3800
+msgid "Finishing"
+msgstr "ការ​បញ្ចប់"
+
+#: ../bobgui/bobguiprintunixdialog.c:3810
+msgid "Some of the settings in the dialog conflict"
+msgstr "ការ​កំណត់​មួយ​ចំនួន​​​មាន​ការ​ប៉ះទង្គិច​ប្រអប់"
+
+#: ../bobgui/bobguiprintunixdialog.c:3836
+msgid "Print"
+msgstr "បោះពុម្ព"
+
+#: ../bobgui/bobguirecentchooserdefault.c:480
+msgid "Select which type of documents are shown"
+msgstr "ជ្រើស​ប្រភេទ​​ឯកសារ​ត្រូវ​បង្ហាញ"
+
+#: ../bobgui/bobguirecentchooserdefault.c:1130 ../bobgui/bobguirecentchooserdefault.c:1167
+#, c-format
+msgid "No item for URI '%s' found"
+msgstr "រក​មិន​ឃើញ​ធាតុ​សម្រាប់ URI '%s'"
+
+#: ../bobgui/bobguirecentchooserdefault.c:1294
+msgid "Untitled filter"
+msgstr "តម្រង​ដែល​គ្មាន​ចំណងជើង"
+
+#: ../bobgui/bobguirecentchooserdefault.c:1647
+msgid "Could not remove item"
+msgstr "មិន​អាច​យក​ធាតុ​ចេញ​បាន​ទេ"
+
+#: ../bobgui/bobguirecentchooserdefault.c:1691
+msgid "Could not clear list"
+msgstr "មិន​អាច​សម្អាត​បញ្ជី​បាន​ទេ"
+
+#: ../bobgui/bobguirecentchooserdefault.c:1775
+msgid "Copy _Location"
+msgstr "ចម្លង​ទីតាំង"
+
+#: ../bobgui/bobguirecentchooserdefault.c:1788
+msgid "_Remove From List"
+msgstr "យក​ចេញ​ពី​បញ្ជី"
+
+#: ../bobgui/bobguirecentchooserdefault.c:1797
+msgid "_Clear List"
+msgstr "សម្អាត​បញ្ជី"
+
+#: ../bobgui/bobguirecentchooserdefault.c:1811
+msgid "Show _Private Resources"
+msgstr "បង្ហាញ​ធនធាន​ឯកជន"
+
+#. we create a placeholder menuitem, to be used in case
+#. * the menu is empty. this placeholder will stay around
+#. * for the entire lifetime of the menu, and we just hide it
+#. * when it's not used. we have to do this, and do it here,
+#. * because we need a marker for the beginning of the recent
+#. * items list, so that we can insert the new items at the
+#. * right place when idly populating the menu in case the
+#. * user appended or prepended custom menu items to the
+#. * recent chooser menu widget.
+#.
+#: ../bobgui/bobguirecentchoosermenu.c:360
+msgid "No items found"
+msgstr "រក​មិន​ឃើញ​ធាតុ​ឡើយ"
+
+#: ../bobgui/bobguirecentchoosermenu.c:526 ../bobgui/bobguirecentchoosermenu.c:582
+#, c-format
+msgid "No recently used resource found with URI `%s'"
+msgstr "រក​មិន​ឃើញ​ធនធាន​ដែល​បាន​ប្រើ​ថ្មីៗ​ជាមួយ URI `%s'"
+
+#: ../bobgui/bobguirecentchoosermenu.c:792
+#, c-format
+msgid "Open '%s'"
+msgstr "បើក '%s'"
+
+#: ../bobgui/bobguirecentchoosermenu.c:822
+msgid "Unknown item"
+msgstr "មិន​ស្គាល់​ធាតុ"
+
+#. This is the label format that is used for the first 10 items
+#. * in a recent files menu. The %d is the number of the item,
+#. * the %s is the name of the item. Please keep the _ in front
+#. * of the number to give these menu items a mnemonic.
+#.
+#: ../bobgui/bobguirecentchoosermenu.c:833
+#, c-format
+msgctxt "recent menu label"
+msgid "_%d. %s"
+msgstr "_%d. %s"
+
+#. This is the format that is used for items in a recent files menu.
+#. * The %d is the number of the item, the %s is the name of the item.
+#.
+#: ../bobgui/bobguirecentchoosermenu.c:838
+#, c-format
+msgctxt "recent menu label"
+msgid "%d. %s"
+msgstr "%d. %s"
+
+#: ../bobgui/bobguirecentmanager.c:1010 ../bobgui/bobguirecentmanager.c:1023
+#: ../bobgui/bobguirecentmanager.c:1160 ../bobgui/bobguirecentmanager.c:1170
+#: ../bobgui/bobguirecentmanager.c:1222 ../bobgui/bobguirecentmanager.c:1231
+#: ../bobgui/bobguirecentmanager.c:1246
+#, c-format
+msgid "Unable to find an item with URI '%s'"
+msgstr "បើក​ ដើម្បី​រក​ធាតុ​ជាមួយ URI '%s'"
+
+#: ../bobgui/bobguirecentmanager.c:2446
+#, c-format
+msgid "No registered application with name '%s' for item with URI '%s' found"
+msgstr "គ្មាន​កម្មវិធី​ដែល​បាន​ចុះ​ឈ្មោះ​​ជា '%s' សម្រាប់​ធាតុ​​ដោយ​មាន URI '%s'"
+
+#. KEEP IN SYNC with bobguiiconfactory.c stock icons, when appropriate
+#: ../bobgui/bobguistock.c:324
+msgctxt "Stock label"
+msgid "Information"
+msgstr "ព័ត៌មាន"
+
+#: ../bobgui/bobguistock.c:325
+msgctxt "Stock label"
+msgid "Warning"
+msgstr "ការ​ព្រមាន"
+
+#: ../bobgui/bobguistock.c:326
+msgctxt "Stock label"
+msgid "Error"
+msgstr "កំហុស"
+
+#: ../bobgui/bobguistock.c:327
+msgctxt "Stock label"
+msgid "Question"
+msgstr "សំណួរ"
+
+#. FIXME these need accelerators when appropriate, and
+#. * need the mnemonics to be rationalized
+#.
+#: ../bobgui/bobguistock.c:332
+msgctxt "Stock label"
+msgid "_About"
+msgstr "អំពី"
+
+#: ../bobgui/bobguistock.c:333
+msgctxt "Stock label"
+msgid "_Add"
+msgstr "បន្ថែម"
+
+#: ../bobgui/bobguistock.c:334
+msgctxt "Stock label"
+msgid "_Apply"
+msgstr "អនុវត្ត"
+
+#: ../bobgui/bobguistock.c:335
+msgctxt "Stock label"
+msgid "_Bold"
+msgstr "ដិត"
+
+#: ../bobgui/bobguistock.c:336
+msgctxt "Stock label"
+msgid "_Cancel"
+msgstr "បោះបង់"
+
+#: ../bobgui/bobguistock.c:337
+msgctxt "Stock label"
+msgid "_CD-ROM"
+msgstr "ស៊ីឌីរ៉ូម"
+
+#: ../bobgui/bobguistock.c:338
+msgctxt "Stock label"
+msgid "_Clear"
+msgstr "សម្អាត"
+
+#: ../bobgui/bobguistock.c:339
+msgctxt "Stock label"
+msgid "_Close"
+msgstr "បិទ"
+
+#: ../bobgui/bobguistock.c:340
+msgctxt "Stock label"
+msgid "C_onnect"
+msgstr "តភ្ជាប់"
+
+#: ../bobgui/bobguistock.c:341
+msgctxt "Stock label"
+msgid "_Convert"
+msgstr "បម្លែង"
+
+#: ../bobgui/bobguistock.c:342
+msgctxt "Stock label"
+msgid "_Copy"
+msgstr "ចម្លង"
+
+#: ../bobgui/bobguistock.c:343
+msgctxt "Stock label"
+msgid "Cu_t"
+msgstr "កាត់"
+
+#: ../bobgui/bobguistock.c:344
+msgctxt "Stock label"
+msgid "_Delete"
+msgstr "លុប"
+
+#: ../bobgui/bobguistock.c:345
+msgctxt "Stock label"
+msgid "_Discard"
+msgstr "បោះបង់"
+
+#: ../bobgui/bobguistock.c:346
+msgctxt "Stock label"
+msgid "_Disconnect"
+msgstr "ផ្ដាច់"
+
+#: ../bobgui/bobguistock.c:347
+msgctxt "Stock label"
+msgid "_Execute"
+msgstr "ប្រតិបត្តិ"
+
+#: ../bobgui/bobguistock.c:348
+msgctxt "Stock label"
+msgid "_Edit"
+msgstr "កែសម្រួល"
+
+#: ../bobgui/bobguistock.c:349
+msgctxt "Stock label"
+msgid "_File"
+msgstr "ឯកសារ"
+
+#: ../bobgui/bobguistock.c:350
+msgctxt "Stock label"
+msgid "_Find"
+msgstr "រក"
+
+#: ../bobgui/bobguistock.c:351
+msgctxt "Stock label"
+msgid "Find and _Replace"
+msgstr "រក និង​ជំនួស"
+
+#: ../bobgui/bobguistock.c:352
+msgctxt "Stock label"
+msgid "_Floppy"
+msgstr "ថាស​ទន់"
+
+#: ../bobgui/bobguistock.c:353
+msgctxt "Stock label"
+msgid "_Fullscreen"
+msgstr "ពេញ​អេក្រង់"
+
+#: ../bobgui/bobguistock.c:354
+msgctxt "Stock label"
+msgid "_Leave Fullscreen"
+msgstr "ទុក​ពេញ​អេក្រង់"
+
+#. This is a navigation label as in "go to the bottom of the page"
+#: ../bobgui/bobguistock.c:356
+msgctxt "Stock label, navigation"
+msgid "_Bottom"
+msgstr "បាត"
+
+#. This is a navigation label as in "go to the first page"
+#: ../bobgui/bobguistock.c:358
+msgctxt "Stock label, navigation"
+msgid "_First"
+msgstr "ដំបូង"
+
+#. This is a navigation label as in "go to the last page"
+#: ../bobgui/bobguistock.c:360
+msgctxt "Stock label, navigation"
+msgid "_Last"
+msgstr "ចុងក្រោយ"
+
+#. This is a navigation label as in "go to the top of the page"
+#: ../bobgui/bobguistock.c:362
+msgctxt "Stock label, navigation"
+msgid "_Top"
+msgstr "កំពូល"
+
+#. This is a navigation label as in "go back"
+#: ../bobgui/bobguistock.c:364
+msgctxt "Stock label, navigation"
+msgid "_Back"
+msgstr "ថយក្រោយ"
+
+#. This is a navigation label as in "go down"
+#: ../bobgui/bobguistock.c:366
+msgctxt "Stock label, navigation"
+msgid "_Down"
+msgstr "ចុះក្រោម"
+
+#. This is a navigation label as in "go forward"
+#: ../bobgui/bobguistock.c:368
+msgctxt "Stock label, navigation"
+msgid "_Forward"
+msgstr "ទៅមុខ"
+
+#. This is a navigation label as in "go up"
+#: ../bobgui/bobguistock.c:370
+msgctxt "Stock label, navigation"
+msgid "_Up"
+msgstr "ឡើង​លើ"
+
+#: ../bobgui/bobguistock.c:371
+msgctxt "Stock label"
+msgid "_Hard Disk"
+msgstr "ថាសរឹង"
+
+#: ../bobgui/bobguistock.c:372
+msgctxt "Stock label"
+msgid "_Help"
+msgstr "ជំនួយ"
+
+#: ../bobgui/bobguistock.c:373
+msgctxt "Stock label"
+msgid "_Home"
+msgstr "ផ្ទះ"
+
+#: ../bobgui/bobguistock.c:374
+msgctxt "Stock label"
+msgid "Increase Indent"
+msgstr "បង្កើន​ការ​ចូល​បន្ទាត់"
+
+#: ../bobgui/bobguistock.c:375
+msgctxt "Stock label"
+msgid "Decrease Indent"
+msgstr "បន្ថយ​ការ​ចូល​បន្ទាត់"
+
+#: ../bobgui/bobguistock.c:376
+msgctxt "Stock label"
+msgid "_Index"
+msgstr "លិបិក្រម"
+
+#: ../bobgui/bobguistock.c:377
+msgctxt "Stock label"
+msgid "_Information"
+msgstr "ព័ត៌មាន"
+
+#: ../bobgui/bobguistock.c:378
+msgctxt "Stock label"
+msgid "_Italic"
+msgstr "ទ្រេត"
+
+#: ../bobgui/bobguistock.c:379
+msgctxt "Stock label"
+msgid "_Jump to"
+msgstr "លោត​ទៅ"
+
+#. This is about text justification, "centered text"
+#: ../bobgui/bobguistock.c:381
+msgctxt "Stock label"
+msgid "_Center"
+msgstr "កណ្ដាល"
+
+#. This is about text justification
+#: ../bobgui/bobguistock.c:383
+msgctxt "Stock label"
+msgid "_Fill"
+msgstr "បំពេញ"
+
+#. This is about text justification, "left-justified text"
+#: ../bobgui/bobguistock.c:385
+msgctxt "Stock label"
+msgid "_Left"
+msgstr "ឆ្វេង"
+
+#. This is about text justification, "right-justified text"
+#: ../bobgui/bobguistock.c:387
+msgctxt "Stock label"
+msgid "_Right"
+msgstr "ស្ដាំ"
+
+#. Media label, as in "fast forward"
+#: ../bobgui/bobguistock.c:390
+msgctxt "Stock label, media"
+msgid "_Forward"
+msgstr "ទៅមុខ"
+
+#. Media label, as in "next song"
+#: ../bobgui/bobguistock.c:392
+msgctxt "Stock label, media"
+msgid "_Next"
+msgstr "បន្ទាប់"
+
+#. Media label, as in "pause music"
+#: ../bobgui/bobguistock.c:394
+msgctxt "Stock label, media"
+msgid "P_ause"
+msgstr "ផ្អាក"
+
+#. Media label, as in "play music"
+#: ../bobgui/bobguistock.c:396
+msgctxt "Stock label, media"
+msgid "_Play"
+msgstr "ចាប់ផ្ដើម"
+
+#. Media label, as in  "previous song"
+#: ../bobgui/bobguistock.c:398
+msgctxt "Stock label, media"
+msgid "Pre_vious"
+msgstr "មុន"
+
+#. Media label
+#: ../bobgui/bobguistock.c:400
+msgctxt "Stock label, media"
+msgid "_Record"
+msgstr "កំណត់ត្រា"
+
+#. Media label
+#: ../bobgui/bobguistock.c:402
+msgctxt "Stock label, media"
+msgid "R_ewind"
+msgstr "ខារ​ថយក្រោយ"
+
+#. Media label
+#: ../bobgui/bobguistock.c:404
+msgctxt "Stock label, media"
+msgid "_Stop"
+msgstr "បញ្ឈប់"
+
+#: ../bobgui/bobguistock.c:405
+msgctxt "Stock label"
+msgid "_Network"
+msgstr "បណ្ដាញ"
+
+#: ../bobgui/bobguistock.c:406
+msgctxt "Stock label"
+msgid "_New"
+msgstr "ថ្មី"
+
+#: ../bobgui/bobguistock.c:407
+msgctxt "Stock label"
+msgid "_No"
+msgstr "ទេ"
+
+#: ../bobgui/bobguistock.c:408
+msgctxt "Stock label"
+msgid "_OK"
+msgstr "យល់ព្រម"
+
+#: ../bobgui/bobguistock.c:409
+msgctxt "Stock label"
+msgid "_Open"
+msgstr "បើក"
+
+#. Page orientation
+#: ../bobgui/bobguistock.c:411
+msgctxt "Stock label"
+msgid "Landscape"
+msgstr "ផ្ដេក"
+
+#. Page orientation
+#: ../bobgui/bobguistock.c:413
+msgctxt "Stock label"
+msgid "Portrait"
+msgstr "បញ្ឈរ"
+
+#. Page orientation
+#: ../bobgui/bobguistock.c:415
+msgctxt "Stock label"
+msgid "Reverse landscape"
+msgstr "ដាក់​បញ្ច្រាស​បញ្ឈរ"
+
+#. Page orientation
+#: ../bobgui/bobguistock.c:417
+msgctxt "Stock label"
+msgid "Reverse portrait"
+msgstr "ដាក់​បញ្ច្រាស​ផ្ដេក"
+
+#: ../bobgui/bobguistock.c:418
+msgctxt "Stock label"
+msgid "Page Set_up"
+msgstr "រៀបចំ​ទំព័រ"
+
+#: ../bobgui/bobguistock.c:419
+msgctxt "Stock label"
+msgid "_Paste"
+msgstr "បិទភ្ជាប់"
+
+#: ../bobgui/bobguistock.c:420
+msgctxt "Stock label"
+msgid "_Preferences"
+msgstr "ចំណូល​ចិត្ត"
+
+#: ../bobgui/bobguistock.c:421
+msgctxt "Stock label"
+msgid "_Print"
+msgstr "បោះពុម្ព"
+
+#: ../bobgui/bobguistock.c:422
+msgctxt "Stock label"
+msgid "Print Pre_view"
+msgstr "មើល​មុន​បោះពុម្ព"
+
+#: ../bobgui/bobguistock.c:423
+msgctxt "Stock label"
+msgid "_Properties"
+msgstr "លក្ខណ​សម្បត្តិ"
+
+#: ../bobgui/bobguistock.c:424
+msgctxt "Stock label"
+msgid "_Quit"
+msgstr "បោះបង់"
+
+#: ../bobgui/bobguistock.c:425
+msgctxt "Stock label"
+msgid "_Redo"
+msgstr "ធ្វើ​វិញ"
+
+#: ../bobgui/bobguistock.c:426
+msgctxt "Stock label"
+msgid "_Refresh"
+msgstr "ធ្វើ​ឲ្យ​ស្រស់"
+
+#: ../bobgui/bobguistock.c:427
+msgctxt "Stock label"
+msgid "_Remove"
+msgstr "យកចេញ"
+
+#: ../bobgui/bobguistock.c:428
+msgctxt "Stock label"
+msgid "_Revert"
+msgstr "ត្រឡប់​ទៅ​ដើម"
+
+#: ../bobgui/bobguistock.c:429
+msgctxt "Stock label"
+msgid "_Save"
+msgstr "រក្សាទុក"
+
+#: ../bobgui/bobguistock.c:430
+msgctxt "Stock label"
+msgid "Save _As"
+msgstr "រក្សាទុក​ជា"
+
+#: ../bobgui/bobguistock.c:431
+msgctxt "Stock label"
+msgid "Select _All"
+msgstr "ជ្រើស​ទាំងអស់"
+
+#: ../bobgui/bobguistock.c:432
+msgctxt "Stock label"
+msgid "_Color"
+msgstr "ពណ៌"
+
+#: ../bobgui/bobguistock.c:433
+msgctxt "Stock label"
+msgid "_Font"
+msgstr "ពុម្ព​អក្សរ"
+
+#. Sorting direction
+#: ../bobgui/bobguistock.c:435
+msgctxt "Stock label"
+msgid "_Ascending"
+msgstr "លំដាប់​ឡើង"
+
+#. Sorting direction
+#: ../bobgui/bobguistock.c:437
+msgctxt "Stock label"
+msgid "_Descending"
+msgstr "លំដាប់​ចុះ"
+
+#: ../bobgui/bobguistock.c:438
+msgctxt "Stock label"
+msgid "_Spell Check"
+msgstr "ការ​ពិនិត្យ​អក្ខរាវិរុទ្ធ"
+
+#: ../bobgui/bobguistock.c:439
+msgctxt "Stock label"
+msgid "_Stop"
+msgstr "បញ្ឈប់"
+
+#. Font variant
+#: ../bobgui/bobguistock.c:441
+msgctxt "Stock label"
+msgid "_Strikethrough"
+msgstr "បន្ទាត់​ឆូត"
+
+#: ../bobgui/bobguistock.c:442
+msgctxt "Stock label"
+msgid "_Undelete"
+msgstr "មិន​លុប"
+
+#. Font variant
+#: ../bobgui/bobguistock.c:444
+msgctxt "Stock label"
+msgid "_Underline"
+msgstr "គូស​បន្ទាត់​ក្រោម"
+
+#: ../bobgui/bobguistock.c:445
+msgctxt "Stock label"
+msgid "_Undo"
+msgstr "មិន​ធ្វើ​វិញ"
+
+#: ../bobgui/bobguistock.c:446
+msgctxt "Stock label"
+msgid "_Yes"
+msgstr "បាទ/ចាស"
+
+#. Zoom
+#: ../bobgui/bobguistock.c:448
+msgctxt "Stock label"
+msgid "_Normal Size"
+msgstr "ទំហំ​ធម្មតា"
+
+#. Zoom
+#: ../bobgui/bobguistock.c:450
+msgctxt "Stock label"
+msgid "Best _Fit"
+msgstr "សម​បំផុត"
+
+#: ../bobgui/bobguistock.c:451
+msgctxt "Stock label"
+msgid "Zoom _In"
+msgstr "ពង្រីក"
+
+#: ../bobgui/bobguistock.c:452
+msgctxt "Stock label"
+msgid "Zoom _Out"
+msgstr "ពង្រួម"
+
+#. Translators: if the "on" state label requires more than three
+#. * glyphs then use MEDIUM VERTICAL BAR (U+2759) as the text for
+#. * the state
+#.
+#: ../bobgui/bobguiswitch.c:337 ../bobgui/bobguiswitch.c:392 ../bobgui/bobguiswitch.c:586
+msgctxt "switch"
+msgid "ON"
+msgstr "បើក"
+
+#. Translators: if the "off" state label requires more than three
+#. * glyphs then use WHITE CIRCLE (U+25CB) as the text for the state
+#.
+#: ../bobgui/bobguiswitch.c:345 ../bobgui/bobguiswitch.c:393 ../bobgui/bobguiswitch.c:615
+msgctxt "switch"
+msgid "OFF"
+msgstr "បិទ"
+
+#: ../bobgui/bobguitextbufferrichtext.c:649
+#, c-format
+msgid "Unknown error when trying to deserialize %s"
+msgstr "មិន​ស្គាល់​កំហុស​ នៅ​ពេល​សាកល្បង​មិន​រៀបចំ​តាមលំដាប់ %s"
+
+#: ../bobgui/bobguitextbufferrichtext.c:708
+#, c-format
+msgid "No deserialize function found for format %s"
+msgstr "រក​មិន​ឃើញ​មុខងារ​សម្រាប់​ទ្រង់ទ្រាយ %s"
+
+#: ../bobgui/bobguitextbufferserialize.c:798 ../bobgui/bobguitextbufferserialize.c:824
+#, c-format
+msgid "Both \"id\" and \"name\" were found on the <%s> element"
+msgstr "ទាំង​ \"លេខ​សម្គាល់\" និង \"ឈ្មោះ\" រក​ឃើញ​នៅ​​លើ​ធាតុ <%s>"
+
+#: ../bobgui/bobguitextbufferserialize.c:808 ../bobgui/bobguitextbufferserialize.c:834
+#, c-format
+msgid "The attribute \"%s\" was found twice on the <%s> element"
+msgstr "គុណ​លក្ខណៈ \"%s\" រក​ឃើញ​ពីរ​ដង​លើ​ធាតុ <%s>"
+
+#: ../bobgui/bobguitextbufferserialize.c:850
+#, c-format
+msgid "<%s> element has invalid ID \"%s\""
+msgstr "<%s> ធាតុ​មាន​លេខ​សម្គាល់​មិន​ត្រឹមត្រូវ \"%s\""
+
+#: ../bobgui/bobguitextbufferserialize.c:860
+#, c-format
+msgid "<%s> element has neither a \"name\" nor an \"id\" attribute"
+msgstr "<%s> ធាតុ​មិន​មាន​ទាំង​គុណ​លក្ខណៈ \"ឈ្មោះ\" និង​គុណ​លក្ខណៈ​ \"លេខ​សម្គាល់\""
+
+#: ../bobgui/bobguitextbufferserialize.c:947
+#, c-format
+msgid "Attribute \"%s\" repeated twice on the same <%s> element"
+msgstr "គុណ​លក្ខណៈ \"%s\" មាន​ពីរ​ដង​នៅ​លើ​ធាតុ​ដូច​គ្នា <%s>"
+
+#: ../bobgui/bobguitextbufferserialize.c:965 ../bobgui/bobguitextbufferserialize.c:990
+#, c-format
+msgid "Attribute \"%s\" is invalid on <%s> element in this context"
+msgstr "គុណ​លក្ខណៈ \"%s\" គឺ​មិន​ត្រឹមត្រូវ​នៅ​លើ​ធាតុ <%s> ក្នុង​បរិបទ​នេះ"
+
+#: ../bobgui/bobguitextbufferserialize.c:1029
+#, c-format
+msgid "Tag \"%s\" has not been defined."
+msgstr "មិន​បាន​កំណត់​ស្លាក \"%s\" ឡើយ ។"
+
+#: ../bobgui/bobguitextbufferserialize.c:1041
+msgid "Anonymous tag found and tags can not be created."
+msgstr "រក​ឃើញ​ស្លាក​​អនាមិក និង​ស្លាក​មិន​អាច​ត្រូវ​បាន​បង្កើត ។"
+
+#: ../bobgui/bobguitextbufferserialize.c:1052
+#, c-format
+msgid "Tag \"%s\" does not exist in buffer and tags can not be created."
+msgstr "ស្លាក \"%s\" មិន​មាន​នៅ​ក្នុង​​អង្គ​ចងចាំ​បណ្ដោះអាសន្ន និង​​​មិន​អាច​ត្រូវ​បា​បង្កើត​ឡើយ ។"
+
+#: ../bobgui/bobguitextbufferserialize.c:1151 ../bobgui/bobguitextbufferserialize.c:1226
+#: ../bobgui/bobguitextbufferserialize.c:1331 ../bobgui/bobguitextbufferserialize.c:1405
+#, c-format
+msgid "Element <%s> is not allowed below <%s>"
+msgstr "ធាតុ <%s> មិន​ត្រូវ​បាន​អនុញ្ញាត​ខាងក្រោម <%s>"
+
+#: ../bobgui/bobguitextbufferserialize.c:1182
+#, c-format
+msgid "\"%s\" is not a valid attribute type"
+msgstr "\"%s\" មិន​មែន​ជា​ប្រភេទ​គុណ​លក្ខណៈ​ត្រឹមត្រូវ​ឡើយ"
+
+#: ../bobgui/bobguitextbufferserialize.c:1190
+#, c-format
+msgid "\"%s\" is not a valid attribute name"
+msgstr "\"%s\" មិន​មាន​ជា​ឈ្មោះ​គុណ​លក្ខណៈ​​ត្រឹមត្រូវ​ឡើយ"
+
+#: ../bobgui/bobguitextbufferserialize.c:1200
+#, c-format
+msgid ""
+"\"%s\" could not be converted to a value of type \"%s\" for attribute \"%s\""
+msgstr "\"%s\" មិន​អាច​​​ត្រូវ​បាន​បម្លែង​ទៅ​​តម្លៃ​នៃ​ប្រភេទ \"%s\" សម្រាប់​គុណ​លក្ខណៈ​ឡើយ \"%s\""
+
+#: ../bobgui/bobguitextbufferserialize.c:1209
+#, c-format
+msgid "\"%s\" is not a valid value for attribute \"%s\""
+msgstr "\"%s\" មិន​មែន​ជា​តម្លៃ​ត្រឹមត្រូវ​សម្រាប់​គុណ​លក្ខណៈ​ឡើយ \"%s\""
+
+#: ../bobgui/bobguitextbufferserialize.c:1294
+#, c-format
+msgid "Tag \"%s\" already defined"
+msgstr "បាន​កំណត់​ស្លាក \"%s\" រួច​​ហើយ"
+
+#: ../bobgui/bobguitextbufferserialize.c:1307
+#, c-format
+msgid "Tag \"%s\" has invalid priority \"%s\""
+msgstr "ស្លា \"%s\" មាន​អាទិភាព​មិន​ត្រឹមត្រូវ \"%s\""
+
+#: ../bobgui/bobguitextbufferserialize.c:1360
+#, c-format
+msgid "Outermost element in text must be <text_view_markup> not <%s>"
+msgstr "ធាតុ​ក្រៅ​បំផុត​នៅ​ក្នុង​អត្ថបទ​​មិន​ត្រូវ​ <text_view_markup> ឡើយ <%s>"
+
+#: ../bobgui/bobguitextbufferserialize.c:1369 ../bobgui/bobguitextbufferserialize.c:1385
+#, c-format
+msgid "A <%s> element has already been specified"
+msgstr "ធាតុ <%s> ត្រូវ​បាន​បញ្ជាក់​រួចហើយ"
+
+#: ../bobgui/bobguitextbufferserialize.c:1391
+msgid "A <text> element can't occur before a <tags> element"
+msgstr "ធាតុ <text> មិន​អាច​កើតឡើង​មុន​ធាតុ <tags> ឡើយ"
+
+#: ../bobgui/bobguitextbufferserialize.c:1790
+msgid "Serialized data is malformed"
+msgstr "ទិន្នន័យ​ដែល​រៀប​តាម​លំដាប់​គឺ​មិន​ត្រឹមត្រូវ"
+
+#: ../bobgui/bobguitextbufferserialize.c:1868
+msgid ""
+"Serialized data is malformed. First section isn't BOBGUITEXTBUFFERCONTENTS-0001"
+msgstr ""
+"ទិន្នន័យ​ដែល​រៀប​តាម​លំដាប់​គឺ​មិន​ត្រឹមត្រូវ ។ ជម្រើស​ដំបូង​គឺ​មិន​​មែន​ជា​ BOBGUITEXTBUFFERCONTENTS-0001 ឡើយ"
+
+#: ../bobgui/bobguitextutil.c:58
+msgid "LRM _Left-to-right mark"
+msgstr "LRM សម្គាល់​ឆ្វេង​ទៅ​ស្ដាំ"
+
+#: ../bobgui/bobguitextutil.c:59
+msgid "RLM _Right-to-left mark"
+msgstr "RLM សម្គាល់​ស្ដាំ​ទៅ​ឆ្វេង"
+
+#: ../bobgui/bobguitextutil.c:60
+msgid "LRE Left-to-right _embedding"
+msgstr "ការ​បង្កប់ LRE ឆ្វេង​ទៅ​ស្ដាំ"
+
+#: ../bobgui/bobguitextutil.c:61
+msgid "RLE Right-to-left e_mbedding"
+msgstr "ការ​បង្កប់ RLE ស្ដាំ​ទៅ​ឆ្វេង"
+
+#: ../bobgui/bobguitextutil.c:62
+msgid "LRO Left-to-right _override"
+msgstr "បដិសេធ LRO ឆ្វេង​ទៅ​ស្ដាំ"
+
+#: ../bobgui/bobguitextutil.c:63
+msgid "RLO Right-to-left o_verride"
+msgstr "បដិសេធ RLO ស្ដាំ​ទៅ​ឆ្វេង"
+
+#: ../bobgui/bobguitextutil.c:64
+msgid "PDF _Pop directional formatting"
+msgstr "ការ​ទ្រង់ទ្រាយ​ផ្ទាល់ PDF _Pop"
+
+#: ../bobgui/bobguitextutil.c:65
+msgid "ZWS _Zero width space"
+msgstr "ZWS _Zero width space"
+
+#: ../bobgui/bobguitextutil.c:66
+msgid "ZWJ Zero width _joiner"
+msgstr "ZWJ Zero width _joiner"
+
+#: ../bobgui/bobguitextutil.c:67
+msgid "ZWNJ Zero width _non-joiner"
+msgstr "ZWNJ Zero width _non-joiner"
+
+#: ../bobgui/bobguiuimanager.c:1781
+#, c-format
+msgid "Unexpected start tag '%s' on line %d char %d"
+msgstr "ចាប់ផ្ដើម​ស្លាក​ដែល​មិន​រំពឹង '%s' លើ​បណ្ដាញ %d តួអក្សរ %d"
+
+#: ../bobgui/bobguiuimanager.c:1871
+#, c-format
+msgid "Unexpected character data on line %d char %d"
+msgstr "ទិន្នន័យ​តួអក្សរ​ដែល​មិន​រំពឹង​លើ​បណ្ដាញ %d តួអក្សរ %d"
+
+#: ../bobgui/bobguiuimanager.c:2694
+msgid "Empty"
+msgstr "ទទេ"
+
+#: ../bobgui/bobguivolumebutton.c:169
+msgid "Volume"
+msgstr "កម្រិត​សំឡេង"
+
+#: ../bobgui/bobguivolumebutton.c:171
+msgid "Turns volume down or up"
+msgstr "បន្ថយ​​កម្រិត​សំឡេង ឬ​​​បង្កើន​កម្រិត​​​សំឡេង"
+
+#: ../bobgui/bobguivolumebutton.c:174
+msgid "Adjusts the volume"
+msgstr "ការ​លៃ​តម្រូវ​​កម្រិត​សំឡេង"
+
+#: ../bobgui/bobguivolumebutton.c:180 ../bobgui/bobguivolumebutton.c:183
+msgid "Volume Down"
+msgstr "បន្ថយ​កម្រិត​សំឡេង"
+
+#: ../bobgui/bobguivolumebutton.c:182
+msgid "Decreases the volume"
+msgstr "បន្ថយ​កម្រិត​សំឡេង"
+
+#: ../bobgui/bobguivolumebutton.c:186 ../bobgui/bobguivolumebutton.c:189
+msgid "Volume Up"
+msgstr "បង្កើន​កម្រិត​សំឡេង"
+
+#: ../bobgui/bobguivolumebutton.c:188
+msgid "Increases the volume"
+msgstr "បង្កើន​កម្រិត​សំឡេង"
+
+#: ../bobgui/bobguivolumebutton.c:246
+msgid "Muted"
+msgstr "ស្ងាត់"
+
+#: ../bobgui/bobguivolumebutton.c:250
+msgid "Full Volume"
+msgstr "កម្រិត​សំឡេង​ទាំងអស់"
+
+#. Translators: this is the percentage of the current volume,
+#. * as used in the tooltip, eg. "49 %".
+#. * Translate the "%d" to "%Id" if you want to use localised digits,
+#. * or otherwise translate the "%d" to "%d".
+#.
+#: ../bobgui/bobguivolumebutton.c:263
+#, c-format
+msgctxt "volume percentage"
+msgid "%d %%"
+msgstr "%d %%"
+
+#: ../bobgui/paper_names_offsets.c:4
+msgctxt "paper size"
+msgid "asme_f"
+msgstr "asme_f"
+
+#: ../bobgui/paper_names_offsets.c:5
+msgctxt "paper size"
+msgid "A0x2"
+msgstr "A0x2"
+
+#: ../bobgui/paper_names_offsets.c:6
+msgctxt "paper size"
+msgid "A0"
+msgstr "A0"
+
+#: ../bobgui/paper_names_offsets.c:7
+msgctxt "paper size"
+msgid "A0x3"
+msgstr "A0x3"
+
+#: ../bobgui/paper_names_offsets.c:8
+msgctxt "paper size"
+msgid "A1"
+msgstr "A1"
+
+#: ../bobgui/paper_names_offsets.c:9
+msgctxt "paper size"
+msgid "A10"
+msgstr "A10"
+
+#: ../bobgui/paper_names_offsets.c:10
+msgctxt "paper size"
+msgid "A1x3"
+msgstr "A1x3"
+
+#: ../bobgui/paper_names_offsets.c:11
+msgctxt "paper size"
+msgid "A1x4"
+msgstr "A1x4"
+
+#: ../bobgui/paper_names_offsets.c:12
+msgctxt "paper size"
+msgid "A2"
+msgstr "A2"
+
+#: ../bobgui/paper_names_offsets.c:13
+msgctxt "paper size"
+msgid "A2x3"
+msgstr "A2x3"
+
+#: ../bobgui/paper_names_offsets.c:14
+msgctxt "paper size"
+msgid "A2x4"
+msgstr "A2x4"
+
+#: ../bobgui/paper_names_offsets.c:15
+msgctxt "paper size"
+msgid "A2x5"
+msgstr "A2x5"
+
+#: ../bobgui/paper_names_offsets.c:16
+msgctxt "paper size"
+msgid "A3"
+msgstr "A3"
+
+#: ../bobgui/paper_names_offsets.c:17
+msgctxt "paper size"
+msgid "A3 Extra"
+msgstr "A3 Extra"
+
+#: ../bobgui/paper_names_offsets.c:18
+msgctxt "paper size"
+msgid "A3x3"
+msgstr "A3x3"
+
+#: ../bobgui/paper_names_offsets.c:19
+msgctxt "paper size"
+msgid "A3x4"
+msgstr "A3x4"
+
+#: ../bobgui/paper_names_offsets.c:20
+msgctxt "paper size"
+msgid "A3x5"
+msgstr "A3x5"
+
+#: ../bobgui/paper_names_offsets.c:21
+msgctxt "paper size"
+msgid "A3x6"
+msgstr "A3x6"
+
+#: ../bobgui/paper_names_offsets.c:22
+msgctxt "paper size"
+msgid "A3x7"
+msgstr "A3x7"
+
+#: ../bobgui/paper_names_offsets.c:23
+msgctxt "paper size"
+msgid "A4"
+msgstr "A4"
+
+#: ../bobgui/paper_names_offsets.c:24
+msgctxt "paper size"
+msgid "A4 Extra"
+msgstr "A4 Extra"
+
+#: ../bobgui/paper_names_offsets.c:25
+msgctxt "paper size"
+msgid "A4 Tab"
+msgstr "A4 Tab"
+
+#: ../bobgui/paper_names_offsets.c:26
+msgctxt "paper size"
+msgid "A4x3"
+msgstr "A4x3"
+
+#: ../bobgui/paper_names_offsets.c:27
+msgctxt "paper size"
+msgid "A4x4"
+msgstr "A4x4"
+
+#: ../bobgui/paper_names_offsets.c:28
+msgctxt "paper size"
+msgid "A4x5"
+msgstr "A4x5"
+
+#: ../bobgui/paper_names_offsets.c:29
+msgctxt "paper size"
+msgid "A4x6"
+msgstr "A4x6"
+
+#: ../bobgui/paper_names_offsets.c:30
+msgctxt "paper size"
+msgid "A4x7"
+msgstr "A4x7"
+
+#: ../bobgui/paper_names_offsets.c:31
+msgctxt "paper size"
+msgid "A4x8"
+msgstr "A4x8"
+
+#: ../bobgui/paper_names_offsets.c:32
+msgctxt "paper size"
+msgid "A4x9"
+msgstr "A4x9"
+
+#: ../bobgui/paper_names_offsets.c:33
+msgctxt "paper size"
+msgid "A5"
+msgstr "A5"
+
+#: ../bobgui/paper_names_offsets.c:34
+msgctxt "paper size"
+msgid "A5 Extra"
+msgstr "A5 Extra"
+
+#: ../bobgui/paper_names_offsets.c:35
+msgctxt "paper size"
+msgid "A6"
+msgstr "A6"
+
+#: ../bobgui/paper_names_offsets.c:36
+msgctxt "paper size"
+msgid "A7"
+msgstr "A7"
+
+#: ../bobgui/paper_names_offsets.c:37
+msgctxt "paper size"
+msgid "A8"
+msgstr "A8"
+
+#: ../bobgui/paper_names_offsets.c:38
+msgctxt "paper size"
+msgid "A9"
+msgstr "A9"
+
+#: ../bobgui/paper_names_offsets.c:39
+msgctxt "paper size"
+msgid "B0"
+msgstr "B0"
+
+#: ../bobgui/paper_names_offsets.c:40
+msgctxt "paper size"
+msgid "B1"
+msgstr "B1"
+
+#: ../bobgui/paper_names_offsets.c:41
+msgctxt "paper size"
+msgid "B10"
+msgstr "B10"
+
+#: ../bobgui/paper_names_offsets.c:42
+msgctxt "paper size"
+msgid "B2"
+msgstr "B2"
+
+#: ../bobgui/paper_names_offsets.c:43
+msgctxt "paper size"
+msgid "B3"
+msgstr "B3"
+
+#: ../bobgui/paper_names_offsets.c:44
+msgctxt "paper size"
+msgid "B4"
+msgstr "B4"
+
+#: ../bobgui/paper_names_offsets.c:45
+msgctxt "paper size"
+msgid "B5"
+msgstr "B5"
+
+#: ../bobgui/paper_names_offsets.c:46
+msgctxt "paper size"
+msgid "B5 Extra"
+msgstr "B5 Extra"
+
+#: ../bobgui/paper_names_offsets.c:47
+msgctxt "paper size"
+msgid "B6"
+msgstr "B6"
+
+#: ../bobgui/paper_names_offsets.c:48
+msgctxt "paper size"
+msgid "B6/C4"
+msgstr "B6/C4"
+
+#: ../bobgui/paper_names_offsets.c:49
+msgctxt "paper size"
+msgid "B7"
+msgstr "B7"
+
+#: ../bobgui/paper_names_offsets.c:50
+msgctxt "paper size"
+msgid "B8"
+msgstr "B8"
+
+#: ../bobgui/paper_names_offsets.c:51
+msgctxt "paper size"
+msgid "B9"
+msgstr "B9"
+
+#: ../bobgui/paper_names_offsets.c:52
+msgctxt "paper size"
+msgid "C0"
+msgstr "C0"
+
+#: ../bobgui/paper_names_offsets.c:53
+msgctxt "paper size"
+msgid "C1"
+msgstr "C1"
+
+#: ../bobgui/paper_names_offsets.c:54
+msgctxt "paper size"
+msgid "C10"
+msgstr "C10"
+
+#: ../bobgui/paper_names_offsets.c:55
+msgctxt "paper size"
+msgid "C2"
+msgstr "C2"
+
+#: ../bobgui/paper_names_offsets.c:56
+msgctxt "paper size"
+msgid "C3"
+msgstr "C3"
+
+#: ../bobgui/paper_names_offsets.c:57
+msgctxt "paper size"
+msgid "C4"
+msgstr "C4"
+
+#: ../bobgui/paper_names_offsets.c:58
+msgctxt "paper size"
+msgid "C5"
+msgstr "C5"
+
+#: ../bobgui/paper_names_offsets.c:59
+msgctxt "paper size"
+msgid "C6"
+msgstr "C6"
+
+#: ../bobgui/paper_names_offsets.c:60
+msgctxt "paper size"
+msgid "C6/C5"
+msgstr "C6/C5"
+
+#: ../bobgui/paper_names_offsets.c:61
+msgctxt "paper size"
+msgid "C7"
+msgstr "C7"
+
+#: ../bobgui/paper_names_offsets.c:62
+msgctxt "paper size"
+msgid "C7/C6"
+msgstr "C7/C6"
+
+#: ../bobgui/paper_names_offsets.c:63
+msgctxt "paper size"
+msgid "C8"
+msgstr "C8"
+
+#: ../bobgui/paper_names_offsets.c:64
+msgctxt "paper size"
+msgid "C9"
+msgstr "C9"
+
+#: ../bobgui/paper_names_offsets.c:65
+msgctxt "paper size"
+msgid "DL Envelope"
+msgstr "DL Envelope"
+
+#: ../bobgui/paper_names_offsets.c:66
+msgctxt "paper size"
+msgid "RA0"
+msgstr "RA0"
+
+#: ../bobgui/paper_names_offsets.c:67
+msgctxt "paper size"
+msgid "RA1"
+msgstr "RA1"
+
+#: ../bobgui/paper_names_offsets.c:68
+msgctxt "paper size"
+msgid "RA2"
+msgstr "RA2"
+
+#: ../bobgui/paper_names_offsets.c:69
+msgctxt "paper size"
+msgid "SRA0"
+msgstr "SRA0"
+
+#: ../bobgui/paper_names_offsets.c:70
+msgctxt "paper size"
+msgid "SRA1"
+msgstr "SRA1"
+
+#: ../bobgui/paper_names_offsets.c:71
+msgctxt "paper size"
+msgid "SRA2"
+msgstr "SRA2"
+
+#: ../bobgui/paper_names_offsets.c:72
+msgctxt "paper size"
+msgid "JB0"
+msgstr "JB0"
+
+#: ../bobgui/paper_names_offsets.c:73
+msgctxt "paper size"
+msgid "JB1"
+msgstr "JB1"
+
+#: ../bobgui/paper_names_offsets.c:74
+msgctxt "paper size"
+msgid "JB10"
+msgstr "JB10"
+
+#: ../bobgui/paper_names_offsets.c:75
+msgctxt "paper size"
+msgid "JB2"
+msgstr "JB2"
+
+#: ../bobgui/paper_names_offsets.c:76
+msgctxt "paper size"
+msgid "JB3"
+msgstr "JB3"
+
+#: ../bobgui/paper_names_offsets.c:77
+msgctxt "paper size"
+msgid "JB4"
+msgstr "JB4"
+
+#: ../bobgui/paper_names_offsets.c:78
+msgctxt "paper size"
+msgid "JB5"
+msgstr "JB5"
+
+#: ../bobgui/paper_names_offsets.c:79
+msgctxt "paper size"
+msgid "JB6"
+msgstr "JB6"
+
+#: ../bobgui/paper_names_offsets.c:80
+msgctxt "paper size"
+msgid "JB7"
+msgstr "JB7"
+
+#: ../bobgui/paper_names_offsets.c:81
+msgctxt "paper size"
+msgid "JB8"
+msgstr "JB8"
+
+#: ../bobgui/paper_names_offsets.c:82
+msgctxt "paper size"
+msgid "JB9"
+msgstr "JB9"
+
+#: ../bobgui/paper_names_offsets.c:83
+msgctxt "paper size"
+msgid "jis exec"
+msgstr "jis exec"
+
+#: ../bobgui/paper_names_offsets.c:84
+msgctxt "paper size"
+msgid "Choukei 2 Envelope"
+msgstr "Choukei 2 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:85
+msgctxt "paper size"
+msgid "Choukei 3 Envelope"
+msgstr "Choukei 3 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:86
+msgctxt "paper size"
+msgid "Choukei 4 Envelope"
+msgstr "Choukei 4 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:87
+msgctxt "paper size"
+msgid "hagaki (postcard)"
+msgstr "hagaki (postcard)"
+
+#: ../bobgui/paper_names_offsets.c:88
+msgctxt "paper size"
+msgid "kahu Envelope"
+msgstr "kahu Envelope"
+
+#: ../bobgui/paper_names_offsets.c:89
+msgctxt "paper size"
+msgid "kaku2 Envelope"
+msgstr "kaku2 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:90
+msgctxt "paper size"
+msgid "oufuku (reply postcard)"
+msgstr "oufuku (reply postcard)"
+
+#: ../bobgui/paper_names_offsets.c:91
+msgctxt "paper size"
+msgid "you4 Envelope"
+msgstr "you4 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:92
+msgctxt "paper size"
+msgid "10x11"
+msgstr "10x11"
+
+#: ../bobgui/paper_names_offsets.c:93
+msgctxt "paper size"
+msgid "10x13"
+msgstr "10x13"
+
+#: ../bobgui/paper_names_offsets.c:94
+msgctxt "paper size"
+msgid "10x14"
+msgstr "10x14"
+
+#: ../bobgui/paper_names_offsets.c:95 ../bobgui/paper_names_offsets.c:96
+msgctxt "paper size"
+msgid "10x15"
+msgstr "10x15"
+
+#: ../bobgui/paper_names_offsets.c:97
+msgctxt "paper size"
+msgid "11x12"
+msgstr "11x12"
+
+#: ../bobgui/paper_names_offsets.c:98
+msgctxt "paper size"
+msgid "11x15"
+msgstr "11x15"
+
+#: ../bobgui/paper_names_offsets.c:99
+msgctxt "paper size"
+msgid "12x19"
+msgstr "12x19"
+
+#: ../bobgui/paper_names_offsets.c:100
+msgctxt "paper size"
+msgid "5x7"
+msgstr "5x7"
+
+#: ../bobgui/paper_names_offsets.c:101
+msgctxt "paper size"
+msgid "6x9 Envelope"
+msgstr "6x9 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:102
+msgctxt "paper size"
+msgid "7x9 Envelope"
+msgstr "7x9 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:103
+msgctxt "paper size"
+msgid "9x11 Envelope"
+msgstr "9x11 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:104
+msgctxt "paper size"
+msgid "a2 Envelope"
+msgstr "a2 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:105
+msgctxt "paper size"
+msgid "Arch A"
+msgstr "Arch A"
+
+#: ../bobgui/paper_names_offsets.c:106
+msgctxt "paper size"
+msgid "Arch B"
+msgstr "Arch B"
+
+#: ../bobgui/paper_names_offsets.c:107
+msgctxt "paper size"
+msgid "Arch C"
+msgstr "Arch C"
+
+#: ../bobgui/paper_names_offsets.c:108
+msgctxt "paper size"
+msgid "Arch D"
+msgstr "Arch D"
+
+#: ../bobgui/paper_names_offsets.c:109
+msgctxt "paper size"
+msgid "Arch E"
+msgstr "Arch E"
+
+#: ../bobgui/paper_names_offsets.c:110
+msgctxt "paper size"
+msgid "b-plus"
+msgstr "b-plus"
+
+#: ../bobgui/paper_names_offsets.c:111
+msgctxt "paper size"
+msgid "c"
+msgstr "c"
+
+#: ../bobgui/paper_names_offsets.c:112
+msgctxt "paper size"
+msgid "c5 Envelope"
+msgstr "c5 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:113
+msgctxt "paper size"
+msgid "d"
+msgstr "d"
+
+#: ../bobgui/paper_names_offsets.c:114
+msgctxt "paper size"
+msgid "e"
+msgstr "e"
+
+#: ../bobgui/paper_names_offsets.c:115
+msgctxt "paper size"
+msgid "edp"
+msgstr "edp"
+
+#: ../bobgui/paper_names_offsets.c:116
+msgctxt "paper size"
+msgid "European edp"
+msgstr "European edp"
+
+#: ../bobgui/paper_names_offsets.c:117
+msgctxt "paper size"
+msgid "Executive"
+msgstr "ដែល​ប្រតិបត្តិ"
+
+#: ../bobgui/paper_names_offsets.c:118
+msgctxt "paper size"
+msgid "f"
+msgstr "f"
+
+#: ../bobgui/paper_names_offsets.c:119
+msgctxt "paper size"
+msgid "FanFold European"
+msgstr "FanFold European"
+
+#: ../bobgui/paper_names_offsets.c:120
+msgctxt "paper size"
+msgid "FanFold US"
+msgstr "FanFold US"
+
+#: ../bobgui/paper_names_offsets.c:121
+msgctxt "paper size"
+msgid "FanFold German Legal"
+msgstr "FanFold German Legal"
+
+#: ../bobgui/paper_names_offsets.c:122
+msgctxt "paper size"
+msgid "Government Legal"
+msgstr "ច្បាប់​រដ្ឋាភិបាល"
+
+#: ../bobgui/paper_names_offsets.c:123
+msgctxt "paper size"
+msgid "Government Letter"
+msgstr "លិខិត​រដ្ឋាភិបាល"
+
+#: ../bobgui/paper_names_offsets.c:124
+msgctxt "paper size"
+msgid "Index 3x5"
+msgstr "Index 3x5"
+
+#: ../bobgui/paper_names_offsets.c:125
+msgctxt "paper size"
+msgid "Index 4x6 (postcard)"
+msgstr "Index 4x6 (postcard)"
+
+#: ../bobgui/paper_names_offsets.c:126
+msgctxt "paper size"
+msgid "Index 4x6 ext"
+msgstr "Index 4x6 ext"
+
+#: ../bobgui/paper_names_offsets.c:127
+msgctxt "paper size"
+msgid "Index 5x8"
+msgstr "Index 5x8"
+
+#: ../bobgui/paper_names_offsets.c:128
+msgctxt "paper size"
+msgid "Invoice"
+msgstr "វិក្កយបត្"
+
+#: ../bobgui/paper_names_offsets.c:129
+msgctxt "paper size"
+msgid "Tabloid"
+msgstr "Tabloid"
+
+#: ../bobgui/paper_names_offsets.c:130
+msgctxt "paper size"
+msgid "US Legal"
+msgstr "US Legal"
+
+#: ../bobgui/paper_names_offsets.c:131
+msgctxt "paper size"
+msgid "US Legal Extra"
+msgstr "US Legal Extra"
+
+#: ../bobgui/paper_names_offsets.c:132
+msgctxt "paper size"
+msgid "US Letter"
+msgstr "US Letter"
+
+#: ../bobgui/paper_names_offsets.c:133
+msgctxt "paper size"
+msgid "US Letter Extra"
+msgstr "US Letter Extra"
+
+#: ../bobgui/paper_names_offsets.c:134
+msgctxt "paper size"
+msgid "US Letter Plus"
+msgstr "US Letter Plus"
+
+#: ../bobgui/paper_names_offsets.c:135
+msgctxt "paper size"
+msgid "Monarch Envelope"
+msgstr "Monarch Envelope"
+
+#: ../bobgui/paper_names_offsets.c:136
+msgctxt "paper size"
+msgid "#10 Envelope"
+msgstr "#10 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:137
+msgctxt "paper size"
+msgid "#11 Envelope"
+msgstr "#11 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:138
+msgctxt "paper size"
+msgid "#12 Envelope"
+msgstr "#12 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:139
+msgctxt "paper size"
+msgid "#14 Envelope"
+msgstr "#14 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:140
+msgctxt "paper size"
+msgid "#9 Envelope"
+msgstr "#9 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:141
+msgctxt "paper size"
+msgid "Personal Envelope"
+msgstr "ស្រោម​សំបុត្រ​ផ្ទាល់ខ្លួន"
+
+#: ../bobgui/paper_names_offsets.c:142
+msgctxt "paper size"
+msgid "Quarto"
+msgstr "Quarto"
+
+#: ../bobgui/paper_names_offsets.c:143
+msgctxt "paper size"
+msgid "Super A"
+msgstr "Super A"
+
+#: ../bobgui/paper_names_offsets.c:144
+msgctxt "paper size"
+msgid "Super B"
+msgstr "Super B"
+
+#: ../bobgui/paper_names_offsets.c:145
+msgctxt "paper size"
+msgid "Wide Format"
+msgstr "ទ្រង់ទ្រាយ​ធំ"
+
+#: ../bobgui/paper_names_offsets.c:146
+msgctxt "paper size"
+msgid "Dai-pa-kai"
+msgstr "Dai-pa-kai"
+
+#: ../bobgui/paper_names_offsets.c:147
+msgctxt "paper size"
+msgid "Folio"
+msgstr "Folio"
+
+#: ../bobgui/paper_names_offsets.c:148
+msgctxt "paper size"
+msgid "Folio sp"
+msgstr "Folio sp"
+
+#: ../bobgui/paper_names_offsets.c:149
+msgctxt "paper size"
+msgid "Invite Envelope"
+msgstr "Invite Envelope"
+
+#: ../bobgui/paper_names_offsets.c:150
+msgctxt "paper size"
+msgid "Italian Envelope"
+msgstr "Italian Envelope"
+
+#: ../bobgui/paper_names_offsets.c:151
+msgctxt "paper size"
+msgid "juuro-ku-kai"
+msgstr "juuro-ku-kai"
+
+#: ../bobgui/paper_names_offsets.c:152
+msgctxt "paper size"
+msgid "pa-kai"
+msgstr "pa-kai"
+
+#: ../bobgui/paper_names_offsets.c:153
+msgctxt "paper size"
+msgid "Postfix Envelope"
+msgstr "Postfix Envelope"
+
+#: ../bobgui/paper_names_offsets.c:154
+msgctxt "paper size"
+msgid "Small Photo"
+msgstr "Small Photo"
+
+#: ../bobgui/paper_names_offsets.c:155
+msgctxt "paper size"
+msgid "prc1 Envelope"
+msgstr "prc1 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:156
+msgctxt "paper size"
+msgid "prc10 Envelope"
+msgstr "prc10 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:157
+msgctxt "paper size"
+msgid "prc 16k"
+msgstr "prc 16k"
+
+#: ../bobgui/paper_names_offsets.c:158
+msgctxt "paper size"
+msgid "prc2 Envelope"
+msgstr "prc2 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:159
+msgctxt "paper size"
+msgid "prc3 Envelope"
+msgstr "prc3 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:160
+msgctxt "paper size"
+msgid "prc 32k"
+msgstr "prc 32k"
+
+#: ../bobgui/paper_names_offsets.c:161
+msgctxt "paper size"
+msgid "prc4 Envelope"
+msgstr "prc4 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:162
+msgctxt "paper size"
+msgid "prc5 Envelope"
+msgstr "prc5 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:163
+msgctxt "paper size"
+msgid "prc6 Envelope"
+msgstr "prc6 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:164
+msgctxt "paper size"
+msgid "prc7 Envelope"
+msgstr "prc7 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:165
+msgctxt "paper size"
+msgid "prc8 Envelope"
+msgstr "prc8 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:166
+msgctxt "paper size"
+msgid "prc9 Envelope"
+msgstr "prc9 Envelope"
+
+#: ../bobgui/paper_names_offsets.c:167
+msgctxt "paper size"
+msgid "ROC 16k"
+msgstr "ROC 16k"
+
+#: ../bobgui/paper_names_offsets.c:168
+msgctxt "paper size"
+msgid "ROC 8k"
+msgstr "ROC 8k"
+
+#: ../bobgui/updateiconcache.c:1368
+#, c-format
+msgid "Failed to write header\n"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​​ឋមកថា\n"
+
+#: ../bobgui/updateiconcache.c:1374
+#, c-format
+msgid "Failed to write hash table\n"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការសេរ hash table\n"
+
+#: ../bobgui/updateiconcache.c:1380
+#, c-format
+msgid "Failed to write folder index\n"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ folder index\n"
+
+#: ../bobgui/updateiconcache.c:1388
+#, c-format
+msgid "Failed to rewrite header\n"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​បឋមកថា​ឡើង​វិញ\n"
+
+#: ../bobgui/updateiconcache.c:1482
+#, c-format
+msgid "Failed to open file %s : %s\n"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ %s ៖ %s\n"
+
+#: ../bobgui/updateiconcache.c:1490 ../bobgui/updateiconcache.c:1520
+#, c-format
+msgid "Failed to write cache file: %s\n"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​សរសេរ​ឯកសារ​ឃ្លាំង ៖ %s\n"
+
+#: ../bobgui/updateiconcache.c:1530
+#, c-format
+msgid "The generated cache was invalid.\n"
+msgstr "បាន​បង្កើត​ឃ្លាំង​មិន​ត្រឹមត្រូវ ។\n"
+
+#: ../bobgui/updateiconcache.c:1544
+#, c-format
+msgid "Could not rename %s to %s: %s, removing %s then.\n"
+msgstr "មិន​អាច​ប្ដូរ​ឈ្មោះ​ %s ទៅ %s: %s បាន​ទេ យក​ចេញ %s ។\n"
+
+#: ../bobgui/updateiconcache.c:1558
+#, c-format
+msgid "Could not rename %s to %s: %s\n"
+msgstr "មិន​អាច​ប្ដូរ​ឈ្មោះ %s ទៅ %s: %sបាន​ទេ\n"
+
+#: ../bobgui/updateiconcache.c:1568
+#, c-format
+msgid "Could not rename %s back to %s: %s.\n"
+msgstr "មិន​អាច​ប្ដូរ​ឈ្មោះ %s ថយក្រោយ​ទៅ %s: %s\n"
+
+#: ../bobgui/updateiconcache.c:1595
+#, c-format
+msgid "Cache file created successfully.\n"
+msgstr "បាន​បង្កើត​ឯកសារ​ឃ្លាំង​ដោយ​ជោគជ័យ ។\n"
+
+#: ../bobgui/updateiconcache.c:1634
+msgid "Overwrite an existing cache, even if up to date"
+msgstr "សរសេរ​ជាន់​លើ​ឃ្លាំង​ដែល​មាន​ស្រាប់ ទោះ​បី​ជា​ធ្វើ​ឲ្យ​ប្រសើរ​ឡើង​ក៏ដោយ"
+
+#: ../bobgui/updateiconcache.c:1635
+msgid "Don't check for the existence of index.theme"
+msgstr "កុំ​ពិនិត្យមើល​ index.theme ដែល​មាន​ស្រាប់"
+
+#: ../bobgui/updateiconcache.c:1636
+msgid "Don't include image data in the cache"
+msgstr "កុំ​រួម​បញ្ចូល​​ទិន្នន័យ​​រូបភាព​នៅ​ក្នុង​ឃ្លាំង"
+
+#: ../bobgui/updateiconcache.c:1637
+msgid "Output a C header file"
+msgstr "ឯកសារ​លទ្ធផល C header"
+
+#: ../bobgui/updateiconcache.c:1638
+msgid "Turn off verbose output"
+msgstr "បិទ​លទ្ធផល​បរិយាយ"
+
+#: ../bobgui/updateiconcache.c:1639
+msgid "Validate existing icon cache"
+msgstr "ធ្វើ​ឲ្យ​ឃ្លាំង​រូបតំណាង​ដែល​មាន​ស្រាប់​មាន​សុពលភាព"
+
+#: ../bobgui/updateiconcache.c:1706
+#, c-format
+msgid "File not found: %s\n"
+msgstr "រក​មិន​ឃើញ​ឯកសារ​ឡើយ ៖ %s\n"
+
+#: ../bobgui/updateiconcache.c:1712
+#, c-format
+msgid "Not a valid icon cache: %s\n"
+msgstr "គ្មាន​ឃ្លាំង​រូបតំណាង​ត្រឹមត្រូវ​ឡើយ ៖ %s\n"
+
+#: ../bobgui/updateiconcache.c:1725
+#, c-format
+msgid "No theme index file.\n"
+msgstr "គ្មាន​ឯកសារ​លិបិក្រម​រូបតំណាង​ផ្ទាំង​ឡើយ ។\n"
+
+#: ../bobgui/updateiconcache.c:1729
+#, c-format
+msgid ""
+"No theme index file in '%s'.\n"
+"If you really want to create an icon cache here, use --ignore-theme-index.\n"
+msgstr ""
+"គ្មាន​ឯកសារ​លិបិក្រម​រូបតំណាង​​ផ្ទាំង​នៅ​ក្នុង '%s' ឡើយ ។\n"
+"ប្រសិនបើ​​អ្នក​ពិត​ជា​ចង់​បង្កើត​ឃ្លាំង​រូបតំណាង​នៅ​ទីនេះ ប្រើ--ignore-theme-index ។\n"
+
+#. ID
+#: ../modules/input/imam-et.c:452
+msgid "Amharic (EZ+)"
+msgstr "Amharic (EZ+)"
+
+#. ID
+#: ../modules/input/imcedilla.c:90
+msgid "Cedilla"
+msgstr "Cedilla"
+
+#. ID
+#: ../modules/input/imcyrillic-translit.c:215
+msgid "Cyrillic (Transliterated)"
+msgstr "Cyrillic (Transliterated)"
+
+#. ID
+#: ../modules/input/iminuktitut.c:125
+msgid "Inuktitut (Transliterated)"
+msgstr "Inuktitut (Transliterated)"
+
+#. ID
+#: ../modules/input/imipa.c:143
+msgid "IPA"
+msgstr "IPA"
+
+#. ID
+#: ../modules/input/immultipress.c:29
+msgid "Multipress"
+msgstr "Multipress"
+
+#. ID
+#: ../modules/input/imthai.c:33
+msgid "Thai-Lao"
+msgstr "Thai-Lao"
+
+#. ID
+#: ../modules/input/imti-er.c:451
+msgid "Tigrigna-Eritrean (EZ+)"
+msgstr "Tigrigna-Eritrean (EZ+)"
+
+#. ID
+#: ../modules/input/imti-et.c:451
+msgid "Tigrigna-Ethiopian (EZ+)"
+msgstr "Tigrigna-Ethiopian (EZ+)"
+
+#. ID
+#: ../modules/input/imviqr.c:242
+msgid "Vietnamese (VIQR)"
+msgstr "Vietnamese (VIQR)"
+
+#. ID
+#: ../modules/input/imxim.c:26
+msgid "X Input Method"
+msgstr "X Input Method"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:858
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1073
+msgid "Username:"
+msgstr "អ្នក​ប្រើ ៖"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:859
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1082
+msgid "Password:"
+msgstr "ពាក្យ​សម្ងាត់ ៖"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:898
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1095
+#, c-format
+msgid "Authentication is required to print document '%s' on printer %s"
+msgstr "បាន​ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ ដើម្បី​បោះពុម្ព​ឯកសារ '%s' នៅ​លើ​ម៉ាស៊ីន​បោះពុម្ព %s"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:900
+#, c-format
+msgid "Authentication is required to print a document on %s"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ​ ដើម្បី​បោះពុម្ព​ឯកសារ​នៅ​​លើ %s"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:904
+#, c-format
+msgid "Authentication is required to get attributes of job '%s'"
+msgstr "បាន​ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ ដើម្បី​ទទួល​បាន​គុណ​លក្ខណៈ​ការងារ '%s'"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:906
+msgid "Authentication is required to get attributes of a job"
+msgstr "បាន​ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ​ ដើម្បី​ទទួល​បាន​គុណ​លក្ខណៈ​ការងារ"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:910
+#, c-format
+msgid "Authentication is required to get attributes of printer %s"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ​ ដើម្បី​ទទួល​​បាន​គុណ​លក្ខណៈ​ម៉ាស៊ីន​បោះពុម្ព %s"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:912
+msgid "Authentication is required to get attributes of a printer"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ​ ដើម្បី​ទទួល​បាន​គុណ​លក្ខណៈ​ម៉ាស៊ីន​បោះពុម្ព"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:915
+#, c-format
+msgid "Authentication is required to get default printer of %s"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ ដើម្បី​ទទួល​បាន​ម៉ាស៊ីន​បោះពុម្ព​លំនាំដើម​នៃ %s"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:918
+#, c-format
+msgid "Authentication is required to get printers from %s"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ​ ដើម្បី​ទទួល​​បាន​ម៉ាស៊ីន​បោះពុម្ព​ពី %s"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:923
+#, c-format
+msgid "Authentication is required to get a file from %s"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ​ ដើម្បី​ទទួល​បាន​ឯកសារ​ពី %s"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:925
+#, c-format
+msgid "Authentication is required on %s"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ​​នៅ​លើ %s"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1067
+msgid "Domain:"
+msgstr "ដែន ៖"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1097
+#, c-format
+msgid "Authentication is required to print document '%s'"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ​ ដើម្បី​បោះពុម្ព​ឯកសារ '%s'"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1102
+#, c-format
+msgid "Authentication is required to print this document on printer %s"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ ដើម្បី​បោះពុម្ព​ឯកសារ​នេះ​​​លើ​ម៉ាស៊ីន​បោះពុម្ព %s"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1104
+msgid "Authentication is required to print this document"
+msgstr "ទាមទារ​ការ​ផ្ទៀងផ្ទាត់​ភាព​ត្រឹមត្រូវ ដើម្បី​បោះពុម្ព​ឯកសារ​នេះ"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1666
+#, c-format
+msgid "Printer '%s' is low on toner."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' ជិត​អស់​ទឹក​ថ្នាំ​ហើយ​ ។"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1667
+#, c-format
+msgid "Printer '%s' has no toner left."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' អស់​ទឹក​ថ្នាំ​ហើយ ។"
+
+#. Translators: "Developer" like on photo development context
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1669
+#, c-format
+msgid "Printer '%s' is low on developer."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' បោះពុម្ព​ស្ទើរតែ​លែង​ច្បាស់ ។"
+
+#. Translators: "Developer" like on photo development context
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1671
+#, c-format
+msgid "Printer '%s' is out of developer."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' បោះពុម្ព​លែង​ច្បាស់​ហើយ ។"
+
+#. Translators: "marker" is one color bin of the printer
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1673
+#, c-format
+msgid "Printer '%s' is low on at least one marker supply."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' ជិត​អស់​យ៉ាងហោចណាស់​មាន​សញ្ញា​សម្គាល់​មួយ ។"
+
+#. Translators: "marker" is one color bin of the printer
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1675
+#, c-format
+msgid "Printer '%s' is out of at least one marker supply."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' អស់​សញ្ញាសម្គាល់​ហើយ ។"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1676
+#, c-format
+msgid "The cover is open on printer '%s'."
+msgstr "បើក​គ្រប់​ម៉ាស៊ីន​បោះពុម្ព '%s' ។"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1677
+#, c-format
+msgid "The door is open on printer '%s'."
+msgstr "បើក​ទ្វេ​ម៉ាស៊ីន​បោះពុម្ព '%s' ។"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1678
+#, c-format
+msgid "Printer '%s' is low on paper."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' ជិត​អស់​ក្រដាស​​ហើយ ។"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1679
+#, c-format
+msgid "Printer '%s' is out of paper."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' អស់​ក្រដាស​ហើយ ។"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1680
+#, c-format
+msgid "Printer '%s' is currently offline."
+msgstr "ម៉ាស៊ីន​បោះពុម្ព '%s' នៅ​ក្រៅ​បណ្ដាញ​បច្ចុប្បន្ន ។"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:1681
+#, c-format
+msgid "There is a problem on printer '%s'."
+msgstr "មាន​បញ្ហា​​​នៅ​លើ​ម៉ាស៊ីន​បោះពុម្ព '%s' ។"
+
+#. Translators: this is a printer status.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2123
+msgid "Paused; Rejecting Jobs"
+msgstr "បាន​ផ្អាក ច្រានចោល​ការងារ"
+
+#. Translators: this is a printer status.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2129
+msgid "Rejecting Jobs"
+msgstr "ច្រាន​ចោល​ការងារ"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2909
+msgid "Two Sided"
+msgstr "សងខាង"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2910
+msgid "Paper Type"
+msgstr "ប្រភេទ​ក្រដាស"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2911
+msgid "Paper Source"
+msgstr "ប្រភព​ក្រដាស"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2912
+msgid "Output Tray"
+msgstr "ថាស​លទ្ធផល"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2913
+msgid "Resolution"
+msgstr "គុណភាព​បង្ហាញ"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2914
+msgid "GhostScript pre-filtering"
+msgstr "GhostScript pre-filtering"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2923
+msgid "One Sided"
+msgstr "ម្ខាង"
+
+#. Translators: this is an option of "Two Sided"
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2925
+msgid "Long Edge (Standard)"
+msgstr "គែម​វែង (ស្តង់ដារ)"
+
+#. Translators: this is an option of "Two Sided"
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2927
+msgid "Short Edge (Flip)"
+msgstr "គែម​ខ្លី​ (ត្រឡប់)"
+
+#. Translators: this is an option of "Paper Source"
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2929
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2931
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2939
+msgid "Auto Select"
+msgstr "ជ្រើស​ស្វ័យប្រវត្តិ"
+
+#. Translators: this is an option of "Paper Source"
+#. Translators: this is an option of "Resolution"
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2933
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2935
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2937
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2941
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3429
+msgid "Printer Default"
+msgstr "ម៉ាស៊ីន​បោះពុម្ព​លំនាំដើម"
+
+#. Translators: this is an option of "GhostScript"
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2943
+msgid "Embed GhostScript fonts only"
+msgstr "បង្កប់​តែ​ពុម្ព​អក្សរ GhostScript"
+
+#. Translators: this is an option of "GhostScript"
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2945
+msgid "Convert to PS level 1"
+msgstr "បម្លែង​ទៅ PS level 1"
+
+#. Translators: this is an option of "GhostScript"
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2947
+msgid "Convert to PS level 2"
+msgstr "បម្លែង​ទៅ PS level 2"
+
+#. Translators: this is an option of "GhostScript"
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2949
+msgid "No pre-filtering"
+msgstr "គ្មាន pre-filtering"
+
+#. Translators: "Miscellaneous" is the label for a button, that opens
+#. up an extra panel of settings in a print dialog.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:2958
+msgid "Miscellaneous"
+msgstr "ផ្សេងៗ"
+
+#. Translators: These strings name the possible values of the
+#. * job priority option in the print dialog
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3681
+msgid "Urgent"
+msgstr "បន្ទាន់"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3681
+msgid "High"
+msgstr "ខ្ពស់"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3681
+msgid "Medium"
+msgstr "មធ្យម"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3681
+msgid "Low"
+msgstr "ទាប"
+
+#. Translators, this string is used to label the job priority option
+#. * in the print dialog
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3711
+msgid "Job Priority"
+msgstr "អាទិភាព​ការងារ"
+
+#. Translators, this string is used to label the billing info entry
+#. * in the print dialog
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3722
+msgid "Billing Info"
+msgstr "ព័ត៌មាន​​​ចេញ​​វិក្កយបត្រ"
+
+#. Translators, these strings are names for various 'standard' cover
+#. * pages that the printing system may support.
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3737
+msgid "None"
+msgstr "គ្មាន"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3737
+msgid "Classified"
+msgstr "បាន​ចាត់​ជា​ថ្នាក់"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3737
+msgid "Confidential"
+msgstr "សម្ងាត់"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3737
+msgid "Secret"
+msgstr "សម្ងាត់"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3737
+msgid "Standard"
+msgstr "ស្តង់ដារ"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3737
+msgid "Top Secret"
+msgstr "សម្ងាត់​បំផុត"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3737
+msgid "Unclassified"
+msgstr "មិន​បាន​ចាត់​ថ្នាក់"
+
+#. Translators, this string is used to label the pages-per-sheet option
+#. * in the print dialog
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3748
+msgid "Pages per Sheet"
+msgstr "ទំព័រ​ក្នុង​មួយ​សន្លឹក"
+
+#. Translators, this is the label used for the option in the print
+#. * dialog that controls the front cover page.
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3808
+msgid "Before"
+msgstr "មុន"
+
+#. Translators, this is the label used for the option in the print
+#. * dialog that controls the back cover page.
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3823
+msgid "After"
+msgstr "បន្ទាប់​ពី"
+
+#. Translators: this is the name of the option that controls when
+#. * a print job is printed. Possible values are 'now', a specified time,
+#. * or 'on hold'
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3843
+msgid "Print at"
+msgstr "បោះពុម្ព​នៅ"
+
+#. Translators: this is the name of the option that allows the user
+#. * to specify a time when a print job will be printed.
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3854
+msgid "Print at time"
+msgstr "បោះពុម្ព​នៅ​ពេល"
+
+#. Translators: this format is used to display a custom paper
+#. * size. The two placeholders are replaced with the width and height
+#. * in points. E.g: "Custom 230.4x142.9"
+#.
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3889
+#, c-format
+msgid "Custom %sx%s"
+msgstr "%sx%s ផ្ទាល់ខ្លួន"
+
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3970
+msgid "Printer Profile"
+msgstr "ទម្រង់​ម៉ាស៊ីន​បោះពុម្ព"
+
+#. TRANSLATORS: this is when color profile information is unavailable
+#: ../modules/printbackends/cups/bobguiprintbackendcups.c:3977
+msgid "Unavailable"
+msgstr "ដែល​មិន​អាច​រក​បាន"
+
+#. TRANSLATORS: when we're running an old CUPS, and
+#. * it hasn't registered the device with colord
+#: ../modules/printbackends/cups/bobguiprintercups.c:221
+msgid "Color management unavailable"
+msgstr "ការ​គ្រប់គ្រង​ពណ៌​ដែល​មិន​អាច​​រក​​បាន"
+
+#. TRANSLATORS: when there is no color profile available
+#: ../modules/printbackends/cups/bobguiprintercups.c:233
+msgid "No profile available"
+msgstr "គ្មាន​ទម្រង់"
+
+#. TRANSLATORS: when the color profile has no title
+#: ../modules/printbackends/cups/bobguiprintercups.c:244
+msgid "Unspecified profile"
+msgstr "មិន​បាន​បញ្ជាក់​ទម្រង់"
+
+#: ../modules/printbackends/file/bobguiprintbackendfile.c:249
+msgid "output"
+msgstr "លទ្ធផល"
+
+#: ../modules/printbackends/file/bobguiprintbackendfile.c:521
+msgid "Print to File"
+msgstr "បោះពុម្ព​ទៅ​ឯកសារ"
+
+#: ../modules/printbackends/file/bobguiprintbackendfile.c:647
+msgid "PDF"
+msgstr "PDF"
+
+#: ../modules/printbackends/file/bobguiprintbackendfile.c:647
+msgid "Postscript"
+msgstr "Postscript"
+
+#: ../modules/printbackends/file/bobguiprintbackendfile.c:647
+msgid "SVG"
+msgstr "SVG"
+
+#: ../modules/printbackends/file/bobguiprintbackendfile.c:660
+#: ../modules/printbackends/test/bobguiprintbackendtest.c:501
+msgid "Pages per _sheet:"
+msgstr "ទំព័រ​ក្នុង​មួយ​សន្លឹក ៖"
+
+#: ../modules/printbackends/file/bobguiprintbackendfile.c:719
+msgid "File"
+msgstr "ឯកសារ"
+
+#: ../modules/printbackends/file/bobguiprintbackendfile.c:729
+msgid "_Output format"
+msgstr "ទ្រង់ទ្រាយ​​លទ្ធផល"
+
+#: ../modules/printbackends/lpr/bobguiprintbackendlpr.c:393
+msgid "Print to LPR"
+msgstr "បោះពុម្ព​ទៅ LPR"
+
+#: ../modules/printbackends/lpr/bobguiprintbackendlpr.c:419
+msgid "Pages Per Sheet"
+msgstr "ទំព័រ​ក្នុង​មួយ​សន្លឹក"
+
+#: ../modules/printbackends/lpr/bobguiprintbackendlpr.c:426
+msgid "Command Line"
+msgstr "បន្ទាត់​ពាក្យ​បញ្ជា"
+
+#. SUN_BRANDING
+#: ../modules/printbackends/papi/bobguiprintbackendpapi.c:809
+msgid "printer offline"
+msgstr "ម៉ាស៊ីន​បោះពុម្ព​ក្រៅ​បណ្ដាញ"
+
+#. SUN_BRANDING
+#: ../modules/printbackends/papi/bobguiprintbackendpapi.c:827
+msgid "ready to print"
+msgstr "បោះពុម្ព​រួច​ហើយ"
+
+#. SUN_BRANDING
+#: ../modules/printbackends/papi/bobguiprintbackendpapi.c:830
+msgid "processing job"
+msgstr "ដំណើរការ​ការងារ"
+
+#. SUN_BRANDING
+#: ../modules/printbackends/papi/bobguiprintbackendpapi.c:834
+msgid "paused"
+msgstr "បាន​ផ្អាក់"
+
+#. SUN_BRANDING
+#: ../modules/printbackends/papi/bobguiprintbackendpapi.c:837
+msgid "unknown"
+msgstr "មិន​ស្គាល់"
+
+#. default filename used for print-to-test
+#: ../modules/printbackends/test/bobguiprintbackendtest.c:232
+#, c-format
+msgid "test-output.%s"
+msgstr "លទ្ធផល​សាកល្បង​%s"
+
+#: ../modules/printbackends/test/bobguiprintbackendtest.c:465
+msgid "Print to Test Printer"
+msgstr "បោះពុម្ព ដើម្បី​សាកល្បង​ម៉ាស៊ីន​បោះពុម្ព"
+
+#~ msgid "Connect as u_ser:"
+#~ msgstr "តភ្ជាប់​ជា​អ្នក​ប្រើ ៖"
+
+#~ msgid "Select a folder"
+#~ msgstr "ជ្រើស​ថត"
+
+#~ msgid "_Save in folder:"
+#~ msgstr "រក្សាទុក​​ក្នុង​ថត ៖"
+
+#~ msgid "Find applications online"
+#~ msgstr "រក​កម្មវិធី​លើ​បណ្ដាញ"
+
+#~ msgid "output.%s"
+#~ msgstr "លទ្ធផល %s"

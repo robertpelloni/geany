@@ -1,0 +1,16 @@
+#ifndef __BOBGUICONFIG_H__
+#define __BOBGUICONFIG_H__
+
+#if !defined (__BOBGUI_H_INSIDE__) && !defined (BOBGUI_COMPILATION)
+#error "Only <bobgui/bobgui.h> can be included directly."
+#endif
+
+#include <glib.h>
+
+G_BEGIN_DECLS
+
+#mesondefine BOBGUI_ACCESSIBILITY_ATSPI
+
+G_END_DECLS
+
+#endif  /* __BOBGUICONFIG_H__ */

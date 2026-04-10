@@ -1,0 +1,12 @@
+<!-- test invalid cell layout attribute value -->
+<interface>
+  <object class="BobguiIconView">
+    <child>
+      <object class="BobguiCellRendererText">
+      </object>
+      <attributes>
+        <attribute name="text">blue</attribute>
+      </attributes>
+    </child>
+  </object>
+</interface>

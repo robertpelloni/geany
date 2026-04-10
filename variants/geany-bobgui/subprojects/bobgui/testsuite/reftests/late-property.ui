@@ -1,0 +1,18 @@
+<interface>
+  <object class="BobguiWindow">
+    <child type="titlebar">
+      <object class="BobguiHeaderBar">
+        <child type="start">
+          <object class="BobguiButton">
+            <property name="label">Button</property>
+          </object>
+        </child>
+        <property name="title-widget">
+          <object class="BobguiLabel">
+            <property name="label">Title widget</property>
+          </object>
+        </property>
+      </object>
+    </child>
+  </object>
+</interface>

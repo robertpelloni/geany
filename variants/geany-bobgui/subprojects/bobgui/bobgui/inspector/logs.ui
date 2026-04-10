@@ -1,0 +1,241 @@
+<interface domain="bobgui40">
+  <template class="BobguiInspectorLogs" parent="BobguiWidget">
+    <child>
+      <object class="BobguiBox" id="box">
+        <property name="margin-start">20</property>
+        <property name="margin-end">20</property>
+        <property name="margin-top">20</property>
+        <property name="margin-bottom">20</property>
+        <property name="spacing">20</property>
+        <property name="halign">center</property>
+        <property name="hexpand">1</property>
+        <property name="valign">start</property>
+        <child>
+          <object class="BobguiBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiLabel">
+                <property name="label">GDK</property>
+                <property name="margin-bottom">10</property>
+                <property name="xalign">0</property>
+                <property name="attributes">0 -1 weight bold</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="events">
+                <property name="label">Events</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="misc">
+                <property name="label">Misc</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="dnd">
+                <property name="label">Drag-and-Drop</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="input">
+                <property name="label">Input</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="eventloop">
+                <property name="label">Event loop</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="frames">
+                <property name="label">Frames</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="settings">
+                <property name="label">Settings</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="opengl">
+                <property name="label">OpenGL</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="vulkan">
+                <property name="label">Vulkan</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="selection">
+                <property name="label">Selection</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="clipboard">
+                <property name="label">Clipboard</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="dmabuf">
+                <property name="label">Dmabuf</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="offload">
+                <property name="label">Offload</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiLabel">
+                <property name="label">GSK</property>
+                <property name="margin-bottom">10</property>
+                <property name="xalign">0</property>
+                <property name="attributes">0 -1 weight bold</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="renderer">
+                <property name="label">Renderer</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="cairo">
+                <property name="label">Cairo</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="shaders">
+                <property name="label">Shaders</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="cache">
+                <property name="label">Cache</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="fallback">
+                <property name="label">Fallback</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="verbose">
+                <property name="label">Verbose</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiBox">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="BobguiLabel">
+                <property name="label">BOBGUI</property>
+                <property name="margin-bottom">10</property>
+                <property name="xalign">0</property>
+                <property name="attributes">0 -1 weight bold</property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="actions">
+                <property name="label">Actions</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="builder">
+                <property name="label">Builder</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="sizes">
+                <property name="label">Size allocation</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="icons">
+                <property name="label">Icons</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="keybindings">
+                <property name="label">Keybindings</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="modules">
+                <property name="label">Modules</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="printing">
+                <property name="label">Printing</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="tree">
+                <property name="label">Treeview</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="text">
+                <property name="label">Textview</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="constraints">
+                <property name="label">Constraints</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="layout">
+                <property name="label">Layout</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiCheckButton" id="a11y">
+                <property name="label">Accessibility</property>
+                <signal name="toggled" handler="flag_toggled"/>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -1,0 +1,7 @@
+<interface>
+  <object class="BobguiBox">
+    <accessibility>
+      <property name="text">Download</property>
+    </accessibility>
+  </object>
+</interface>

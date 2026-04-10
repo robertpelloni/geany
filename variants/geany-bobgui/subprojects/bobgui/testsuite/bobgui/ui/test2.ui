@@ -1,0 +1,5 @@
+<interface>
+  <object get-type="bobgui_window_get_type">
+    <object class="BobguiBox"/>
+  </object>
+</interface>

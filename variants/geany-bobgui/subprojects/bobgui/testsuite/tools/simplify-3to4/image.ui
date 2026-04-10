@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiWindow">
+    <child>
+      <object class="BobguiImage">
+        <property name="pixbuf">test.svg</property>
+      </object>
+    </child>
+  </object>
+</interface>

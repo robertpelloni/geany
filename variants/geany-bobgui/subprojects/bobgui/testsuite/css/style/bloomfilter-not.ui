@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="BobguiApplicationWindow" id="window1">
+    <child type="titlebar">
+      <object class="BobguiHeaderBar">
+        <property name="show-title-buttons">0</property>
+        <child type="title">
+          <object class="BobguiStackSwitcher" id="stack_switcher">
+            <property name="stack">toplevel_stack</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="BobguiStack" id="toplevel_stack">
+        <property name="transition-duration">1000</property>
+        <child>
+          <object class="BobguiStackPage">
+            <property name="title" translatable="yes">Page 1</property>
+            <property name="child">
+              <object class="BobguiBox" />
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiStackPage">
+            <property name="title" translatable="yes">Page 2</property>
+            <property name="child">
+              <object class="BobguiBox" />
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiStackPage">
+            <property name="title" translatable="yes">Page 3</property>
+            <property name="child">
+              <object class="BobguiBox" />
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

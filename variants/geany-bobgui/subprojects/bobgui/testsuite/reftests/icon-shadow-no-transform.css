@@ -1,0 +1,11 @@
+@import "reset-to-defaults.css";
+
+* {
+  -bobgui-icon-source: url("green-20x20.png");
+  -bobgui-icon-transform: scale(0.5);
+  -bobgui-icon-shadow: red 1px 1px;
+}
+
+#transformed {
+  -bobgui-icon-transform: scale(0.5) rotate(90deg);
+}

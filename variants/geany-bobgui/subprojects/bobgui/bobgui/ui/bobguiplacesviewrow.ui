@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="bobgui40">
+  <template class="BobguiPlacesViewRow" parent="BobguiListBoxRow">
+    <property name="width-request">100</property>
+    <property name="child">
+      <object class="BobguiBox" id="box">
+        <property name="margin-start">12</property>
+        <property name="margin-end">12</property>
+        <property name="margin-top">6</property>
+        <property name="margin-bottom">6</property>
+        <property name="spacing">18</property>
+        <child>
+          <object class="BobguiImage" id="icon_image">
+            <property name="pixel-size">32</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="name_label">
+            <property name="hexpand">1</property>
+            <property name="xalign">0</property>
+            <property name="ellipsize">3</property>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="available_space_label">
+            <property name="xalign">1</property>
+            <style>
+              <class name="dim-label"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiLabel" id="path_label">
+            <property name="justify">1</property>
+            <property name="ellipsize">2</property>
+            <property name="xalign">0</property>
+            <property name="max-width-chars">15</property>
+            <style>
+              <class name="dim-label"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="BobguiStack" id="mount_stack">
+            <child>
+              <object class="BobguiStackPage">
+                <property name="name">button</property>
+                <property name="child">
+                  <object class="BobguiButton" id="eject_button">
+                    <property name="visible">0</property>
+                    <property name="halign">3</property>
+                    <property name="valign">3</property>
+                    <property name="tooltip-text" translatable="yes">Unmount</property>
+                    <property name="child">
+                      <object class="BobguiImage" id="eject_icon">
+                        <property name="icon-name">media-eject-symbolic</property>
+                      </object>
+                    </property>
+                    <style>
+                      <class name="image-button"/>
+                      <class name="sidebar-button"/>
+                    </style>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="BobguiStackPage">
+                <property name="name">spinner</property>
+                <property name="child">
+                  <object class="BobguiSpinner" id="busy_spinner">
+                    <property name="halign">3</property>
+                    <property name="valign">3</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </property>
+  </template>
+</interface>
