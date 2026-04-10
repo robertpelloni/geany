@@ -191,6 +191,7 @@ static struct
 	GtkWidget	*fif_page;
 	GtkWidget	*fip_page;
 	GtkWidget	*transform_page;
+	GtkWidget	*sort_page;
 	GtkWidget	*mark_page;
 	GtkWidget	*lower_notebook;
 	GtkWidget	*activity_view;
@@ -390,6 +391,7 @@ static GtkWidget *search_studio_create_replace_page(void);
 static GtkWidget *search_studio_create_fif_page(void);
 static GtkWidget *search_studio_create_fip_page(void);
 static GtkWidget *search_studio_create_transform_page(void);
+static GtkWidget *search_studio_create_sort_page(void);
 static GtkWidget *search_studio_create_mark_page(void);
 static void search_studio_show_page(gint page_num);
 static void search_studio_sync_find_dialog_from_page(GtkWidget *page);
@@ -464,6 +466,7 @@ static void search_studio_focus_results_activate(GtkButton *button, gpointer use
 static void search_studio_next_result_activate(GtkButton *button, gpointer user_data);
 static void search_studio_prev_result_activate(GtkButton *button, gpointer user_data);
 static void search_studio_transform_activate(GtkButton *button, gpointer user_data);
+static void search_studio_sort_activate(GtkButton *button, gpointer user_data);
 static void search_studio_activity_append(const gchar *format, ...) G_GNUC_PRINTF(1, 2);
 static void search_studio_set_preview(const gchar *title, const gchar *body);
 static void search_studio_result_append_spec(const SearchStudioResultSpec *spec);
@@ -1233,7 +1236,142 @@ static void search_studio_show_lower_page(gint page)
 }
 
 
-static void search_studio_activity_append(const gchar *format, ...)
+static gint sort_lexico_asc(gconstpointer a, gconstpointer b) { return strcmp(*(gchar **)a, *(gchar **)b); }
+static gint sort_lexico_desc(gconstpointer a, gconstpointer b) { return strcmp(*(gchar **)b, *(gchar **)a); }
+static gint sort_lexico_case_asc(gconstpointer a, gconstpointer b) { return g_ascii_strcasecmp(*(gchar **)a, *(gchar **)b); }
+static gint sort_lexico_case_desc(gconstpointer a, gconstpointer b) { return g_ascii_strcasecmp(*(gchar **)b, *(gchar **)a); }
+
+static gint sort_length_asc(gconstpointer a, gconstpointer b)
+{
+	gint la = strlen(*(gchar **)a);
+	gint lb = strlen(*(gchar **)b);
+	if (la == lb) return strcmp(*(gchar **)a, *(gchar **)b);
+	return la - lb;
+}
+
+static gint sort_length_desc(gconstpointer a, gconstpointer b)
+{
+	gint la = strlen(*(gchar **)a);
+	gint lb = strlen(*(gchar **)b);
+	if (la == lb) return strcmp(*(gchar **)b, *(gchar **)a);
+	return lb - la;
+}
+
+static gint sort_integer_asc(gconstpointer a, gconstpointer b)
+{
+	gint64 va = g_ascii_strtoll(*(gchar **)a, NULL, 10);
+	gint64 vb = g_ascii_strtoll(*(gchar **)b, NULL, 10);
+	return (va < vb) ? -1 : (va > vb);
+}
+
+static gint sort_random(gconstpointer a, gconstpointer b)
+{
+	(void)a; (void)b;
+	return g_random_int_range(-1, 2);
+}
+
+static void search_studio_sort_activate(GtkButton *button, gpointer user_data)
+{
+	GeanyDocument *doc = document_get_current();
+	const gchar *action_id = user_data;
+	ScintillaObject *sci;
+	gint start, end;
+	gchar *text;
+	gchar **lines;
+	GCompareFunc func = sort_lexico_asc;
+
+	if (!DOC_VALID(doc) || action_id == NULL)
+		return;
+
+	sci = doc->editor->sci;
+	if (sci_has_selection(sci))
+	{
+		start = sci_get_selection_start(sci);
+		end = sci_get_selection_end(sci);
+	}
+	else
+	{
+		start = 0;
+		end = sci_get_length(sci);
+	}
+
+	text = sci_get_contents_range(sci, start, end);
+	lines = g_strsplit_set(text, "\r\n", -1);
+	
+	/* Filter out empty trailing string from split if EOL was at the end */
+	guint n_lines = g_strv_length(lines);
+	GPtrArray *arr = g_ptr_array_new();
+	for (guint i = 0; i < n_lines; i++)
+		if (lines[i] && *lines[i]) g_ptr_array_add(arr, g_strdup(lines[i]));
+
+	if (g_strcmp0(action_id, "sort-lex-asc") == 0) func = sort_lexico_asc;
+	else if (g_strcmp0(action_id, "sort-lex-desc") == 0) func = sort_lexico_desc;
+	else if (g_strcmp0(action_id, "sort-lex-case-asc") == 0) func = sort_lexico_case_asc;
+	else if (g_strcmp0(action_id, "sort-lex-case-desc") == 0) func = sort_lexico_case_desc;
+	else if (g_strcmp0(action_id, "sort-len-asc") == 0) func = sort_length_asc;
+	else if (g_strcmp0(action_id, "sort-len-desc") == 0) func = sort_length_desc;
+	else if (g_strcmp0(action_id, "sort-int-asc") == 0) func = sort_integer_asc;
+	else if (g_strcmp0(action_id, "sort-random") == 0) func = sort_random;
+
+	g_ptr_array_sort(arr, func);
+
+	GString *res = g_string_new("");
+	const gchar *eol = editor_get_eol_char(doc->editor);
+	for (guint i = 0; i < arr->len; i++)
+	{
+		g_string_append(res, (gchar *)g_ptr_array_index(arr, i));
+		g_string_append(res, eol);
+	}
+
+	sci_start_undo_action(sci);
+	sci_set_target_start(sci, start);
+	sci_set_target_end(sci, end);
+	sci_replace_target(sci, res->str, FALSE);
+	sci_end_undo_action(sci);
+
+	search_studio_activity_append("[Sort] Applied %s to %s.", action_id, sci_has_selection(sci) ? "selection" : "entire document");
+	search_studio_append_document_result("Sort", doc, action_id, "N/A", "Sorted lines in document.");
+
+	g_string_free(res, TRUE);
+	g_ptr_array_free(arr, TRUE);
+	g_strfreev(lines);
+	g_free(text);
+}
+
+
+static GtkWidget *search_studio_create_sort_page(void)
+{
+	GtkWidget *page = gtk_box_new(GTK_ORIENTATION_VERTICAL, 8);
+	GtkWidget *grid = gtk_grid_new();
+	GtkWidget *button;
+	GtkWidget *label = ui_label_new_bold(_("Advanced Line Sorting"));
+	GtkWidget *hint = gtk_label_new(_("Native internal sorting mirroring Notepad++ capabilities. Operates on selection or entire document."));
+
+	gtk_grid_set_column_spacing(GTK_GRID(grid), 12);
+	gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+	gtk_container_set_border_width(GTK_CONTAINER(page), 12);
+
+	gtk_box_pack_start(GTK_BOX(page), label, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(page), hint, FALSE, FALSE, 0);
+
+	auto add_sort_btn = [&](const gchar *text, const gchar *id, gint left, gint top) {
+		GtkWidget *btn = gtk_button_new_with_mnemonic(text);
+		g_signal_connect(btn, "clicked", G_CALLBACK(search_studio_sort_activate), (gpointer)id);
+		gtk_grid_attach(GTK_GRID(grid), btn, left, top, 1, 1);
+	};
+
+	add_sort_btn(_("Lexicographical _Ascending"), "sort-lex-asc", 0, 0);
+	add_sort_btn(_("Lexicographical _Descending"), "sort-lex-desc", 1, 0);
+	add_sort_btn(_("Lex. Case _Insensitive Asc."), "sort-lex-case-asc", 0, 1);
+	add_sort_btn(_("Lex. Case I_nsensitive Desc."), "sort-lex-case-desc", 1, 1);
+	add_sort_btn(_("Sort by _Integer Ascending"), "sort-int-asc", 0, 2);
+	add_sort_btn(_("Sort by _Length Ascending"), "sort-len-asc", 1, 2);
+	add_sort_btn(_("Sort by L_ength Descending"), "sort-len-desc", 0, 3);
+	add_sort_btn(_("Sort _Randomly"), "sort-random", 1, 3);
+
+	gtk_box_pack_start(GTK_BOX(page), grid, FALSE, FALSE, 0);
+	return page;
+}
 {
 	GtkTextBuffer *buffer;
 	GtkTextIter end;
