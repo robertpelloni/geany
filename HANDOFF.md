@@ -3,8 +3,8 @@
 This document is used to pass state, analysis, and instructions between different AI models (e.g., Claude, Gemini, GPT) across sessions.
 
 ## Current State
-- The comprehensive documentation suite has just been initialized.
-- We are preparing to add submodules (`bobui`, `btk`, `bobgui`) and bootstrap the Go port (`geany-go`).
+- Build files configured to read from dynamic VERSION.md.
+- Started porting `src/utils.c` to idiomatic Go in `geany-go/utils`.
 - A Notepad++ parity analysis is pending.
 
 ## Instructions for Next Agent

@@ -1,7 +1,8 @@
 dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.60])
-AC_INIT([Geany], [2.2.0],
+m4_define([geany_version], m4_esyscmd_s([cat VERSION.md]))
+AC_INIT([Geany], [geany_version],
 		[https://github.com/geany/geany/issues])
 AC_CONFIG_SRCDIR([src/geany.h])
 AC_CONFIG_AUX_DIR([build-aux])
