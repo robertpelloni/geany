@@ -149,3 +149,6 @@ Makefile.in
 #-----------------------------------------------------------------------
 /tests/**/*.trs
 /tests/**/*.log
+
+# geany-go binaries
+geany-go/geany-go

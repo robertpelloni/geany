@@ -1,0 +1,23 @@
+# TODO
+
+This file contains individual features, bug fixes, and other fine details that need to be solved/implemented in the short term.
+
+## High Priority
+- [x] Create `SUBMODULES.md` detailing the usage and architecture of `bobui`, `btk`, and `bobgui`.
+- [x] Run `git submodule add` for the three UI submodules.
+- [x] `mkdir geany-go` and run `go mod init github.com/geany/geany-go` (or similar).
+- [x] Create `IDEAS.md` containing brainstorming and improvements across the codebase.
+- [x] Document the results of the Notepad++ parity analysis here or in a separate file.
+
+## Ongoing
+- [ ] Refactor C files to C++.
+- [ ] Port C/C++ functionality to Go.
+- [ ] Update version strings across the codebase to read from `VERSION.md`.
+
+## Notepad++ Parity Features (Identified in Analysis)
+- [ ] Implement native Macro Recording & Playback.
+- [ ] Implement Multi-line Tabs.
+- [ ] Implement Synchronized Scrolling in Split View.
+- [ ] Enhance "Mark All" search functionality to match N++ Bookmark/Mark tab.
+- [ ] Native Document Map (Minimap) integration.
+- [ ] Modernize Style/Theme Configurator (via UI submodules).
