@@ -73,6 +73,7 @@ libgeany_la_SOURCES = \
 	callbacks.c callbacks.h \
 	dialogs.c dialogs.h \
 	document.c document.h \
+	DocumentManager.cpp DocumentManager.h \
 	editor.c editor.h \
 	encodings.c encodings.h \
 	filetypes.c filetypes.h \

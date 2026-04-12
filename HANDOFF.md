@@ -8,6 +8,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Started porting `GeanyDocument` to idiomatic Go in `geany-go/editor`.
 - Began C++ Refactor by introducing `ScintillaWrapper` and `PluginManager` classes.
 - Created robust Go `ui` interfaces defining Application, Window, and EditorWidget behavior to prepare for submodule integration.
+- Ported text search logic to `geany-go/search` and refactored C++ `DocumentManager`.
 - A Notepad++ parity analysis is pending.
 
 ## Instructions for Next Agent
