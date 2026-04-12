@@ -27,3 +27,7 @@ This file contains individual features, bug fixes, and other fine details that n
     - Encapsulate Scintilla message sending (`ScintillaObject`, `SendMessage`).
     - Provide strong typing for Scintilla commands rather than using bare integers and `void*` pointers.
     - Ensure memory safety and RAII patterns are applied to Scintilla resources.
+
+## C++ Refactoring Plan (Next Steps)
+- [ ] **Document Core**: Refactor `src/document.c` into a clean C++ `DocumentManager` and `Document` class mirroring the `geany-go/editor` interface.
+- [ ] **Plugin Abstraction**: Wire up the `PluginManager` class into `main.c` so the C codebase utilizes the C++ container instead of `GSList`.

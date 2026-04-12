@@ -5,11 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.0.0-alpha.1] - 2026-04-10
 ### Changed
+- Designed `geany-go/ui` interface package bridging the Go backend with agnostic UI frontend submodules.
+- Created C++ `PluginManager` class replacing bare C constructs (`GSList`) with robust STL containers (`std::map`, `std::unique_ptr`).
 - Introduced modern, type-safe C++ `ScintillaWrapper` class to replace bare C Scintilla messages.
 - Updated build configurations to include `ScintillaWrapper.cpp`.
 - Added Scintilla C++ refactoring plan to `TODO.md`.
 - Bootstrapped `geany-go/editor` package with core `Document` struct ported from C.
 ### Changed
+- Designed `geany-go/ui` interface package bridging the Go backend with agnostic UI frontend submodules.
+- Created C++ `PluginManager` class replacing bare C constructs (`GSList`) with robust STL containers (`std::map`, `std::unique_ptr`).
 - Introduced modern, type-safe C++ `ScintillaWrapper` class to replace bare C Scintilla messages.
 - Updated build configurations to include `ScintillaWrapper.cpp`.
 - Updated `meson.build` and `configure.ac` to dynamically read version from `VERSION.md`.

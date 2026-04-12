@@ -92,6 +92,7 @@ libgeany_la_SOURCES = \
 	notebook.c notebook.h \
 	pluginextension.c pluginextension.h \
 	plugins.c plugins.h \
+	PluginManager.cpp PluginManager.h \
 	pluginutils.c pluginutils.h \
 	prefs.c prefs.h \
 	printing.c printing.h \
