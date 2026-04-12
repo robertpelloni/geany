@@ -7,8 +7,8 @@
 [submodule "subprojects/bobui"]
 	path = subprojects/bobui
 	url = https://github.com/robertpelloni/bobui
-[submodule "subprojects/bobui"]
-	path = subprojects/bobui
+[submodule "submodules/bobui"]
+	path = submodules/bobui
 	url = https://github.com/robertpelloni/bobui
 [submodule "submodules/btk"]
 	path = submodules/btk

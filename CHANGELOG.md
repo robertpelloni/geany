@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.0.0-alpha.1] - 2026-04-10
 ### Changed
+- Designed `geany-go/build` execution engine, porting synchronous command execution logic with modern Go context timeouts.
+- Created C++ `ProjectManager` class to encapsulate project state and paths safely via `std::unique_ptr`.
 - Implemented robust Go `search` package replicating basic find and regex search capabilities.
 - Created modern C++ `DocumentManager` class utilizing `std::vector` and `std::unique_ptr` to replace global C document array.
 - Designed `geany-go/ui` interface package bridging the Go backend with agnostic UI frontend submodules.

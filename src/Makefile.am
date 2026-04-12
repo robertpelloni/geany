@@ -98,6 +98,7 @@ libgeany_la_SOURCES = \
 	prefs.c prefs.h \
 	printing.c printing.h \
 	project.c project.h \
+	ProjectManager.cpp ProjectManager.h \
 	sciwrappers.c sciwrappers.h \
 	ScintillaWrapper.cpp ScintillaWrapper.h \
 	search.c search.h \

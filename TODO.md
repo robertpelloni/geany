@@ -31,3 +31,7 @@ This file contains individual features, bug fixes, and other fine details that n
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Document Core**: Refactor `src/document.c` into a clean C++ `DocumentManager` and `Document` class mirroring the `geany-go/editor` interface.
 - [ ] **Plugin Abstraction**: Wire up the `PluginManager` class into `main.c` so the C codebase utilizes the C++ container instead of `GSList`.
+
+## C++ Refactoring Plan (Next Steps)
+- [ ] **Tools Abstraction**: Refactor `src/tools.c` into a C++ `ToolsManager`.
+- [ ] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.
