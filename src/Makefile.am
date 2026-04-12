@@ -97,6 +97,7 @@ libgeany_la_SOURCES = \
 	printing.c printing.h \
 	project.c project.h \
 	sciwrappers.c sciwrappers.h \
+	ScintillaWrapper.cpp ScintillaWrapper.h \
 	search.c search.h \
 	socket.c socket.h \
 	spawn.c spawn.h \

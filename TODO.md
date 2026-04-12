@@ -23,7 +23,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Modernize Style/Theme Configurator (via UI submodules).
 
 ## C++ Refactoring Plan
-- [ ] **Scintilla C++ Wrapper**: Refactor `src/scintilla.c` and related Scintilla wrapper functions into a modern, robust C++ `ScintillaWrapper` class.
+- [x] **Scintilla C++ Wrapper**: Refactor `src/scintilla.c` and related Scintilla wrapper functions into a modern, robust C++ `ScintillaWrapper` class.
     - Encapsulate Scintilla message sending (`ScintillaObject`, `SendMessage`).
     - Provide strong typing for Scintilla commands rather than using bare integers and `void*` pointers.
     - Ensure memory safety and RAII patterns are applied to Scintilla resources.

@@ -6,6 +6,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Build files configured to read from dynamic VERSION.md.
 - Started porting `src/utils.c` to idiomatic Go in `geany-go/utils`.
 - Started porting `GeanyDocument` to idiomatic Go in `geany-go/editor`.
+- Began C++ Refactor by introducing `ScintillaWrapper` class.
 - A Notepad++ parity analysis is pending.
 
 ## Instructions for Next Agent
