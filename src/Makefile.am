@@ -84,6 +84,7 @@ libgeany_la_SOURCES = \
 	geanywraplabel.c geanywraplabel.h \
 	gtkcompat.h \
 	highlighting.c highlighting.h \
+	SyntaxHighlighter.cpp SyntaxHighlighter.h \
 	highlightingmappings.h \
 	keybindings.c keybindings.h \
 	KeybindingManager.cpp KeybindingManager.h \

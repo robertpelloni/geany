@@ -12,6 +12,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Bootstrapped `geany-go/build` execution engine and refactored C++ `ProjectManager`.
 - Bootstrapped `geany-go/config` INI parser and refactored C++ `KeybindingManager`.
 - Bootstrapped `geany-go/filetypes` detection logic and refactored C++ `FileTypeManager`.
+- Bootstrapped `geany-go/templates` engine and refactored C++ `SyntaxHighlighter`.
 - A Notepad++ parity analysis is pending.
 
 ## Instructions for Next Agent

@@ -41,4 +41,8 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] **Configuration Serialization**: Refactor `src/keyfile.c` to use a generic C++ config parser, complementing the Go `config` package.
 
 ## C++ Refactoring Plan (Next Steps)
-- [ ] **Highlighting Engine**: Refactor `src/highlighting.c` into a C++ `SyntaxHighlighter` class that consumes `FileType` definitions from the new `FileTypeManager` and maps them to Scintilla style bytes via `ScintillaWrapper`.
+- [x] **Highlighting Engine**: Refactor `src/highlighting.c` into a C++ `SyntaxHighlighter` class that consumes `FileType` definitions from the new `FileTypeManager` and maps them to Scintilla style bytes via `ScintillaWrapper`.
+
+## C++ Refactoring Plan (Next Steps)
+- [ ] **Tools Abstraction**: Refactor `src/tools.c` into a C++ `ToolsManager`.
+- [ ] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.

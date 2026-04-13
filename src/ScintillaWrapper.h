@@ -29,11 +29,11 @@ public:
     void SetReadOnly(bool readOnly);
     bool GetReadOnly() const;
 
+    // Make SendEditor public for SyntaxHighlighter to use
+    intptr_t SendEditor(unsigned int message, uintptr_t wParam = 0, intptr_t lParam = 0) const;
+
 private:
     ScintillaObject* m_sci;
-
-    // Updated to use intptr_t for lParam to match Geany's sptr_t signature on 64-bit systems
-    intptr_t SendEditor(unsigned int message, uintptr_t wParam = 0, intptr_t lParam = 0) const;
 };
 
 } // namespace geany
