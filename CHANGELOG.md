@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.0.0-alpha.1] - 2026-04-10
 ### Changed
+- Created robust Go `config` package for parsing and generating INI/Keyfile format configuration files.
+- Created C++ `KeybindingManager` class to encapsulate keyboard shortcut routing via `std::map` and `std::function`.
 - Designed `geany-go/build` execution engine, porting synchronous command execution logic with modern Go context timeouts.
 - Created C++ `ProjectManager` class to encapsulate project state and paths safely via `std::unique_ptr`.
 - Implemented robust Go `search` package replicating basic find and regex search capabilities.

@@ -10,6 +10,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Created robust Go `ui` interfaces defining Application, Window, and EditorWidget behavior to prepare for submodule integration.
 - Ported text search logic to `geany-go/search` and refactored C++ `DocumentManager`.
 - Bootstrapped `geany-go/build` execution engine and refactored C++ `ProjectManager`.
+- Bootstrapped `geany-go/config` INI parser and refactored C++ `KeybindingManager`.
 - A Notepad++ parity analysis is pending.
 
 ## Instructions for Next Agent

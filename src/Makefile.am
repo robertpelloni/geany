@@ -85,6 +85,7 @@ libgeany_la_SOURCES = \
 	highlighting.c highlighting.h \
 	highlightingmappings.h \
 	keybindings.c keybindings.h \
+	KeybindingManager.cpp KeybindingManager.h \
 	keyfile.c keyfile.h \
 	log.c log.h \
 	libmain.c main.h geany.h \
