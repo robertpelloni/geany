@@ -113,7 +113,9 @@ libgeany_la_SOURCES = \
 	templates.c templates.h \
 	toolbar.c toolbar.h \
 	tools.c tools.h \
+	ToolsManager.cpp ToolsManager.h \
 	sidebar.c sidebar.h \
+	ProjectTreeView.cpp ProjectTreeView.h \
 	ui_utils.c ui_utils.h \
 	utils.c utils.h
 

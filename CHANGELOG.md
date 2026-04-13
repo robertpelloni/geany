@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.0.0-alpha.1] - 2026-04-10
 ### Changed
+- Implemented robust Go `symbols` package replicating ctags workspace navigation and querying.
+- Created modern C++ `ProjectTreeView` data model abstracting legacy GTK sidebar nodes.
 - Implemented Go `templates` package mapping legacy {tags} natively.
 - Created modern C++ `SyntaxHighlighter` class that orchestrates syntax configurations dynamically between FileTypeManager and ScintillaWrapper.
 - Implemented robust Go `filetypes` package for parsing syntax highlighting definitions based on file extensions.
