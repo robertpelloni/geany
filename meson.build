@@ -957,6 +957,7 @@ dep_libgeany = declare_dependency(
 executable('geany',
 	win_resc,
 	'src/main.c',
+	'src/Application.cpp',
 	link_with: libgeany,
 	c_args: geany_cflags + [ '-DG_LOG_DOMAIN="Geany"' ],
 	dependencies: deps,

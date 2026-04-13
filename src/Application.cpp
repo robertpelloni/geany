@@ -1,0 +1,104 @@
+/**
+ * Application.cpp
+ *
+ * Implementation of the C++ Application root class.
+ */
+
+#include "Application.h"
+#include "DocumentManager.h"
+#include "ProjectManager.h"
+#include "PluginManager.h"
+#include "KeybindingManager.h"
+#include "FileTypeManager.h"
+#include "ToolsManager.h"
+#include <iostream>
+
+namespace geany {
+
+Application::Application() : m_initialized(false) {
+    // Instantiate all core managers.
+    // The order here defines the fundamental dependency graph of the IDE.
+
+    m_docManager = std::make_unique<DocumentManager>();
+    m_projManager = std::make_unique<ProjectManager>();
+    m_pluginManager = std::make_unique<PluginManager>();
+    m_keyManager = std::make_unique<KeybindingManager>();
+    m_fileTypeManager = std::make_unique<FileTypeManager>();
+
+    // ToolsManager requires a pointer to the DocumentManager
+    m_toolsManager = std::make_unique<ToolsManager>(m_docManager.get());
+}
+
+Application::~Application() {
+    if (m_initialized) {
+        Quit();
+    }
+}
+
+void Application::ParseArgs(int argc, char** argv) {
+    for (int i = 0; i < argc; ++i) {
+        if (argv[i]) {
+            m_args.push_back(std::string(argv[i]));
+        }
+    }
+}
+
+bool Application::Initialize(int argc, char** argv) {
+    if (m_initialized) {
+        std::cerr << "[Application] Error: Already initialized." << std::endl;
+        return false;
+    }
+
+    std::cout << "[Application] Initializing Geany Ultra-Project..." << std::endl;
+    ParseArgs(argc, argv);
+
+    // Simulate standard initialization sequences:
+    // 1. Load settings (using Go config engine eventually)
+    // 2. Load Filetypes
+    // 3. Register Keybindings
+    // 4. Scan for Plugins
+
+    m_pluginManager->ScanDirectory("/usr/lib/geany");
+
+    // If files were passed on CLI, open them
+    for (size_t i = 1; i < m_args.size(); ++i) {
+        // Skip basic flags
+        if (!m_args[i].empty() && m_args[i][0] != '-') {
+            m_docManager->OpenDocument(m_args[i]);
+        }
+    }
+
+    m_initialized = true;
+    return true;
+}
+
+int Application::Run() {
+    if (!m_initialized) {
+        std::cerr << "[Application] Cannot Run before Initialization." << std::endl;
+        return 1;
+    }
+
+    std::cout << "[Application] Entering main event loop..." << std::endl;
+    // Stub: This is where we hand off control to the UI framework (GTK, Qt, etc.)
+    // For this C++ refactor phase, we return immediately.
+
+    return 0;
+}
+
+void Application::Quit() {
+    if (!m_initialized) return;
+
+    std::cout << "[Application] Shutting down..." << std::endl;
+
+    // Shutdown sequence:
+    // 1. Save preferences
+    // 2. Unload plugins gracefully
+    m_pluginManager->UnloadAll();
+
+    // 3. Prompt user for unsaved documents, then close
+    // m_docManager->CloseAll();
+
+    m_initialized = false;
+}
+
+} // namespace geany

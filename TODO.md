@@ -48,4 +48,8 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.
 
 ## C++ Refactoring Plan (Next Steps)
-- [ ] **Main Application Loop**: Refactor `src/main.c` and `src/libmain.c` into a C++ `Application` class, initiating the startup sequence through the new object-oriented managers.
+- [x] **Main Application Loop**: Refactor `src/main.c` and `src/libmain.c` into a C++ `Application` class, initiating the startup sequence through the new object-oriented managers.
+
+## Main Execution Wiring
+- [ ] **Wire C++ Application**: In `src/main.c`, instantiate the global `geany::Application` object, pass CLI arguments into `Initialize()`, and delegate to `Run()`.
+- [ ] **Go FFI Bridge**: Establish a CGO interface bridging the C++ `Application` with the `geany-go/ui` components to bootstrap the Native UI submodules.
