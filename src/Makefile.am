@@ -92,6 +92,7 @@ libgeany_la_SOURCES = \
 	log.c log.h \
 	libmain.c main.h geany.h \
 	msgwindow.c msgwindow.h \
+	MsgWindow.cpp MsgWindow.h \
 	navqueue.c navqueue.h \
 	notebook.c notebook.h \
 	pluginextension.c pluginextension.h \

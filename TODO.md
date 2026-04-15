@@ -53,3 +53,7 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Main Execution Wiring
 - [ ] **Wire C++ Application**: In `src/main.c`, instantiate the global `geany::Application` object, pass CLI arguments into `Initialize()`, and delegate to `Run()`.
 - [ ] **Go FFI Bridge**: Establish a CGO interface bridging the C++ `Application` with the `geany-go/ui` components to bootstrap the Native UI submodules.
+
+## FFI Integration and Initialization
+- [ ] **Wire MsgWindow to App**: Add the new `MsgWindow` instance to `src/Application.h` and ensure its lifecycle is managed alongside the other core managers.
+- [ ] **Route Go FFI Logs**: Pipe output/errors from the `geany-go/build` and `geany-go/plugins` execution engines directly into the new C++ `MsgWindow` via the CGO bridge.
