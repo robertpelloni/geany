@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.0.0-alpha.1] - 2026-04-10
 ### Changed
+- Designed robust `geany-go/engine` package defining the core backend abstractions needed by Native UI text editor widgets.
+- Created modern C++ `SearchManager` coordinating search results across `DocumentManager` and logging to `MsgWindow`.
 - Implemented thread-safe Go `nav` package replicating IDE cursor navigation history (back/forward).
 - Created modern C++ `MsgWindow` class to orchestrate structured logging output (`Compiler`, `Search`, `Message`) via `std::vector`.
 - Implemented native Go `macros` recording and playback engine to achieve Notepad++ feature parity.

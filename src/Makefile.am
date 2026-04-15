@@ -106,6 +106,7 @@ libgeany_la_SOURCES = \
 	sciwrappers.c sciwrappers.h \
 	ScintillaWrapper.cpp ScintillaWrapper.h \
 	search.c search.h \
+	SearchManager.cpp SearchManager.h \
 	socket.c socket.h \
 	spawn.c spawn.h \
 	stash.c stash.h \

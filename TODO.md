@@ -34,7 +34,7 @@ This file contains individual features, bug fixes, and other fine details that n
 
 ## C++ Refactoring Plan (Next Steps)
 - [ ] **Tools Abstraction**: Refactor `src/tools.c` into a C++ `ToolsManager`.
-- [ ] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.
+- [x] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.
 
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Filetypes Abstraction**: Refactor `src/filetypes.c` into a modern C++ `FileTypeManager` containing a mapping of languages to syntax highlighting definitions.
@@ -45,7 +45,7 @@ This file contains individual features, bug fixes, and other fine details that n
 
 ## C++ Refactoring Plan (Next Steps)
 - [ ] **Tools Abstraction**: Refactor `src/tools.c` into a C++ `ToolsManager`.
-- [ ] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.
+- [x] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.
 
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Main Application Loop**: Refactor `src/main.c` and `src/libmain.c` into a C++ `Application` class, initiating the startup sequence through the new object-oriented managers.
@@ -57,3 +57,6 @@ This file contains individual features, bug fixes, and other fine details that n
 ## FFI Integration and Initialization
 - [ ] **Wire MsgWindow to App**: Add the new `MsgWindow` instance to `src/Application.h` and ensure its lifecycle is managed alongside the other core managers.
 - [ ] **Route Go FFI Logs**: Pipe output/errors from the `geany-go/build` and `geany-go/plugins` execution engines directly into the new C++ `MsgWindow` via the CGO bridge.
+
+## Main Execution Wiring (Next Steps)
+- [ ] **Wire Search Engine FFI**: Complete the implementation within `src/SearchManager.cpp` to call the `GeanyGo_Search_*` functions exposed by the Go `geany-go/search` package via CGO.

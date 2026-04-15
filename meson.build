@@ -1,7 +1,6 @@
-fs = import('fs')
 project('geany', 'c', 'cpp',
         meson_version: '>= 0.56',
-        version: fs.read('VERSION.md').strip(),
+        version: run_command('cat', 'VERSION.md', check: true).stdout().strip(),
         default_options : ['c_std=c11', 'cpp_std=c++17'])
 
 gnome = import('gnome')
@@ -917,6 +916,7 @@ libgeany = shared_library('geany',
 	'src/ScintillaWrapper.cpp',
 	'src/sciwrappers.h',
 	'src/search.c',
+	'src/SearchManager.cpp',
 	'src/search.h',
 	'src/socket.c',
 	'src/socket.h',
