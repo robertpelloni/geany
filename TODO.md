@@ -15,7 +15,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Update version strings across the codebase to read from `VERSION.md`.
 
 ## Notepad++ Parity Features (Identified in Analysis)
-- [ ] Implement native Macro Recording & Playback.
+- [x] Implement native Macro Recording & Playback.
 - [ ] Implement Multi-line Tabs.
 - [ ] Implement Synchronized Scrolling in Split View.
 - [ ] Enhance "Mark All" search functionality to match N++ Bookmark/Mark tab.
@@ -30,10 +30,10 @@ This file contains individual features, bug fixes, and other fine details that n
 
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Document Core**: Refactor `src/document.c` into a clean C++ `DocumentManager` and `Document` class mirroring the `geany-go/editor` interface.
-- [ ] **Plugin Abstraction**: Wire up the `PluginManager` class into `main.c` so the C codebase utilizes the C++ container instead of `GSList`.
+- [x] **Plugin Abstraction**: Wire up the `PluginManager` class into `main.c` so the C codebase utilizes the C++ container instead of `GSList`.
 
 ## C++ Refactoring Plan (Next Steps)
-- [ ] **Tools Abstraction**: Refactor `src/tools.c` into a C++ `ToolsManager`.
+- [x] **Tools Abstraction**: Refactor `src/tools.c` into a C++ `ToolsManager`.
 - [x] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.
 
 ## C++ Refactoring Plan (Next Steps)
@@ -43,20 +43,10 @@ This file contains individual features, bug fixes, and other fine details that n
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Highlighting Engine**: Refactor `src/highlighting.c` into a C++ `SyntaxHighlighter` class that consumes `FileType` definitions from the new `FileTypeManager` and maps them to Scintilla style bytes via `ScintillaWrapper`.
 
-## C++ Refactoring Plan (Next Steps)
-- [ ] **Tools Abstraction**: Refactor `src/tools.c` into a C++ `ToolsManager`.
-- [x] **Search Engine C++**: Wire the C++ `DocumentManager` and `ScintillaWrapper` up to a modernized C++ search handler before fully replacing it with the Go port.
-
-## C++ Refactoring Plan (Next Steps)
-- [x] **Main Application Loop**: Refactor `src/main.c` and `src/libmain.c` into a C++ `Application` class, initiating the startup sequence through the new object-oriented managers.
-
 ## Main Execution Wiring
 - [ ] **Wire C++ Application**: In `src/main.c`, instantiate the global `geany::Application` object, pass CLI arguments into `Initialize()`, and delegate to `Run()`.
-- [ ] **Go FFI Bridge**: Establish a CGO interface bridging the C++ `Application` with the `geany-go/ui` components to bootstrap the Native UI submodules.
+- [x] **Go FFI Bridge**: Established a CGO interface bridging the C++ `Application` with the Go backend (`geany-go`).
 
-## FFI Integration and Initialization
-- [ ] **Wire MsgWindow to App**: Add the new `MsgWindow` instance to `src/Application.h` and ensure its lifecycle is managed alongside the other core managers.
-- [ ] **Route Go FFI Logs**: Pipe output/errors from the `geany-go/build` and `geany-go/plugins` execution engines directly into the new C++ `MsgWindow` via the CGO bridge.
-
-## Main Execution Wiring (Next Steps)
-- [ ] **Wire Search Engine FFI**: Complete the implementation within `src/SearchManager.cpp` to call the `GeanyGo_Search_*` functions exposed by the Go `geany-go/search` package via CGO.
+## Native UI Submodule Bootstrapping
+- [ ] **Bobui Integration (Qt6)**: In `submodules/bobui`, establish a basic `Application` frontend that satisfies the `geany-go/ui` interface schema.
+- [ ] **Bobgui Integration (GTK)**: Begin refactoring the old Geany GTK calls to funnel through the new C++ managers and `bobgui`.
