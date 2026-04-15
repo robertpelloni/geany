@@ -1,6 +1,6 @@
 project('geany', 'c', 'cpp',
         meson_version: '>= 0.56',
-        version: run_command('cat', 'VERSION.md', check: true).stdout().strip(),
+        version: run_command(find_program('python3', 'python'), '-c', 'print(open("VERSION.md").read().strip())', check: true).stdout().strip(),
         default_options : ['c_std=c11', 'cpp_std=c++17'])
 
 gnome = import('gnome')
@@ -908,6 +908,7 @@ libgeany = shared_library('geany',
 	'src/prefs.c',
 	'src/prefs.h',
 	'src/printing.c',
+	'src/PrintManager.cpp',
 	'src/printing.h',
 	'src/project.c',
 	'src/ProjectManager.cpp',
@@ -1016,3 +1017,6 @@ if host_machine.system() == 'windows'
 	endforeach
 	install_data(misc, install_dir: prefix, rename: misc_rename)
 endif
+
+# Include Go build target if geany-go submodule/folder exists
+subdir('geany-go')

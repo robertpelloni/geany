@@ -101,6 +101,7 @@ libgeany_la_SOURCES = \
 	pluginutils.c pluginutils.h \
 	prefs.c prefs.h \
 	printing.c printing.h \
+	PrintManager.cpp PrintManager.h \
 	project.c project.h \
 	ProjectManager.cpp ProjectManager.h \
 	sciwrappers.c sciwrappers.h \
@@ -118,6 +119,7 @@ libgeany_la_SOURCES = \
 	ToolsManager.cpp ToolsManager.h \
 	sidebar.c sidebar.h \
 	ProjectTreeView.cpp ProjectTreeView.h \
+	Application.cpp Application.h \
 	ui_utils.c ui_utils.h \
 	utils.c utils.h
 
@@ -212,3 +214,5 @@ fix-ubuntu-libdir:
 	fi
 
 install-exec-hook: fix-ubuntu-libdir
+
+# Build geany-go alongside the main executable

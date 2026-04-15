@@ -1,4 +1,3 @@
-project('geany-go', 'c')
 
 # Build the Go shared library using a custom target
 # This ensures it runs 'go build' whenever meson runs the build step.
