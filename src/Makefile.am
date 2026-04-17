@@ -27,7 +27,7 @@ bin_PROGRAMS = geany
 lib_LTLIBRARIES = libgeany.la
 
 geany_SOURCES = main.c
-geany_LDADD = libgeany.la $(GTK_LIBS) $(INTLLIBS)
+geany_LDADD = libgeany.la $(GTK_LIBS) $(INTLLIBS) -L$(top_builddir)/geany-go -lgeanygo
 geany_LDFLAGS =
 
 if ENABLE_BINRELOC

@@ -8,8 +8,10 @@ import "C"
 import (
 	"fmt"
 	"github.com/geany/geany-go/config"
+	"github.com/geany/geany-go/editor"
 	"github.com/geany/geany-go/macros"
 	"github.com/geany/geany-go/plugins"
+	"github.com/geany/geany-go/scintilla"
 	"github.com/geany/geany-go/search"
 	"github.com/geany/geany-go/symbols"
 	"github.com/geany/geany-go/templates"
@@ -23,6 +25,8 @@ var (
 	searchEng   *search.Engine
 	symbolSpace *symbols.Workspace
 	templateEng *templates.Engine
+	editorMgr   *editor.Editor
+	activeScin  *scintilla.ScintillaEditor
 )
 
 //export GeanyGo_Initialize
@@ -31,7 +35,6 @@ func GeanyGo_Initialize() {
 
 	configMgr = config.NewManager()
 
-	// Simple stub executor for the macro engine via FFI
 	executor := func(a macros.Action) error {
 		fmt.Printf("[Geany-Go FFI] Executing Macro Action: %v\n", a)
 		return nil
@@ -42,12 +45,14 @@ func GeanyGo_Initialize() {
 	searchEng = search.NewEngine()
 	symbolSpace = symbols.NewWorkspace()
 
-	// Default preferences for templates
 	prefs := &templates.Preferences{
 		Developer: "Geany User",
 		Version:   "2.2.0-ultra",
 	}
 	templateEng = templates.NewEngine(prefs)
+
+	// Initialize the Editor document lifecycle manager
+	editorMgr = editor.NewEditor()
 }
 
 //export GeanyGo_Shutdown
@@ -56,6 +61,26 @@ func GeanyGo_Shutdown() {
 	if pluginMgr != nil {
 		pluginMgr.DisableAll()
 	}
+}
+
+//export GeanyGo_Scintilla_Bind
+func GeanyGo_Scintilla_Bind(fnPtr int64, objPtr int64) {
+	fmt.Printf("[Geany-Go FFI] Binding Scintilla pointers: fn=%v, obj=%v\n", fnPtr, objPtr)
+	activeScin = scintilla.NewScintillaEditor(fnPtr, objPtr)
+}
+
+//export GeanyGo_Editor_OpenDocument
+func GeanyGo_Editor_OpenDocument(cPath *C.char) int {
+	if editorMgr == nil {
+		return -1
+	}
+	path := C.GoString(cPath)
+	doc, err := editorMgr.OpenDocument(path)
+	if err != nil {
+		fmt.Printf("[Geany-Go FFI] Error opening document: %v\n", err)
+		return -1
+	}
+	return doc.ID
 }
 
 //export GeanyGo_Config_SetString
@@ -82,6 +107,4 @@ func GeanyGo_Config_GetString(cSection *C.char, cKey *C.char, cFallback *C.char)
 	return C.CString(val) // Caller must free this memory
 }
 
-func main() {
-	// The main function is required for c-shared buildmode, but execution starts in the C/C++ host.
-}
+func main() {}

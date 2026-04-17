@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.5] - 2026-04-10
+### Changed
+- Wired C++ `Application` and Go `scintilla` backend through the CGO FFI bridge via `GeanyGo_Scintilla_Bind`.
+
+
+## [1.0.0-alpha.4] - 2026-04-10
+### Changed
+- Created `geany-go/scintilla` package with robust CGO bindings to the native C++ Scintilla widget API.
+
+
+## [1.0.0-alpha.3] - 2026-04-10
+### Changed
+- Created robust `geany-go/editor/editor.go` to replace legacy C global document arrays with a modern, thread-safe Go `Editor` struct.
+- Created `geany-go/editor/cursor.go` tracking insertion points and text selections.
+
+
 ## [1.0.0-alpha.2] - 2026-04-10
 ### Changed
 - Created modern C++ `PrintManager` and ported to `geany-go/project` interface, abstracting GTK printing APIs.

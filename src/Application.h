@@ -42,6 +42,7 @@ public:
     // Cleanly shuts down the application, saving states and tearing down plugins.
     // Replaces `main_finalize()`.
     void Quit();
+    void BindGoScintilla(intptr_t fnPtr, intptr_t objPtr);
 
     // --- Accessors for Managers ---
     DocumentManager* GetDocumentManager() const { return m_docManager.get(); }

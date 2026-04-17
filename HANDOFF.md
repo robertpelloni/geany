@@ -41,3 +41,34 @@ This document is used to pass state, analysis, and instructions between differen
 - Refactored `geany-go/Makefile.am` to use `abs_builddir` fixing out-of-tree builds (VPATH).
 - Removed redundant `all-local` make commands in `src/Makefile.am`.
 - Deleted untracked conflicting `geany-go/Makefile`.
+
+## Step: Go Editor & Cursor Packages
+- Created `geany-go/editor/cursor.go` and `Cursor` struct implementing position, offset tracking, and selection boundaries for text editing.
+- Created `geany-go/editor/editor.go` defining the `Editor` struct. It manages `Document` lifecycle (`OpenDocument`, `CloseDocument`, `GetCurrentDocument`, `SetActiveDocument`).
+- Replaced legacy C dynamic arrays and globals with thread-safe Go maps and mutexes.
+- Tests written and passed successfully.
+
+## Step: Go Scintilla CGO Wrapper
+- Created `geany-go/scintilla/scintilla.go` wrapping the C++ Scintilla message loop (`Scintilla.h`) using CGO.
+- Mapped raw pointers safely using `unsafe.Pointer` and created the `ScintillaEditor` Go struct.
+- Tested CGO boundary safely in a headless environment.
+
+## Step: C++ to Go FFI Wiring
+- Wired `src/Application.cpp` via `BindGoScintilla` method to send raw pointers across the FFI bridge (`GeanyGo_Scintilla_Bind`).
+- This allows the Go backend (`geany-go/scintilla`) to securely manipulate the native text editing widget without the heavyweight GTK messaging overhead.
+- Validated FFI compilation.
+
+## Step: Build Integration Finalization
+- Fixed Autotools linker issue by properly appending `-L$(top_builddir)/geany-go -lgeanygo` to `geany_LDADD`.
+- Fixed Meson dependency graph by migrating `subdir('geany-go')` before the `geany_exe` target.
+- Added `geanygo_dep` to the Meson executable dependencies.
+- Refactored `geany-go/meson.build` `custom_target` to invoke `go build` directly, removing the unstable internal makefile dependency.
+
+## Step: Pre-commit code review build fixes
+- Fixed Autotools broken build by adding `geany-go` to the top-level `SUBDIRS` in `Makefile.am`.
+- Fixed Meson undefined reference linker error by explicitly injecting `geanygo_dep` into the executable's `dependencies:` array.
+
+## Step: Code Review Fixes (Autotools Install)
+- Fixed fatal missing installation rules for Autotools.
+- Appended `install-exec-local` and `uninstall-local` hooks inside `geany-go/Makefile.am` to explicitly install the compiled `libgeanygo.so` shared object into `$(DESTDIR)$(libdir)`.
+- This prevents the application from crashing via missing dynamic linker objects at runtime when installed.

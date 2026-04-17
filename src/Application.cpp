@@ -102,3 +102,15 @@ void Application::Quit() {
 }
 
 } // namespace geany
+
+// External Go bindings
+extern "C" {
+    void GeanyGo_Scintilla_Bind(int64_t fnPtr, int64_t objPtr);
+}
+
+namespace geany {
+    void Application::BindGoScintilla(intptr_t fnPtr, intptr_t objPtr) {
+        // Send raw Scintilla message function and object pointers across FFI to Go backend
+        GeanyGo_Scintilla_Bind(static_cast<int64_t>(fnPtr), static_cast<int64_t>(objPtr));
+    }
+}

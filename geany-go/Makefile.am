@@ -6,3 +6,11 @@ all-local:
 
 clean-local:
 	rm -f $(abs_builddir)/libgeanygo.so $(abs_builddir)/libgeanygo.h $(srcdir)/libgeanygo.h
+
+
+install-exec-local:
+	$(MKDIR_P) $(DESTDIR)$(libdir)
+	$(INSTALL) $(abs_builddir)/libgeanygo.so $(DESTDIR)$(libdir)/libgeanygo.so
+
+uninstall-local:
+	rm -f $(DESTDIR)$(libdir)/libgeanygo.so

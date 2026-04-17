@@ -3,7 +3,7 @@
 # This ensures it runs 'go build' whenever meson runs the build step.
 geanygo_lib = custom_target('libgeanygo',
   output: ['libgeanygo.so', 'libgeanygo.h'],
-  command: ['make', '-C', meson.current_source_dir()],
+  command: [find_program('go'), 'build', '-buildmode=c-shared', '-o', '@OUTPUT0@', meson.current_source_dir() + '/main.go'],
   build_by_default: true,
   install: true,
   install_dir: get_option('libdir')
