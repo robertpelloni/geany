@@ -72,3 +72,18 @@ This document is used to pass state, analysis, and instructions between differen
 - Fixed fatal missing installation rules for Autotools.
 - Appended `install-exec-local` and `uninstall-local` hooks inside `geany-go/Makefile.am` to explicitly install the compiled `libgeanygo.so` shared object into `$(DESTDIR)$(libdir)`.
 - This prevents the application from crashing via missing dynamic linker objects at runtime when installed.
+
+## Step: Main Execution C++ Wiring
+- Created `src/Application_C_Bridge.h` mapping C++ `geany::Application` methods to a C-compatible FFI syntax.
+- Updated `src/Application.cpp` to export `geany_application_new`, `initialize`, `run`, and `quit`.
+- Rewrote the global executable entry point in `src/main.c` to wrap the legacy `main_lib` GTK bootup sequence in the new C++ Application lifecycle hooks. This ensures our newly built managers and Go backend orchestrate the IDE state cleanly alongside the legacy GTK event loop without dropping window messages.
+
+## Step: Native UI Bootstrapping (bobgui)
+- Implemented `geany-go/ui/bobgui/application.go` satisfying the agnostic `geany-go/ui` interfaces (`Application`, `Window`, `EditorWidget`).
+- This package successfully stubs the GTK event loop and serves as the Native UI frontend for the C++ backend orchestrators.
+- Updated `geany-go/main.go` to explicitly load and initialize the `bobgui` submodule on boot.
+
+## Step: Editor Document I/O Implementation
+- Extracted and implemented robust `Save()` and `Open()` logic into `geany-go/editor/document_io.go`.
+- Implemented file permission checking (setting ReadOnly automatically).
+- Added UTF-8 validation and Byte-Order Mark (BOM) stripping and reapplying on save.

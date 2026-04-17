@@ -21,8 +21,27 @@
 /* See libmain.c for the real entry-point code. */
 
 #include "main.h"
+#include "Application_C_Bridge.h"
 
 int main(int argc, char **argv)
 {
-	return main_lib(argc, argv);
+	// Initialize the modernized C++ Application core managers first.
+	// This ensures our Go backend (geany-go), UI submodules, and plugins
+	// are orchestrated via the new object-oriented foundation.
+	GeanyApplicationHandle app = geany_application_new();
+	geany_application_initialize(app, argc, argv);
+
+	// Hand off execution to the C++ core execution block.
+	// For now, it returns immediately to allow the legacy C application
+	// boot process to continue to setup the GTK event loop.
+	geany_application_run(app);
+
+	// Run legacy C initialization and GTK loop.
+	int res = main_lib(argc, argv);
+
+	// Once the GTK loop shuts down, perform C++ core tear down gracefully.
+	geany_application_quit(app);
+	geany_application_free(app);
+
+	return res;
 }

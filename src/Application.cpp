@@ -114,3 +114,33 @@ namespace geany {
         GeanyGo_Scintilla_Bind(static_cast<int64_t>(fnPtr), static_cast<int64_t>(objPtr));
     }
 }
+
+// C API Export mappings
+#include "Application_C_Bridge.h"
+
+extern "C" {
+    GeanyApplicationHandle geany_application_new(void) {
+        return new geany::Application();
+    }
+
+    void geany_application_free(GeanyApplicationHandle handle) {
+        if (handle) {
+            delete static_cast<geany::Application*>(handle);
+        }
+    }
+
+    int geany_application_initialize(GeanyApplicationHandle handle, int argc, char** argv) {
+        if (!handle) return 0;
+        return static_cast<geany::Application*>(handle)->Initialize(argc, argv) ? 1 : 0;
+    }
+
+    int geany_application_run(GeanyApplicationHandle handle) {
+        if (!handle) return 1;
+        return static_cast<geany::Application*>(handle)->Run();
+    }
+
+    void geany_application_quit(GeanyApplicationHandle handle) {
+        if (!handle) return;
+        static_cast<geany::Application*>(handle)->Quit();
+    }
+}

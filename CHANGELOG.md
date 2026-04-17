@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.8] - 2026-04-10
+### Changed
+- Implemented robust `Save()` and `Open()` file I/O methods for the `geany-go/editor/Document` struct.
+- Added UTF-8 encoding validation and Byte-Order Mark (BOM) preservation across document saves.
+
+
+## [1.0.0-alpha.7] - 2026-04-10
+### Changed
+- Bootstrapped `bobgui` submodule to serve as the Native GTK UI frontend.
+- Implemented `geany-go/ui` interfaces for `bobgui` (`Window`, `Application`, `EditorWidget`).
+- Injected `bobgui` package into `geany-go` core initialization sequence.
+
+
+## [1.0.0-alpha.6] - 2026-04-10
+### Changed
+- Wired the newly created C++ `Application` core into the main execution pipeline (`src/main.c`) utilizing a safe C-to-C++ Bridge wrapper.
+- The Geany executable now securely bootstraps the new C++ and Go subsystems prior to spinning up the legacy GTK loop.
+
+
 ## [1.0.0-alpha.5] - 2026-04-10
 ### Changed
 - Wired C++ `Application` and Go `scintilla` backend through the CGO FFI bridge via `GeanyGo_Scintilla_Bind`.

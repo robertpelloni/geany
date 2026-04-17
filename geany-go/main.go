@@ -15,6 +15,7 @@ import (
 	"github.com/geany/geany-go/search"
 	"github.com/geany/geany-go/symbols"
 	"github.com/geany/geany-go/templates"
+	_ "github.com/geany/geany-go/ui/bobgui"
 )
 
 // Global instances for the FFI bridge
