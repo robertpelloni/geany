@@ -1,7 +1,6 @@
 package editor
 
 import (
-	"os"
 	"path/filepath"
 )
 
@@ -13,7 +12,6 @@ type Document struct {
 	BaseName  string
 	Changed   bool
 	ReadOnly  bool
-	FileObj   *os.File
 	Encoding  string // e.g., "UTF-8"
 	HasBOM    bool
 }
@@ -30,9 +28,15 @@ func NewDocument(id int, path string) *Document {
 	}
 }
 
+// SetModified marks the document's unsaved modification state.
+// This triggers UI updates (e.g. adding an asterisk to the tab name).
+func (d *Document) SetModified(modified bool) {
+	d.Changed = modified
+	// In a full implementation, this would emit an event to the geany-go/ui
+	// interface so the frontend could update the tab representation.
+}
 
-
-// SetChanged marks the document as having unsaved modifications.
-func (d *Document) SetChanged(changed bool) {
-	d.Changed = changed
+// IsModified returns true if the document has unsaved changes.
+func (d *Document) IsModified() bool {
+	return d.Changed
 }

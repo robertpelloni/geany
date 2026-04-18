@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.9] - 2026-04-10
+### Changed
+- Implemented `SetModified()` and `IsModified()` methods for the `geany-go/editor/Document` struct, mimicking Geany's document state behavior.
+
+
 ## [1.0.0-alpha.8] - 2026-04-10
 ### Changed
 - Implemented robust `Save()` and `Open()` file I/O methods for the `geany-go/editor/Document` struct.
