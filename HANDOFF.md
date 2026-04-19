@@ -87,3 +87,8 @@ This document is used to pass state, analysis, and instructions between differen
 - Extracted and implemented robust `Save()` and `Open()` logic into `geany-go/editor/document_io.go`.
 - Implemented file permission checking (setting ReadOnly automatically).
 - Added UTF-8 validation and Byte-Order Mark (BOM) stripping and reapplying on save.
+
+## Step: Editor Selection Implementation
+- Defined a `Selection` struct representing text selection ranges (`Start`, `End`).
+- Implemented core operations: `NewSelection` with bounds swapping, `SetRange`, `Length`, `IsEmpty`, and `Contains`.
+- Added comprehensive unit tests validating bounds checking and clamping logic.
