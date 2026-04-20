@@ -5,10 +5,11 @@ package scintilla
 #include "Scintilla.h"
 #include "SciLexer.h"
 #include <stdlib.h>
+#include <stdint.h>
 
-typedef long (*SciFnDirect)(long ptr, unsigned int iMessage, unsigned long wParam, long lParam);
+typedef intptr_t (*SciFnDirect)(intptr_t ptr, unsigned int iMessage, uintptr_t wParam, intptr_t lParam);
 
-long sc_send_message(void* fn, long ptr, unsigned int msg, unsigned long wp, long lp) {
+intptr_t sc_send_message(void* fn, intptr_t ptr, unsigned int msg, uintptr_t wp, intptr_t lp) {
     if (!fn) return 0;
     SciFnDirect fnPtr = (SciFnDirect)fn;
     return fnPtr(ptr, msg, wp, lp);
@@ -23,14 +24,14 @@ import (
 
 // ScintillaEditor wraps the C/C++ Scintilla API using CGO.
 type ScintillaEditor struct {
-	sciPtr C.long
+	sciPtr C.intptr_t
 	sciFn  unsafe.Pointer
 }
 
 func NewScintillaEditor(fnPtr, objPtr int64) *ScintillaEditor {
 	return &ScintillaEditor{
 		sciFn:  unsafe.Pointer(uintptr(fnPtr)),
-		sciPtr: C.long(objPtr),
+		sciPtr: C.intptr_t(objPtr),
 	}
 }
 
@@ -38,7 +39,7 @@ func (se *ScintillaEditor) SendMessage(msg uint, wp uint64, lp int64) int64 {
 	if se.sciFn == nil {
 		return 0
 	}
-	res := C.sc_send_message(se.sciFn, se.sciPtr, C.uint(msg), C.ulong(wp), C.long(lp))
+	res := C.sc_send_message(se.sciFn, se.sciPtr, C.uint(msg), C.uintptr_t(wp), C.intptr_t(lp))
 	return int64(res)
 }
 

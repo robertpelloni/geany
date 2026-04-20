@@ -11,6 +11,7 @@
 #include "KeybindingManager.h"
 #include "FileTypeManager.h"
 #include "ToolsManager.h"
+#include "ConfigManager.h"
 #include <iostream>
 
 namespace geany {
@@ -27,6 +28,7 @@ Application::Application() : m_initialized(false) {
 
     // ToolsManager requires a pointer to the DocumentManager
     m_toolsManager = std::make_unique<ToolsManager>(m_docManager.get());
+    m_configManager = std::make_unique<ConfigManager>();
 }
 
 Application::~Application() {

@@ -92,3 +92,8 @@ This document is used to pass state, analysis, and instructions between differen
 - Defined a `Selection` struct representing text selection ranges (`Start`, `End`).
 - Implemented core operations: `NewSelection` with bounds swapping, `SetRange`, `Length`, `IsEmpty`, and `Contains`.
 - Added comprehensive unit tests validating bounds checking and clamping logic.
+
+## Step: C++ ConfigManager Refactor
+- Replaced legacy C INI/keyfile parsing (`src/keyfile.c`) with a memory-managed `ConfigManager.h` using `std::map`.
+- Integrated `ConfigManager` natively into the `geany::Application` root execution cycle.
+- Updated `meson.build` and `Makefile.am` to compile the new config manager alongside `ToolsManager`.

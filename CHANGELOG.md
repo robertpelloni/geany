@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.11] - 2026-04-10
+### Changed
+- Replaced legacy C config file serialization (`src/keyfile.c`) with a modern, memory-safe C++ `ConfigManager`.
+- Hooked `ConfigManager` into the primary `Application` orchestration structure.
+
+
 ## [1.0.0-alpha.10] - 2026-04-10
 ### Changed
 - Implemented `geany-go/editor/Selection` struct to manage text buffer highlighting ranges securely.
