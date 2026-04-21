@@ -22,6 +22,7 @@ class PluginManager;
 class KeybindingManager;
 class FileTypeManager;
 class ToolsManager;
+class ConfigManager;
 
 class Application {
 public:
@@ -42,6 +43,7 @@ public:
     // Cleanly shuts down the application, saving states and tearing down plugins.
     // Replaces `main_finalize()`.
     void Quit();
+    void BindGoScintilla(intptr_t fnPtr, intptr_t objPtr);
 
     // --- Accessors for Managers ---
     DocumentManager* GetDocumentManager() const { return m_docManager.get(); }
@@ -50,6 +52,7 @@ public:
     KeybindingManager* GetKeybindingManager() const { return m_keyManager.get(); }
     FileTypeManager* GetFileTypeManager() const { return m_fileTypeManager.get(); }
     ToolsManager* GetToolsManager() const { return m_toolsManager.get(); }
+    ConfigManager* GetConfigManager() const { return m_configManager.get(); }
 
 private:
     bool m_initialized;
@@ -61,6 +64,7 @@ private:
     std::unique_ptr<KeybindingManager> m_keyManager;
     std::unique_ptr<FileTypeManager> m_fileTypeManager;
     std::unique_ptr<ToolsManager> m_toolsManager;
+    std::unique_ptr<ConfigManager> m_configManager;
 
     // Parses raw command line arguments into an internal vector.
     void ParseArgs(int argc, char** argv);

@@ -21,3 +21,79 @@ This document is used to pass state, analysis, and instructions between differen
 3. Continue executing tasks from `ROADMAP.md` and `TODO.md`.
 4. Document your findings in extreme detail. If you generate new ideas, put them in `IDEAS.md`.
 5. Before finishing your session, update this `HANDOFF.md` file, the `CHANGELOG.md`, and bump the version in `VERSION.md` if significant changes were made.
+
+## Step: C++ PrintManager & Go Project API Port
+- Created `geany-go/project/print.go` interface for Printing API.
+- Implemented `PrintManager.cpp` and `PrintManager.h` abstracting the printing APIs (GTK printing).
+- Validated tests pass and compiled successfully.
+- Version bumped to 1.0.0-alpha.2
+
+## Step: Code Review Fixes (Build Systems Integration)
+- Added `Application.cpp` to `src/Makefile.am`.
+- Registered `geany-go/Makefile.am` inside `configure.ac`.
+- Added `all-local` and `clean-local` in `src/Makefile.am` to compile `geany-go` (libgeanygo.so) via `go build`.
+- Added `subdir('geany-go')` inside `meson.build` to correctly build Go code through Meson.
+- Updated `VERSION.md` extraction in `meson.build` to use a robust, cross-platform python one-liner.
+
+## Step: Pre-commit code review fixes
+- Addressed fatal build system issues identified by code review.
+- Removed invalid `project()` call from `geany-go/meson.build`.
+- Refactored `geany-go/Makefile.am` to use `abs_builddir` fixing out-of-tree builds (VPATH).
+- Removed redundant `all-local` make commands in `src/Makefile.am`.
+- Deleted untracked conflicting `geany-go/Makefile`.
+
+## Step: Go Editor & Cursor Packages
+- Created `geany-go/editor/cursor.go` and `Cursor` struct implementing position, offset tracking, and selection boundaries for text editing.
+- Created `geany-go/editor/editor.go` defining the `Editor` struct. It manages `Document` lifecycle (`OpenDocument`, `CloseDocument`, `GetCurrentDocument`, `SetActiveDocument`).
+- Replaced legacy C dynamic arrays and globals with thread-safe Go maps and mutexes.
+- Tests written and passed successfully.
+
+## Step: Go Scintilla CGO Wrapper
+- Created `geany-go/scintilla/scintilla.go` wrapping the C++ Scintilla message loop (`Scintilla.h`) using CGO.
+- Mapped raw pointers safely using `unsafe.Pointer` and created the `ScintillaEditor` Go struct.
+- Tested CGO boundary safely in a headless environment.
+
+## Step: C++ to Go FFI Wiring
+- Wired `src/Application.cpp` via `BindGoScintilla` method to send raw pointers across the FFI bridge (`GeanyGo_Scintilla_Bind`).
+- This allows the Go backend (`geany-go/scintilla`) to securely manipulate the native text editing widget without the heavyweight GTK messaging overhead.
+- Validated FFI compilation.
+
+## Step: Build Integration Finalization
+- Fixed Autotools linker issue by properly appending `-L$(top_builddir)/geany-go -lgeanygo` to `geany_LDADD`.
+- Fixed Meson dependency graph by migrating `subdir('geany-go')` before the `geany_exe` target.
+- Added `geanygo_dep` to the Meson executable dependencies.
+- Refactored `geany-go/meson.build` `custom_target` to invoke `go build` directly, removing the unstable internal makefile dependency.
+
+## Step: Pre-commit code review build fixes
+- Fixed Autotools broken build by adding `geany-go` to the top-level `SUBDIRS` in `Makefile.am`.
+- Fixed Meson undefined reference linker error by explicitly injecting `geanygo_dep` into the executable's `dependencies:` array.
+
+## Step: Code Review Fixes (Autotools Install)
+- Fixed fatal missing installation rules for Autotools.
+- Appended `install-exec-local` and `uninstall-local` hooks inside `geany-go/Makefile.am` to explicitly install the compiled `libgeanygo.so` shared object into `$(DESTDIR)$(libdir)`.
+- This prevents the application from crashing via missing dynamic linker objects at runtime when installed.
+
+## Step: Main Execution C++ Wiring
+- Created `src/Application_C_Bridge.h` mapping C++ `geany::Application` methods to a C-compatible FFI syntax.
+- Updated `src/Application.cpp` to export `geany_application_new`, `initialize`, `run`, and `quit`.
+- Rewrote the global executable entry point in `src/main.c` to wrap the legacy `main_lib` GTK bootup sequence in the new C++ Application lifecycle hooks. This ensures our newly built managers and Go backend orchestrate the IDE state cleanly alongside the legacy GTK event loop without dropping window messages.
+
+## Step: Native UI Bootstrapping (bobgui)
+- Implemented `geany-go/ui/bobgui/application.go` satisfying the agnostic `geany-go/ui` interfaces (`Application`, `Window`, `EditorWidget`).
+- This package successfully stubs the GTK event loop and serves as the Native UI frontend for the C++ backend orchestrators.
+- Updated `geany-go/main.go` to explicitly load and initialize the `bobgui` submodule on boot.
+
+## Step: Editor Document I/O Implementation
+- Extracted and implemented robust `Save()` and `Open()` logic into `geany-go/editor/document_io.go`.
+- Implemented file permission checking (setting ReadOnly automatically).
+- Added UTF-8 validation and Byte-Order Mark (BOM) stripping and reapplying on save.
+
+## Step: Editor Selection Implementation
+- Defined a `Selection` struct representing text selection ranges (`Start`, `End`).
+- Implemented core operations: `NewSelection` with bounds swapping, `SetRange`, `Length`, `IsEmpty`, and `Contains`.
+- Added comprehensive unit tests validating bounds checking and clamping logic.
+
+## Step: C++ ConfigManager Refactor
+- Replaced legacy C INI/keyfile parsing (`src/keyfile.c`) with a memory-managed `ConfigManager.h` using `std::map`.
+- Integrated `ConfigManager` natively into the `geany::Application` root execution cycle.
+- Updated `meson.build` and `Makefile.am` to compile the new config manager alongside `ToolsManager`.

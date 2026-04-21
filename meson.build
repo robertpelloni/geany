@@ -1,6 +1,6 @@
 project('geany', 'c', 'cpp',
         meson_version: '>= 0.56',
-        version: run_command('cat', 'VERSION.md', check: true).stdout().strip(),
+        version: run_command(find_program('python3', 'python'), '-c', 'print(open("VERSION.md").read().strip())', check: true).stdout().strip(),
         default_options : ['c_std=c11', 'cpp_std=c++17'])
 
 gnome = import('gnome')
@@ -346,7 +346,7 @@ lexilla = static_library('lexilla',
 	'scintilla/lexilla/lexlib/WordList.h',
 	'scintilla/lexilla/src/Lexilla.cxx',
 	cpp_args: sci_cflags,
-	dependencies: deps,
+	dependencies: deps + [geanygo_dep],
 	include_directories: [
 		iscintilla,
 		include_directories('scintilla/lexilla/lexlib', 'scintilla/lexilla/include')
@@ -892,6 +892,7 @@ libgeany = shared_library('geany',
 	'src/main.h',
 	'src/geany.h',
 	'src/msgwindow.c',
+	'src/MsgWindow.cpp',
 	'src/msgwindow.h',
 	'src/navqueue.c',
 	'src/navqueue.h',
@@ -907,6 +908,7 @@ libgeany = shared_library('geany',
 	'src/prefs.c',
 	'src/prefs.h',
 	'src/printing.c',
+	'src/PrintManager.cpp',
 	'src/printing.h',
 	'src/project.c',
 	'src/ProjectManager.cpp',
@@ -915,6 +917,7 @@ libgeany = shared_library('geany',
 	'src/ScintillaWrapper.cpp',
 	'src/sciwrappers.h',
 	'src/search.c',
+	'src/SearchManager.cpp',
 	'src/search.h',
 	'src/socket.c',
 	'src/socket.h',
@@ -931,6 +934,7 @@ libgeany = shared_library('geany',
 	'src/toolbar.h',
 	'src/tools.c',
 	'src/ToolsManager.cpp',
+	'src/ConfigManager.cpp',
 	'src/tools.h',
 	'src/sidebar.c',
 	'src/ProjectTreeView.cpp',
@@ -954,13 +958,14 @@ dep_libgeany = declare_dependency(
 	include_directories: [iscintilla, itagmanager, igeany]
 )
 
+subdir('geany-go')
 executable('geany',
 	win_resc,
 	'src/main.c',
 	'src/Application.cpp',
 	link_with: libgeany,
 	c_args: geany_cflags + [ '-DG_LOG_DOMAIN="Geany"' ],
-	dependencies: deps,
+	dependencies: deps + [geanygo_dep],
 	build_rpath: meson.project_build_root(),
 	install_rpath: '$ORIGIN/../' + get_option('libdir'),
 	install: true,
@@ -1014,3 +1019,5 @@ if host_machine.system() == 'windows'
 	endforeach
 	install_data(misc, install_dir: prefix, rename: misc_rename)
 endif
+
+# Include Go build target if geany-go submodule/folder exists

@@ -11,6 +11,7 @@
 #include "KeybindingManager.h"
 #include "FileTypeManager.h"
 #include "ToolsManager.h"
+#include "ConfigManager.h"
 #include <iostream>
 
 namespace geany {
@@ -27,6 +28,7 @@ Application::Application() : m_initialized(false) {
 
     // ToolsManager requires a pointer to the DocumentManager
     m_toolsManager = std::make_unique<ToolsManager>(m_docManager.get());
+    m_configManager = std::make_unique<ConfigManager>();
 }
 
 Application::~Application() {
@@ -102,3 +104,45 @@ void Application::Quit() {
 }
 
 } // namespace geany
+
+// External Go bindings
+extern "C" {
+    void GeanyGo_Scintilla_Bind(int64_t fnPtr, int64_t objPtr);
+}
+
+namespace geany {
+    void Application::BindGoScintilla(intptr_t fnPtr, intptr_t objPtr) {
+        // Send raw Scintilla message function and object pointers across FFI to Go backend
+        GeanyGo_Scintilla_Bind(static_cast<int64_t>(fnPtr), static_cast<int64_t>(objPtr));
+    }
+}
+
+// C API Export mappings
+#include "Application_C_Bridge.h"
+
+extern "C" {
+    GeanyApplicationHandle geany_application_new(void) {
+        return new geany::Application();
+    }
+
+    void geany_application_free(GeanyApplicationHandle handle) {
+        if (handle) {
+            delete static_cast<geany::Application*>(handle);
+        }
+    }
+
+    int geany_application_initialize(GeanyApplicationHandle handle, int argc, char** argv) {
+        if (!handle) return 0;
+        return static_cast<geany::Application*>(handle)->Initialize(argc, argv) ? 1 : 0;
+    }
+
+    int geany_application_run(GeanyApplicationHandle handle) {
+        if (!handle) return 1;
+        return static_cast<geany::Application*>(handle)->Run();
+    }
+
+    void geany_application_quit(GeanyApplicationHandle handle) {
+        if (!handle) return;
+        static_cast<geany::Application*>(handle)->Quit();
+    }
+}

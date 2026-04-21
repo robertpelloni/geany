@@ -3,8 +3,68 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.11] - 2026-04-10
+### Changed
+- Replaced legacy C config file serialization (`src/keyfile.c`) with a modern, memory-safe C++ `ConfigManager`.
+- Hooked `ConfigManager` into the primary `Application` orchestration structure.
+
+
+## [1.0.0-alpha.10] - 2026-04-10
+### Changed
+- Implemented `geany-go/editor/Selection` struct to manage text buffer highlighting ranges securely.
+
+
+## [1.0.0-alpha.9] - 2026-04-10
+### Changed
+- Implemented `SetModified()` and `IsModified()` methods for the `geany-go/editor/Document` struct, mimicking Geany's document state behavior.
+
+
+## [1.0.0-alpha.8] - 2026-04-10
+### Changed
+- Implemented robust `Save()` and `Open()` file I/O methods for the `geany-go/editor/Document` struct.
+- Added UTF-8 encoding validation and Byte-Order Mark (BOM) preservation across document saves.
+
+
+## [1.0.0-alpha.7] - 2026-04-10
+### Changed
+- Bootstrapped `bobgui` submodule to serve as the Native GTK UI frontend.
+- Implemented `geany-go/ui` interfaces for `bobgui` (`Window`, `Application`, `EditorWidget`).
+- Injected `bobgui` package into `geany-go` core initialization sequence.
+
+
+## [1.0.0-alpha.6] - 2026-04-10
+### Changed
+- Wired the newly created C++ `Application` core into the main execution pipeline (`src/main.c`) utilizing a safe C-to-C++ Bridge wrapper.
+- The Geany executable now securely bootstraps the new C++ and Go subsystems prior to spinning up the legacy GTK loop.
+
+
+## [1.0.0-alpha.5] - 2026-04-10
+### Changed
+- Wired C++ `Application` and Go `scintilla` backend through the CGO FFI bridge via `GeanyGo_Scintilla_Bind`.
+
+
+## [1.0.0-alpha.4] - 2026-04-10
+### Changed
+- Created `geany-go/scintilla` package with robust CGO bindings to the native C++ Scintilla widget API.
+
+
+## [1.0.0-alpha.3] - 2026-04-10
+### Changed
+- Created robust `geany-go/editor/editor.go` to replace legacy C global document arrays with a modern, thread-safe Go `Editor` struct.
+- Created `geany-go/editor/cursor.go` tracking insertion points and text selections.
+
+
+## [1.0.0-alpha.2] - 2026-04-10
+### Changed
+- Created modern C++ `PrintManager` and ported to `geany-go/project` interface, abstracting GTK printing APIs.
+
+
 ## [1.0.0-alpha.1] - 2026-04-10
 ### Changed
+- Designed robust `geany-go/engine` package defining the core backend abstractions needed by Native UI text editor widgets.
+- Created modern C++ `SearchManager` coordinating search results across `DocumentManager` and logging to `MsgWindow`.
+- Implemented thread-safe Go `nav` package replicating IDE cursor navigation history (back/forward).
+- Created modern C++ `MsgWindow` class to orchestrate structured logging output (`Compiler`, `Search`, `Message`) via `std::vector`.
 - Implemented native Go `macros` recording and playback engine to achieve Notepad++ feature parity.
 - Created modern C++ `Application` class orchestrating all newly refactored C++ subsystem managers.
 - Implemented robust Go `symbols` package replicating ctags workspace navigation and querying.

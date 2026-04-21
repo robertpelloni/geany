@@ -38,12 +38,12 @@ func TestDocumentOpenAndSave(t *testing.T) {
 		t.Errorf("Failed to open document: %v", err)
 	}
 
-	doc.SetChanged(true)
+	doc.SetModified(true)
 	if !doc.Changed {
-		t.Error("Expected Changed to be true after SetChanged")
+		t.Error("Expected Changed to be true after SetModified")
 	}
 
-	err = doc.Save()
+	err = doc.Save([]byte(""))
 	if err != nil {
 		t.Errorf("Failed to save document: %v", err)
 	}

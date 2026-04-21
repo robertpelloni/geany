@@ -27,7 +27,7 @@ bin_PROGRAMS = geany
 lib_LTLIBRARIES = libgeany.la
 
 geany_SOURCES = main.c
-geany_LDADD = libgeany.la $(GTK_LIBS) $(INTLLIBS)
+geany_LDADD = libgeany.la $(GTK_LIBS) $(INTLLIBS) -L$(top_builddir)/geany-go -lgeanygo
 geany_LDFLAGS =
 
 if ENABLE_BINRELOC
@@ -92,6 +92,7 @@ libgeany_la_SOURCES = \
 	log.c log.h \
 	libmain.c main.h geany.h \
 	msgwindow.c msgwindow.h \
+	MsgWindow.cpp MsgWindow.h \
 	navqueue.c navqueue.h \
 	notebook.c notebook.h \
 	pluginextension.c pluginextension.h \
@@ -100,11 +101,13 @@ libgeany_la_SOURCES = \
 	pluginutils.c pluginutils.h \
 	prefs.c prefs.h \
 	printing.c printing.h \
+	PrintManager.cpp PrintManager.h \
 	project.c project.h \
 	ProjectManager.cpp ProjectManager.h \
 	sciwrappers.c sciwrappers.h \
 	ScintillaWrapper.cpp ScintillaWrapper.h \
 	search.c search.h \
+	SearchManager.cpp SearchManager.h \
 	socket.c socket.h \
 	spawn.c spawn.h \
 	stash.c stash.h \
@@ -114,8 +117,10 @@ libgeany_la_SOURCES = \
 	toolbar.c toolbar.h \
 	tools.c tools.h \
 	ToolsManager.cpp ToolsManager.h \
+	ConfigManager.cpp ConfigManager.h \
 	sidebar.c sidebar.h \
 	ProjectTreeView.cpp ProjectTreeView.h \
+	Application.cpp Application.h \
 	ui_utils.c ui_utils.h \
 	utils.c utils.h
 
@@ -210,3 +215,5 @@ fix-ubuntu-libdir:
 	fi
 
 install-exec-hook: fix-ubuntu-libdir
+
+# Build geany-go alongside the main executable

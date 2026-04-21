@@ -1,0 +1,13 @@
+# Build output
+*.o
+*.a
+*.so
+*.dll
+*.exe
+
+# Specific targets
+libgeanygo.h
+libgeanygo.so
+
+# Go workspace
+go.work
