@@ -89,6 +89,7 @@ Taylor Venable <taylor(at)metasyntax(dot)net> - Erlang filetype
 Manuel Bua <manuel(dot)bua(at)gmail(dot)com> - Ensure consistent line endings pref.
 Matthew Brush <codebrainz(at)users(dot)sourceforge(dot)net> - Various patches.
 Nicolas Sierro <nicolas@sierro.net> - store VTE path with session patch
+Dirk Weber <dietrich-weber(at)web(dot)de>
 
 Translators:
 ------------
@@ -122,6 +123,8 @@ Benjamin Ballet <benjamin(dot)ballet(at)gmail(dot)com> -fr
 José Manuel Castroagudín Silva <chavescesures(at)mail(dot)com> - gl
 Asheesh Ranjan <asheeshranjan1(at)gmail(dot)com> - hi
 Yosef Or Boczko <yoseforb(at)gmail(dot)com> - he
+Harri Koskinen <harri(at)fastmonkey(dot)org> - fi_FI
+Jean-Philippe Moal <skateinmars(at)momo(dot)servegame(dot)org> - fr
 Gabor Kmetyko aka kilo <kg_kilo(at)freemail(dot)hu> - hu
 Fajar Wahyu <fajarwahyuabdillah(at)gmail(dot)com> - id
 Samsul Ma'arif <mail(at)samsul(dot)web(dot)id> - id

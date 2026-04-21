@@ -712,6 +712,9 @@ static gboolean remove_page(guint page_num)
 		ui_document_buttons_update();
 		build_menu_update(NULL);
 	}
+	enc_idx = encodings_scan_unicode_bom(filedata->data, filedata->len, NULL);
+	filedata->bom = (enc_idx == GEANY_ENCODING_UTF_8);
+	filedata->enc = g_strdup(forced_enc);
 	return TRUE;
 }
 

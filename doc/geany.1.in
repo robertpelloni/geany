@@ -1,4 +1,5 @@
 .TH "GEANY" "1" "July 06, 2025" "geany @VERSION@" ""
+.TH "GEANY" "1" "February 25, 2007" "@PACKAGE@ @VERSION@" ""
 .SH "NAME"
 Geany \(em a small and lightweight IDE
 .SH "SYNOPSIS"
@@ -12,6 +13,7 @@ Some of its features: syntax highlighting, code completion, code folding, symbol
 many supported filetypes like C(++), Java, PHP, HTML, DocBook, Perl and more.
 .PP
 Homepage: https://www.geany.org/
+Homepage: http://geany.uvena.de
 .SH "OPTIONS"
 .IP "\fB\fP    \fBfiles ...\fP         " 10
 A space-separated list of filenames. Absolute and relative filenames can be used. Geany also
@@ -87,6 +89,7 @@ Geany supports all generic GTK options, a list is available on the help screen.
 .SH "AUTHOR"
 .PP
 This manual page was written by the Geany developer team. Permission is
+This manual page was written by Enrico Troeger <enrico.troeger@uvena.de>. Permission is
 granted to copy, distribute and/or modify this document under
 the terms of the GNU General Public License, Version 2.
 .PP

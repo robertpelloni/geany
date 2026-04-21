@@ -1,2 +1,3852 @@
 The ChangeLog is auto-generated when releasing.  If you are seeing
 this, use `git log` for a detailed list of changes.
+***	NOTE: This ChangeLog was not updated for the 0.10.1 and 0.10.2 release.
+	Instead see the NEWS file for a list of changes.
+
+
+2006-12-21  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * doc/geany.1.in, doc/Makefile.am, doc/geany.docbook, doc/images/*,
+   doc/html/*:
+   Fixed encoding of generated PDF file.
+   Deleted all jpg images and replaced them by png images.
+   Updated date in documentation and manpage.
+ * src/callbacks.c: Fixed wrong paste behaviour under Windows with some
+                    applications.
+ * src/ui_utils.c: Start column count from 0 in the statusbar display.
+
+
+2006-12-20  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/keyfile.c: Changed default values:
+   Confirm exit -> disabled by default
+   Use tab to indent -> disabled by default.
+
+
+2006-12-20  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keyfile.c:
+   Fix strv leak in configuration_open_files().
+ * src/treeviews.c, src/ui_utils.c:
+   Fix tag treeview not being freed (because of g_object_ref).
+   Separate recreate_tag_list() from ui_update_tag_list().
+ * src/vte.c:
+   Stop Valgrind complaining about a vc->emulation leak.
+ * src/callbacks.c, src/search.c:
+   Remove unneeded static from current word strings.
+
+
+2006-12-18  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/tools.c: Completed list of special characters, implemented
+                expanding and collapsing of categories at double click.
+ * src/geany.h: Updated codename (not really important).
+
+
+2006-12-18  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c, src/search.c, src/document.c:
+   Don't log simple error messages like 'No text to find'.
+ * src/keyfile.c:
+   Open tabs left to right by default.
+ * src/keyfile.c:
+   Scroll cursor to 50% of the view for session files at startup.
+ * src/callbacks.c, src/dialogs.c:
+   Always switch to the tab when showing the unsaved file dialog.
+ * src/document.c:
+   Don't set the cursor to the start of the document when attempting to
+   open an already open file.
+ * src/utils.c, src/utils.h, src/callbacks.c, src/sci_cb.c,
+   src/document.c:
+   Force a file changed check when attempting to open an already open
+   file.
+ * src/sciwrappers.c, src/sciwrappers.h, src/document.c:
+   Scroll cursor to 50% of the view when reloading a file.
+   Rename sci_goto_pos() argument 'unfold'.
+
+
+2006-12-17  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c:
+   Made the sidebar notebook tabs scrollable.
+ * geany.glade, src/callbacks.c, src/callbacks.h, src/interface.c,
+   src/ui_utils.c:
+   Fixed wrong insert position when the cursor was moved by keyboard
+   and comments, includes or a date was inserted.
+   Also fixed some segfault when inserting comments, dates and includes
+   at a position prior to some deleted text.
+ * src/document.c: Fixed disabled build menu items after opening the
+                   first file of a filetype.
+
+
+2006-12-17  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/search.c:
+   Fix using the current word on first use of the Find in Files dialog.
+ * src/document.c:
+   Don't log 'replaced 0 occurrences' status messages.
+ * src/search.c:
+   Remove unneeded 'missing response' debug messages.
+
+
+2006-12-16  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c:
+   Fix memory leak in utils_check_disk_status().
+ * src/highlighting.c, src/sci_cb.c, src/sci_cb.h, src/document.c,
+   src/symbols.c, src/symbols.h:
+   Colourise C enum, union and D/Java interface typenames.
+   Add sci_cb_lexer_get_type_keyword_idx() for use when finding if a
+   lexer supports typename colouring.
+
+
+2006-12-15  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/main.c, src/sci_cb.c, src/sci_cb.h, src/symbols.c,
+   src/symbols.h:
+   Moved html_entities array to symbols.c.
+   Fixed some checks for the new D lexer and improved detection of
+   comments when auto completing or showing calltips.
+ * src/search.c: Bring the Find, Replace and FIF dialog back to top if
+                 they are already shown but lost focus.
+
+
+2006-12-15  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/sci_cb.c:
+   Only remove extra space indent after a multiline comment if the
+   indent contains one too many spaces.
+ * src/highlighting.c, data/filetypes.d:
+   Show D typedefs in bold.
+ * src/sci_cb.c, src/sci_cb.h, src/document.c:
+   Fix setting project typenames for the new D lexer.
+   Add sci_cb_lexer_is_c_like() which returns TRUE for C++/D lexers.
+   Only recolourise C-like files when updating project typename
+   keywords.
+
+
+2006-12-14  Frank Lanitz  <frank@frank.uvena.de>
+
+ * src/about.c: Fixed a typo.
+
+
+2006-12-14  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/document.c:
+   Fix updating the symbol list when a file is saved.
+   Update C-like typedef keywords when reloading a file.
+ * src/sci_cb.c:
+   Fix adding a multiline comment character after pressing enter on the
+   last line of a multiline comment.
+   Remove multiline comment indent after pressing enter on last line.
+   Prevent invalid memory reads in auto_multiline().
+
+
+2006-12-13  Frank Lanitz  <frank@frank.uvena.de>
+
+ * THANKS: Small update of contact data and small fix of translated
+           language.
+
+
+2006-12-13  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/ui_utils.h, src/about.c, src/treeviews.c, src/msgwindow.c,
+   src/callbacks.c, src/keyfile.c, src/document.c, src/prefs.c,
+   src/main.c, src/ui_utils.c:
+   Fix memory leaks when using GdkPixbuf, PangoFontDescription and some
+   strings.
+   Capitalize main window title.
+   Add ui_widget_modify_font_from_string().
+ * src/build.c, src/keybindings.c, src/msgwindow.c, src/msgwindow.h,
+   src/vte.c, src/main.c:
+   Add 'Hide Message Window' popup menu item for each window in the
+   message window area.
+   Add msgwin_menu_add_common_items().
+   Move remaining message window setup code to msgwin_init().
+ * src/interface.c, geany.glade:
+   Add 'Invert syntax highlighting colours' Preferences dialog option
+   (hidden for now).
+
+
+2006-12-12  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c, src/geany.h, src/keyfile.c, src/sciwrappers.c,
+   src/sciwrappers.h: Added option to toggle usage of Tab button for
+                      indentation.
+ * geany.glade, po/POTFILES.in, src/callbacks.c, src/callbacks.h,
+   src/interface.c, src/keybindings.c, src/keybindings.h,
+   src/Makefile.am, src/makefile.win32, src/tools.c, src/tools.h:
+   New files tools.c and tools.h.
+   Added a dialog to insert HTML special characters.
+
+
+2006-12-12  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c, src/interface.c, src/callbacks.c, src/ui_utils.c,
+   geany.glade:
+   Use GNOME HIG Header style capitalization for all menu items.
+ * src/main.c:
+   Make files loaded from the command-line at startup get added to the
+   recent files menus.
+
+
+2006-12-11  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * data/filetypes.vhdl: Fixed typo in "number" and "string" styles.
+
+
+2006-12-11  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/main.c:
+   Show GTK+, GLib runtime version debug message after socket_init().
+ * src/callbacks.c:
+   Make indenting and unindenting keep the same cursor position when
+   the cursor is within the indentation characters.
+ * configure.in:
+   Link with libsocket if necessary to fix building on Solaris.
+
+
+2006-12-10  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/build.c, src/callbacks.c, src/document.c, src/keyfile.c,
+   src/prefs.c, src/vte.c, src/vte.h:
+   Added option to execute programs in the VTE instead of executing
+   them in a terminal emulation window (closes #1594456).
+ * src/dialogs.c: Use a table to layout the word count dialog.
+
+
+2006-12-09  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c:
+   Fix building on win32; also fix some warnings.
+ * src/document.c:
+   Read the file's modification timestamp after saving because on
+   Windows it can be later than expected (closes #1611530).
+ * src/keybindings.c:
+   Show the Message window when switching to the vte.
+ * src/build.c, src/keybindings.c, src/keybindings.h:
+   Add keybindings for Next Message and Next Error commands.
+
+
+2006-12-08  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c, src/interface.c, src/ui_utils.h, src/build.h,
+   src/keybindings.c, src/msgwindow.c, src/callbacks.c,
+   src/msgwindow.h, src/callbacks.h, src/main.c, src/ui_utils.c,
+   geany.glade:
+   Add Next Message and Next Error menu items.
+   Don't select the last build message on completing a build.
+   Change build_get_menu_items(-1) to return current build menu.
+   Add Copy popup menu item for Status and Messages windows.
+   Move on_message_treeview_clear_activate(),
+   on_compiler_treeview_copy_activate() to msgwindow.c.
+   Create the Recent files submenu item manually because Glade 2.10
+   removes empty menus.
+ * src/dialogs.c, src/ui_utils.c:
+   Use ui_button_new_with_image() in dialogs_show_unsaved_file().
+
+
+2006-12-08  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/build.c: Made the created run script for command execution a bit
+                more portable to other shells than bash (thanks to
+                Nacho Cabanes for reporting).
+ * src/document.c, src/document.h, src/sciwrappers.c, src/ui_utils.h,
+   src/sciwrappers.h:
+   Fixed broken overtype update in the statusbar.
+   Removed unused field do_overwrite in document struct.
+ * src/msgwindow.c: Removed compiler warning.
+ * src/sci_cb.c, src/sci_cb.h:
+   Made sci_cb_get_indent and sci_Cb_auto_multiline static.
+   Improved auto completion of multi line comments and support
+   /+ +/ for D files.
+ * src/msgwindow.c: Fixed wrong check button state in view menu if
+                    message window was shown automatically.
+
+
+2006-12-07  Frank Lanitz  <frank@frank.uvena.de>
+
+ * src/about.c, THANKS, configure.in, po/fr.po:
+   Added French translation (Thanks to Jean-Philippe Moal).
+
+
+2006-12-07  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c: Create new tm file object when changing the filetype
+                   of a document to avoid a confused tagmanager.
+ * data/filetypes.d, scintilla/KeyWords.cxx, scintilla/LexD.cxx,
+   scintilla/Makefile.am, scintilla/makefile.win32,
+   scintilla/include/SciLexer.h, src/highlighting.c:
+   Added new scintilla lexer for D. It needs testing and there is more
+   work to do to get it working properly.
+ * src/about.c, src/build.c, src/callbacks.c, src/document.c,
+   src/encodings.c, src/gb.c, src/keyfile.c, src/prefs.c, src/sci_cb.c,
+   src/search.c, src/symbols.c, src/ui_utils.c, src/utils.c,
+   src/utils.h, src/dialogs.c, src/vte.c:
+   Revert the last change to utils_str_equal() and use it again because
+   g_str_equal() is not NULL-safe.
+
+
+2006-12-06  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Don't insert extra indentation in Python files after a
+                 colon if the line is a comment (closes #1609761).
+ * src/about.c, src/build.c, src/callbacks.c, src/document.c,
+   src/encodings.c, src/gb.c, src/keyfile.c, src/prefs.c, src/sci_cb.c,
+   src/search.c, src/symbols.c, src/ui_utils.c, src/utils.c,
+   src/utils.h: Removed utils_str_equal() and use g_str_equal() from
+                GLib because it does exactly the same.
+
+
+2006-12-05  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/treeviews.c, tagmanager/latex.c:
+   Let the LaTeX parser recognise the keyword \chapter.
+
+
+2006-12-05  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/socket.c:
+   Prevent Valgrind warning with unlink(NULL).
+ * src/ui_utils.h, src/treeviews.c, src/callbacks.c, src/notebook.c,
+   src/treeviews.h, src/notebook.h, src/document.c, src/document.h,
+   src/ui_utils.c:
+   Show read-only notebook tabs in green.
+   Add document_get_status() to get the tab colour for the document.
+   Use ui_update_tab_status() to update notebook tabs and open files
+   treeview items.
+   Avoid using GtkTreeIter struct as treeviews function arguments.
+   Remove unneeded arguments for treeviews_openfiles_add(),
+   notebook_new_tab().
+
+
+2006-12-04  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/highlighting.c, data/filetypes.d:
+   Move C/C++ styling_within_preprocessor code out of C-like styles.
+   Use styleset_c_like() when applying C-like Scintilla styles.
+   Synchronize gsd_reserved_word, gsd_system_word and data/filetypes.d
+   with styles in data/filetypes.c.
+
+
+2006-12-04  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c: Use default GTK foreground colour for filenames on
+                   notebook tabs instead of hardcoded colour black.
+ * src/sci_cb.c: Fixed broken auto completion for LaTeX files.
+
+
+2006-12-03  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * data/filetypes.c, data/filetypes.cpp, data/filetypes.d,
+   data/filetypes.ferite, data/filetypes.java, src/highlighting.c:
+   Added new style for doc keyword error and added some doc key words
+   for Doxygen and Javadoc.
+ * geany.glade, src/geany.h, src/interface.c, src/keyfile.c,
+   src/prefs.c, src/sci_cb.c:
+   Added new preference to unfold all children of a fold point if the
+   fold point is unfolded.
+ * src/msgwindow.c: Applied patch from Bob Doan to ignore libtool
+                    messages when parsing the output of make (thanks).
+ * src/sci_cb.c, src/sci_cb.h:
+   Made handle_xml() static.
+   Fixed wrong XML auto completion in PHP files when inserting '>',
+   thanks to Bob Doan for reporting.
+
+
+2006-12-02  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c: Use the same style for unknown doc keywords
+                       (/** @something */) as for known keywords.
+
+
+2006-12-01  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c, src/geany.h, src/main.c,
+   src/ui_utils.c:
+   Removed invisible place holder menu item in recent files menu.
+   Create separate sub menu for the recent files menu in the toolbar to
+   prevent GTK warnings when using GTK >= 2.10.
+
+
+2006-12-01  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/vte.c:
+   Make the switch to vte menu shortcut override work before the VTE
+   has been realized.
+
+
+2006-11-30  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/main.c:
+   Disable open toolbutton recent files menu for now because on
+   GTK+2.10 packing the recent files menu twice causes warnings.
+ * src/build.c, src/build.h, src/keybindings.c, src/callbacks.c,
+   src/filetypes.c, src/filetypes.h, src/dialogs.c:
+   Make all filetypes except LaTeX use the same build menu, disabling
+   any items that don't apply for the current document.
+   Move BuildMenuItems struct type to build.h.
+
+
+2006-11-29  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c, src/build.h, src/keybindings.c, src/filetypes.c,
+   src/filetypes.h:
+   Make stop button only apply for killing running programs.
+   Disable build commands when building is in progress.
+   Make build_menu_update() detect how to call set_stop_button().
+   Make build_menu_update() also update the LaTeX build menu.
+   Make build keybindings only active when the equivalent menu item
+   is also active.
+
+
+2006-11-27  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c:
+   Show build result on status bar if Compiler window is not selected.
+
+
+2006-11-25  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/msgwindow.c, src/notebook.c, src/msgwindow.h, src/notebook.h:
+   Add some const char* argument modifiers, remove unneeded static from
+   some local vars.
+ * src/vte.c:
+   Remove vte_char_size_changed() workaround, not needed since r988;
+   this also fixes an issue where the VTE is limited to 30x5 chars.
+ * src/search.c, src/document.c, src/document.h:
+   When replacing in session, use notebook page order and show a count
+   of the files changed.
+   Show the filename when replacing text over a range.
+   Add DOC_FILENAME() null-safe macro to get the filename at doc_idx.
+ * src/build.c, src/ui_utils.h, src/msgwindow.c, src/search.c,
+   src/document.c, src/ui_utils.c:
+   Make ui_set_statusbar() use printf-style arguments & assume the
+   message should not be overridden.
+ * data/filetypes.python:
+   Change python default compile command to create a compiled python
+   .pyc file (thanks to Bajusz Tamás).
+
+
+2006-11-24  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/ui_utils.h, src/prefs.c, src/dialogs.c, src/ui_utils.c:
+   Add frame for VTE Preferences tab, update packing.
+   Replace ui_frame_new() with ui_frame_new_with_alignment().
+ * src/callbacks.c, src/callbacks.h, src/vte.c, src/vte.h, src/prefs.c,
+   src/prefs.h:
+   Move VTE preferences GUI code to vte.c.
+   Move on_pref_tools_button_clicked() to prefs.c.
+
+
+2006-11-23  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/vte.c: Fixed segfault when opening the preferences dialog for
+              the first time from the VTE widget.
+
+
+2006-11-23  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/highlighting.c, src/geany.h, doc/geany.docbook,
+   data/filetypes.*:
+   Only use [a-zA-Z0-9] chars for default wordchars, to avoid problems
+   with word matching when using Find & Replace functions.
+ * src/keybindings.c:
+   Add switching to a notebook tab number using Alt-1 to Alt-9; Alt-0
+   switches to the last tab.
+ * src/geany.h, data/filetypes.*:
+   Add underscore to default wordchars again (oops).
+
+
+2006-11-22  Frank Lanitz  <frank@frank.uvena.de>
+
+ * po/hu.po, src/about.c, THANKS, configure.in:
+   Added Hungarian translation (Thanks to Gabor Kmetyko aka
+   kilo <kg_kilo@freemail.hu>).
+
+
+2006-11-22  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/notebook.c, src/notebook.h, src/document.c:
+   Ensure tab DnD is enabled when tabs are added; use
+   notebook_remove_page() instead of gtk_notebook_remove_page().
+   Unified notebook_[en|dis]able_dnd_for_dropping_files() in
+   tab_count_changed().
+
+
+2006-11-21  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/callbacks.h, src/document.c, src/main.c,
+   src/notebook.c, src/notebook.h:
+   Removed DnD handler for the main window (not very useful).
+   Fixed broken tab reordering by only enabling DnD for dropping files
+   when there are no open file tabs, otherwise disable it and enable
+   DnD for moving file tabs. Dropping files into Geany when file tabs
+   are open still works because then it is handled by the Scintilla
+   widget.
+ * src/msgwin.c: Applied patch from Bob Doan to parse PHP compile
+                 errors better (thanks).
+
+
+2006-11-18  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/sciwrappers.c, src/sciwrappers.h:
+   Added sci_get_first_visible_line().
+ * src/interface.c, src/geany.h, src/sci_cb.h, src/keyfile.c,
+   src/vte.c, src/search.c, src/document.c, src/prefs.c, geany.glade:
+   Applied patch from Bob Doan to prevent scrolling when wrap searching
+   around a document, and to add a preference for suppressing search
+   dialogs when wrapping or after Find Next.
+   Rearranged some Preferences dialog options, added Files tab.
+   Disable tab position when file tabs are hidden (not new file tab
+   placement option, it still affects order of pages).
+ * src/interface.c, geany.glade:
+   Add Preferences frame alignment for Tools, Templates, Keybindings.
+   Revert tab placement label text.
+
+
+2006-11-17  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/build.c, src/main.c:
+   Fixed compile error under Win32.
+   Ignore pressed Stop button under Win32 (at least for the moment,
+   not yet implemented).
+
+
+2006-11-17  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/search.c:
+   Change Find Next/Previous buttons to use better stock icons.
+ * src/callbacks.c, src/sci_cb.c, src/document.c, src/document.h:
+   Fix sign comparison warnings.
+
+
+2006-11-16  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/main.c: Enabled DnD also for the main notebook widget to drop
+               files in the main area of Geany.
+
+
+2006-11-15  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/vte.c: Don't unload the VTE module on exit to avoid crashes on
+              some systems.
+ * src/main.c: Fixed small memory leak.
+ * src/callbacks.c, src/callbacks.h, src/document.c, src/document.h,
+   src/main.c, src/sci_cb.c:
+   Enabled drag and drop for the whole main window to be able to drop
+   files even if no tabs are open.
+   Moved code for getting the file list to document_open_file_list().
+
+
+2006-11-15  Frank Lanitz  <frank@frank.uvena.de>
+
+ * src/about.c, configure.in, THANKS, po/zh_TW.po:
+   Added tranditional Chinese translation (Thanks to KoViCH
+   <kovich.ian@gmail.com>).
+
+
+2006-11-15  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/ui_utils.h, src/search.c, src/ui_utils.c:
+   Add search history for Find in Files.
+   Add ui_combo_box_add_to_history() and use to prevent blocks of
+   duplicates (but not all duplicates) from search history combo boxes,
+   and limit history to 30 entries.
+ * src/build.c:
+   Remove the stop button in build_exit_cb() when using Make commands.
+   Fix set_stop_button() when using Make when the current file has no
+   filetype.
+
+
+2006-11-14  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * scintilla/LexPascal.c: Tried to fix wrong styling at "end.".
+
+
+2006-11-14  Frank Lanitz  <frank@frank.uvena.de>
+
+ * po/zh_CN.po, src/about.c, configure.in, THANKS:
+   Added simple Chinese (zh_CN) translation (Thanks to
+   Dormouse Young <mouselinux@163.com>).
+
+
+2006-11-14  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/templates.c, src/templates.h, src/callbacks.c, src/filetypes.c,
+   src/filetypes.h, src/document.c, src/document.h:
+   Add NULL-safe FILETYPE_ID macro to get filetype::id from pointer.
+   Allow insertion of GPL notice and file header when the filetype is
+   not set.
+   Add commenting for PHP & HTML GPL notice and file header templates.
+   Add make_comment_block() to templates.c.
+   Move document_prepare_template(), filetypes_get_template() to
+   templates.c.
+
+
+2006-11-13  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/filetypes.c, src/filetypes.h, src/highlighting.c,
+   src/highlighting.h, src/treeviews.c, scintilla/Makefile.am,
+   scintilla/makefile.win32, scintilla/KeyWords.cxx,
+   scintilla/LexVHDL.cxx, tagmanager/vhdl.c, tagmanager/parsers.h,
+   tagmanager/Makefile.am, tagmanager/makefile.win32,
+   data/filetype_extensions.conf, data/filetypes.vhdl:
+   Added new filetype VHDL.
+ * geany.glade, src/interface.c, src/keybindings.c:
+   Use plural for line commentation description labels.
+ * src/build.c: Added missing inclusion of signal.h.
+
+
+2006-11-13  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/sci_cb.c: Fix invalid memory read in sci_cb_get_indent().
+ * src/callbacks.c: Fix invalid memory write in on_exit_clicked().
+
+
+2006-11-12  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/vte.c: Fix message window horizontal scrollbar being too tall on
+              some systems (thanks to Rob van der Linde).
+
+
+2006-11-11  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/vte.c: Probe different versions of libvte.so, not only libvte.so
+              and libvte.so.4.
+ * src/keyfile.c: Fixed a segfault when closing preferences dialog and
+                  loading VTE was enabled after it was disabled.
+ * src/build.c, src/build.h, src/main.c:
+   Extended the build_info struct with useful information of the
+   current running command.
+   Added stop button(using the Run button) to cancel the execution of a
+   command like Run, Compile or Build.
+   Fixed a typo in an error message.
+ * doc/geany.docbook:
+   Described new folding_horiz_line setting in filetypes.common.
+   Added documentation for stopping of running processes.
+
+
+2006-11-09  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c, data/filetypes.java, data/filetypes.cpp,
+   data/filetypes.ferite, data/filetypes.c, data/filetypes.d,
+   data/filetypes.pascal, data/filetypes.sql, data/filetypes.xml:
+   Changed commentdoc(used for javadoc and Doxygen, /** */) colour to a
+   light blue.
+
+
+2006-11-09  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keyfile.c, src/main.c:
+   Fix a possible bug with g_file_test when opening files at startup.
+   Show warning message on status bar if some session files couldn't be
+   loaded, showing debug messages for each session file that fails.
+
+
+2006-11-08  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c, src/highlighting.c, src/utils.h, src/callbacks.c,
+   src/sci_cb.c, src/document.c, src/symbols.c, src/ui_utils.c,
+   src/symbols.h:
+   Move utils_get_tag_list() to symbols.c, make utils_find_tm_tag()
+   static.
+   Move symbols_get_global_keywords() to get_global_typenames() in
+   highlighting.c.
+   Add symbols_find_tags_as_string(), symbols_get_tag_list(),
+   symbols_get_macro_list(), symbols_find_in_workspace() from various
+   tag-related existing code.
+ * src/ui_utils.c:
+   Never show the Sidebar if app->show_sidebar is false (prevents
+   showing Sidebar after setting Preferences, when user has chosen to
+   hide the Sidebar).
+ * src/utils.c, src/utils.h, src/about.c, src/callbacks.c,
+   src/sci_cb.c, src/keyfile.c, src/search.c, src/encodings.c,
+   src/document.c, src/prefs.c, src/gb.c, src/symbols.c:
+   Rename utils_strcmp() utils_str_equal() (to avoid return value
+   confusion with strcmp()).
+
+
+2006-11-07  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/treeviews.c: Fixed unintentional appearance of sidebar after it
+                    was hidden and the preferences dialog was closed.
+ * data/filetypes.common, src/highlighting.c:
+   Added an option to draw an horizontal line above or below folded
+   text.
+ * src/dialogs.c: Don't set width of file open dialog.
+
+
+2006-11-07  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/win32.c, src/win32.h, src/callbacks.c, src/keyfile.c,
+   src/dialogs.c, src/dialogs.h:
+   Don't close any tabs when quitting until all unsaved changes have
+   been accounted for; switch to each unsaved file before showing the
+   unsaved dialog.
+   Remove limit of ~256 chars for session filenames.
+   Make dialogs_show_unsaved_file() fail if the Save As dialog was
+   cancelled.
+
+
+2006-11-06  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * data/filetypes.java, src/highlighting.c:
+   Added Java keywords true and false.
+   Converted "NULL" to lower case.
+ * src/sci_cb.c: Little code cleanup in brace_match().
+
+
+2006-11-05  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Fixed (hopefully) wrong indentation in some cases when
+                 inserting '}'.
+
+
+2006-11-04  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c, src/highlighting.h:
+   Applied patch from Bob Doan to do not set keywords for XML
+   documents(thanks).
+   Made styleset_markup() static.
+
+
+2006-11-04  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/search.c: Fix pressing enter to search from the Find dialog.
+ * src/keyfile.c, src/keyfile.h, src/main.c:
+   Make filetype_extensions.conf generation only available with a debug
+   build of Geany.
+ * src/filetypes.c, data/filetype_extensions.conf:
+   Recognise *.xsl, *.xslt filenames for XML filetype.
+   Recognise 'GNUmakefile' filename for Make filetype.
+
+
+2006-11-03  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/msgwindow.c:
+   Don't set error indicators when clicking on an error message if the
+   document has been modified.
+ * src/notebook.c: Focus the current document after clicking on a tab.
+ * src/utils.c, src/keybindings.c, src/callbacks.c, src/sci_cb.c,
+   src/sciwrappers.c, src/search.c, src/sciwrappers.h, src/document.c,
+   src/document.h:
+   Scroll matching selection to 1/3 of the view when searching.
+   Add sci_scroll_to_line(); remove sci_goto_line_scroll().
+   Show 'not found' message on status bar also when enter is pressed in
+   the search bar.
+
+
+2006-11-02  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/dialogs:
+   Run set includes build dialogs for LaTeX files modally, too.
+
+
+2006-11-02  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/highlighting.c, data/filetypes.perl, data/filetypes.pascal,
+   data/filetypes.sh, data/filetypes.makefile, data/filetypes.ruby,
+   data/filetypes.tcl:
+   Make all remaining 0xff0000 comment styles darker using a common
+   default comment style.
+   Add some other generic styles (used only by C-like filetypes for
+   now).
+
+
+2006-11-01  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/search.c: Changed tooltip of checkbox "Close dialog" to be more
+                 descriptive.
+ * src/keybindings.c: Changed keybinding for Print to Ctrl+P.
+ * scintilla/LexBash.cxx: Fixed wrong detection of some words.
+
+
+2006-11-01  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/document.c: Prevent possible invalid memory read.
+ * src/ui_utils.h, src/search.c, src/search.h, src/ui_utils.c,
+   src/callbacks.c:
+   Add Find Previous, Find All in File/Session buttons to the Find
+   dialog.
+   Move Find Usage code from on_find_usage1_activate to search.c.
+   Add ui_button_new_with_image(), ui_hbutton_box_copy_layout().
+ * src/utils.c: Prevent end of line char showing for current function.
+ * src/search.c: Update Save All state after Replace in Session.
+ * src/callbacks.c: Update Undo items when switching notebook pages.
+
+
+2006-10-30  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Add extra indentation for Python after a colon.
+ * tagmanager/latex.c, src/treeviews.c:
+   Removed "begin" section in symbol list and sort it at environment.
+
+
+2006-10-29  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c, src/prefs.c, src/geany.h,
+   src/keyfile.c, src/ui_utils.c, src/main.c:
+   Added an Apply button to preferences dialog.
+   New setting to show/hide the Quit toolbar item.
+   New setting to show/hide notebook tabs.
+ * src/document.c, src/treeviews.c, src/treeviews.h:
+   Colour also the open files list items according to their changed
+   state.
+ * src/callbacks.c, src/callbacks.h, src/msgwindow.c, src/msgwindow.h,
+   src/treeviews.c, src/treeviews.h, src/geany.h:
+   Moved all treeview related callback functions from callbacks.c to
+   msgwindow.c and treeviews.c.
+ * src/document.c: Fixed bug when setting colour of open files list
+                   entry on new, unnamed files.
+
+
+2006-10-28  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/ui_utils.c:
+   Add temporary fix for sci infinite loop in Document::GetColumn(int)
+   when current pos is beyond document end (can occur when removing
+   blocks of selected lines especially brace sections near end of
+   file).
+
+
+2006-10-28  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * doc/geany.docbook:
+   Some small updates.
+   Got rid of &app; entitity.
+   Extended description of encoding support.
+
+
+2006-10-27  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/highlighting.c, src/filetypes.c, src/filetypes.h,
+   data/filetypes.java, data/filetypes.cpp, data/filetypes.ferite,
+   data/filetypes.c, data/filetypes.d:
+   Add filetypes_get_conf_extension() and use in highlighting.c.
+   Fix a memory leak in load_keyfiles().
+   Group C-like default syntax in init_c_like_styleset().
+   Make C-like comment colour darker; make globalclass brighter to
+   distinguish it from word colour.
+   Make Java use same default syntax highlighting colours as C.
+ * src/utils.c:
+   Limit parse depth to 500 chars when parsing C-like function name.
+ * src/sci_cb.c:
+   Find last unmatched open bracket for Show Calltip so nested matched
+   brackets are ignored (except LaTeX).
+
+
+2006-10-26  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keybindings.c, src/keybindings.h:
+   Only accept editing keybindings when the current Scintilla widget
+   has focus.
+   Group editing keybindings together in cb_func_edit.
+   Change keybinding callbacks to pass keybinding index as an argument.
+
+
+2006-10-25  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/document.c:
+   When replacing tabs by space, prevent the scroll position changing,
+   and fix a possible change of cursor position.
+
+
+2006-10-25  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c, src/dialogs.h, src/build.c, src/prefs.c, src/win32.c
+   src/document.c:
+   Added warning message dialog, united dialogs_show_info() and
+   dialogs_show_error() to dialogs_show_msgbox().
+ * src/document.c: Added warning message when opening files that cannot
+                   be handled correctly and set them to read-only mode.
+ * src/document.c, src/encodings.c, src/encodings.h, src/utils.c,
+   src/utils.h: Moved utils_convert_to_utf8() and
+                utils_convert_to_utf8_from_charset() to encodings.c.
+
+
+2006-10-24  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/build.c, src/socket.c: Fixed compiler warnings under Windows.
+ * win32-config.h, src/dialogs.c:
+   Use GTK's file open dialog also under Windows to have the extended
+   options(kept old dialog code for optional use).
+ * win32-config.h, src/dialogs.c, src/geany.h:
+   Removed unneeded macro GEANY_MAX_TAGS_COUNT.
+   Moved macro GEANY_USE_WIN32_DIALOG to geany.h.
+
+
+2006-10-24  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/sciwrappers.h, src/sciwrappers.c, src/document.h,
+   src/document.c:
+   Fix setting document unchanged state when using Undo/Redo for
+   encoding or BOM changes.
+   Add sci_is_modified().
+   Added useful doc() function used only when debugging.
+ * src/search.c:
+   Reorder Replace All buttons.
+ * src/msgwindow.c src/callbacks.c:
+   Change Messages and Compiler window to go to line with a single
+   click instead of double click.
+
+
+2006-10-23  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/encodings.c, src/encodings.h, src/document.c, src/callbacks.c,
+   src/dialogs.c: Added new encoding "None" to open files without any
+                  character conversions (fixes #1580456).
+ * src/callbacks.c: Don't allow changing the encoding or setting a BOM
+                    if the file is read only.
+
+
+2006-10-22  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/geany.h, src/keyfile.c, src/main.c:
+   Added configuration option for the alignment of toolbar quit button.
+ * geany.glade, src/interface.c, src/geany.h, src/keyfile.c,
+   src/main.c: Removed previously added configuration option and
+               removed the right alignment of the toolbar quit button.
+ * src/sci_cb.c, src/sci_cb.h, src/search.c:
+   Let the Find, Replace and FIF dialogs use the word at current cursor
+   position if there is no selection.
+ * src/filetypes.c: Added shebang detection for D files (dmd).
+ * src/callbacks.c, src/dialogs.c, src/document.c:
+   Added drop down box to the file open dialog to select an encoding.
+   Added possibility to open a file without any character set
+   conversions (could already fix #1580456, have to be continued).
+
+
+2006-10-22  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/ui_utils.h, src/search.c, src/document.c, src/dialogs.c,
+   src/document.h, src/ui_utils.c:
+   Add separate Replace button, rename old button Replace & Find.
+   Add expander to group Replace All options for Replace dialog.
+   Use Replace All In Session button instead of checkbox.
+   Add border, update packing for all dialogs in search.c.
+   Add ui_dialog_vbox_new() for consistent dialog borders.
+
+
+2006-10-21  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/document.c:
+   Make search bar automatically wraparound if necessary.
+   Detect when Find has searched all text and display a 'not found'
+   message on the status bar.
+ * src/build.c: Remove unused argument.
+ * src/callbacks.c, src/document.c, src/document.h:
+   Rename document_find_next() document_search_bar_find().
+ * src/msgwindow.h, src/dialogs.h, src/main.h:
+   Add G_GNUC_PRINTF checks for variable argument function prototypes.
+ * src/build.c, src/utils.c, src/highlighting.c, src/geany.h,
+   src/callbacks.c, src/sci_cb.c, src/vte.c, src/search.c, src/main.h:
+   Move geany_debug prototype to geany.h so that all files can use it
+   without a dependency on main.h.
+ * src/callbacks.c, src/main.c, src/main.h:
+   Moved finalization code from destroyapp() to main_quit().
+
+
+2006-10-20  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/interface.c, src/main.c, geany.glade:
+   Add drop-down recent files menu to Open toolbar button.
+   Align quit toolbar button on the right.
+   Move Colour Chooser, Word Count to Tools menu.
+   Reorder Format, add Indent icons, edit Remove Indicators items.
+
+
+2006-10-19  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c, src/about.c, src/dialogs.c:
+   Added 6pt border, changed padding for all dialogs in dialogs.c;
+   also allow ESC to close cancellable dialogs.
+   Updated unsaved, LaTeX Set Arguments dialogs.
+
+
+2006-10-18  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/treeviews.c, tagmanager/c.c:
+   Use "::" as context separator only for C++, otherwise use ".".
+   Detect module declarations in D and put them in the symbol list.
+ * src/callbacks.c, src/geany.h, src/msgwindow.c, src/treeviews.c:
+   Use enum values to reference different treeview widgets
+   (code cleanup).
+
+
+2006-10-18  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c, src/build.h, src/ui_utils.h, src/ui_utils.c,
+   src/keybindings.c, src/callbacks.c, src/callbacks.h, src/document.c,
+   src/main.c:
+   Move build menu related functions and callbacks to build.c.
+   Renamed ui_update_build_menu -> build_menu_update.
+
+
+2006-10-17  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c, src/filetypes.h, src/ui_utils.c:
+   Disable Make All, Make Custom menu items for unnamed files.
+   Allow Run and Make Object for C header files.
+ * src/document.c:
+   Fixed Undo/Redo setting the wrong document changed state when making
+   edits after saving a file.
+
+
+2006-10-17  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * THANKS, configure.in, src/about.c:
+   Added Italian translation (thanks to M. Baldinelli and
+   Dario Santomarco).
+
+
+2006-10-16  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keybindings.c: Change goto matching brace default keybinding to
+                      CTRL-SHIFT-< (requires shift on some keyboards).
+ * src/build.c, src/build.h, src/geany.h, src/callbacks.c:
+   Don't overwrite Make Custom string when using Make Object.
+   Move app->build_make_custopt to build_options struct in build.c.
+ * src/build.c, src/build.h, src/msgwindow.c, src/callbacks.c,
+   src/msgwindow.h:
+   Move build_info struct to build.c and merge with build_options.
+
+2006-10-13  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/ui_utils.c, src/treeviews.c:
+   Improved symbol list view for filetype Java.
+
+
+2006-10-13  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c: Fix infinite loop from parsing current function name.
+
+
+2006-10-12  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: Improved function name parsing to fix some invalid
+                parsed function names.
+
+
+2006-10-12  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c:
+   Fix parsing the current function name for Java.
+   When the document is unedited, get the current function name from
+   the previous function tag parsed by tagmanager.
+   Don't update the current function if the cursor is 1 line from the
+   previous call and the fold level is unchanged.
+ * tagmanager/tm_workspace.c, tagmanager/include/tm_workspace.h:
+   Backported tm_get_current_function() from Anjuta.
+ * src/sciwrappers.c, src/sciwrappers.h:
+   Added sci_get_last_child(), sci_get_fold_parent().
+ * src/keyfile.c: Small fix for sign warning.
+
+
+2006-10-11  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/keyfile.c, src/geany.h: Removed hard limit of session files.
+ * doc/geany.docbook: Updated section about session files limit.
+ * tagmanager/makefile.win32, tagmanager/Makefile.am,
+   tagmanager/parsers.h, tagmanager/diff.c, src/filetypes.c,
+   src/treeviews.c: Added simple parser for filetype Diff to create
+                    tags for each patched file in a diff file.
+ * src/sci_wrappers.c: Added sci_find_bracematch().
+ * src/keybindings.c: Added keyboard shortcut Ctrl+< to jump between
+                      matching braces(closes #1571283).
+ * doc/geany.docbook: Updated missing keybindings.
+
+
+2006-10-10  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c: Connect only once to the "sci-notify" signal.
+ * scintilla/CellBuffer.cxx, scintilla/Document.cxx,
+   scintilla/include/Scintilla.h:
+   Applied patch from Armel Asselin (thanks). It adds SC_START_ACTION
+   notification which is required for Geany's new Undo system.
+ * src/document.c, src/sci_cb.c, src/callbacks.c:
+   Finished new Undo system. Now some more actions can be undone and
+   also redone.
+ * src/sci_cb.c: Got rid of goto usage and added auto completion for
+                 monitor construct for filetype Ferite.
+ * src/highlighting.c, data/filetypes.css:
+   Fixed several highlighting errors, added new styles: identifier2,
+   important and id.
+
+
+2006-10-09  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/win32.c, src/geany.h, src/callbacks.c, src/search.c,
+   src/document.c, src/document.h, src/prefs.c, src/dialogs.c,
+   src/main.c, src/ui_utils.c:
+   Removed the GEANY_MAX_OPEN_FILES limit, using a dynamic array.
+
+
+2006-10-09  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c:
+   Made string "Permissions" in the file property dialog translatable.
+
+
+2006-10-08  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c, data/filetypes.ferite: Added some new keywords.
+ * src/sci_cb.c:
+   Added auto completion for iferr construct for filetype Ferite.
+ * src/socket.c:
+   Added additional header files for compatibility with FreeBSD.
+
+
+2006-10-08  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * tagmanager/tm_source_file.c:
+   Only parse tags once for simple parsers.
+
+
+2006-10-06  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * tagmanager/python.c: Improved Python parser to support nested classes.
+ * src/filetypes.c, src/document.c:
+   Implemented simple "shebang" detection. It is used prior to the
+   filename extension detection.
+ * src/highlighting.c, data/filetypes.latex:
+   Changed foreground colour for LaTeX style "math" to differentiate it
+   from the "comment" style.
+
+
+2006-10-04  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/ui_utils.c, src/main.c, src/document.c, src/callbacks.c:
+   Renamed ui_build_show_hide() in ui_update_build_menu().
+ * src/filetypes.c, src/ui_utils.c:
+   Fixed crash when using "Make object" on new files(closes #1570818).
+
+
+2006-10-03  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: Save configuration(i.e. list of open files) as late
+                    as possible and save the filetype build commands
+                    first shortly before quitting.
+ * doc/geany.docbook, doc/geany.1.in, src/main.c, src/document.c:
+   Reordered command line options alphabetically.
+   Added new command line option --line to set the initial line for the
+   first opened file.
+ * data/filetypes.sh, src/highlighting.c: Added keyword "until".
+
+
+2006-10-02  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/templates.c:
+   Added a blank line indent for templates D, HTML, PHP.
+ * src/symbols.c, src/symbols.h, src/highlighting.c,
+   src/makefile.win32, src/Makefile.am, po/POTFILES.in:
+   Move global tags code to symbols.c.
+   Added symbols_global_tags_loaded(), symbols_get_global_keywords().
+ * src/callbacks.c, src/sci_cb.c, src/sciwrappers.c, src/sciwrappers.h,
+   src/document.c:
+   Change sci_get_line to return a NULL terminated string.
+   Fix memory leak and possible invalid read in sci_cb_auto_latex().
+
+
+2006-10-01  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * configure.in: Use datarootdir for defining paths to fix autoconf
+                 2.60 problems(thanks to Christoph Berg for reporting).
+
+
+2006-10-01  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c, src/filetypes.c, src/filetypes.h, TODO:
+   Save the build includes and arguments on quitting.
+
+
+2006-09-30  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/highlighting.c, src/highlighting.h:
+   Changed StyleSet struct to use Style array, which can use less
+   memory. Added separate struct for the common style set. Also
+   use a struct for tracking the loaded global tags files. Renamed
+   some static functions.
+ * src/document.c, src/ui_utils.c:
+   Clear the symbol list when opening a file with no tags.
+
+
+2006-09-29  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/filetypes.c, data/filetype_extensions.conf:
+   Added pattern *.agi for filetype Perl (closes #1567355).
+ * doc/geany.docbook:
+   Updated information for Debian and Gentoo packages.
+ * New release: Geany 0.9 "Kintaro".
+ * THANKS, src/about.c: Changed credits of topi.
+
+
+2006-09-27  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/vte.c: Change VTE word selection chars to include paths.
+ * src/highlighting.c, data/filetypes.common:
+   Only override the default Scintilla selection style if foreground
+   and/or background flags are set in filetypes.common.
+   Also increase the current line background brightness.
+
+
+2006-09-27  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Fixed broken autocompletion for filetype PHP.
+
+
+2006-09-26  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * win32-config.h: Enabled socket code on Windows.
+ * src/socket.c: Re-enabled the gtk_window_present() call for Windows
+                 to pop up the main window.
+ * src/utils.c, src/sci_cb.c:
+   Enabled notification if file on disk has changed under Windows, it
+   seems to work (closes #1557689).
+
+
+2006-09-26  Frank Lanitz  <frank@frank.uvena.de>
+
+ * po/nl.po, THANKS, configure.in, src/about.c:
+   Added Dutch translation (Thanks to Kurt De Bree).
+
+
+2006-09-22  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/main.c: Apply toolbar style on startup (Fixes #1563125).
+ * src/build.c, src/geany.h:
+   Prevent a segfault if the Terminal tool is not set.
+   Use cmd.exe as default Terminal tool on Windows.
+ * scintilla/makefile.win32, src/makefile.win32,
+   tagmanager/makefile.win32, makefile.win32:
+   Let make clean continue when a file can't be deleted.
+
+
+2006-09-21  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/ui_utils.c:
+   Fix a bug when clicking on a recent file.
+ * src/callbacks.c, src/sciwrappers.c:
+   Prevent a partial selection on a line being deleted when using
+   CTRL-I to indent; also improve CTRL-Shift-I unindenting. Closes
+   #1557963.
+
+
+2006-09-20  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Don't start autocompletion in strings and comments.
+
+
+2006-09-20  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/search.c, src/search.h:
+   Add whole word only matching option for Find in Files.
+   Add fixed string matching option for Find in Files.
+   Make fixed string, case sensitive matching default for efficiency.
+   Sort filenames passed to Grep alphabetically.
+ * src/socket.c:
+   Don't move Geany to the current desktop when opening files remotely.
+
+
+2006-09-18  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c, src/callbacks.c:
+   Fixed compiler warnings and removed unnecessary signal handler.
+
+
+2006-09-17  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/templates.h, src/templates.c:
+   Move all static strings from templates.h to templates.c.
+ * src/sci_cb.c: Fix sign comparison warning.
+ * src/utils.c, src/msgwindow.c:
+   Improve utils_get_current_time_string().
+ * src/ui_utils.c:
+   Only reorder recent files menu when recent file loaded correctly.
+   Reorder the recent file menu instead of recreating it.
+
+
+2006-09-15  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/ui_utils.h, src/ui_utils.c, src/callbacks.c, src/dialogs.c:
+   Add ui_frame_new().
+   Run set includes build dialogs modally, keeping the same filetype.
+   Updated set includes & arguments dialog layout & text.
+ * src/build.c: Don't print the g_spawn argv strings in build_run_cmd()
+                on the status bar.
+
+
+2006-09-12  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c, src/callbacks.c, src/keybindings.c:
+   Added menu items for toggle line commentation.
+   Changed some mnemonics in the "format" submenu.
+ * src/callbacks.c, src/keybindings.c:
+   Added keyboard shortcuts for "Convert Selection to lower-case".
+
+
+2006-09-12  Frank Lanitz  <frank@frank.uvena.de>
+
+ * data/pascal.tags: Adding data for unit x86.
+
+
+2006-09-11  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/socket.c: Made socket code for detecting running instances
+                 working under Windows.
+ * src/win32.c, src/ui_utils.c, src/dialogs.c:
+   Fixed compile warnings under Windows.
+ * src/highlighting.c: Fixed a typo.
+ * src/callbacks.c, src/build.c, src/main.c, src/prefs.c,
+   src/ui_utils.c: Implemented Run command (from the build menu) under
+                   Windows, the other commands will follow somewhen.
+
+
+2006-09-10  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c, src/keybindings.c, src/callbacks.c:
+   Added comment toggle functionality to easily comment and uncomment a
+   line with one shortcut (default Ctrl+B) (closes #1552184).
+
+
+2006-09-09  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/document.c, src/ui_utils.c:
+   Reorder the recent files list if necessary when a file is
+   (re)opened - closes #1552178.
+ * src/msgwindow.c: Check msgwin visible before scrolling.
+ * src/ui_utils.h, src/ui_utils.c, src/callbacks.c,
+   src/callbacks.h, src/dialogs.c, src/dialogs.h, src/main.c:
+   Move on_recent_file_activate, dialogs_create_recent_menu,
+   dialogs_create_build_menu_gen, dialogs_create_build_menu_tex to
+   ui_utils.c. Also make some functions static.
+
+
+2006-09-08  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c, src/msgwindow.c, src/msgwindow.h:
+   Show parsable errors in red; stderr and compile failure in dark red.
+ * src/callbacks.c: Fix compilation problem with sci_cb_do_comment.
+ * src/document.c: Quick fix for C89 compatibility.
+ * src/msgwindow.c:
+   Make C, C++, Ruby and Java error message parsing more tolerant so
+   that linker errors are also parsed if debug line info is available.
+   Group all gcc-like error message parsing information together.
+ * src/msgwindow.c, src/msgwindow.h:
+   Allow compiler and find messages to be added when the messages
+   window is hidden.
+   Add msgwin_show().
+ * src/build.c:
+   Show messages window on build failure.
+   Show build success message on status bar if messages window hidden.
+ * src/document.c:
+   Use handle_forced_encoding(), handle_encoding() and handle_bom()
+   when opening files.
+
+
+2006-09-07  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/socket.c, src/main.c, src/callbacks.c:
+   Moved the socket code from main.c to socket.c.
+ * src/document.c: Remove an unchanged empty document when loading a
+                   new file (closes #1545129).
+
+
+2006-09-06  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/document.c, src/ui_utils.c, src/sci_cb.c:
+   Added own implementation of an Undo stack (not yet working).
+ * src/utils.c, src/document.c:
+   Convert tag names to UTF-8 before showing them in the sidebar.
+ * src/document.c:
+   Fixed a crash when a compiler output reports an error in a blank
+   line(can happen in LaTeX). Thanks to Frank for reporting.
+
+
+2006-09-05  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/templates.c, src/document.c, src/filetypes.c:
+   Added new file template for filetype HTML.
+ * src/document.c, src/dialogs.c:
+   Don't quit when an error occurs while saving changed files.
+
+
+2006-09-05  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c, src/utils.h, src/ui_utils.c, src/ui_utils.h,
+   src/keybindings.c, src/about.c, src/treeviews.c, src/msgwindow.c,
+   src/callbacks.c, src/notebook.c, src/sci_cb.c, src/keyfile.c,
+   src/vte.c, src/document.c, src/prefs.c, src/main.c,
+   po/POTFILES.in, src/Makefile.am, src/makefile.win32:
+   Moved UI related utils from utils.c to ui_utils.c.
+
+
+2006-09-04  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keyfile.c, src/main.c, src/main.h:
+   Rename --no-socket, -s command-line option to --new-instance, -i.
+   Add --no-session, -s command-line option to not load session files.
+   Only save session when session files were loaded at startup.
+ * doc/geany.docbook:
+   Update command-line options and running instance behaviour.
+ * src/callbacks.c, src/callbacks.h, src/sci_cb.c, src/sci_cb.h,
+   src/keybindings.c, src/document.c:
+   Move current_word and clickpos to editor_info struct in sci_cb.c.
+   Move on_editor_button_press_event to sci_cb.c.
+
+
+2006-09-03  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/main.c: Open a new instance without loading session files if
+               socket already exists and no filenames are specified
+               on the command-line.
+
+
+2006-09-03  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: Save All button is also active when only one file is
+                changed(improves usability).
+
+
+2006-09-02  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c, src/search.c:
+   Escape special characters when shown in the status window after
+   "Replace All" or replacing a selection.
+   Set the focus to the replace entry widget when pressing the
+   tabulator key in the find entry widget in the replace dialog.
+   Set the focus to the find entry widget when pressing the tabulator
+   key in the directory entry widget in the FIF dialog.
+
+
+2006-09-02  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c, src/sci_cb.c, src/main.c:
+   Fixed C89 variable declaration and two sign comparison warnings.
+ * src/document.c, src/document.h: Add document_get_current().
+ * src/msgwindow.c:
+   Use parse_file_line() for grep and compiler error messages.
+   Add error message support for D, also for the GDC frontend.
+
+
+2006-09-01  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c, src/dialogs.c, src/prefs.c, src/callbacks.c,
+   src/interface.c, geany.glade: Fixed some typos.
+ * src/filetypes.c, src/highlighting.c, src/keybindings.c,
+   src/sci_cb.c, data/filetypes.html, data/filetype_extensions.conf,
+   src/callbacks.c, src/msgwindow.c:
+   Split filetype PHP/HTML into PHP and HTML.
+
+
+2006-09-01  Frank Lanitz  <frank@frank.uvena.de>
+
+ * configure.in, po/vi.po:
+   Added Vietnamese translation (Thanks Clytie Siddall).
+ * THANKS, src/about.c: Added translator credits.
+
+
+2006-08-31  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/msgwindow.c, data/filetypes.ferite:
+   Improved parsing compiler messages when using the ferite compiler.
+   Added some primitives and improved compiler settings for Ferite.
+
+
+2006-08-30  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * configure.in, src/callbacks.c, src/geany.h, src/main.c:
+   Removed the whole FIFO code and replaced it with support for
+   (Unix Domain) Sockets(including Windows support, but not yet done).
+ * src/vte.c, src/callbacks.c, src/document.c:
+   Change the current working directory within the VTE also when a new
+   file is saved.
+
+
+2006-08-29  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Added auto completion for LaTeX command "begin".
+
+
+2006-08-28  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c: Fixed typo in a tooltip text.
+ * THANKS, src/about.c: Added translator credits.
+ * src/treeviews.c, src/utils.c:
+   Fixed a crash when switching between several filetypes.
+
+
+2006-08-27  Frank Lanitz  <frank@frank.uvena.de>
+
+ * configure.in, po/cs.po:
+   Added Czech translation (Thanks Petr Messner).
+
+
+2006-08-27  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * tagmanager/parsers.h, tagmanager/c.c, data/filetype_extensions.conf,
+   data/filetypes.diff, data/filetypes.ferite, src/highlighting.c,
+   src/filetypes.c, src/msgwindow.c:
+   Added new filetypes Diff and Ferite.
+ * src/search.c: Applied patch from Stefan Oltmanns to add the
+                 possibility to keep the Replace dialog open.
+
+
+2006-08-26  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/geany.h, src/main.c, src/utils.c:
+   Fixed weird behaviour of Save all tool button and menu item.
+ * src/document.c:
+   Fixed missing styling settings on new files (needs to be tested).
+   Now the filetype sub menu in the document file menu will be updated
+   when the filetype is set by the filename on new files.
+
+
+2006-08-23  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/prefs.c, src/vte.c:
+   Added new VTE settings to the preferences dialog.
+   Improved ignore menu bar accelerator setting.
+   Keep current working directory when restarting the VTE
+   (happens when hitting Ctrl+C).
+ * src/document.c: Added counter when using "Replace All" and display
+                   the count of replacements in the status window.
+
+
+2006-08-23  Frank Lanitz  <frank@frank.uvena.de>
+
+ * src/highlighting.c, data/pascal.tags:
+   Added auto completion for PASCAL.
+ * data/latex.tags: Update of catalog.
+
+
+2006-08-22  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c: Fix quit confirmation message with no files open.
+
+
+2006-08-22  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/vte.c, src/prefs.c, src/keyfile.c, src/utils.c:
+   Save all VTE settings in an own VTE section in the configuration
+   file instead of using an unhandy string list.
+   Added new settings: ignore menu bar accelerator and define the shell
+   which is started within the VTE.
+   (Code not yet complete, might be buggy, GUI stuff is missing)
+ * tagmanager/pascal.c: Added recognition for keyword "type".
+
+
+2006-08-21  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/images.c, src/notebook.c:
+   Applied patch from Củ Văn Chuối to enlarge the tab close icon. This
+   should fix some display issues.
+ * scintilla/*: Updated Scintilla to version 1.71.
+
+
+2006-08-20  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/build.c, src/document.c, src/document.h, src/geany.h,
+   src/highlighting.c, src/main.h, src/sci_cb.c, src/search.c,
+   src/templates.c, src/utils.c, src/vte.c:
+   Moved prototype for geany_debug() to main.h.
+   Moved declaration of document struct to document.h.
+ * src/sci_cb.c: Keep selection when commenting and uncommenting code.
+
+
+2006-08-20  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c, src/main.c:
+   Fix opening more than one file from the command-line (with fifo).
+ * src/geany.h, src/callbacks.c, src/Makefile.am, src/main.c,
+   src/main.h:
+   Moved HAVE_FIFO MyApp fields to fifo_info struct in src/main.c.
+   Prevent unnecessary 'does not look like a filename' debug messages.
+   Added fifo_finalize().
+ * src/geany.h, src/filetypes.h, document.h, src/highlighting.h,
+   src/sci_cb.h, src/highlighting.c, src/sciwrappers.c:
+   Remove filetypes.h and Scintilla includes from geany.h.
+ * src/document.h: Add VALID_DOC_IDX macro.
+ * src/utils.h, src/utils.c, src/callbacks.c, src/keybindings.c,
+   src/sci_cb.h, src/sci_cb.c, src/dialogs.c, src/filetypes.h,
+   src/filetypes.c:
+   Move utils_brace_match to sci_cb.c.
+   Move utils_find_current_word to sci_cb.c.
+   Move utils_create_file_filter to filetypes.c.
+
+
+2006-08-19  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c, src/keybindings.c, src/utils.c,
+   src/geany.h, src/callbacks.c, src/main.c, src/keyfile.c:
+   Added menu items to insert configurable date/time strings.
+ * src/dialogs.c, src/callbacks.c:
+   Replaced dialogs_show_make_target() by dialogs_show_input() to have
+   a general input dialog.
+ * src/sci_cb.c:
+   Comment already commented lines, too (re-closes #1521714).
+
+
+2006-08-19  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c: Fix a segfault at startup if terminal follow path
+                    setting is enabled.
+ * src/geany.h, src/callbacks.c, src/keyfile.c, src/vte.c, src/vte.h,
+   src/prefs.c, src/main.c:
+   Move HAVE_VTE MyApp settings to vte_info struct in src/vte.c.
+ * src/vte.c, src/vte.h:
+   Add vte_get_working_directory adapted from Terminal by os-cillation.
+ * src/vte.c, src/keyfile.c: Remember the VTE current directory.
+ * src/callbacks.c: Only send VTE cd command if directory is different.
+
+
+2006-08-18  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c: Use codepage SC_CP_UTF8 because we use always
+                   GTK even under Windows.
+
+
+2006-08-18  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keyfile.c: Fix a small memory leak in configuration_load.
+ * src/dialogs.c: Change Don't save button icon and add mnemonic.
+ * src/main.c: Fix building on win32 - thanks to Củ Văn Chuối.
+ * src/dialogs.c, src/dialogs.h:
+   Add dialogs_show_question_full for custom buttons and extra text.
+   Don't show message dialogs in the window manager taskbar.
+ * src/utils.c: Use Reload button for utils_check_disk_status dialog.
+ * src/callbacks.c: Improve Reload and Quit dialog.
+                    Share on_reload_as_activate code for reloading.
+* tagmanager/d.c, tagmanager/c.c, tagmanager/Makefile.am:
+  Merged tagmanager/d.c with tagmanager/c.c, which also adds user
+  function calltips support for D.
+
+
+2006-08-17  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c, src/callbacks.h, src/main.c:
+   Move signal_cb to main.c.
+ * src/main.c:
+   Move main_init command line settings to parse_command_line_options.
+   Use setup_paths, locale_init, parse_command_line_options,
+   setup_config_dir in main().
+ * src/msgwindow.c: Reorder widget lookup; ensure FIF dir is set.
+ * src/main.c: Fix Show messages window checkbox state when -m used.
+
+
+2006-08-15  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * tagmanager/c.c: Backported calltips workspace support for C-like
+                   user files from Anjuta.
+ * src/keybindings.c, src/sci_cb.c, src/sci_cb.h:
+   Return to showing calltips after successful autocompletion.
+   Use separate functions for html and tag autocompletion.
+
+
+2006-08-15  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c:
+   Made increase/decrease indentation working with selections.
+   Keep the old cursor position when working on a single line
+   (do not jump to line start).
+ * src/sci_cb.c: Fixed "while" and "switch" autocompletion.
+ * src/highlighting.c, data/filetypes.common, doc/geany.docbook:
+   Use the filetype's default style(SCE_*_DEFAULT) as the main default
+   style(STYLE_DEFAULT).
+ * src/sci_cb.c: Improved HTML "<table>" auto completion to use the
+                 indentation better.
+ * src/filetypes.c, src/highlighting.c, src/msgwindow.c,
+   data/filetypes.fortran, data/filetype_extensions.conf,
+   scintilla/Makefile.am, scintilla/LexFortran.cxx,
+   scintilla/KeyWords.cxx, tagmanager/fortran.c,
+   tagmanager/Makefile.am, tagmanager/parsers.c:
+   Added new filetype Fortran 77.
+
+
+2006-08-14  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/sci_cb.c: Applied patch from Jens Granseuer to fix build with
+                 gcc 2.95 (closes #1539502).
+ * src/build.c, src/geany.h, src/msgwindow.c, src/msgwindow.h,
+   src/callbacks.c, src/search.c, src/search.h, src/main.c:
+   Store build information instead of using app->cur_idx.
+   Assume C-like warning messages when running make when the current
+   file is a Makefile.
+   Moved some msgwin setup and cleanup code to msgwindow.c.
+ * src/utils.c, src/utils.h:
+   Moved utils_parse_compiler_error_line to msgwindow.c.
+
+
+2006-08-13  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c:
+   Use wrappers for converting between utf8 and locale encoding.
+   Fixed small memory leak.
+ * src/vte.c: Added the GTK IM menu items to the VTE popup menu.
+ * src/utils.c, src/dialogs.c, src/build.c, src/callbacks.c,
+   src/search.c, src/keyfile.c: Use utf8/locale encoding wrappers.
+ * data/filetypes.common, src/highlighting.c, src/geany.h,
+   src/keyfile.c, src/prefs.c, src/document.c, src/interface.c,
+   geany.glade, doc/geany.docbook:
+   Added colour values for indentation guides and white space.
+   Made hard coded SCI_AUTOCSETMAXHEIGHT changeable and added an option
+   in the preferences dialog.
+ * src/sciwrappers.c: Added sci_set_autoc_max_height().
+
+
+2006-08-12  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c:
+   Removed unnecessary code in document_replace_tabs().
+   Really take tab width when replacing instead of using width = 4.
+ * src/Makefile.am: Applied patch from Fryderyk Dziarmagowski to fix
+                    build problem with linker flag "-Wl,--as-needed"
+                    (closes #1539239).
+
+
+2006-08-12  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/search.c: Enable case sensitive when regex search enabled.
+                 Some label text changes for the dialogs.
+                 Use hbox packing in Find and Find in files dialogs.
+                 Add select directory button for Find in files.
+ * src/utils.c, src/utils.h:
+   Add wrappers for converting between utf8 and locale encoding.
+
+
+2006-08-11  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keybindings.c, src/geany.h, src/callbacks.c, src/callbacks.h,
+   src/search.c, src/search.h, src/dialogs.c, src/main.c,
+   src/dialogs.h: Group search related code.
+
+
+2006-08-11  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c:
+   Changed SEARCH_NOT_FOUND_TXT.
+   Fixed possible segfault when replacing tabs by spaces.
+ * tagmanager/python.c: Fixed wrong classification of local functions
+                        as methods(thanks to Sebastian Koch).
+ * src/sci_cb.c: Fixed segfault when try to (un)comment some code and
+                 no filetype is set(reported by John Gabriele).
+
+
+2006-08-09  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * doc/geany.docbook:
+   Removed section about global ctags, the information were obsolete.
+   Added section about file encodings and the Unicode Byte-Order-Mark.
+ * doc/images/*: Updated screenshots.
+ * New release: Geany 0.8 "Kadir".
+
+
+2006-08-09  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/main.c: Add startup debug message showing GTK+ runtime version.
+ * src/notebook.c: Use native tab DnD reordering on GTK+ 2.10; closes
+                   #1519650.
+
+
+2006-08-08  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/notebook.c: Fixed GTK 2.6 workaround for DnD tab reordering so
+                   it works on the first attempt.
+ * src/utils.c, src/highlighting.c, src/geany.h, src/treeviews.c,
+   src/callbacks.c, src/keyfile.c, src/encodings.c, src/dialogs.c:
+   Fixed all sign comparison warnings.
+
+
+2006-08-07  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: Applied patch from Củ Văn Chuối to re-enable
+                    XIM support. Thanks!
+
+
+2006-08-07  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c: Allow Find even when the replace text is the same.
+                    Place the cursor in "" for insert blank include.
+ * src/utils.c, src/utils.h, src/callbacks.c, src/document.c:
+   Move recent file item to the top when it is clicked on.
+
+
+2006-08-06  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * doc/geany.docbook:
+   Improved search section; added all find and go to commands.
+   Added Filetype extensions section.
+   Grouped configuration file sections into a chapter.
+
+
+2006-08-05  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c: Allow partial word selection for Find Usage.
+ * src/keyfile.c, src/filetypes.c, src/filetypes.h:
+   Use unique filetype id in geany.conf to avoid new filetype problems.
+   Make unique id numbers compatible with Geany 0.7 filetype order.
+ * src/highlighting.c: Fix loading Perl, TCL system config files first.
+
+
+2006-08-04  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c, src/callbacks.h, src/dialogs.c:
+   Disable word and word start matching when regexes are enabled.
+   Don't hide the Find dialog after searching; use Close button.
+ * src/filetypes.c: Set radio item None for new files.
+
+
+2006-08-03  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/callbacks.c, src/filetypes.c, src/filetypes.h,
+   src/encodings.c, src/encodings.h, src/interface.c, src/utils.c:
+   Made document related submenus(filetype, encoding, line endings)
+   radio buttons for better usability.
+
+
+2006-08-03  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c, src/utils.h, src/sci_cb.c:
+   Wrap calltip and prevent it obscuring the current line.
+
+
+2006-08-02  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c:
+   Don't set file as changed when changing encoding to the same one.
+ * src/document.c, src/callbacks.c, dialogs.c:
+   Fixed wrong behaviour of Save As on unchanged files.
+
+
+2006-08-01  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c, src/callbacks.c, src/keybindings.c,
+   src/main.c, src/sciwrappers.c:
+   Added some menu items to the edit menu for editing tasks.
+   Added keyboard shortcuts for increase/decrease of line indentation
+   (closes #1521717).
+
+
+2006-08-01  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/interface.c, src/utils.c, src/utils.h, src/callbacks.c,
+   src/keyfile.c, src/document.c, src/prefs.c, geany.glade:
+   Added Auto indentation and Line wrapping options to Preferences
+   dialog. Split up Miscellaneous items into Display and Features.
+   Renamed Change Selection and Run toolbutton.
+ * src/keyfile.c: Change default for removing trailing spaces to off.
+ * src/callbacks.c: Clear search flags when using find toolbar entry.
+                    Removed some unnecessary static variables.
+ * document.c, document.h, prefs.c:
+   Apply the tab width setting for new documents.
+ * src/keyfile.c, data/filetype_extensions.conf, Makefile.am:
+   Install a system filetype_extensions.conf which can be overridden.
+ * src/filetypes.c data/filetype_extensions.conf:
+   Add Make pattern to recognise makefile*.
+ * src/keyfile.c, src/keyfile.h, src/main.c:
+   Add hidden option -g to generate filetype_extensions.conf.
+
+
+2006-07-31  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/keybindings.c, src/sci_cb.c:
+   Added functionality to uncomment code and added keyboard shortcut
+   Ctrl+Shift+D for this (closes #1521714).
+
+
+2006-07-30  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * doc/geany.docbook, data/filetypes.common, src/.c:
+   Added style to change the colour of the caret(closes #1530486).
+
+
+2006-07-29  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/msgwindow.c, src/msgwindow.h, src/callbacks.c, src/search.c:
+   Remember Find in files directory for opening grep results.
+ * Makefile.am: Add win32 build files to EXTRA_DIST.
+
+
+2006-07-28  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/search.c, src/callbacks.c, src/dialogs.c:
+   Added some options to the Find in files dialog, made search
+   directory editable.
+
+
+2006-07-28  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/sciwrappers.h: Set PLAT_GTK before including ScintillaWidget.h.
+ * src/Makefile.am, geany_windres.rc.in: Correct a typo.
+ * scintilla/makefile.win32, src/makefile.win32, makefile.win32,
+   tagmanager/makefile.win32, win32-config.h, geany_private.rc:
+   Add makefiles for building on win32.
+
+
+2006-07-27  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sciwrappers.c, src/callbacks.c, src/utils.c, src/dialogs.c,
+   src/keybindings.c:
+   Removed unused colour parsing functions.
+   Let the colour chooser pick the colour under the cursor.
+ * data/filetypes.*, src/highlighting.c, src/utils.c:
+   Fixed bug in parsing strings containing hex values, modified the
+   styles to keep the syntax highlighting consistent.
+ * src/main.c: Removed startup warning.
+ * src/geany.h, src/main.c: Added Select All item to sensitive buttons.
+ * src/win32.c, src/dialogs.c, src/callbacks.c:
+   Let the colour chooser pick the colour under the cursor(Win32 code).
+   Added some sanity checks.
+
+
+2006-07-26  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/Makefile.am: Added target to remove geany_res.res when cleaning.
+ * src/geany.h, src/main.c, src/callbacks.c, src/highlighting.c,
+   src/document.c, src/dialogs.c, src/prefs.c, src/utils.c,
+   src/win32.c, src/keybindings.c, src/gb.c, src/about.c:
+   Removed macro GEANY_WIN32, use G_OS_WIN32 instead.
+   Introduced global variables for PACKAGE_DATA_DIR and
+   PACKAGE_LOCALE_DIR, removed macro DOCDIR
+   (these changes are important for the Windows port).
+
+
+2006-07-26  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/win32.c: Don't add .c extension for All files filter.
+                Only set open tool dialog path if it exists.
+ * src/keybindings.c: Use CTRL-SHIFT-space for Windows show calltips.
+ * src/prefs.c: Never show compile & run toolbuttons on Windows and
+                hide the prefs option to show them.
+ * src/main.c: Disable the Compiler tab instead of hiding it so that
+               messages window tabs have the right index on switching.
+ * src/utils.c: Only replace untitled.x within the first 2 lines.
+
+
+2006-07-25  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/encodings.c, src/document.c, src/keyfile.c, src/main.c:
+   Save default encoding for new files as charset string.
+ * src/filetypes.c: Reordered the filetypes (just a cosmetic change).
+ * src/win32.c, src/utils.c:
+   Removed title argument from win32_message_dialog because it is
+   defined by the dialog type.
+   Added simple wrapper function win32_open_browser().
+ * src/dialogs.c, src/main.c, src/document.c, src/callbacks.c:
+   Removed some unneeded functions to avoid duplicate code.
+ * src/callbacks.c:
+   Fixed broken Find usage.
+   Put "No matches" message also in the message window.
+ * Makefile.am, geany_windres.rc, configure.in, src/Makefile.am,
+   scintilla/Makefile.am, src/callbacks.c, tagmanager/tm_work_object.c,
+   tagmanager/ctags.c, tagmanager/get.c:
+   Small changes to get cross compiling using mingw32 suite working.
+ * tagmanager/get.c: Applied patch to fix building with gcc 2.95
+                     (closes #1528516, thanks).
+
+
+2006-07-24  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/geany.h, tagmanager/strlist.c, tagmanager/tm_project.c,
+   tagmanager/parse.c, tagmanager/general.h, tagmanager/ctags.c,
+   tagmanager/tm_workspace.c: Fixed some cross compiling/Win32 issues.
+ * geany.glade, src/callbacks.c, src/document.c, src/interface.c,
+   src/main.c:
+   Added menu item to the document menu to add/remove BOM.
+   Replaced switch_notebook_page by ignore_callback flag.
+ * src/win32.c, src/dialogs.c:
+   Convert Unicode strings to wide characters to avoid weird display.
+ * src/document.c: Set CR/LF as EOL mode on new files on Windows.
+
+
+2006-07-24  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/geany.h: Use generic font names & increase the default size.
+ * src/notebook.c: Use tab reorder workaround only if GTK runtime <2.8.
+ * src/utils.c, src/about.c: Change 2 paths to use G_DIR_SEPARATOR_S.
+ * src/dialogs.c: Wait for Save as dialog to run before closing tab.
+
+
+2006-07-23  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/build.c: Search terminal program in PATH (closes #1527203).
+ * src/documents.c: Fixed some mistakes from last commit.
+ * src/dialogs.c, src/utils.c, src/document.c, src/geany.h:
+   Renamed document element unicode_bom in has_bom.
+ * src/callbacks.c:
+   Let Find usage search for the current selection if there is one.
+
+
+2006-07-22  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/dialogs.c: Make Find and Replace dialogs more compact.
+ * src/treeviews.c: Fix a warning when updating open files treeview.
+
+
+2006-07-22  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/utils.c, src/document.c, src/encodings.c,
+   src/geany.h, src/main.c, src/dialogs.c, geany.glade,
+   src/interface.c, src/sci_cb.c, src/keyfile.c:
+   Added Unicode BOM detection.
+   Added "Reload as" menu item to force opening a file with a specified
+   encoding(both were patches from Stefan Oltmanns).
+ * src/callbacks.c: Fixed two issues when showing / hiding the sidebar.
+ * src/filetypes.c: Added *.cfg as extension for config files.
+ * src/treeviews.c, src/notebook.c:
+   Keep the list of open files in sync when reordering notebook tabs.
+
+
+2006-07-21  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/dialogs.c: Prevent using Find in files for unnamed files.
+
+
+2006-07-21  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/geany.h, src/main.c, src/callbacks.c:
+   Introduced app->ignore_callback to ignore callback actions when
+   changing the state of GUI elements.
+ * geany.glade, src/interface.c, src/main.c, src/callbacks.c,
+   src/utils.c, src/prefs.c, src/keybindings.c:
+   Added menu item View->Show Sidebar and improved code around it.
+
+
+2006-07-20  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c: Unset fold.compact setting.
+
+
+2006-07-20  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * TODO: Added 3 more items discussed on the ML.
+ * doc/scikeybinding.docbook: Commented out some keys not working.
+ * src/dialogs.c: Share find/replace common checkbox setup code.
+ * src/build.c, src/build.h, src/sciwrappers.h, src/dialogs.c,
+   src/dialogs.h: Don't include geany.h.
+ * src/geany.h, src/callbacks.h: Moved GEANY_RESPONSE_* to callbacks.h.
+ * src/callbacks.c, src/document.c, src/document.h, src/dialogs.c:
+   Added Find button to Replace dialog to skip a match.
+   Change Replace button to find first & use current selection.
+   Ask whether to wraparound when replacing and no next match is found.
+
+
+2006-07-19  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c, data/filetypes.common:
+   Highlighting of current line can be disabled.
+ * geany.glade, src/interface.c: Fixed typo.
+ * src/utils.c, src/callbacks.c, src/dialogs.c:
+   Improved replacing escape sequences in Find and Replace dialog
+   (thanks to Stefan Oltmanns).
+
+
+2006-07-18  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/sciwrappers.c, src/sciwrappers.h, src/document.c:
+   Fix replacing the right length of text matched from a regex.
+   Add support for back references when replacing with regex.
+   Improve the speed of replace all/replace in selection.
+   Don't lose the selection range after replacing in selection.
+ * src/callbacks.c, src/callbacks.h, src/document.c, src/dialogs.c,
+   doc/geany.docbook:
+   Use more POSIX-like syntax for regular expression bracket matching.
+   Prevent searching backwards with a regex (unsupported).
+   Scroll in view after the last replacement for replace all/selection.
+
+
+2006-07-18  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c, src/callbacks.c:
+   Added option to replace escape sequences in Find and Replace dialog.
+ * doc/Makefile.am: Reverted last change, we want to use xmlto.
+ * src/encodings.c: Restored original order of the encodings, kept the
+                    sorted order in the document menu.
+ * src/notebook.c:
+   Compile notebook_motion_notify_event_cb() only with GTK 2.6 (again).
+ * src/about.c: Made "built on" string translatable.
+
+
+2006-07-17  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * doc/scikeybinding.docbook, doc/geany.docbook, doc/geany_gpl.docbook:
+   Moved external appendix elements to geany.docbook to validate ok.
+
+
+2006-07-17  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/document.c, src/callbacks.c:
+   Moved document related functions from utils.c to document.c.
+   Keep cursor position when replacing tabs by spaces.
+ * doc/geany.xsl: Added UTF-8 as default encoding.
+ * doc/Makefile.am: Replaced xmlto command by xsltproc.
+ * doc/geany.docbook: Added reference for the GPL appendix.
+
+
+2006-07-16  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/encodings.c:
+   Reordered encodings in the file menu, divided into subregions.
+ * geany.glade, src/interface.c: Added missing mnemonics to file menu.
+ * src/document.c: Added filename to an error message.
+ * src/encodings.c: Removed function encodings_get_encodings().
+ * src/utils.c: Simplified locale detection and little speed up.
+ * src/main.c, src/document.c, src/geany.h:
+   Removed code for alternative scrolling(it was not better).
+ * src/sci_cb.c, src/callbacks.c, src/utils.c, src/highlighting.c,
+   src/main.c, data/html_entities.tags, Makefile.am:
+   Moved HTML entities from sci_cb.h to data/html_entities.tags.
+
+
+2006-07-16  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * doc/scikeybinding.docbook, doc/geany.docbook:
+   Added Scintilla keyboard commands appendix taken from the SciTE
+   documentation section 'Keyboard Commands'.
+
+
+2006-07-15  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/keybindings.c, src/sci_cb.c:
+   Show auto completion list immediately when called by a keybinding.
+ * geany.glade, src/interface.c, src/prefs.c, src/geany.h,
+   src/keyfile.c, src/utils.c:
+   Toolbar items for file operations can also be hidden.
+
+
+2006-07-15  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * keybindings.c, keybindings.h: Add keybinding for Find in files.
+ * doc/geany.docbook: Updated Make command names and keybindings.
+ * src/vte.c: Fix applying vte settings on startup and prevent the
+              message window vertical scrollbar being hidden.
+
+
+2006-07-14  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/search.c: Give accurate message on finishing finding in files.
+ * src/callbacks.c: Use locale encoding for Find in files and
+                    remember previous searches.
+
+
+2006-07-14  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/filetypes.c, src/highlighting.c, tagmanager/tm_tag.c,
+   tagmanager/tm_workspace.c: Fixed autocompletion for filetype C++.
+ * src/utils.c: Removed unneeded functions:
+   utils_glist_strings_free() and utils_glist_from_string().
+ * src/encodings.c: Fixed wrong charset detection on UTF-8
+                    (and maybe other) systems.
+
+
+2006-07-13  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c, src/interface.c, src/utils.c, src/utils.h, src/geany.h,
+   src/msgwindow.c, src/msgwindow.h, src/callbacks.c, src/callbacks.h,
+   src/keyfile.c, src/search.c, src/search.h, src/prefs.c,
+   src/dialogs.c, src/main.c, src/dialogs.h, src/Makefile.am,
+   geany.glade: Added basic Find in files search functionality.
+
+
+2006-07-11  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c: Moved dialogs_show_prefs_dialog() to src/prefs.c.
+ * geany.glade, src/interface.c, src/vte.c, src/prefs.c, src/dialogs.c,
+   src/geany.h, src/main.c, src/callbacks.c, src/keybindings.c,
+   src/keyfile.c, src/utils.c:
+   Improved toolbar popup menu.
+   Added new preferences tab for toolbar settings, several toolbar
+   buttons can be hidden.
+   Added Undo and Redo toolbar buttons (closes request #1519261).
+ * src/sci_cb.c, src/keybindings.c:
+   Added return value and tag name to the calltip.
+
+
+2006-07-11  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/main.c: Prefix command-line opened files with the current
+               directory so relative paths will work better.
+
+
+2006-07-10  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Autocompletion only works on blank lines.
+ * src/callbacks.c, src/dialogs.c:
+   Added "Replace in all open files" option in the replace dialog.
+
+
+2006-07-09  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * tagmanager/d.c, tagmanager/Makefile.am, tagmanager/parsers.h,
+   src/filetypes.c, src/highlighting.c, src/utils.c, src/build.c,
+   src/templates.c, data/filetypes.d:
+   Added new filetype D(patch by Christoph Berg, thanks).
+
+
+2006-07-08  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keyfile.c: Fix saving the terminal tool on quitting.
+ * src/keyfile.c, src/main.c:
+   Improve switching out of fullscreen after startup.
+
+
+2006-07-08  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/encodings.c: Made encoding descriptions translatable.
+ * src/notebook.c:
+   Compile notebook_motion_notify_event_cb() only with GTK 2.6.
+
+
+2006-07-07  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/prefs.c: Fixed bug when saving VTE settings.
+ * src/keybindings.c, src/utils.c, src/callbacks.c, src/geany.h,
+   src/prefs.c, src/keyfile.c:
+   Improved behaviour of toggle sidebar after a restart.
+   Introduced new flag sidebar_visible, renamed configuration keys.
+
+
+2006-07-06  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keybindings.c, src/keybindings.h, src/dialogs.c:
+   Add keybinding for Make object, update Make descriptions.
+
+
+2006-07-05  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/sciwrappers.c: Make sci_goto_line_scroll work better with
+                      line wrapping and folding.
+ * src/callbacks.c, src/dialogs.c:
+   Add Make object command to compile the current file.
+   Added some separators and renamed Build with make items.
+
+
+2006-07-03  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c, src/dialogs.c:
+   Fix a problem with the recent files menu.
+ * src/utils.c, src/sciwrappers.c, src/sciwrappers.h:
+   Scroll to 1/4 of visible lines when going to a line number.
+
+
+2006-07-03  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * doc/Makefile.am: Fixed wrong dependency in target 'install'.
+
+
+2006-07-02  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/msgwindow.c, src/utils.c:
+   Improved "Find usage", so it displays not "null" for unsaved files
+   in the results, and unsaved file are also clickable.
+ * geany.glade, src/interface.c, src/geany.h, src/keyfile.c,
+   src/prefs.c, src/dialogs.c, src/main.c:
+   Little redesign of the preferences dialog.
+   New options for setting the placement of notebook tabs.
+ * doc/Makefile.am: Minor improvements.
+ * src/keyfile.c, src/geany.h, src/prefs.c, src/vte.c, src/callbacks.c,
+   src/dialogs.c: Added option to disable the VTE follows path feature.
+ * THANKS, configure.in, src/about.c: Added new Portuguese translation.
+
+
+2006-07-02  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c: For Find Usage, ignore unnamed files.
+
+
+2006-07-01  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/document.c, src/keybindings.c: Added shortcut for Select All.
+ * src/main.c: Deiconify the main window when a new file is opened from
+               the named pipe.
+ * src/geany.h, src/keyfile.c: Moved some default values to geany.h.
+ * doc/geany.docbook.c, doc/html/*:
+   Added documentation for indicators and printing support.
+   Updated keybindings actions and compile time options.
+
+
+2006-07-01  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/notebook.c: Don't prevent notebook tab focus because this
+                   disables the notebook arrows.
+ * src/callbacks.c: Prevent a segfault if the VTE has not been loaded.
+ * src/utils.c, src/utils.h, src/msgwindow.c:
+   Add utils_get_current_time_string and fix getting the time string.
+ * src/utils.c, src/utils.h, src/callbacks.c:
+   Fix a segfault on Go to tag defn/decl if no files have tags.
+   Add utils_find_tm_tag.
+ * src/keyfile.c: Save the toolbar icon size when quitting.
+                  Set large toolbar icons by default.
+ * src/keyfile.c: Use the user settings for toolbar icon size & style.
+
+
+2006-06-30  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/vte.c, src/callbacks.c:
+   Change the path in the VTE widget when switching between files
+   according to the path of the current file.
+   Process the switch_page callback only once.
+ * src/callbacks.c: Finally fixed the second call of the switch_page
+                    callback.
+ * geany.glade, src/interface.c, src/callbacks.c, src/sci_wrappers.c:
+   Added "Select All" menu item.
+ * geany.glade, src/interface.c, src/document.c, src/sci_wrappers.c,
+   src/prefs.c, src/geany.h:
+   Improved settings for the long line marker, it can now be easily
+   disabled or set to highlight the background of too long lines.
+
+
+2006-06-29  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c, src/utils.h, src/win32.c, src/callbacks.c,
+   src/document.c, src/prefs.c:
+   Apply fonts in Preferences when they are set and only if they have
+   changed. Rename utils_set_font to utils_set_editor_font.
+
+
+2006-06-29  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/geany.h, src/build.c, src/callbacks.c, src/keyfile.c,
+   src/utils.c, src/prefs.c:
+   Renamed tools settings from build_* in tools_*.
+ * src/main.c:
+   Ignore SIGPIPE to prevent crashes when running external programs.
+ * src/geany.h, src/dialogs.c, src/callbacks.c, src/keyfile.c,
+   src/utils.c, src/prefs.c, geany.glade, src/interface.c,
+   src/keybindings.c, src/document.c:
+   Implemented simple printing support.
+ * src/utils.c: Added function is_opening_brace().
+ * src/sci_cb.c:
+   Use is_opening_brace() for better handling of calltips.
+ * src/callbacks.c:
+   Create a new tm_source_file object if a file is renamed, otherwise
+   tagmanager won't work correctly.
+
+
+2006-06-28  Enrico Tröger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/keyfile.c: Fixed weird behaviour of the recent
+                               files list.
+ * src/document.c:
+   Fixed a small typo.
+   Skip converting from UTF-8 in UTF-8 when saving.
+   Show an error messages dialog if the conversion into an encoding
+   failed.
+
+
+2006-06-27  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * data/filetypes.php, data/filetypes.pascal, src/callbacks.c,
+   src/build.c: Parse stdout of compiler output too.
+ * src/utils.c, data/filetypes.latex:
+   Add support for parsing compiler output for LaTeX with latex's
+   --file-line-error-style command line argument.
+   Removed unneeded function utils_free_ptr_array().
+ * src/sci_cb.c: Fixed a crash when auto completion or call tips are
+                 used if no filetype was set. Added some sanity checks.
+
+
+2006-06-27  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/geany.h, src/keyfile.c:
+   Add recent files items in the same order as they were saved.
+   Remove app->recent_files and use g_strfreev in keyfile.c.
+ * src/utils.c, src/utils.h, src/msgwindow.c:
+   Make Status messages override the document statistics using
+   utils_set_statusbar; don't use a fixed buffer for statistics.
+
+
+2006-06-26  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Fixed broken auto completion for switch().
+ * src/document.c: Reload also the symbol list when reloading a file.
+ * src/treeviews.c: Changed some titles to plural. Added own
+                    definitions for filetype Python.
+ * src/filetypes.c, tagmanager/make.c: Add mk pattern for Makefile.
+ * tagmanager/tm_source_file.c: Fixed bug which prevented tag creation
+                                for the first opened file.
+ * src/document.c, src/callbacks.c: Removed unused code.
+ * tagmanager/sh.c: Fixed missing tags beginning with underscore.
+ * tagmanager/get.c: Fixed problem in preprocessor directive handling.
+ * tagmanager/c.c: Fixed identification of prototypes of functions
+                   returning wchar_t * without the extern keyword.
+
+
+2006-06-26  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/document.c: Fix a possible segfault on quitting caused by
+                   processing GTK messages before status messages.
+
+
+2006-06-25  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * README, doc/geany.docbook: Added license notice Scintilla.
+ * src/callbacks.c, src/keybindings.c:
+   Remember the active page when toggling the sidebar. Simplified code
+   for toggling messages window.
+ * tagmanager/tm_tag.c, tagmanager/tm_workspace.c:
+   Fixed wrong line numbers for found tags.
+
+
+2006-06-25  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/notebook.c, src/notebook.h, src/document.c, src/callbacks.c,
+   src/callbacks.h:
+   Enable drag reordering of tabs for GTK+2.8, and a temporary
+   workaround for GTK+2.6.
+   Add notebook_new_tab and update document_create_new_sci to use it;
+   also remove on_tab_close_clicked.
+ * src/notebook.c: Fix close tab button bug introduced in last commit.
+ * src/callbacks.c, src/utils.c:
+   Add clipboard functionality for find and go to line widgets,
+   and Scribble widget.
+
+
+2006-06-24  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: Replaced 'blank' by 'include "..."'. Fixed a bug in
+                utils_brace_match() which prevents correctly matching.
+ * src/document.c, src/sci_cb.c, src/filetypes.c:
+   Made auto completion work only for the current filetype
+   (i.e. it hides symbols from other filetypes).
+ * tagmanager/options.c, tagmanager/parse.c: Removed unneeded code.
+ * tagmanager/tm_workspace.c, tagmanager/tm_source_file
+   tagmanager/tm_tag.c, tagmanager/tm_project, tagmanager/parsers.h,
+   tagmanager/tm_file_entry.c, tagmanager/entry.c, src/highlighting.c,
+   data/latex.tags, data/php.tags, Makefile.am:
+   Added global auto completion tags for PHP and LaTeX.
+ * src/keybindings.c, src/callbacks.c, src/sci_cb.c, src/main.c,
+   src/geany.h, src/dialogs.c:
+   Added some sanity checks to prevent crashes.
+ * src/sci_cb.c, src/highlighting.c:
+   Removed URL highlighting code(useless feature, never was enabled).
+ * src/treeviews.c: Set policy settings for the scolledwindow.
+ * scintilla/License.txt, scintilla/Makefile.am, doc/Makefile.am:
+   Added Scintilla license file.
+
+
+2006-06-23  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/msgwindow.c: Add a timestamp to messages in the Status window
+                    (closes request #1509908).
+
+
+2006-06-22  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: Reorganised C include file items, added C++ headers.
+ * src/callbacks.c: Insert include statements and comment templates at
+                    mouse pointer position instead of cursor position.
+
+
+2006-06-21  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keybindings.c: Added missing shortcut for "Close".
+ * geany.glade, src/interface.c, src/prefs.c, src/keyfile.c,
+   src/document.c, src/dialogs.c, src/encodings.h:
+   Added option in the preferences dialog to replace tabs by spaces
+   when saving a file.
+   Added option for default encoding for new files.
+ * scintilla/*: Updated Scintilla to version 1.70.
+
+
+2006-06-20  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c, src/utils.h, src/callbacks.c, src/document.c,
+   src/document.h: Go back to the same line when reloading.
+                   Fix start selection bug when clicking in the
+                   current file if it has changed.
+ * src/msgwindow.c, src/document.c:
+   Also show status messages on the status bar.
+
+
+2006-06-19  Enrico Troeger  <enrico.troeger@uvena.de>
+
+  * THANKS, src/about.c: Added translator credits.
+  * src/callbacks.c, src/encodings.c, src/utils.c, src/document.c,
+    geany.glade, src/interface.c:
+    Implemented encoding support to switch between different encodings.
+
+
+2006-06-19  Frank Lanitz  <frank@frank.uvena.de>
+
+ * configure.in: Added Spanish translation. More info at
+                 po/ChangeLog.
+
+
+2006-06-19  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/build.c, src/utils.c, src/utils.h, src/callbacks.c:
+   Don't open files or go to errors automatically whilst compiling.
+   Rename utils_goto_workspace_tag to utils_goto_file_line.
+
+
+2006-06-18  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keybindings.c: Fixed a segfault when pressing shortcut for
+                      "Find Usage" and there is no open file.
+ * src/dialogs.c: Removed unneeded label padding.
+
+
+2006-06-18  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/dialogs.c: Make Keyboard shortcuts dialog scrollable.
+ * src/interface.c, geany.glade:
+   Set toolbar button Compile text, Execute icon and insert separators
+   before Quit and before Revert, Close.
+   Move popup item Goto definition above declaration (used more often).
+   Move recent files menu up to Open item.
+   In prefs use 'Recent files' instead of 'MRU'.
+   Correct indentation spelling.
+ * src/keybindings.c: Show shortcut keys for Undo/Redo and popup items.
+ * src/keybindings.c, src/geany.h, src/callbacks.c, src/sci_cb.c,
+   src/callbacks.h: Use correct current_word buffer for popup menu item
+                    keybindings; also use GEANY_MAX_WORD_LENGTH.
+
+
+2006-06-17  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keybindings.c, src/sciwrappers.c, src/sciwrappers.h,
+   doc/geany.docbook: Made Duplicate Line command duplicate selection
+                      if present.
+ * src/highlighting.c: Fixed styling for unmatched braces.
+ * src/keybindings.h, doc/geany.docbook:
+   Group toggle sidebar keybinding with toggle messages.
+ * src/keybindings.c: Set keyboard shortcuts for switching tab pages.
+ * src/keybindings.c, src/keybindings.h:
+   Add keybindings for Find Usage, Go to definition/declaration,
+   based on the current cursor position.
+ * src/utils.c: Ensure null termination in utils_find_current_word.
+
+
+2006-06-16  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/build.c: Delete all indicators when starting a new compilation.
+ * src/highlighting.c, data/filetypes.common:
+   Added keys for linenumber and folding margin, added key for
+   inverting all colours(if you like dark background).
+
+
+2006-06-16  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/notebook.c, src/notebook.h, src/main.c, src/Makefile.am:
+   Added currently disabled drag reordering of notebook tabs.
+ * src/callbacks.c: Execute: only save file if the run command uses it.
+ * src/templates.c, src/templates.h, src/utils.c, src/utils.h,
+   src/callbacks.c: Cache the current function name for efficiency in
+                    utils_get_current_function, other related fixes.
+ * src/geany.h, src/callbacks.c, src/prefs.c, src/dialogs.c:
+   src/main.c: Don't include keybindings.h in geany.h.
+
+
+2006-06-15  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: Fixed a bug at opening files when clicking on compiler
+                error messages(thanks Yura Semashko).
+ * doc/Makefile.am: Fixed a bug which breaks "make install" when xmlto
+                    is not installed.
+
+
+2006-06-13  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * doc/Makefile.am: Renamed target html/index.html in htmldoc, added
+                    geany.xsl to EXTRA_DIST.
+ * doc/geany.docbook: Removed appendix for keybindings, updated section
+                      keybindings to new action identifiers.
+ * src/utils.c: Improved and finished switching between files when
+                clicking on compiler error messages.
+ * src/sciwrappers.c, src/document.c, src/highlighting.c, src/build.c,
+   src/keyfile.c, src/prefs.c, src/interface.c, geany.glade,
+   src/geany.h:
+   Implemented code for setting indicators while compiling.
+
+
+2006-06-12  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * THANKS, src/about.c: Added translator credits.
+ * src/main.c: Defined N_() again, so command line args are really
+               translatable.
+ * geany.glade, src/interface.c: Added missing mnemonic to build menu
+                                 item.
+
+
+2006-06-12  Frank Lanitz  <frank@frank.uvena.de>
+
+ * configure.in: Added Belarusian and Russian language support.
+                 More Information at po/ChangeLog
+
+
+2006-06-11  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c: Added some mnemonics in the file menu.
+ * src/highlighting.c: Replaced "/" by G_DIR_SEPARATOR_S.
+ * src/utils.c: Fixed an issue, which let the build menu item
+                insensitive once a new file w/o template was opened.
+ * src/document.c: Fixed a segfault in document_find_by_filename().
+ * src/geany.h, src/callbacks.c, src/main.c:
+   Improved the handling of GIOChannels(for named pipes), ensure they
+   are closed in a proper way.
+ * src/document.c: document_open_file() returns the index of the opened
+                   file.
+ * src/utils.c: Open or switch to files when clicking on compiler error
+                messages and the error message mentions another file
+                than the opened one.
+
+
+2006-06-10  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/main.c: Made command line options translatable, hide compiler
+               message treeview under Win32.
+ * src/filetypes.c: Added additional patterns to detect configure
+                    scripts as Shell scripts.
+ * src/dialogs.c: Made preferences dialog transient for the main window
+
+
+2006-06-08  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keybindings.c, src/prefs.c, src/dialogs.c:
+   Added labels for each defined shortcut to have a nicer
+   representation in the dialogs.
+ * geany.desktop.in: Removed duplicate entry for Encoding, now
+                     desktop-file-validate processes with no errors.
+ * configure.in, doc/geany.1.in:
+   Renamed geany.1 to geany.1.in to let it be processed by configure.
+   Added GEANY_DATA_DIR to configure.in.
+ * doc/Makefile.am, doc/geany.xsl:
+   Removed unneeded code for generating geany.1. Added man_MANS to get
+   installed the manpage. Changed build command for HTML documentation.
+   Added new file doc/geany.xsl.
+ * geany.spec.in: Some improvements, corrected download URL.
+ * src/prefs.c: Hide make and terminal settings under Windows.
+
+
+2006-06-07  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c: Fixed segfault when inserting comments and no
+                    filetype is set.
+ * src/callbacks.c, src/sciwrappers.c, src/sciwrappers.h:
+   Use the character position under the mouse click for Go to
+   definition/declaration and for overridden middle click text paste.
+ * src/utils.c, src/utils.h, src/callbacks.c, src/document.c,
+   src/document.h: Fix bug with Go to tag defn/decl when the filename
+                   is a link (TagManager dereferences linked filenames)
+
+
+2006-06-06  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c: Enabled folding for markup filetypes
+                       (HTML, XML, PHP, DocBook).
+ * src/treeviews.c: Replaced "Members" by "Methods" to make it clearer.
+
+
+2006-06-05  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * doc/geany.docbook: Added save current file behaviour when building.
+ * src/sci_cb.c: Fix empty white box glitch with tag autocompletion,
+                 also improves typing response efficiency.
+
+
+2006-06-05  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/dialog.c, src/callbacks.c: Added dialog to show defined keyboard
+                                  shortcuts, this replaces the previous
+                                  link to the documentation.
+ * src/main.c, src/document.c: Fixed wrong setting of filetype when
+                               using "All files" as filetype.
+ * src/dialogs.c: Fixed compiler warning "not enough variable arguments
+                  to fit a sentinel".
+
+
+2006-06-04  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * README, NEWS: updated for Geany 0.7
+ * src/keybindings.c: Changed default keybinding for menu_replace to
+                      Ctrl+E.
+ * new release: Geany 0.7 "Ravik"
+ * configure.in: Fixed svn detection code, changed version to 0.8.
+
+
+2006-06-03  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: Fixed bug in auto completion of constructs.
+ * doc/geany.docbook: Added documentation for filetype definition files
+                      and definable keyboard shortcuts.
+
+
+2006-06-03  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * doc/geany.docbook: More minor corrections/rewording.
+                      Added Build System section.
+                      Some corrections to the Filetypes section.
+
+
+2006-06-02  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c, data/filetypes.css: improved colouring
+ * src/utils.c: Added some sanity checks if filetype is NULL.
+ * src/utils.c: Corrected readme text for filedefs/filetypes.README.
+
+
+2006-06-02  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/dialogs.c: Fix dialog path warnings for command-line files.
+ * src/callbacks.c: Fix Go to tag declaration/definition.
+ * tagmanager/docbook.c: Fix a segfault with missing id in element.
+ * doc/geany.docbook: Minor changes to chapter 1.
+
+
+2006-05-31  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * scintilla/PlatGTK.cxx:
+   Backport a Scintilla fix for crashes with recent GTK+ font issue.
+ * src/keyfile.c: Discard old session files also for unsaved documents.
+
+
+2006-05-30  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keyfile.c, src/sciwrappers.c, src/sciwrappers.h, src/document.c:
+   Scroll session files in view after all resizing of the Scintilla
+   widget and rename sci_scroll_to_line.
+ * data/filetypes.pascal: Updated identifier styling as highlighting.c.
+
+
+2006-05-30  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c, src/main.c:
+   Removed unneeded function dialogs_show_fifo_error(), fixed small
+   memory leak in dialogs_show_question()
+ * src/utils.c: Fixed a wrong(non ISO-C) array size allocation,
+                improved utils_replace_tabs().
+ * src/keybindings.c: Added shortcut for Replace Tabs by Space,
+                      extend usage of GEANY_ADD_ACCEL macro.
+ * src/prefs.c: Detect duplicate shortcuts and prevent saving them.
+ * tagmanager/css.c: Fixed a crash when opening malformed CSS files.
+
+
+2006-05-29  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/about.c: Added Jacek Wolszczak and Frank Lanitz to the credits.
+
+
+2006-05-28  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * configure.in, po/pl.po: Added Polish translation contributed by
+                           Jacek Wolszczak.
+ * src/dialogs.c, src/utils.c: Made recent files menu item insensitive
+                               when the list is empty.
+
+
+2006-05-26  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/interface.c, src/callbacks.c, src/callbacks.h, geany.glade:
+   Fixed nasty hang when closing a tab and both the next tab and the
+   first tab files have been externally modified.
+ * src/dialogs.c: Add mnemonics to Replace dialog buttons, reorder.
+ * src/document.c: Fix incremental find and replace of back to back
+                   matches.
+
+
+2006-05-25  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/document.c: On loading use SCI_SETTEXT instead of SCI_ADDTEXT
+                   to avoid Scintilla text changed signal.
+ * src/callbacks.c, src/document.c, src/document.h:
+   Make Replace in selection non-incremental and use single Undo
+   blocks for this and for Replace All.
+
+
+2006-05-24  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/keybindings.c, src/keybindings.h:
+   Add shortcuts for Find Previous, Go to line
+ * src/keybindings.c:
+   Set shortcut for Replace and split keybindings_init code
+
+
+2006-05-23  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/utils.c: check if file has been closed in
+                utils_goto_workspace_tag
+ * src/interface.c, src/callbacks.c, src/callbacks.h, geany.glade:
+   created Search menubar item with Find items from Edit menu, added
+   Find Previous and Go to line commands
+ * src/vte.c: remove vte middle click override to allow X paste and
+              update popup preferences item for Terminal tab number
+
+
+2006-05-22  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/callbacks.c, src/templates.c:
+   insert the file type extension and fix a warning when inserting a
+   fileheader in a new document
+
+
+2006-05-22  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keybindings.c, src/utils.c: improved toggle visibility of
+                                   sidebar when toggled by keyboard
+
+
+2006-05-21  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keybindings.c: added menu_messagewindow and toggle_sidebar
+                      shortcuts
+ * src/highlighting.c, data/filetypes.c, data/filetypes.cpp:
+   added option to disable styling within preprocessor directives
+ * src/dialogs.c, src/about.c, src/callbacks.c, configure.in:
+   rewrote about dialog to reduce code size, added subversion revision
+ * src/vte.c: declared some functions static
+ * src/dialogs.c: do not create VTE settings in the preferences dialog
+                  if VTE is disabled at runtime
+ * geany.glade, src/interface.c, src/callbacks.c, src/keyfile.c,
+   src/main.c, src/prefs.c:
+   added option to disable load of VTE at startup
+ * src/highlighting.c, src/utils.c: applied sanity check patch from
+                                    Pierre(posted on mailing list)
+
+
+2006-05-20  Nick Treleaven  <nick.treleaven@btinternet.com>
+
+ * src/dialogs.c: fix pressing enter to open more than one file in
+                  the open file dialog
+ * src/sci_cb.c: fix a segfault when commenting out lines with ctrl-d
+                 when no filetype is set
+ * src/utils.c: fix a segfault clicking on a compile error if the
+                compiled file has been closed
+
+
+2006-05-19  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: fix a small bug in sci_cb_show_calltip() to prevent an
+                 endless loop
+ * src/keybindings.c, src/dialogs.c, src/callbacks.c, src/main.c,
+   src/Makefile.am, src/geany.h, src/prefs.c, geany.glade:
+   make keyboard shortcuts user-definable
+ * src/document.c, src/utils.c: fixed a crash when clicking on the run
+                                button and no file is opened
+
+
+2006-05-17  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: added code for creation of filedefs subdirectory
+ * src/document.c: fixed compiler warning
+ * src/keyfile.c: removed obsolete and commented code
+
+
+2006-05-16  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * tagmanager/Makefile.am, tagmanager/tcl.c, tagmanager/parsers.h,
+   scintilla/Makefile.am, scintilla/LexTCL.cxx, scintilla/KeyWords.cxx,
+   src/filetypes.c, src/highlighting.c, data/filetypes.tcl:
+   new filetype Tcl/Tk
+ * src/sci_cb.c: enabled autocompletion for all filetypes (fine tuning
+                 still needed)
+ * src/document.c: removed mmap()-code, use at the moment only
+                   g_file_get_contents, fixed memory leak
+ * scintilla/ScintillaGTK.cxx: updated to CVS version
+ * data/filetypes.*: quoted filename wildcards for filenames with
+                     whitespace
+
+
+2006-05-15  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/callbacks.c:
+   added previously code to prevent opening of non-text files, fixed
+   detection of C++-destructors and other improvements in
+   utils_get_current_tag()
+
+
+2006-05-14  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * configure.in, po/ca.po, THANKS, src/dialogs.c:
+   added catalan translation contributed by Topi
+ * data/filetypes.php, data/filetypes.perl, data/filetypes.ruby,
+   data/filetypes.pascal, src/utils.c:
+   added compiler commands to run a syntax check and parse the output,
+   so it is clickable in compiler message window
+
+
+2006-05-12  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c. src/callbacks.c: added code for parsing python error
+                                 messages when clicked in compiler
+                                 message window
+ * tagmanager/ruby.c, src/treeviews.c: improved parser to detect
+                                       variables and members
+ * src/highlighting.c, data/filetypes.ruby: added missing keywords
+
+
+2006-05-11  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: show appropriate error code when use(i.e. write access)
+                of configuration directory fails
+ * src/highlighting.c, src/filetypes.c:
+   read the filetype definitions first from the configuration directory
+   and then from the datadir (%prefix/share/geany)
+
+
+2006-05-10  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/document.c, src/filetypes.c, src/templates.c, src/callbacks.c:
+   added template support for filetypes with comment character #,
+   updated GPL to the current address of the FSF
+ * tagmanager/python.c: fixed wrong identification of keyword class in
+                        ''' comments
+ * tagmanager/parse.c, tagmanager/python.c:
+   added code from anjuta to parse methods and functions separately
+ * tagmanager/ruby.c: applied patch from ctags Sourceforge site to
+                      recognise things like Foo::Bar (ctags #1213512)
+ * tagmanager/perl.c, src/treeviews.c:
+   improved symbol list for filetype Perl, improved parser
+ * src/document.c, src/callbacks.c: improved tag list updating, should
+                                    be a bit faster on opening files
+
+
+2006-05-09  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * scintilla/ScintillaGTK.cxx: fixed encoding problem which causes many
+                               problems with non-Ascii characters
+ * src/document.c: fixed a strange segfault at creating new file tabs
+
+
+2006-05-08  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: save current file if it is executed
+                    (e.g. shell scripts)
+ * src/highlighting.c: fixed a typo which prevented highlighting of
+                       variables in Perl
+ * src/filetypes.c, tagmanager/Makefile.am, tagmanager/parsers.h,
+   tagmanager/css.c: added parser for CSS filetype
+ * tagmanager/ruby.c, tagmanager/Makefile.am, tagmanager/parsers.h,
+   scintilla/LexRuby.cxx, scintilla/Makefile.am, scintilla/KeyWords.cxx
+   src/filetypes.c, src/highlighting.c: added new filetype Ruby
+
+
+
+2006-05-05  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: fix a crash when clicking in the compiler output
+ * src/dialogs.c: improved file permission display if they cannot be
+                  read (e.g. on Windows)
+
+
+2006-05-03  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/win.c, src/utils.c, src/highlighting.c:
+   moved my_strtod() from win32.c to utils.c, use it always, not only
+   on Win32 systems
+
+
+2006-05-01  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * data/filetypes.perl: added two compiler commands
+ * data/filetypes.cpp, src/highlighting.c: added some C++ keywords
+ * src/sci_cb.c: added try-catch-auto completion
+
+
+2006-04-30  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/main.c: fixed a crash when starting Geany without debug messages
+ * sci_cb.c: fixed a small issue when dragging files to Geany
+ * new release: Geany 0.6 "Nivers"
+
+
+2006-04-29  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keyfile.c, src/callbacks.c:
+   applied two patches from Nick Treleaven to fix invalid memory read
+   and improve the ordering of file tabs while loading session files
+ * src/vte.c: applied patch from Nick Treleaven to improve removing the
+              vte widget, fixed also a bug with disappearing scrollbars
+
+
+2006-04-28  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/treeviews.c, src/msgwindow.c:
+   disabled interactive search function since it never worked and is
+   unnecessary and confusing
+ * src/utils.c: added small check for NULL pointer
+ * src/document.c: fixed some inconsistency with the read only check
+                   box in the file menu
+
+
+2006-04-27  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: improved key press handling to avoid that cursor
+                    rans out of editor widget when pressing F8
+ * src/sciwrappers.c: applied two little patches from Nick Treleaven
+ * tagmanager/tex.c: fixed naming of the parser to get recognised again
+                     for parsing LaTeX files
+
+
+2006-04-26  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/document.c: applied patch from Nick Treleaven to right-align the
+                   close buttons on each tab, reload the symbol list at
+                   reloading a file
+ * src/dialogs.c, src/callbacks.c:
+   applied patch from Nick Treleaven which improves the file open
+   dialog, make it more compact, replaced read-only checkbox by a
+   button, fixed memory leak
+ * src/sci_cb.c: applied patch from Nick Treleaven to fix a small bug
+                 in auto commenting lines with CTRL+D
+ * src/document.c: applied patch from Nick Treleaven to switch to the
+                   new opened tab if placement of new file tabs is set
+                   to Right
+ * src/utils.c: applied patch from Nick Treleaven to fix a bug in
+                utils_get_current_tag() with C++ methods
+
+
+2006-04-25  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: added support for complete do while loops
+ * src/highlighting.c, data/filetypes.cpp: added keywords this, public,
+                                           private and protected
+ * scintilla/ScintillaGTK.cxx, scintilla/PlatGTK.cxx:
+   applied patches from John Ehresmann (posted on the Scintilla ML)
+ * src/dialogs.c: improved the file properties dialog
+ * src/gb.c: translated comments into English and fixed some bugs
+
+
+2006-04-24  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/main.c, src/geany.h: removed unneeded time variables
+
+
+2006-04-23  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * scintilla/LexBash.cxx: fixed crash when typing "\" as last character
+                          in a bash file (patch from Scintilla ML)
+
+
+2006-04-20  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/keyfile.c, src/document.c, src/interface.c
+   src/prefs.c, src/geany.h: added option to place new file tabs to the
+                             right or left of the tab list
+ * src/utils.c, src/keyfile.c, src/prefs.c, src/build.c, src/vte.c,
+   src/filetypes.c: replaced lots of g_new() by g_new0()
+ * src/dialogs.c: at saving a new file, the extension of the file is
+                  guessed based on the default extension in filetypes.c
+ * src/build.c, src/msgwindow.c: improved scrolling of compiler
+                                 messages at building
+ * src/build.c, src/dialogs.c, src/callbacks.c:
+   rewrote most of the building code, get compiler settings from
+   filetype definition files, handle non-UTF8 filenames better and much
+   more things
+
+
+2006-04-18  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/geany.h, src/keyfile.c, src/utils.c:
+   added option to match < and > to, but disabled by default
+
+
+2006-04-09  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: added handler for dragged file URIs in the editor
+                 widget, so they will get opened
+
+
+2006-04-07  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c: now the file save dialog returns when pressing Enter,
+                  too, also fixed a bug if path of current file
+                  contains non-UTF8 characters, added question dialog,
+                  to ask for various things, so removed
+                  dialogs_show_confirm_exit()
+ * src/callbacks.c: added a check for overwriting files when using file
+                    save dialog
+ * src/document.c: default charset encoding for new files is set to UTF-8
+ * src/highlighting.c, data/filestypes.common:
+   added setting folding_style to define the style of the folding icons
+
+
+2006-04-06  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/build.c: fixed some errors with non-UTF8 filenames and paths
+ * bugfix: src/dialogs.c: fixed an error when changing the current
+                          directory in the file open dialog and the
+                          path contains non-UTF8 characters
+ * src/document.c: removed useless for loop in document_set_filetype
+
+
+2006-04-05  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/document.c: fixed a segfault when opening a file and
+                           filename is NULL
+
+
+2006-04-04  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/callbacks.c: fixed potentially segfault when opening a
+                            file from the recent file menu
+
+
+2006-04-03  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/vte.c: applied three patches from Nick Treleaven to improve
+              usage of the VTE component
+
+
+2006-04-01  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * tagmanager/general.h: added inclusion of unistd.h to avoid compile
+                         errors on MacOSX
+ * src/document.c: fixed memory allocation while opening files, so that
+                   empty files (size = 0 byte) can also be opened
+
+
+2006-03-29  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c: let the editor widget also be resized,
+                                 so resizing the main window is nicer
+ * src/keyfile.c, src/main.c:
+   moved some code from configuration_open_files to
+   configuration_apply_settings, because configuration_open_files is
+   not called every time
+
+
+2006-03-28  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/sci_cb.c, src/callbacks.c:
+   applied patch from Nick Treleaven to avoid segmentation faults on
+   long words(>120 characters)
+ * src/main.c, src/sci_cb.c: applied patch from Nick Treleaven to fix a
+                             possible segmentation fault
+
+
+2006-03-22  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: added error messages to utils_write_file()
+ * src/keyfile.c: rewrote the code for reading the session files
+
+
+2006-03-19  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c, src/sci_cb.c, data/filetypes.*:
+   added definable comment characters to all filetypes
+
+
+2006-03-18  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c, data/filetypes.*:
+   added wordchars key to all filetypes
+ * src/main.c: improved reading and writing of the named pipe, so Geany
+               does not go into in an endless loop after opening a file
+
+
+2006-03-17  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/sci_cb.c: typing } on lines longer than 256 chars caused
+                         a crash (segfault)
+ * src/dialogs.c, src/callbacks.c, src/interface.c, geany.glade:
+   moved VTE settings tab code in the preferences dialog to dialogs.c,
+   so this code will not be compiled if HAVE_VTE is unset
+
+
+2006-03-15  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/geany.h, src/main.c, src/keyfile.c:
+   added GEANY_WINDOW_MINIMAL_WIDTH, GEANY_WINDOW_MINIMAL_HEIGHT,
+   GEANY_WINDOW_DEFAULT_WIDTH, GEANY_WINDOW_DEFAULT_HEIGHT to make it
+   easier to changed these defaults
+
+
+2006-03-14  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: added check for existing documentation, otherwise
+                    try online documentation
+
+
+2006-03-11  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/interface.c, src/main.c:
+   set minimal size to 620x440, default size to 900x600, added command
+   line option -m or --no-msgwin to disable message window at startup
+ * doc/geany.docbook: added description for -m option
+
+
+2006-03-10  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: applied patch from Nick Treleaven to allow
+                    reclicking of taglist treeview item
+ * src/keyfile.c: fixed small error which adds every time a new comment
+                  in the filetype extensions configuration file
+ * data/filetypes.*, src/highlighting.c:
+   added italic flag to all styles, added background colour for current
+   line
+ * src/dialogs.c, src/sciwrappers.c:
+   applied patch from Nick Treleaven which improved inserting of
+   current selection in the find and replace dialogs
+ * src/filetypes.c: added new extensions for filetype Pascal
+ * src/data/filetypes.conf, src/highlighting.c:
+   added "key" and edited colours for changed lexer
+ * scintilla/*: updated Scintilla to version 1.68
+
+
+2006-03-09  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * data/filetypes.pascal: added new keywords supplied by Marko Peric
+ * src/highlighting.c: added support for // and (* ... *) comments in
+                       Pascal
+ * src/utils.c, src/document.c: improved utils_check_disk_status()
+                                behaviour to work with files on
+                                filesystems with another time than the
+                                time from the local host
+
+
+2006-03-02  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/build.c, src/geany.h:
+   clicking on a compiler error message jumps to the correct file, if
+   it is not the current one
+ * src/dialogs.c: fixed crash when closing find or replace dialog twice
+                  by pressing escape (triggering the delete_event),
+                  closes #1441359
+
+
+2006-02-27  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: added auto completion in LaTeX mode for \begin
+
+
+2006-02-26  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: removed unneeded destroyapp_early()
+ * src/main.c, src/utils.c: improved configuration directory creation
+ * src/sci_cb.c, src/highlighting.c, src/document.c, geany.glade,
+   src/geany.h, src/interface.c, src/prefs.c, src/callbacks.c:
+   implemented first version of rudimentary folding support, added
+   goto line entry in the toolbar and made it hideable
+
+
+2006-02-25  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keyfile.c: fixed memory leak, load filetype extensions from a
+                  file in the configuration directory, the filetype of
+                  a document is now also stored at loading and saving
+                  session files
+ * src/filetypes.c: removed unneeded constant GEANY_MAX_PATTERNS
+
+
+2006-02-24  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/callbacks.c, src/dialogs.c, src/main.c:
+   made "make" build menu items sensitive for C header files
+ * bugfix: src/vte.c: hopefully fixed a crash when closing the
+                      preferences dialog and message window was hidden
+                      and shown before
+
+
+2006-02-21  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: added utils_make_human_readable_str()
+ * src/dialogs.c: added file properties dialog
+ * geany.glade, src/interface.c, src/callbacks.c, src/dialogs.c:
+   moved font selection dialog from glade code to dialogs.c, removed
+   unnecessary callback functions for delete_event's
+
+
+2006-02-20  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: fixed bug when using color selector and no file is
+                    open, only fixed on some other actions
+ * src/geany.h, src/main.c: disable menu functions of the edit menu
+                            when no files are open
+ * src/main.c: added the possibility to delete an existing fifo in the
+               case, that Geany crashed previously
+
+
+2006-02-17  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/gb.c: fixed bug which caused always same figures under Win32,
+             some other code cleanups and changes
+ * geany.glade, src/interface.c, src/callbacks.c, src/main.c:
+   replaced the New toolbar button by a menu button, so it works also
+   under Win32
+ * src/prefs.c: all settings are now saved by pressing OK in the
+                settings dialog, up to now it was only done at exiting
+
+
+2006-02-16  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/main.c, callbacks.c, document.c: fixed some line breaking issues
+
+
+2006-02-14  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * Makefile.am, doc/Makefile.am: improved "make uninstall" of Geany
+ * configure.in: added check for mkfifo(), made it also an option
+ * src/main.c: added a message box if lost pipe was found, FIFO code
+               now depends on HAVE_FIFO
+ * src/Makefile.am: do not compile win32.c anymore, added to EXTRA_DIST
+ * src/geany.h, src/main.c, src/callbacks.c:
+   added command line option -p or --no-pipe to ignore a running
+   instance of Geany and force opening a new instance
+
+
+2006-02-13  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c: added utils_show_linenumber_margin()
+ * geany.glade, src/interface.c, src/callbacks.c, src/dialogs.c,
+   src/main.c, src/geany.h, src/keyfile.c, src/sci_cb.c:
+   removed some items from the document menu to the preferences dialog,
+   removed file save dialog from interface.c to dialogs.c, added
+   toggle for line numbers
+
+
+2006-02-10  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * scintilla/LexOMS.cxx, scintilla/keywords.cxx,
+   scintilla/include/SciLexer.h, scintilla/Makefile.am:
+   added new lexer LexOMS(based on LexBash) for OMS support
+ * src/highlighting.c: added new filetype OMS (O-Matrix)
+ * src/dialogs.c: improved the find and replace dialog, an existing
+                  selection is inserted, fixed focus settings
+ * src/callbacks.c: prevent Geany entering an endless loop, at
+                    replacing something like "YELLOW" with "yellow", if
+                    search flag "Case sensitive" is not checked
+
+
+2006-02-08  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/main.c, src/callbacks.c, src/geany.h:
+   Geany now creates a FIFO, to communicate between different instances
+
+
+2006-02-07  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/callbacks.c, src/document.c: fixed a memory leaks
+ * src/document.c: improved filename handling on saving files
+ * src/callbacks.c: improved the filename entry widget in the file open
+                    dialog, it handles now directories, too
+
+
+2006-02-06  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/document.c: improved behaviour of HOME/END keys on wrapped lines
+ * src/sciwrappers.c: added sci_assign_cmdkey()
+ * geany.glade, src/interface.c, src/callbacks.c, src/dialogs.c:
+   rewrite of the file open dialog, now it enters a directory instead
+   of trying to open it in Geany (closes #1421776)
+ * src/sci_cb.c: improved sci_cb_do_comment() to handle SQL and Caml
+                 comments
+ * src/sciwrappers.c, src/sci_cb.c:
+   applied patch from Nick Treleaven to improve multiline selection
+   by selecting the lines in the line number margin, removed also the
+   right click behaviour to set a marker
+ * src/highlighting.c: added filetypes SQL and (O)Caml, heavily reduced
+                       code size
+ * src/main.c: fixed wrong handling of the visibility of the message
+               window
+ * src/vte.c: fixed a crash when preferences are set and message window
+              is hidden (thanks to Joo Martin for reporting)
+
+
+2006-02-03  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/document.c: improved filename handling in document_open_file(),
+                   fixed a crash at reloading files
+ * src/main.c: fixed a crash when opening more than 25 files from the
+               command line (closes #1422135)
+ * src/sci_cb.c: improved sci_cb_do_comment() to handle CSS comments
+
+
+2006-02-01  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/build.c: applied patch from Nick Treleaven to fix memory leaks
+ * src/document.c: changed <? to <?php in new file template
+ * src/keyfile.c: changed "term" to "xterm", this was a simple typo
+ * src/utils.c: added encoding to the status bar, fixed a freeze with
+                C++ files (closes #1419473)
+
+
+2006-01-29  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/win32.c: set the Open File dialog directory to the same
+                directory as the current file
+ * src/utils.c: disabled the build menu under Win32, at least temporary
+ * src/templates.c, doc/geany.docbook:
+   added new wildcard {geanyversion} to have actual Geany version in
+   filetype templates (e.g. HTML template)
+
+
+2006-01-27  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * new release: Geany 0.5 "Rebus"
+
+
+2006-01-26  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/dialogs.c: set the Open File dialog directory to
+                               the same directory as the current file
+                               (thanks to Nick Treleaven for this patch)
+ * src/sci_cb.c: fixed a bug with auto indention and CR/LF line endings
+                 (thanks to Tamim for reporting)
+
+
+2006-01-21  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * tagmanager/tex.c, src/treeviews.c: added tag support for "\begin",
+                                      fixed gcc4 warnings
+ * tagmanager/docbook.c: fixed gcc4 warnings
+ * src/filetypes.c, src/document.c, src/keyfile.c:
+   fixed some bugs when opening files with non UTF-8 filenames
+
+
+2006-01-18  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: it is now possible to insert a function description
+                    (use right mouse button popup menu) without having
+                    the cursor inside the { and } of a function
+
+
+2006-01-17  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: fixed two auto indention bugs
+ * geany.glade, src/interface.c: fixed incorrect size of Save as dialog
+
+
+2006-01-16  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * scintilla/*: updated Scintilla to version 1.67
+ * src/treeviews.c: added category class to the symbol list, changed
+                    category names for filetype DocBook and LaTeX
+ * src/sci_cb.c: improved auto indention, now "for (...) {" works, too
+ * configure.in: set prefix if it was not specified
+ * geany.desktop.in: added GenericName[de]
+
+
+2006-01-15  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * configure.in, Makefile.am, desktop.in:
+   replaced geany.desktop by geany.desktop.in, some changes to the
+   desktop file like absolute icon path
+ * tagmanager/tex.c: added tags section, subsection and subsubsection
+ * tagmanager/docbook.c: complete rewrite, works great
+
+
+2006-01-14  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/document.c, src/treeviews.c: update open file list entry
+                                            when "Saving as"
+ * bugfix: src/document.c: fixed wrong g_object_unref() which causes
+                           crashes
+ * bugfix: src/geany.h, src/document.c, src/utils.c:
+   fixed wrong symbol list in files with tag support but without
+   exisiting symbols, added new boolean has_tags in document struct
+ * src/geany.h, src/document.c, src/utils.c:
+   removed unneeded utils_get_new_sci_number() and scid from document
+   struct
+ * src/treeviews.c, src/callbacks.c:
+   added popup menu to symbol list, added "Hide" and "Hide sidebar" to
+   symbol list popup and open files list popup, to quickly hide the list
+   or the whole sidebar
+
+
+2006-01-10  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: geany.glade, src/interface.c: added missing tooltip to
+                                         compile button
+ * src/filetypes.c: applied patch from Nick Treleaven, to add .cc, .hh
+                    and .hxx extension for filetype C++ and improve the
+                    pattern handling
+
+
+2006-01-08  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * tagmanager/docbook.c, tagmanager/parsers.h, tagmanager/Makefile.am:
+   added conf.c(built from pascal.c), to create tags for docbook files
+ * src/build.c, src/utils.c, src/main.c, src/callbacks.c:
+   made the build menu filetype specific to have different menu items
+ * bugfix: src/keyfile.c: save window geometry with
+                          gtk_window_get_position() so restoring the
+                          window works correctly under Win32, too
+
+
+2006-01-06  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/main.c, src/callbacks.c, src/vte.c, src/geany.h:
+   added commandline option to specify the path to the VTE library
+
+
+2006-01-03  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * data/filetypes.markup, src/highlighting.c:
+   added new keywords for PHP5 and replaced phpKeyWords by php
+   (thanks to Simon Stoye for reporting)
+ * geany.glade, src/interface.c, src/prefs.c, src/keyfile.c
+   src/callbacks.c, src/document.c, src/build.c, src/sci_cb.c:
+   added new option "Beep on errors" to disable beeping
+
+
+2005-12-31  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/gb.c: fixed segfault when exiting the easteregg program when it
+             is still running
+ * src/highlighting.c, src/win32.c: added my_strtod(), as replacement
+                                    for Win32 strtod()
+
+
+2005-12-29  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * tagmanager/tm_tag.c: eliminated compiler (gcc4) warnings
+ * bugfix: tagmanager/tm_workspace.c:
+   replaced macro __unix__ by HAVE_GLOB_H(closes #1387828) and improved
+   handling of P_tmpdir (closes #1387839)
+
+
+2005-12-28  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/dialogs.c: fixed a segfault in dialogs_show_not_found()
+ * bugfix: src/utils.c: fixed bug in utils_strpos() which returned -1
+                        if length needle is 1
+ * src/utils.c: added utils_treeviews_showhide(), to get the right
+                settings at startup for the left side treeviews
+ * src/gb.c: eliminated compiler(gcc4) warnings, replaced macro
+             __unix__ by HAVE_FCNTL_H, use /dev/urandom or /dev/random
+             (in this order) if available and rand() if not
+ * src/configure.in: added checks for /dev/urandom and /dev/random
+
+
+2005-12-25  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c: text entry field in the find and replace dialog grabs
+                  focus by default, so the cursor is always inside
+
+
+2005-12-19  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * new release: Geany 0.4 "Tarkin"
+ * src/gb.c: several improvements and bugfixes
+ * src/prefs.c, src/callbacks.c: improved HAVE_VTE handling
+ * src/sci_cb.c: set cursor position between brackets in
+                 sci_cb_auto_close_bracket()
+
+
+2005-12-18  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: changed keyboard shortcut for rebuilding the symbol
+                    list, now it is Ctrl+Shift+R, Ctrl+R is now used
+                    reload the current file
+ * src/callback.c, src/utils.c, src/document.c, src/treeviews.c,
+   src/main.c, src/geany.h:
+   made the symbol list document-oriented, so it has not to be
+   generated on every notebook switch page event
+ * src/geany.h, src/main.c, src/keyfile.c, src/callbacks.c:
+   introduced opening_session_files, to suppress notebook switch page
+   events at loading the files from the last session
+ * geany.glade, src/interface.c, src/geany.h, src/callbacks.c:
+   added new menu items: Help->Keyboard shortcuts and File->Revert
+
+
+2005-12-16  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/dialogs.c: changed "build with make" keyboard shortcut to
+                  Shift+F9 to avoid problems with window managers key
+                  bindings (thanks to Nick Treleaven for reporting)
+ * src/about.c, src/gb.c: added a nice easteregg(type "geany" in the
+                          about dialog *g*)
+ * src/vte.c: added popup menu for the VTE widget
+ * bugfix: src/prefs.c: fixed crash when opening option dialog and VTE
+                        is disabled
+ * geany.glade, src/interface.c, src/main.c, src/callbacks.c:
+   removed unnecessary functions
+
+
+2005-12-13  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/sci_cb.c: added sci_cb_auto_close_bracket() to close { and [
+                 brackets in LaTex-Mode (more could be added)
+
+
+2005-12-12  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: changed key binding to switch between open
+                    documents from CTRL to ALT+Left/Right, so
+                    CTRL+Left/Right moves the cursor to word boundaries
+
+
+2005-12-11  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: added shortcut F6 to switch to the VTE widget
+ * doc/geany.docbook: described some of the compile time options in
+                      geany.h and marked filename with <filename>-tag.
+ * src/interface.c, src/prefs.c, src/utils.c, src/callbacks.c,
+   src/geany.h, src/documents.c: made length of MRU list changeable
+ * bugfix: src/highlighting.c: fixed a wrong color value
+
+
+2005-12-10  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/prefs.c, src/vte.c, src/keyfile.c, src/utils.c, src/callbacks.c:
+   many changes, adding color settings for VTE
+
+
+2005-12-09  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * geany.glade, src/utils.c, src/interface.c, src/callbacks.c,
+   src/main.c, src/keyfile.c: removed symbol list combo box in the
+                              toolbar
+ * src/treeviews.c, src/utils.c: heavily improved the tag list to
+                                 categorise the tags in a tree
+
+
+2005-12-08  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/interface.c: added tooltip text for exit button
+ * src/main.c: open a new file at startup if none is open
+ * bugfix: src/keyfile.c: fixed a segfault when starting without a
+                          configuration dir
+
+
+2005-12-06  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/document.c, src/callbacks.c: diabled extended HOME and END key
+                                    default behaviour due to many
+                                    problems
+
+
+2005-12-03  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/filetypes.c, src/highlighting.c: added new filetype "Assembler"
+
+
+2005-12-01  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/document.c, src/callbacks.c: extending HOME and END key default
+                                    behaviour, to jump back to previous
+                                    cursor position if pressed again
+
+
+2005-11-30  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keyfile.c, src/prefs.c, src/interface.c, src/vte.c:
+   added some options for the VTE to the preferences dialog
+ * bugfix: src/sci_cb.c: fixed a small bug by auto closing }-brackets
+ * src/callbacks.c, src/main.c: added signal and handler for F12 key,
+                                pressed in the main widget
+
+
+2005-11-28  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/vte.c: added rudimentary clipboard support by pressing
+              middle(paste) and right(copy) mouse button
+
+
+2005-11-27  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/vte.c/h: newly created: contains functions for the terminal
+                emulator widget, which is loaded if libvte.so.4 is
+                available
+ * configure.in: added option --[en|dis]able-vte to disable vte support
+
+
+2005-11-25  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * scintilla/LexOthers.cxx: edited the properties lexer to colourize
+                            key=value pairs a bit nicer
+ * tagmanager/parsers.h, tagmanager/conf.c, tagmanger/Makefile.am:
+   added conf.c(built from make.c), to create tags for config files
+ * src/utils.c, src/callbacks.c: rewrite untitled.extension after
+                                 "Save As" in the file header
+
+
+2005-11-24  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keyfile.c, src/interface.c, src/prefs.c, src/msgwindow.c:
+   added new option "Switch to status message list"
+ * src/keyfile.c: store the position of vpaned1 too(sizer between
+                  editor window and the status message list)
+ * src/highlighting.c, src/filetypes.c: added new filetype "Conf"
+
+
+2005-11-22  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/sci_cb.c: added missing / to the closing tr-tag in HTML
+                         table auto completion
+ * src/sci_cb.c: disabled auto completion in HTML at writing pure CDATA
+
+
+2005-11-21  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/keyfile.c: store the position of hpaned1(sizer between editor
+                  window and the taglist) and load it if window
+                  positions are saved and restored
+ * src/treeviews.c, src/callbacks.c: added special popup menu to the
+                                     list of open files
+
+
+2005-11-20  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * new release: Geany 0.3 "Muzzer"
+ * src/treeviews.c/h: newly created: contains functions for the taglist
+   and open files treeviews on the left side
+ * src/treeviews.c, src/callbacks.c: added an open files treeview,
+   which represents all open files
+ * src/interface.c: added a toolbar button to open the color chooser
+ * bugfix: src/sci_cb.c: there was an error at the next line after
+                         closing a multiline comment in C/C++/Java
+
+
+2005-11-18  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/document.c: make a beep if a file could not be saved
+
+
+2005-11-16  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/sci_cb.c: fixed a small bug that kills the current line
+                         if a } was added and there is no newline and
+                         there are no non-space characters on the line
+                         (thanks to Frank Lanitz for reporting)
+
+
+2005-11-15  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c: Save As add a recent opened file to the list, too
+
+
+2005-11-14  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/utils.c, src/callbacks.c: added shortcut for "walking" between
+                                 open documents by pressing
+                                 STRG+LEFT resp. STRG+RIGHT
+ * src/templates.h, src/templates.c, src/document.c, src/filetypes.c:
+   removed hardcoded filetype templates from filetypes.c and added them
+   to templates.h/c
+
+
+2005-11-12  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/templates.c, src/interface.c, src/callbacks.c, src/prefs.c,
+   src/keyfile.c, src/document.c, src/filetypes.c:
+   removed GPL options(in the settings dialog, in the context menu for
+   inserting comments like fileheader with GPL), now this is completly
+   done within the fileheader template and the wildcard {gpl}, added
+   also the first template for new file (filetype None)
+
+
+2005-11-11  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/utils.c: fixed segfault if configuration directory could
+                        not created
+ * src/dialogs.c, src/main.c, src/callbacks.c:
+   added a error box which is shown if configuration directory could
+   not created
+ * bugfix: src/callbacks.c: fixed a bug which freezed Geany sometimes
+                            at exiting(thanks to Frank Lanitz for re-
+                            porting)
+
+
+2005-11-09  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/filetypes.c: set correct filetype id for type C++, so
+                            template for new C++ file will work again
+                            (thanks to Frank Lanitz for reporting)
+
+2005-11-06  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/highlighting.c: added highlighting support for Python
+ * src/highlighting.c: extracted all hardcoded styling definitions for
+                       all filetypes, so they can be easily edited by
+                       user in %PREFIX/%DATADIR/geany, a GUI interface
+                       is planned
+ * src/main.c, src/highlighting.c: load global.tags file only if a file
+                                   was opened
+ * src/callbacks.c: added key combo: Shift+Space to explicitly suppress
+                    use of sci_cb_auto_forif()
+ * Makefile.am: added data/ to be included in tarballs and get installed
+
+
+2005-11-03  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/interface.c, src/prefs.c: added long line marker settings to
+                                 preferences dialog
+
+
+2005-10-31  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/sciwrappers.c:
+   reset the line number margin width at zooming in and out (thanks to
+   Frank Lanitz for reporting)
+ * src/dialogs.c, src/callbacks.c, src/document.c, src/keyfile.c:
+   re-implemented recent files menu, this time in a useful way
+ * bugfix: auto completion is working again
+
+
+2005-10-30  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * bugfix: src/filetypes.c: fixed the function pointer of filetype
+                            Tex to get the correct styling
+                            (thanks to Frank Lanitz for reporting)
+ * src/document.c: reset the width of line number margin at saving
+ * src/document.c, sciwrapper.c, geany.h, keyfile.c:
+   added vertical line (by default at column 72) to mark long lines
+
+
+2005-10-25  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * new release: Geany 0.2 "Panaka"
+ * configure.in, src/utils.c: added check for gethostname()
+   and modified utils_get_hostname() appropriately
+ * src/dialogs.c, src/interface.c: redesigned file open dialog
+                                   to make it looks nicer
+
+
+2005-10-24  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * Makefile.am: added autogen.sh to EXTRA_DIST
+ * scintilla/*: updated Scintilla to version 1.66
+ * bugfix: configure.in: added check for fgetpos(), so compilation
+                         with gcc 4 is possible
+ * src/sci_cb.c: removed sci_cb_show_entity_list(), because it was
+                 unnecessary
+
+
+2005-10-23  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * doc/geany.docbook: added search information in section Usage
+ * src/utils.c: bugfix: check_disk_status should now work better
+ * src/callbacks.c, src/dialogs.c, src/document.c, src/sci_wrappers.c,
+   interface.c: created "Replace" dialog with Replace, Replace All and
+   Replace Selection, also improved the Find dialog a little bit
+ * src/callbacks.c, src/interface.c: added "show hidden files" checkbox
+   in file open dialog
+
+
+2005-10-22  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/dialogs.c, src/document.c:
+   heavily improved find dialog
+ * src/sci_cb.c: added simple <table>-completion in HTML-mode
+ * src/callbacks.c, src/interface.c, src/main.c, src/keyfile.c:
+   added toolbar popup entries for toolbar icon size
+ * src/dialogs.c, src/images.c: removed compile icon and replaced it
+   by the GTK stock icon "convert"
+
+
+2005-10-21  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/callbacks.c, src/interface.c, src/document.c, src/sciwrappers.c:
+   added read-only mode (and checkbox in file open dialog)
+   added also text entry in file open dialog to enter directly filenames
+ * doc/geany.docbook: added startup information in section General
+ * src/callbacks.c, src/interface.c, src/keyfile.c:
+   added "Recent files" list to the file menu
+ * src/build.c: at linking a file(C and C++): if source is newer than
+                a existing object file, it is rebuilt
+ * bugfix: src/build.c: compiling a file without any special arguments
+                        didn't work
+
+
+2005-10-20  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * src/Makefile.am: EXTRA_DIST entry added, to include images.c
+   (thanks to Frank Boehme for reporting of missing file)
+
+
+2005-10-19  Enrico Troeger  <enrico.troeger@uvena.de>
+
+ * first release - Geany 0.1 "Freyborn"
+

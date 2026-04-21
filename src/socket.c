@@ -779,8 +779,17 @@ gboolean socket_lock_input_cb(GIOChannel *source, GIOCondition condition, gpoint
 #ifdef G_OS_WIN32
 		gdk_window_show(gtk_widget_get_window(window));
 #endif
+		}
+		else if (strncmp(buf, "line", 4) == 0)
+		{
+			while (socket_fd_gets(sock, buf, sizeof(buf)) != -1 && *buf != '.')
+			{
+				g_strstrip(buf); // remove \n char
+				// on any error we get 0 which should be save enough as fallback
+				cl_options.goto_line = atoi(buf);
+			}
+		}
 	}
-
 	socket_fd_close(sock);
 
 	return TRUE;
