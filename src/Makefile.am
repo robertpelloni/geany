@@ -73,17 +73,21 @@ libgeany_la_SOURCES = \
 	callbacks.c callbacks.h \
 	dialogs.c dialogs.h \
 	document.c document.h \
+	DocumentManager.cpp DocumentManager.h \
 	editor.c editor.h \
 	encodings.c encodings.h \
 	filetypes.c filetypes.h \
+	FileTypeManager.cpp FileTypeManager.h \
 	geanyentryaction.c geanyentryaction.h \
 	geanymenubuttonaction.c geanymenubuttonaction.h \
 	geanyobject.c geanyobject.h \
 	geanywraplabel.c geanywraplabel.h \
 	gtkcompat.h \
 	highlighting.c highlighting.h \
+	SyntaxHighlighter.cpp SyntaxHighlighter.h \
 	highlightingmappings.h \
 	keybindings.c keybindings.h \
+	KeybindingManager.cpp KeybindingManager.h \
 	keyfile.c keyfile.h \
 	log.c log.h \
 	libmain.c main.h geany.h \
@@ -92,11 +96,14 @@ libgeany_la_SOURCES = \
 	notebook.c notebook.h \
 	pluginextension.c pluginextension.h \
 	plugins.c plugins.h \
+	PluginManager.cpp PluginManager.h \
 	pluginutils.c pluginutils.h \
 	prefs.c prefs.h \
 	printing.c printing.h \
 	project.c project.h \
+	ProjectManager.cpp ProjectManager.h \
 	sciwrappers.c sciwrappers.h \
+	ScintillaWrapper.cpp ScintillaWrapper.h \
 	search.c search.h \
 	socket.c socket.h \
 	spawn.c spawn.h \
@@ -106,7 +113,9 @@ libgeany_la_SOURCES = \
 	templates.c templates.h \
 	toolbar.c toolbar.h \
 	tools.c tools.h \
+	ToolsManager.cpp ToolsManager.h \
 	sidebar.c sidebar.h \
+	ProjectTreeView.cpp ProjectTreeView.h \
 	ui_utils.c ui_utils.h \
 	utils.c utils.h
 

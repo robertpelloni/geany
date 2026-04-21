@@ -7,3 +7,12 @@
 [submodule "subprojects/bobui"]
 	path = subprojects/bobui
 	url = https://github.com/robertpelloni/bobui
+[submodule "submodules/bobui"]
+	path = submodules/bobui
+	url = https://github.com/robertpelloni/bobui
+[submodule "submodules/btk"]
+	path = submodules/btk
+	url = https://github.com/robertpelloni/btk
+[submodule "submodules/bobgui"]
+	path = submodules/bobgui
+	url = https://github.com/robertpelloni/bobgui
