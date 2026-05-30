@@ -455,6 +455,7 @@ static void destroy_project(gboolean open_default)
 	/* remove project non filetype build menu items */
 	build_remove_menu_item(GEANY_BCS_PROJ, GEANY_GBG_NON_FT, -1);
 	build_remove_menu_item(GEANY_BCS_PROJ, GEANY_GBG_EXEC, -1);
+	build_remove_menu_item(GEANY_BCS_PROJ, GEANY_GBG_EXEC_IND, -1);
 
 	g_free(app->project->name);
 	g_free(app->project->description);
@@ -824,8 +825,6 @@ static gboolean update_config(const PropertyDialogElements *e, gboolean new_proj
 		GtkTextIter start, end;
 		GtkTextBuffer *buffer;
 		GeanyDocument *doc = document_get_current();
-		GeanyBuildCommand *oldvalue;
-		GeanyFiletype *ft = doc ? doc->file_type : NULL;
 		GtkWidget *widget;
 		gchar *tmp;
 		GString *str;
@@ -841,16 +840,25 @@ static gboolean update_config(const PropertyDialogElements *e, gboolean new_proj
 			stash_group_update(node->data, e->dialog);
 
 		/* read the project build menu */
-		oldvalue = ft ? ft->priv->projfilecmds : NULL;
-		build_read_project(ft, e->build_properties);
-
-		if (ft != NULL && ft->priv->projfilecmds != oldvalue && ft->priv->project_list_entry < 0)
+		GeanyFiletype *ft = doc ? doc->file_type : NULL;
+		if (ft && ft->priv->project_list_entry < 0)
 		{
-			if (p->priv->build_filetypes_list == NULL)
-				p->priv->build_filetypes_list = g_ptr_array_new();
-			ft->priv->project_list_entry = p->priv->build_filetypes_list->len;
-			g_ptr_array_add(p->priv->build_filetypes_list, ft);
+			GeanyBuildCommand *oldbuild = ft->priv->projfilecmds;
+			GeanyBuildCommand *oldexec = ft->priv->projexeccmds;
+			build_read_project(ft, e->build_properties);
+
+			if (ft->priv->projfilecmds != oldbuild ||
+				ft->priv->projexeccmds != oldexec)
+			{
+				if (p->priv->build_filetypes_list == NULL)
+					p->priv->build_filetypes_list = g_ptr_array_new();
+				ft->priv->project_list_entry = p->priv->build_filetypes_list->len;
+				g_ptr_array_add(p->priv->build_filetypes_list, ft);
+			}
 		}
+		else
+			build_read_project(NULL, e->build_properties);
+		
 		build_menu_update(doc);
 
 		widget = ui_lookup_widget(e->dialog, "radio_long_line_disabled_project");

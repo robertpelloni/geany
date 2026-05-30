@@ -68,14 +68,6 @@ GeanyBuildInfo build_info = {GEANY_GBG_FT, 0, 0, NULL, GEANY_FILETYPES_NONE, NUL
 
 static gchar *current_dir_entered = NULL;
 
-typedef struct RunInfo
-{
-	GPid pid;
-	gint file_type_id;
-} RunInfo;
-
-static RunInfo *run_info;
-
 #ifndef G_OS_WIN32
 static const gchar RUN_SCRIPT_CMD[] = "geany_run_script_XXXXXX.sh";
 #endif
@@ -154,7 +146,7 @@ static struct
 }
 widgets;
 
-static guint build_groups_count[GEANY_GBG_COUNT] = { 3, 4, 2 };
+static guint build_groups_count[GEANY_GBG_COUNT] = { 3, 4, 2, 2 };
 static guint build_items_count = 9;
 
 static void build_exit_cb(GPid pid, gint status, gpointer user_data);
@@ -348,84 +340,102 @@ static void printfcmds(void)
 }
 
 
-/* macros to save typing and make the logic visible */
-#define return_cmd_if(src, cmds)\
-	if (cmds != NULL && cmds[cmdindex].exists && below>src)\
-	{ \
-		*fr=src; \
-		if (printbuildcmds) \
-			printf("cmd[%u,%u]=%u\n",cmdgrp,cmdindex,src); \
-		return &(cmds[cmdindex]); \
-	}
-
-#define return_ft_cmd_if(src, cmds)\
-	if (ft != NULL && ft->priv->cmds != NULL \
-		&& ft->priv->cmds[cmdindex].exists && below>src)\
-		{ \
-			*fr=src; \
-			if (printbuildcmds) \
-				printf("cmd[%u,%u]=%u\n",cmdgrp,cmdindex,src); \
-			return &(ft->priv->cmds[cmdindex]); \
-		}
-
-
-/* get the next lowest command taking priority into account */
-static GeanyBuildCommand *get_next_build_cmd(GeanyDocument *doc, guint cmdgrp, guint cmdindex,
-											 guint below, guint *from)
+typedef struct CommandSet
 {
-	/* Note: parameter below used in macros above */
-	GeanyFiletype *ft = NULL;
-	guint sink, *fr = &sink;
+	GeanyBuildSource src;
+	GeanyBuildCommand *cmds;
+} CommandSet;
 
+// Note: Could return CommandSet instead of using psrc
+/* get the next lowest command taking priority into account
+ * below = only consider GeanyBuildSource values less than this parameter
+ * psrc = Address to write GeanyBuildSource */
+static GeanyBuildCommand *get_next_build_cmd(GeanyDocument *doc,
+	guint cmdgrp, guint cmdindex, guint below, guint *psrc)
+{
 	g_return_val_if_fail(doc == NULL || doc->is_valid, NULL);
 
 	if (printbuildcmds)
 		printfcmds();
 	if (cmdgrp >= GEANY_GBG_COUNT)
 		return NULL;
-	if (from != NULL)
-		fr = from;
 	if (doc == NULL)
 		doc = document_get_current();
-	if (doc != NULL)
-		ft = doc->file_type;
+	
+	GeanyFiletypePrivate empty_ftp = {}, *ftp =
+		doc ? doc->file_type->priv : &empty_ftp; // avoid checking for null
+	CommandSet overloads[6] = {};
 
 	switch (cmdgrp)
 	{
-		case GEANY_GBG_FT: /* order proj ft, home ft, ft, defft */
-			if (ft != NULL)
-			{
-				return_ft_cmd_if(GEANY_BCS_PROJ, projfilecmds);
-				return_ft_cmd_if(GEANY_BCS_PREF, homefilecmds);
-				return_ft_cmd_if(GEANY_BCS_FT, filecmds);
-			}
-			return_cmd_if(GEANY_BCS_DEF, ft_def);
+		case GEANY_GBG_FT: /* order proj ft, home ft, ft, def ft */
+		{
+			CommandSet cs[] = {
+				{GEANY_BCS_PROJ,	ftp->projfilecmds},
+				{GEANY_BCS_PREF,	ftp->homefilecmds},
+				{GEANY_BCS_FT,		ftp->filecmds},
+				{GEANY_BCS_DEF,		ft_def},
+			};
+			memcpy(overloads, cs, sizeof(cs));
 			break;
+		}
 		case GEANY_GBG_NON_FT: /* order proj, pref, def */
-			return_cmd_if(GEANY_BCS_PROJ, non_ft_proj);
-			return_cmd_if(GEANY_BCS_PREF, non_ft_pref);
-			return_ft_cmd_if(GEANY_BCS_FT, ftdefcmds);
-			return_cmd_if(GEANY_BCS_DEF, non_ft_def);
+		{
+			CommandSet cs[] = {
+				{GEANY_BCS_PROJ,	non_ft_proj},
+				{GEANY_BCS_PREF,	non_ft_pref},
+				{GEANY_BCS_FT,		ftp->ftdefcmds},
+				{GEANY_BCS_DEF,		non_ft_def},
+			};
+			memcpy(overloads, cs, sizeof(cs));
 			break;
-		case GEANY_GBG_EXEC: /* order proj, proj ft, pref, home ft, ft, def */
-			return_cmd_if(GEANY_BCS_PROJ, exec_proj);
-			return_ft_cmd_if(GEANY_BCS_PROJ_FT, projexeccmds);
-			return_cmd_if(GEANY_BCS_PREF, exec_pref);
-			return_ft_cmd_if(GEANY_BCS_FT, homeexeccmds);
-			return_ft_cmd_if(GEANY_BCS_FT, execcmds);
-			return_cmd_if(GEANY_BCS_DEF, exec_def);
+		}
+		case GEANY_GBG_EXEC: /* order proj ft, home ft, ft, def */
+		{
+			CommandSet cs[] = {
+				{GEANY_BCS_PROJ_FT,	ftp->projexeccmds},
+				{GEANY_BCS_FT,		ftp->homeexeccmds},
+				{GEANY_BCS_FT,		ftp->execcmds},
+				{GEANY_BCS_DEF,		exec_def},
+			};
+			memcpy(overloads, cs, sizeof(cs));
 			break;
+		}
+		case GEANY_GBG_EXEC_IND: /* order proj, pref */
+		{
+			CommandSet cs[] = {
+				{GEANY_BCS_PROJ,	exec_proj},
+				{GEANY_BCS_PREF,	exec_pref},
+			};
+			memcpy(overloads, cs, sizeof(cs));
+			break;
+		}
 		default:
-			break;
+			return NULL;
+	}
+	for (guint i = 0; i < G_N_ELEMENTS(overloads); i++)
+	{
+		GeanyBuildCommand *cmds = overloads[i].cmds;
+		guint src = overloads[i].src;
+		
+		if (cmds != NULL && cmds[cmdindex].exists && src < below)
+		{
+			if (psrc)
+				*psrc = src;
+			if (printbuildcmds)
+				g_print("cmd[%u,%u]=%u below=%u; %s\n", cmdgrp, cmdindex, src, below, cmds[cmdindex].command);
+			return &(cmds[cmdindex]);
+		}
 	}
 	return NULL;
 }
 
 
 /* shortcut to start looking at the top */
-static GeanyBuildCommand *get_build_cmd(GeanyDocument *doc, guint grp, guint cmdindex, guint *from)
+// Note: could remove psrc parameter, only passed once
+static GeanyBuildCommand *get_build_cmd(GeanyDocument *doc, guint grp, guint cmdindex, guint *psrc)
 {
-	return get_next_build_cmd(doc, grp, cmdindex, GEANY_BCS_COUNT, from);
+	return get_next_build_cmd(doc, grp, cmdindex, GEANY_BCS_COUNT, psrc);
 }
 
 
@@ -504,14 +514,21 @@ static GeanyBuildCommand **get_build_group_pointer(const GeanyBuildSource src, c
 				case GEANY_BCS_FT:	  return ft ? &(ft->priv->execcmds): NULL;
 				case GEANY_BCS_HOME_FT: return ft ? &(ft->priv->homeexeccmds): NULL;
 				case GEANY_BCS_PROJ_FT: return ft ? &(ft->priv->projexeccmds): NULL;
+				default: return NULL;
+			}
+			break;
+		case GEANY_GBG_EXEC_IND:
+			switch (src)
+			{
 				case GEANY_BCS_PREF:	return &(exec_pref);
 				case GEANY_BCS_PROJ:	return &(exec_proj);
 				default: return NULL;
 			}
 			break;
 		default:
-			return NULL;
+			break;
 	}
+	return NULL;
 }
 
 
@@ -776,9 +793,8 @@ static void build_spawn_cmd(GeanyDocument *doc, const gchar *cmd, const gchar *d
  * the command; otherwise the command itself is returned. working_dir is a pointer
  * to the working directory from which the command is executed. Both strings are
  * in the locale encoding. */
-static gchar *prepare_run_cmd(GeanyDocument *doc, gchar **working_dir, guint cmdindex)
+static gchar *prepare_run_cmd(GeanyDocument *doc, GeanyBuildCommand *cmd, gchar **working_dir)
 {
-	GeanyBuildCommand *cmd = NULL;
 	const gchar *cmd_working_dir;
 	gboolean autoclose = FALSE;
 	gchar *cmd_string_utf8, *working_dir_utf8, *run_cmd, *cmd_string;
@@ -844,19 +860,30 @@ static gchar *prepare_run_cmd(GeanyDocument *doc, gchar **working_dir, guint cmd
 }
 
 
-static void build_run_cmd(GeanyDocument *doc, guint cmdindex)
+// array of filetype run IDs followed by independent run IDs
+static GPid *run_pids = NULL;
+
+static GPid *get_run_pid(GeanyBuildGroup grp, guint cmd)
+{
+	if (grp == GEANY_GBG_EXEC_IND)
+		cmd += build_groups_count[GEANY_GBG_EXEC];
+	return &run_pids[cmd];
+}
+
+static void build_run_cmd(GeanyDocument *doc, guint group, guint cmdindex)
 {
 	gchar *working_dir;
 	gchar *run_cmd = NULL;
 
 	if (! DOC_VALID(doc) || doc->file_name == NULL)
 		return;
-
-	run_cmd = prepare_run_cmd(doc, &working_dir, cmdindex);
+	GeanyBuildCommand *cmd = get_build_cmd(doc, group, cmdindex, NULL);
+	if (!cmd)
+		return;
+	
+	run_cmd = prepare_run_cmd(doc, cmd, &working_dir);
 	if (run_cmd == NULL)
 		return;
-
-	run_info[cmdindex].file_type_id = doc->file_type->id;
 
 #ifdef HAVE_VTE
 	if (vte_info.have_vte && vte_config.run_in_vte)
@@ -887,7 +914,7 @@ static void build_run_cmd(GeanyDocument *doc, guint cmdindex)
 		gtk_widget_grab_focus(vte_config.vte);
 		msgwin_show_hide(TRUE);
 
-		run_info[cmdindex].pid = 1;
+		*get_run_pid(group, cmdindex) = 1;
 		g_free(vte_cmd);
 	}
 	else
@@ -913,11 +940,11 @@ static void build_run_cmd(GeanyDocument *doc, guint cmdindex)
 
 		utils_str_replace_all(&locale_term_cmd, "%c", run_cmd);
 
-		if (spawn_async(working_dir, locale_term_cmd, NULL, NULL, &(run_info[cmdindex].pid),
+		GPid *pid = get_run_pid(group, cmdindex);
+		if (spawn_async(working_dir, locale_term_cmd, NULL, NULL, pid,
 			&error))
 		{
-			g_child_watch_add(run_info[cmdindex].pid, (GChildWatchFunc) run_exit_cb,
-								(gpointer) &(run_info[cmdindex]));
+			g_child_watch_add(*pid, run_exit_cb, pid);
 			build_menu_update(doc);
 		}
 		else
@@ -930,10 +957,9 @@ static void build_run_cmd(GeanyDocument *doc, guint cmdindex)
 #ifndef G_OS_WIN32
 			g_unlink(run_cmd);
 #endif
-			run_info[cmdindex].pid = (GPid) 0;
+			*get_run_pid(group, cmdindex) = (GPid) 0;
 		}
 	}
-
 	g_free(working_dir);
 	g_free(run_cmd);
 }
@@ -1077,11 +1103,11 @@ static void build_exit_cb(GPid child_pid, gint status, gpointer user_data)
 
 static void run_exit_cb(GPid child_pid, gint status, gpointer user_data)
 {
-	RunInfo *run_info_data = user_data;
+	GPid *pid = user_data;
 
 	g_spawn_close_pid(child_pid);
 
-	run_info_data->pid = 0;
+	*pid = 0;
 	/* reset the stop button and menu item to the original meaning */
 	build_menu_update(NULL);
 }
@@ -1231,11 +1257,12 @@ static void on_build_menu_item(GtkWidget *w, gpointer user_data)
 		g_free(str);
 		return;
 	}
-	else if (grp == GEANY_GBG_EXEC)
+	else if (grp == GEANY_GBG_EXEC || grp == GEANY_GBG_EXEC_IND)
 	{
-		if (run_info[cmd].pid > (GPid) 1)
+		GPid *pid = get_run_pid(grp, cmd);
+		if (*pid > (GPid) 1)
 		{
-			kill_process(&run_info[cmd].pid);
+			kill_process(pid);
 			return;
 		}
 		bc = get_build_cmd(doc, grp, cmd, NULL);
@@ -1251,7 +1278,7 @@ static void on_build_menu_item(GtkWidget *w, gpointer user_data)
 			g_free(uri);
 		}
 		else
-			build_run_cmd(doc, cmd);
+			build_run_cmd(doc, grp, cmd);
 	}
 	else
 		build_command(doc, grp, cmd, NULL);
@@ -1265,6 +1292,7 @@ static void on_build_menu_item(GtkWidget *w, gpointer user_data)
 #define MENU_FT_REST	 (GEANY_GBG_COUNT + GEANY_GBG_FT)
 #define MENU_NON_FT_REST (GEANY_GBG_COUNT + GEANY_GBG_NON_FT)
 #define MENU_EXEC_REST   (GEANY_GBG_COUNT + GEANY_GBG_EXEC)
+#define MENU_EXEC_IND_REST (GEANY_GBG_COUNT + GEANY_GBG_EXEC_IND)
 /* the separator */
 #define MENU_SEPARATOR   (2*GEANY_GBG_COUNT)
 /* the fixed items */
@@ -1310,6 +1338,12 @@ static struct BuildMenuItemSpec {
 		GBO_TO_CMD(GEANY_GBO_EXEC), NULL, on_build_menu_item},
 	{NULL, -1, MENU_EXEC_REST,
 		GBO_TO_CMD(GEANY_GBO_EXEC) + 1, NULL, on_build_menu_item},
+	{NULL, -1, MENU_SEPARATOR,
+		GBF_SEP_5, NULL, NULL},
+	{GTK_STOCK_EXECUTE, GEANY_KEYS_BUILD_RUNINDEPENDENT, GEANY_GBG_EXEC_IND,
+		0, NULL, on_build_menu_item},
+	{NULL, -1, MENU_EXEC_IND_REST,
+		1, NULL, on_build_menu_item},
 	{NULL, -1, MENU_SEPARATOR,
 		GBF_SEP_4, NULL, NULL},
 	{GTK_STOCK_PREFERENCES, GEANY_KEYS_BUILD_OPTIONS, MENU_COMMANDS,
@@ -1486,7 +1520,7 @@ void build_menu_update(GeanyDocument *doc)
 					else
 					{
 						GtkWidget *image;
-						exec_running = run_info[cmd].pid > (GPid) 1;
+						exec_running = *get_run_pid(grp, cmd) > (GPid) 1;
 						cmd_sensitivity = (bc != NULL) || exec_running;
 						gtk_widget_set_sensitive(menu_item, cmd_sensitivity);
 						if (cmd == GBO_TO_CMD(GEANY_GBO_EXEC))
@@ -2147,20 +2181,16 @@ static gboolean build_read_commands(BuildDestination *dst, BuildTableData table_
 
 void build_read_project(GeanyFiletype *ft, BuildTableData build_properties)
 {
-	BuildDestination menu_dst;
+	BuildDestination menu_dst = {0};
 
 	if (ft != NULL)
 	{
 		menu_dst.dst[GEANY_GBG_FT] = &(ft->priv->projfilecmds);
+		menu_dst.dst[GEANY_GBG_EXEC] = &ft->priv->projexeccmds;
 		menu_dst.fileregexstr = &(ft->priv->projerror_regex_string);
 	}
-	else
-	{
-		menu_dst.dst[GEANY_GBG_FT] = NULL;
-		menu_dst.fileregexstr = NULL;
-	}
 	menu_dst.dst[GEANY_GBG_NON_FT] = &non_ft_proj;
-	menu_dst.dst[GEANY_GBG_EXEC] = &exec_proj;
+	menu_dst.dst[GEANY_GBG_EXEC_IND] = &exec_proj;
 	menu_dst.nonfileregexstr = &regex_proj;
 
 	build_read_commands(&menu_dst, build_properties, GTK_RESPONSE_ACCEPT);
@@ -2175,7 +2205,6 @@ static void show_build_commands_dialog(void)
 	const gchar *title = _("Set Build Commands");
 	gint response;
 	BuildTableData table_data;
-	BuildDestination prefdsts;
 
 	if (doc != NULL)
 		ft = doc->file_type;
@@ -2190,18 +2219,13 @@ static void show_build_commands_dialog(void)
 	/* run modally to prevent user changing idx filetype */
 	response = gtk_dialog_run(GTK_DIALOG(dialog));
 
+	BuildDestination prefdsts = {0};
 	prefdsts.dst[GEANY_GBG_NON_FT] = &non_ft_pref;
 	if (ft != NULL)
 	{
 		prefdsts.dst[GEANY_GBG_FT] = &(ft->priv->homefilecmds);
 		prefdsts.fileregexstr = &(ft->priv->homeerror_regex_string);
 		prefdsts.dst[GEANY_GBG_EXEC] = &(ft->priv->homeexeccmds);
-	}
-	else
-	{
-		prefdsts.dst[GEANY_GBG_FT] = NULL;
-		prefdsts.fileregexstr = NULL;
-		prefdsts.dst[GEANY_GBG_EXEC] = NULL;
 	}
 	prefdsts.nonfileregexstr = &regex_pref;
 	if (build_read_commands(&prefdsts, table_data, response) && ft != NULL)
@@ -2236,7 +2260,7 @@ static const gchar *build_grp_name = "build-menu";
  * where gg = FT, NF, EX for the command group
  *       nn = 2 digit command number
  *       xx = LB for label, CM for command and WD for working dir */
-static const gchar *groups[GEANY_GBG_COUNT] = { "FT", "NF", "EX" };
+static const gchar *groups[GEANY_GBG_COUNT] = { "FT", "NF", "EX", "EX" };
 static const gchar *fixedkey="xx_xx_xx";
 
 #define set_key_grp(key, grp) (key[prefixlen + 0] = grp[0], key[prefixlen + 1] = grp[1])
@@ -2338,12 +2362,12 @@ void build_load_menu(GKeyFile *config, GeanyBuildSource src, gpointer p)
 				break;
 			case GEANY_BCS_PREF:
 				build_load_menu_grp(config, &non_ft_pref, GEANY_GBG_NON_FT, NULL, FALSE);
-				build_load_menu_grp(config, &exec_pref, GEANY_GBG_EXEC, NULL, FALSE);
+				build_load_menu_grp(config, &exec_pref, GEANY_GBG_EXEC_IND, NULL, FALSE);
 				SETPTR(regex_pref, g_key_file_get_string(config, build_grp_name, "error_regex", NULL));
 				break;
 			case GEANY_BCS_PROJ:
 				build_load_menu_grp(config, &non_ft_proj, GEANY_GBG_NON_FT, NULL, FALSE);
-				build_load_menu_grp(config, &exec_proj, GEANY_GBG_EXEC, NULL, FALSE);
+				build_load_menu_grp(config, &exec_proj, GEANY_GBG_EXEC_IND, NULL, FALSE);
 				SETPTR(regex_proj, g_key_file_get_string(config, build_grp_name, "error_regex", NULL));
 				pj = (GeanyProject*)p;
 				if (p == NULL)
@@ -2428,7 +2452,7 @@ void build_load_menu(GKeyFile *config, GeanyBuildSource src, gpointer p)
 			if (!EMPTY(value))
 			{
 				if (exec_proj == NULL)
-					exec_proj = g_new0(GeanyBuildCommand, build_groups_count[GEANY_GBG_EXEC]);
+					exec_proj = g_new0(GeanyBuildCommand, build_groups_count[GEANY_GBG_EXEC_IND]);
 				if (! exec_proj[GBO_TO_CMD(GEANY_GBO_EXEC)].exists)
 				{
 					exec_proj[GBO_TO_CMD(GEANY_GBO_EXEC)].exists = TRUE;
@@ -2545,7 +2569,7 @@ void build_save_menu(GKeyFile *config, gpointer ptr, GeanyBuildSource src)
 			break;
 		case GEANY_BCS_PREF:
 			build_save_menu_grp(config, non_ft_pref, GEANY_GBG_NON_FT, NULL);
-			build_save_menu_grp(config, exec_pref, GEANY_GBG_EXEC, NULL);
+			build_save_menu_grp(config, exec_pref, GEANY_GBG_EXEC_IND, NULL);
 			if (!EMPTY(regex_pref))
 				g_key_file_set_string(config, build_grp_name, "error_regex", regex_pref);
 			else
@@ -2554,7 +2578,7 @@ void build_save_menu(GKeyFile *config, gpointer ptr, GeanyBuildSource src)
 		case GEANY_BCS_PROJ:
 			pj = (GeanyProject*)ptr;
 			build_save_menu_grp(config, non_ft_proj, GEANY_GBG_NON_FT, NULL);
-			build_save_menu_grp(config, exec_proj, GEANY_GBG_EXEC, NULL);
+			build_save_menu_grp(config, exec_proj, GEANY_GBG_EXEC_IND, NULL);
 			if (!EMPTY(regex_proj))
 				g_key_file_set_string(config, build_grp_name, "error_regex", regex_proj);
 			else
@@ -2650,7 +2674,8 @@ void build_init(void)
 	ft_def = g_new0(GeanyBuildCommand, build_groups_count[GEANY_GBG_FT]);
 	non_ft_def = g_new0(GeanyBuildCommand, build_groups_count[GEANY_GBG_NON_FT]);
 	exec_def = g_new0(GeanyBuildCommand, build_groups_count[GEANY_GBG_EXEC]);
-	run_info = g_new0(RunInfo, build_groups_count[GEANY_GBG_EXEC]);
+	run_pids = g_new0(GPid, build_groups_count[GEANY_GBG_EXEC] +
+		build_groups_count[GEANY_GBG_EXEC_IND]);
 
 	for (cmdindex = 0; default_cmds[cmdindex].command != NULL; ++cmdindex)
 	{
@@ -2761,6 +2786,9 @@ gboolean build_keybinding(guint key_id)
 			break;
 		case GEANY_KEYS_BUILD_RUN:
 			item = menu_items->menu_item[GEANY_GBG_EXEC][GBO_TO_CMD(GEANY_GBO_EXEC)];
+			break;
+		case GEANY_KEYS_BUILD_RUNINDEPENDENT:
+			item = menu_items->menu_item[GEANY_GBG_EXEC_IND][0];
 			break;
 		case GEANY_KEYS_BUILD_OPTIONS:
 			item = menu_items->menu_item[GBG_FIXED][GBF_COMMANDS];

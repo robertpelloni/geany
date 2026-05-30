@@ -36,6 +36,7 @@ typedef enum
 	GEANY_GBG_FT,		/**< filetype items */
 	GEANY_GBG_NON_FT,	/**< non filetype items.*/
 	GEANY_GBG_EXEC,		/**< execute items */
+	GEANY_GBG_EXEC_IND,	/**< independent execute items */
 	GEANY_GBG_COUNT		/**< count of groups. */
 } GeanyBuildGroup;
 
@@ -87,6 +88,7 @@ enum GeanyBuildFixedMenuItems
 	GBF_SEP_2,
 	GBF_SEP_3,
 	GBF_SEP_4,
+	GBF_SEP_5,
 	GBF_COUNT
 };
 
