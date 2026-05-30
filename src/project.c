@@ -301,7 +301,7 @@ static void run_new_dialog(PropertyDialogElements *e)
 
 gboolean project_load_file_with_session(const gchar *locale_file_name)
 {
-	if (project_load_file(locale_file_name))
+	if (project_load_file(locale_file_name, TRUE))
 	{
 		configuration_open_files(app->project->priv->session_files);
 		app->project->priv->session_files = NULL;
@@ -1060,11 +1060,11 @@ static void on_radio_long_line_custom_toggled(GtkToggleButton *radio, GtkWidget 
 }
 
 
-gboolean project_load_file(const gchar *locale_file_name)
+gboolean project_load_file(const gchar *locale_file_name, gboolean load_session)
 {
 	g_return_val_if_fail(locale_file_name != NULL, FALSE);
 
-	if (load_config(locale_file_name))
+	if (load_config(locale_file_name, load_session))
 	{
 		gchar *utf8_filename = utils_get_utf8_from_locale(locale_file_name);
 
@@ -1088,8 +1088,9 @@ gboolean project_load_file(const gchar *locale_file_name)
 /* Reads the given filename and creates a new project with the data found in the file.
  * At this point there should not be an already opened project in Geany otherwise it will just
  * return.
- * The filename is expected in the locale encoding. */
-static gboolean load_config(const gchar *filename)
+ * The filename is expected in the locale encoding. Both project_session preference and
+ * load_session must be TRUE for the project session files to be loaded. */
+static gboolean load_config(const gchar *filename, gboolean load_session)
 {
 	GKeyFile *config;
 	GeanyProject *p;

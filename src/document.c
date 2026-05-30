@@ -3674,6 +3674,10 @@ gboolean document_check_disk_status(GeanyDocument *doc, gboolean force)
 			|| doc->real_path == NULL || doc->priv->is_remote)
 		return FALSE;
 
+	/* ignore changes while exiting session */
+	if (main_status.prevent_interaction)
+		return FALSE;
+
 	use_gio_filemon = (doc->priv->monitor != NULL);
 
 	if (use_gio_filemon)

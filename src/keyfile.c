@@ -1303,7 +1303,7 @@ static gboolean read_config_file(ConfigPayload payload)
 }
 
 
-gboolean configuration_load(void)
+gboolean configuration_load(const gchar *libsm_client_id)
 {
 	gboolean prefs_loaded = read_config_file(PREFS);
 	gboolean sess_loaded = read_config_file(SESSION);
@@ -1510,4 +1510,21 @@ void configuration_finalize(void)
 	g_ptr_array_free(pref_groups, TRUE);
 	g_ptr_array_free(keyfile_groups[SESSION], TRUE);
 	g_ptr_array_free(keyfile_groups[PREFS], TRUE);
+}
+
+
+gchar *configuration_name(const gchar *suffix)
+{
+	gchar *configfile;
+
+	if (suffix)
+	{
+		gchar *configbase = g_strconcat("geany-", suffix, ".conf", NULL);
+		configfile = g_build_filename(app->configdir, configbase, NULL);
+		g_free(configbase);
+	}
+	else
+		configfile = g_build_filename(app->configdir, "geany.conf", NULL);
+
+	return configfile;
 }
