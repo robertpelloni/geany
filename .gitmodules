@@ -7,3 +7,9 @@
 [submodule "subprojects/bobui"]
 	path = subprojects/bobui
 	url = https://github.com/robertpelloni/bqt
+[submodule "variants/geany-bobgui/subprojects/libffi"]
+	path = variants/geany-bobgui/subprojects/libffi
+	url = https://github.com/libffi/libffi
+[submodule "variants/geany-bobgui/subprojects/proxy-libintl"]
+	path = variants/geany-bobgui/subprojects/proxy-libintl
+	url = https://github.com/jtojnar/proxy-libintl
