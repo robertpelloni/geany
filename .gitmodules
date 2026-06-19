@@ -1,18 +1,18 @@
 [submodule "subprojects/btk"]
 	path = subprojects/btk
-	url = https://github.com/robertpelloni/btk
+	url = https://github.com/robertpelloni/bcs
 [submodule "subprojects/bobgui"]
 	path = subprojects/bobgui
-	url = https://github.com/robertpelloni/bobgui
+	url = https://github.com/robertpelloni/bgtk
 [submodule "subprojects/bobui"]
 	path = subprojects/bobui
-	url = https://github.com/robertpelloni/bobui
+	url = https://github.com/robertpelloni/bqt
 [submodule "submodules/bobui"]
 	path = submodules/bobui
-	url = https://github.com/robertpelloni/bobui
+	url = https://github.com/robertpelloni/bqt
 [submodule "submodules/btk"]
 	path = submodules/btk
-	url = https://github.com/robertpelloni/btk
+	url = https://github.com/robertpelloni/bcs
 [submodule "submodules/bobgui"]
 	path = submodules/bobgui
-	url = https://github.com/robertpelloni/bobgui
+	url = https://github.com/robertpelloni/bgtk
