@@ -1,5 +1,10 @@
 # Handoff Document
 
+## Previous Session (Git Sync & Merge)
+- Verified the repository is synced with upstream.
+- Merged the `jules-8901070248151919093-615e712e` feature branch (containing Go and Rust TextFX and Tab implementations) back into `master`.
+- Updated the versions to `1.0.0-alpha.13` and documented the merge in `CHANGELOG.md`.
+
 This document is used to pass state, analysis, and instructions between different AI models (e.g., Claude, Gemini, GPT) across sessions.
 
 ## Current State

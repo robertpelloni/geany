@@ -1,0 +1,17 @@
+--- src/msgwindow.h
++++ src/msgwindow.h
+@@ -9,6 +9,7 @@
+ #ifndef GEANY_MSG_WINDOW_H
+ #define GEANY_MSG_WINDOW_H
+
++#ifdef __cplusplus
+ #include <string>
+ #include <vector>
+ #include <mutex>
+@@ -58,4 +59,6 @@
+
+ } // namespace geany
+
++#endif // __cplusplus
++
+ #endif // GEANY_MSG_WINDOW_H
