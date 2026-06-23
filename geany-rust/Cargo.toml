@@ -1,0 +1,10 @@
+[package]
+name = "geany-rust"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "geanyrust"
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]

@@ -97,3 +97,17 @@ This document is used to pass state, analysis, and instructions between differen
 - Replaced legacy C INI/keyfile parsing (`src/keyfile.c`) with a memory-managed `ConfigManager.h` using `std::map`.
 - Integrated `ConfigManager` natively into the `geany::Application` root execution cycle.
 - Updated `meson.build` and `Makefile.am` to compile the new config manager alongside `ToolsManager`.
+
+## Step: Rust Port Initialization
+- Created a new \`geany-rust\` library crate to concurrently handle high-performance, memory-safe algorithms alongside the Go backend.
+- Hand-wrote \`geany-rust/meson.build\` to trigger \`cargo build --release\` and pipe the resulting \`libgeanyrust.so/a\` directly into the \`geany\` executable link dependencies.
+- Updated \`meson.build\` to \`subdir('geany-rust')\` and link \`geanyrust_dep\`.
+
+## Step: TextFX2 and Vertical Tabs Parity
+- Defined \`TabManager\` and \`TabOrientation\` in both \`geany-go/ui\` and \`geany-rust/src/ui.rs\`.
+- Implemented \`textfx\` logic including:
+  - Line sorting (case sensitive and insensitive).
+  - Sentence and Proper casing converters.
+  - Whitespace trimming.
+- Mapped all these functionalities to FFI bridges in \`geany-go/main.go\` and \`geany-rust/src/lib.rs\`.
+- Declared the bridges in \`src/Application_C_Bridge.h\` and successfully called the Init/Shutdown hooks from \`src/main.c\`.

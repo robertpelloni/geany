@@ -51,3 +51,9 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] **Bobui Integration (Qt6)**: In `submodules/bobui`, establish a basic `Application` frontend that satisfies the `geany-go/ui` interface schema.
 - [ ] **Bobgui Integration (GTK)**: Begin refactoring the old Geany GTK calls to funnel through the new C++ managers and `bobgui`.
 - [ ] Implement `geany-go/project` interface in C++ FFI bridge.
+
+## Rust & Go Port Additions
+- [x] Create \`geany-rust\` and connect it to Meson \`geanyrust_dep\`.
+- [x] Wire FFI for TextFX2 in Go (\`geany-go/textfx\`).
+- [x] Wire FFI for TextFX2 in Rust (\`geany-rust/src/textfx.rs\`).
+- [x] Implement Vertical Tabs UI manager interface in Go and Rust.

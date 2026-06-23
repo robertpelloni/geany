@@ -92,3 +92,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Bootstrapped `geany-go/utils` package with string and file utility functions ported from C.
 - Prepared architecture for C++ refactor and Go port (`geany-go`).
 - Prepared addition of bobui, btk, and bobgui submodules for multiple native UI frontends.
+
+## 1.0.0-alpha.12
+- Initiated \`geany-rust\` port for high-performance functionality.
+- Implemented TextFX2 features (Sort Lines, Proper Case, Sentence Case, Formatting) in both Rust and Go ports.
+- Implemented foundational Vertical Tabs interface via \`TabManager\` in Rust and Go.
+- Connected \`geany-rust\` to the Meson build system as a dynamic/static C dependency.
+- Wired Rust and Go TextFX/UI functionalities into the C++ \`geany::Application\` FFI bridge.
