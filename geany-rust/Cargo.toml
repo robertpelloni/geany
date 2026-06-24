@@ -8,3 +8,4 @@ name = "geanyrust"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
+base64 = "0.22.1"

@@ -96,3 +96,64 @@ mod tests {
         assert_eq!(to_proper_case(input), "Hello World From Rust");
     }
 }
+
+use base64::{Engine as _, engine::general_purpose};
+
+pub fn remove_blank_lines(text: &str) -> String {
+    let mut result = Vec::new();
+    for line in text.lines() {
+        if !line.trim().is_empty() {
+            result.push(line);
+        }
+    }
+    result.join("\n")
+}
+
+pub fn remove_duplicate_lines(text: &str) -> String {
+    let lines: Vec<&str> = text.lines().collect();
+    if lines.is_empty() {
+        return String::new();
+    }
+
+    let mut result = vec![lines[0]];
+    for i in 1..lines.len() {
+        if lines[i] != lines[i-1] {
+            result.push(lines[i]);
+        }
+    }
+    result.join("\n")
+}
+
+pub fn encode_base64(text: &str) -> String {
+    general_purpose::STANDARD.encode(text)
+}
+
+pub fn decode_base64(text: &str) -> String {
+    match general_purpose::STANDARD.decode(text) {
+        Ok(bytes) => String::from_utf8_lossy(&bytes).into_owned(),
+        Err(_) => text.to_string(), // Return original on failure
+    }
+}
+
+#[cfg(test)]
+mod additional_tests {
+    use super::*;
+
+    #[test]
+    fn test_remove_blank_lines() {
+        assert_eq!(remove_blank_lines("A\n\nB\n  \nC"), "A\nB\nC");
+    }
+
+    #[test]
+    fn test_remove_duplicate_lines() {
+        assert_eq!(remove_duplicate_lines("A\nA\nB\nC\nC"), "A\nB\nC");
+    }
+
+    #[test]
+    fn test_encode_decode_base64() {
+        let text = "Hello Rust!";
+        let encoded = encode_base64(text);
+        assert_ne!(text, encoded);
+        assert_eq!(decode_base64(&encoded), text);
+    }
+}

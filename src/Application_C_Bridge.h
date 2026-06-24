@@ -31,6 +31,10 @@ char* GeanyGo_TextFX_SortLines(const char* text, bool ascending, bool caseSensit
 char* GeanyGo_TextFX_ToProperCase(const char* text);
 char* GeanyGo_TextFX_ToSentenceCase(const char* text);
 char* GeanyGo_TextFX_TrimTrailingWhitespace(const char* text);
+char* GeanyGo_TextFX_RemoveBlankLines(const char* text);
+char* GeanyGo_TextFX_RemoveDuplicateLines(const char* text);
+char* GeanyGo_TextFX_EncodeBase64(const char* text);
+char* GeanyGo_TextFX_DecodeBase64(const char* text);
 void GeanyGo_UI_SetTabOrientation(bool vertical);
 
 // Rust Backend FFI Declarations
@@ -42,6 +46,10 @@ char* GeanyRust_TextFX_SortLines(const char* text, bool ascending, bool case_sen
 char* GeanyRust_TextFX_ToProperCase(const char* text);
 char* GeanyRust_TextFX_ToSentenceCase(const char* text);
 char* GeanyRust_TextFX_TrimTrailingWhitespace(const char* text);
+char* GeanyRust_TextFX_RemoveBlankLines(const char* text);
+char* GeanyRust_TextFX_RemoveDuplicateLines(const char* text);
+char* GeanyRust_TextFX_EncodeBase64(const char* text);
+char* GeanyRust_TextFX_DecodeBase64(const char* text);
 
 #ifdef __cplusplus
 }

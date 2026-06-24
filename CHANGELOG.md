@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.14] - Extended TextFX Parity
+- Implemented `remove_blank_lines`, `remove_duplicate_lines`, `encode_base64`, and `decode_base64` in `geany-go/textfx`.
+- Implemented equivalent functions in `geany-rust/src/textfx.rs` using the `base64` crate.
+- Exposed new TextFX functions across the FFI bridge in `Application_C_Bridge.h`.
+
 ## [1.0.0-alpha.13] - AI Dev Automation Synchronization
 - Performed a comprehensive remote and local git workspace synchronization.
 - Consolidated progress from the `jules-8901070248151919093-615e712e` feature branch (which included TextFX and Tab formatting for Rust and Go) into `master`.

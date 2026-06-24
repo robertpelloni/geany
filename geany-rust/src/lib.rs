@@ -89,3 +89,43 @@ pub extern "C" fn GeanyRust_TextFX_TrimTrailingWhitespace(c_text: *const c_char)
     let formatted = textfx::trim_trailing_whitespace(&text);
     CString::new(formatted).unwrap().into_raw()
 }
+
+#[no_mangle]
+pub extern "C" fn GeanyRust_TextFX_RemoveBlankLines(c_text: *const c_char) -> *mut c_char {
+    if c_text.is_null() {
+        return std::ptr::null_mut();
+    }
+    let text = unsafe { CStr::from_ptr(c_text).to_string_lossy() };
+    let formatted = textfx::remove_blank_lines(&text);
+    CString::new(formatted).unwrap().into_raw()
+}
+
+#[no_mangle]
+pub extern "C" fn GeanyRust_TextFX_RemoveDuplicateLines(c_text: *const c_char) -> *mut c_char {
+    if c_text.is_null() {
+        return std::ptr::null_mut();
+    }
+    let text = unsafe { CStr::from_ptr(c_text).to_string_lossy() };
+    let formatted = textfx::remove_duplicate_lines(&text);
+    CString::new(formatted).unwrap().into_raw()
+}
+
+#[no_mangle]
+pub extern "C" fn GeanyRust_TextFX_EncodeBase64(c_text: *const c_char) -> *mut c_char {
+    if c_text.is_null() {
+        return std::ptr::null_mut();
+    }
+    let text = unsafe { CStr::from_ptr(c_text).to_string_lossy() };
+    let formatted = textfx::encode_base64(&text);
+    CString::new(formatted).unwrap().into_raw()
+}
+
+#[no_mangle]
+pub extern "C" fn GeanyRust_TextFX_DecodeBase64(c_text: *const c_char) -> *mut c_char {
+    if c_text.is_null() {
+        return std::ptr::null_mut();
+    }
+    let text = unsafe { CStr::from_ptr(c_text).to_string_lossy() };
+    let formatted = textfx::decode_base64(&text);
+    CString::new(formatted).unwrap().into_raw()
+}
