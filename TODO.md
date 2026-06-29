@@ -7,7 +7,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Run `git submodule add` for the three UI submodules.
 - [x] `mkdir geany-go` and run `go mod init github.com/geany/geany-go` (or similar).
 - [x] Create `IDEAS.md` containing brainstorming and improvements across the codebase.
-- [x] Document the results of the Notepad++ parity analysis here or in a separate file.
+- [x] Document the results of the Notepad++ parity analysis here or in a separate file (NOTEPAD_PLUS_PARITY_ANALYSIS.md).
 
 ## Ongoing
 - [ ] Refactor C files to C++.

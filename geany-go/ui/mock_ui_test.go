@@ -45,7 +45,7 @@ func TestUIAbstraction(t *testing.T) {
 	var window Window = &MockWindow{}
 	window.SetTitle("Geany Go Mock")
 
-	doc := editor.NewDocument(1, "/mock/test.txt")
+	doc := editor.NewDocument(1, "/mock/test.txt", nil)
 	widget := window.AddDocument(doc)
 
 	if window.(*MockWindow).Title != "Geany Go Mock" {

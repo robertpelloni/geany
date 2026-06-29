@@ -21,7 +21,7 @@ func TestBobguiApplicationLifecycle(t *testing.T) {
 	win.SetTitle("Test GTK Window")
 	win.Show()
 
-	doc := editor.NewDocument(1, "/tmp/test.txt")
+	doc := editor.NewDocument(1, "/tmp/test.txt", nil)
 	widget := win.AddDocument(doc)
 
 	if widget == nil {

@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewDocument(t *testing.T) {
-	doc := NewDocument(1, "/tmp/test.txt")
+	doc := NewDocument(1, "/tmp/test.txt", nil)
 
 	if doc.ID != 1 {
 		t.Errorf("Expected ID 1, got %d", doc.ID)
@@ -31,7 +31,7 @@ func TestDocumentOpenAndSave(t *testing.T) {
 	defer os.Remove(f.Name())
 	f.Close()
 
-	doc := NewDocument(2, f.Name())
+	doc := NewDocument(2, f.Name(), nil)
 
 	err = doc.Open()
 	if err != nil {

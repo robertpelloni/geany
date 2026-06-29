@@ -2,11 +2,11 @@
 
 This document outlines the major, long-term structural plans for the project.
 
-## Phase 1: Deep Analysis and Foundation (Current)
+## Phase 1: Deep Analysis and Foundation (Complete)
 - [x] Establish comprehensive documentation suite (VISION, ROADMAP, TODO, MEMORY, DEPLOY, HANDOFF, AGENTS, etc.).
-- [ ] Add git submodules (`bobui`, `btk`, `bobgui`).
-- [ ] Bootstrap the Go port (`geany-go`).
-- [ ] Conduct comprehensive 1:1 feature parity analysis with Notepad++.
+- [x] Add git submodules (`bobui`, `btk`, `bobgui`).
+- [x] Bootstrap the Go port (`geany-go`).
+- [x] Conduct comprehensive 1:1 feature parity analysis with Notepad++.
 
 ## Phase 2: C++ Refactoring & Native UIs
 - [ ] Begin systematic refactoring of existing C codebase to modern, clean C++.
