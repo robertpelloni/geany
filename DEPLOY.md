@@ -20,3 +20,9 @@ ninja -C build
 - **C++ Refactor**: Instructions will be updated as the build system is modified to support modern C++.
 - **Go Port (`geany-go`)**: `go build` / `go run`.
 - **Submodule UIs**: Specific build instructions for Qt6, Qt4, and custom GTK builds will be added here once integrated.
+
+## Submodule Dependencies
+Before building, ensure all UI submodules are pulled and initialized correctly:
+```bash
+git submodule update --init --recursive
+```
