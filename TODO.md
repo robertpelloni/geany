@@ -38,7 +38,7 @@ This file contains individual features, bug fixes, and other fine details that n
 
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Filetypes Abstraction**: Refactor `src/filetypes.c` into a modern C++ `FileTypeManager` containing a mapping of languages to syntax highlighting definitions.
-- [ ] **Configuration Serialization**: Refactor `src/keyfile.c` to use a generic C++ config parser, complementing the Go `config` package.
+- [x] **Configuration Serialization**: Refactor `src/keyfile.c` to use a generic C++ config parser, complementing the Go `config` package.
 
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Highlighting Engine**: Refactor `src/highlighting.c` into a C++ `SyntaxHighlighter` class that consumes `FileType` definitions from the new `FileTypeManager` and maps them to Scintilla style bytes via `ScintillaWrapper`.
