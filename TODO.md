@@ -50,4 +50,4 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Native UI Submodule Bootstrapping
 - [ ] **Bobui Integration (Qt6)**: In `submodules/bobui`, establish a basic `Application` frontend that satisfies the `geany-go/ui` interface schema.
 - [ ] **Bobgui Integration (GTK)**: Begin refactoring the old Geany GTK calls to funnel through the new C++ managers and `bobgui`.
-- [ ] Implement `geany-go/project` interface in C++ FFI bridge.
+- [x] Implement `geany-go/project` interface in C++ FFI bridge.
