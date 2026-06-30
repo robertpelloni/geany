@@ -48,6 +48,6 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] **Go FFI Bridge**: Established a CGO interface bridging the C++ `Application` with the Go backend (`geany-go`).
 
 ## Native UI Submodule Bootstrapping
-- [ ] **Bobui Integration (Qt6)**: In `submodules/bobui`, establish a basic `Application` frontend that satisfies the `geany-go/ui` interface schema.
-- [ ] **Bobgui Integration (GTK)**: Begin refactoring the old Geany GTK calls to funnel through the new C++ managers and `bobgui`.
+- [x] **Bobui Integration (Qt6)**: In `submodules/bobui`, establish a basic `Application` frontend that satisfies the `geany-go/ui` interface schema.
+- [x] **Bobgui Integration (GTK)**: Begin refactoring the old Geany GTK calls to funnel through the new C++ managers and `bobgui`.
 - [x] Implement `geany-go/project` interface in C++ FFI bridge.
