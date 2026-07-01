@@ -54,6 +54,12 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] **Application Singleton**: Fully deprecate `src/main.c` and `src/libmain.c`, transitioning entirely to `geany::Application::Run()`.
 - [ ] **UI Abstraction**: Transition GTK dependencies strictly into the `bobgui` submodule and remove GTK headers from core engine compilation.
 
+## Phase 2: Bobgui UI Overhaul & Dashboard
+- [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
+- [ ] Connect Go backend Config metrics to Dashboard.
+- [x] Thoroughly map all backend `geany-go/engine` features (Line Operations, Formatters, Search) directly into the Dashboard UI.
+- [x] Ensure all settings and tools are comprehensively labeled with clear, detailed UI tooltips indicating their behavior.
+
 ## Phase 4: Notepad++ Parity Feature Engine Port
 - [ ] Begin porting N++ Multi-line tabs core logic to `geany-go/ui`.
 - [ ] Map all documented `PARITY.md` gaps (Save a Copy As, Bookmark logic) to Go backend interfaces.
@@ -71,9 +77,3 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] **Bobui Integration (Qt6)**: In `submodules/bobui`, establish a basic `Application` frontend that satisfies the `geany-go/ui` interface schema.
 - [x] **Bobgui Integration (GTK)**: Begin refactoring the old Geany GTK calls to funnel through the new C++ managers and `bobgui`.
 - [x] Implement `geany-go/project` interface in C++ FFI bridge.
-
-## Phase 2: Bobgui UI Overhaul & Dashboard
-- [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
-- [ ] Connect Go backend Config metrics to Dashboard.
-- [x] Thoroughly map all backend `geany-go/engine` features (Line Operations, Formatters, Search) directly into the Dashboard UI.
-- [x] Ensure all settings and tools are comprehensively labeled with clear, detailed UI tooltips indicating their behavior.
