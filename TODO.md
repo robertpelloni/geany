@@ -64,3 +64,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
 - [ ] Connect Go backend Config metrics to Dashboard.
 - [ ] Ensure all features are documented via UI tooltips in Dashboard logic.
+
+## Notepad++ Parity Features (Identified in Analysis)
+- [ ] Hex Editor integration (Native or Go port)
+- [ ] Side-by-side Compare Plugin (Native or Go port)
