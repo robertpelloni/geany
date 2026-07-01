@@ -22,6 +22,9 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Native Document Map (Minimap) integration.
 - [ ] Modernize Style/Theme Configurator (via UI submodules).
 - [ ] Native 'Compare Plugin' feature for side-by-side diffing.
+- [ ] Implement explicit Edit > Line Operations (Sort, Reverse, Split, Join) in `geany-go/engine`.
+- [ ] Implement explicit Edit > Blank Operations (Trim, Converters).
+- [ ] Native Hex Editor integration.
 
 ## C++ Refactoring Plan
 - [x] **Scintilla C++ Wrapper**: Refactor `src/scintilla.c` and related Scintilla wrapper functions into a modern, robust C++ `ScintillaWrapper` class.
