@@ -52,7 +52,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] **Highlighting Engine**: Refactor `src/highlighting.c` into a C++ `SyntaxHighlighter` class that consumes `FileType` definitions from the new `FileTypeManager` and maps them to Scintilla style bytes via `ScintillaWrapper`.
 
 ## Main Execution Wiring
-- [ ] **Wire C++ Application**: In `src/main.c`, instantiate the global `geany::Application` object, pass CLI arguments into `Initialize()`, and delegate to `Run()`.
+- [x] **Wire C++ Application**: In `src/main.c`, instantiate the global `geany::Application` object, pass CLI arguments into `Initialize()`, and delegate to `Run()`.
 - [x] **Go FFI Bridge**: Established a CGO interface bridging the C++ `Application` with the Go backend (`geany-go`).
 
 ## Native UI Submodule Bootstrapping
@@ -64,7 +64,3 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
 - [ ] Connect Go backend Config metrics to Dashboard.
 - [ ] Ensure all features are documented via UI tooltips in Dashboard logic.
-
-## Notepad++ Parity Features (Identified in Analysis)
-- [ ] Hex Editor integration (Native or Go port)
-- [ ] Side-by-side Compare Plugin (Native or Go port)
