@@ -65,4 +65,4 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
 - [ ] Connect Go backend Config metrics to Dashboard.
 - [ ] Thoroughly map all backend `geany-go/engine` features (Line Operations, Formatters, Search) directly into the Dashboard UI.
-- [ ] Ensure all settings and tools are comprehensively labeled with clear, detailed UI tooltips indicating their behavior.
+- [x] Ensure all settings and tools are comprehensively labeled with clear, detailed UI tooltips indicating their behavior.
