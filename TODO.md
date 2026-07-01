@@ -52,3 +52,8 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] **Bobui Integration (Qt6)**: In `submodules/bobui`, establish a basic `Application` frontend that satisfies the `geany-go/ui` interface schema.
 - [x] **Bobgui Integration (GTK)**: Begin refactoring the old Geany GTK calls to funnel through the new C++ managers and `bobgui`.
 - [x] Implement `geany-go/project` interface in C++ FFI bridge.
+
+## Phase 2: Bobgui UI Overhaul & Dashboard
+- [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
+- [ ] Connect Go backend Config metrics to Dashboard.
+- [ ] Ensure all features are documented via UI tooltips in Dashboard logic.
