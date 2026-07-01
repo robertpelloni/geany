@@ -10,7 +10,7 @@ This document outlines the major, long-term structural plans for the project.
 
 ## Phase 2: C++ Refactoring & Native UIs
 - [ ] Begin systematic refactoring of existing C codebase to modern, clean C++.
-- [ ] Integrate `bobui` (Qt6) as a native UI frontend.
+- [x] Integrate `bobui` (Qt6) as a native UI frontend.
 - [ ] Integrate `btk` (Qt4) as a native UI frontend.
 - [ ] Integrate `bobgui` (GTK) as a native UI frontend.
 
