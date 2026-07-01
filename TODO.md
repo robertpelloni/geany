@@ -16,11 +16,12 @@ This file contains individual features, bug fixes, and other fine details that n
 
 ## Notepad++ Parity Features (Identified in Analysis)
 - [x] Implement native Macro Recording & Playback.
-- [ ] Implement Multi-line Tabs.
+- [ ] Implement Multi-line Tabs (Support vertical stacking and scrolling).
 - [ ] Implement Synchronized Scrolling in Split View.
 - [ ] Enhance "Mark All" search functionality to match N++ Bookmark/Mark tab.
 - [ ] Native Document Map (Minimap) integration.
 - [ ] Modernize Style/Theme Configurator (via UI submodules).
+- [ ] Native 'Compare Plugin' feature for side-by-side diffing.
 
 ## C++ Refactoring Plan
 - [x] **Scintilla C++ Wrapper**: Refactor `src/scintilla.c` and related Scintilla wrapper functions into a modern, robust C++ `ScintillaWrapper` class.
