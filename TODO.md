@@ -25,7 +25,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Implement explicit Edit > Line Operations (Sort, Reverse, Split, Join, Duplicate, Delete) in `geany-go/engine`.
 - [x] Implement explicit Edit > Blank Operations (Trim, Converters).
 - [ ] Native Hex Editor integration.
-- [ ] **Full PARITY.md Menu Audit**: Catalog every single N++ menu item vs Geany and add to PARITY.md
+- [x] **Full PARITY.md Menu Audit**: Catalog every single N++ menu item vs Geany and add to PARITY.md
 
 ## C++ Refactoring Plan
 - [x] **Scintilla C++ Wrapper**: Refactor `src/scintilla.c` and related Scintilla wrapper functions into a modern, robust C++ `ScintillaWrapper` class.
