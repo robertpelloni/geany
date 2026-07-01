@@ -64,5 +64,5 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Phase 2: Bobgui UI Overhaul & Dashboard
 - [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
 - [ ] Connect Go backend Config metrics to Dashboard.
-- [ ] Thoroughly map all backend `geany-go/engine` features (Line Operations, Formatters, Search) directly into the Dashboard UI.
+- [x] Thoroughly map all backend `geany-go/engine` features (Line Operations, Formatters, Search) directly into the Dashboard UI.
 - [x] Ensure all settings and tools are comprehensively labeled with clear, detailed UI tooltips indicating their behavior.
