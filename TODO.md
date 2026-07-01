@@ -44,6 +44,10 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] **Filetypes Abstraction**: Refactor `src/filetypes.c` into a modern C++ `FileTypeManager` containing a mapping of languages to syntax highlighting definitions.
 - [x] **Configuration Serialization**: Refactor `src/keyfile.c` to use a generic C++ config parser, complementing the Go `config` package.
 
+## C++ Refactoring Plan (Final Phase)
+- [ ] **Application Singleton**: Fully deprecate `src/main.c` and `src/libmain.c`, transitioning entirely to `geany::Application::Run()`.
+- [ ] **UI Abstraction**: Transition GTK dependencies strictly into the `bobgui` submodule and remove GTK headers from core engine compilation.
+
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Highlighting Engine**: Refactor `src/highlighting.c` into a C++ `SyntaxHighlighter` class that consumes `FileType` definitions from the new `FileTypeManager` and maps them to Scintilla style bytes via `ScintillaWrapper`.
 
