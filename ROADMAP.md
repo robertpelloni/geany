@@ -16,6 +16,7 @@ This document outlines the major, long-term structural plans for the project.
 
 ## Phase 3: The Go Port (`geany-go`)
 - [ ] Methodically port all core engine logic to Go.
+- [x] Create standalone CLI/driver in `cmd/geany-go` for isolated bootstrapping.
 - [ ] Port UI logic and integrations to Go.
 - [ ] Assimilate features from all submodules into the Go ultra-project.
 
