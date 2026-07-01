@@ -49,6 +49,10 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] **Application Singleton**: Fully deprecate `src/main.c` and `src/libmain.c`, transitioning entirely to `geany::Application::Run()`.
 - [ ] **UI Abstraction**: Transition GTK dependencies strictly into the `bobgui` submodule and remove GTK headers from core engine compilation.
 
+## Phase 4: Notepad++ Parity Feature Engine Port
+- [ ] Begin porting N++ Multi-line tabs core logic to `geany-go/ui`.
+- [ ] Map all documented `PARITY.md` gaps (Save a Copy As, Bookmark logic) to Go backend interfaces.
+
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Highlighting Engine**: Refactor `src/highlighting.c` into a C++ `SyntaxHighlighter` class that consumes `FileType` definitions from the new `FileTypeManager` and maps them to Scintilla style bytes via `ScintillaWrapper`.
 
