@@ -77,3 +77,56 @@ func (d *Document) SelectAll() {
 	textLen := len(d.Backend.GetText())
 	d.Backend.SetSelection(0, textLen)
 }
+
+// -----------------------------------------------------------------------------
+// Notepad++ Parity: Line Operations
+// -----------------------------------------------------------------------------
+
+// DeleteLine removes the text of an entire line (including the newline character).
+func (d *Document) DeleteLine(lineIndex int) error {
+	if d.Backend.IsReadOnly() {
+		return fmt.Errorf("document is read-only")
+	}
+
+	lineCount := d.Backend.GetLineCount()
+	if lineIndex < 0 || lineIndex >= lineCount {
+		return fmt.Errorf("line index out of bounds")
+	}
+
+	// This assumes the backend has logic to map line index to absolute byte offset.
+	// For this parity bootstrap, we mock the calculation by summing previous line lengths.
+	startOffset := 0
+	for i := 0; i < lineIndex; i++ {
+		startOffset += d.Backend.GetLineLength(i)
+	}
+
+	length := d.Backend.GetLineLength(lineIndex)
+	d.Backend.DeleteRange(startOffset, startOffset+length)
+	d.Modified = true
+	return nil
+}
+
+// DuplicateLine duplicates the line at the current cursor position.
+func (d *Document) DuplicateLine(lineIndex int) error {
+	if d.Backend.IsReadOnly() {
+		return fmt.Errorf("document is read-only")
+	}
+
+	lineCount := d.Backend.GetLineCount()
+	if lineIndex < 0 || lineIndex >= lineCount {
+		return fmt.Errorf("line index out of bounds")
+	}
+
+	startOffset := 0
+	for i := 0; i < lineIndex; i++ {
+		startOffset += d.Backend.GetLineLength(i)
+	}
+
+	length := d.Backend.GetLineLength(lineIndex)
+	lineText := d.Backend.GetTextRange(startOffset, startOffset+length)
+
+	// Insert duplicate directly after the current line
+	d.Backend.InsertText(startOffset+length, lineText)
+	d.Modified = true
+	return nil
+}
