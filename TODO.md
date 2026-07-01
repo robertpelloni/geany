@@ -14,6 +14,11 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Port C/C++ functionality to Go.
 - [ ] Update version strings across the codebase to read from `VERSION.md`.
 
+## Phase 1 Finalization
+- [x] Fix submodule pointers (`bobui`, `btk`, `bobgui`).
+- [x] Bootstrap `geany-go` module and CLI.
+- [x] Perform Notepad++ Parity Analysis.
+
 ## Notepad++ Parity Features (Identified in Analysis)
 - [x] Implement native Macro Recording & Playback.
 - [ ] Implement Multi-line Tabs (Support vertical stacking and scrolling).
