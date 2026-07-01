@@ -57,6 +57,8 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Phase 4: Notepad++ Parity Feature Engine Port
 - [ ] Begin porting N++ Multi-line tabs core logic to `geany-go/ui`.
 - [ ] Map all documented `PARITY.md` gaps (Save a Copy As, Bookmark logic) to Go backend interfaces.
+- [ ] Implement Hex Editor plugin backend logic in Go.
+- [ ] Implement AST Compare Plugin core diff algorithm in Go.
 
 ## C++ Refactoring Plan (Next Steps)
 - [x] **Highlighting Engine**: Refactor `src/highlighting.c` into a C++ `SyntaxHighlighter` class that consumes `FileType` definitions from the new `FileTypeManager` and maps them to Scintilla style bytes via `ScintillaWrapper`.
