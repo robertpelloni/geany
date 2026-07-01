@@ -22,8 +22,8 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Native Document Map (Minimap) integration.
 - [ ] Modernize Style/Theme Configurator (via UI submodules).
 - [ ] Native 'Compare Plugin' feature for side-by-side diffing.
-- [ ] Implement explicit Edit > Line Operations (Sort, Reverse, Split, Join, Duplicate, Delete) in `geany-go/engine`.
-- [ ] Implement explicit Edit > Blank Operations (Trim, Converters).
+- [x] Implement explicit Edit > Line Operations (Sort, Reverse, Split, Join, Duplicate, Delete) in `geany-go/engine`.
+- [x] Implement explicit Edit > Blank Operations (Trim, Converters).
 - [ ] Native Hex Editor integration.
 
 ## C++ Refactoring Plan
