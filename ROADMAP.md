@@ -19,6 +19,8 @@ This document outlines the major, long-term structural plans for the project.
 - [x] Create standalone CLI/driver in `cmd/geany-go` for isolated bootstrapping.
 - [ ] Port UI logic and integrations to Go.
 - [ ] Assimilate features from all submodules into the Go ultra-project.
+- [ ] Begin porting core parsing/lexing logic to Go package `geany-go/engine/parser`.
+- [ ] Begin porting C++ UI interactions directly to `geany-go/ui` boundaries.
 
 ## Phase 4: Notepad++ Parity & Feature Completion
 - [ ] Implement all missing features identified in the Notepad++ parity analysis.
