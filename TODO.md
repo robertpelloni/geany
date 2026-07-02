@@ -19,6 +19,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Bootstrap `geany-go` module and CLI.
 - [x] Perform Notepad++ Parity Analysis.
 - [x] Verify submodule building operations via recursive updates.
+- [x] Catalog architectural concepts generated during parity gaps into IDEAS.md.
 
 ## Notepad++ Parity Features (Identified in Analysis)
 - [x] Implement native Macro Recording & Playback.
