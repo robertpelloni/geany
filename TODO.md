@@ -63,6 +63,10 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Redesign the Bobgui Dashboard UI layout to condense all subpages and related concepts into a single, intuitive, high-value monolithic page.
 - [x] Ensure every single feature and function exposed in the Dashboard UI is fully annotated with descriptive tooltips and guidance markers based on deep source code feature analysis.
 
+## Phase 2: Core GTK UI Integration
+- [ ] Transition primary GTK calls from `libmain.c` directly into `geany-go/ui/bobgui`.
+- [ ] Bind GTK windowing events natively to the Go backend.
+
 ## Phase 4: Notepad++ Parity Feature Engine Port
 - [ ] Begin porting N++ Multi-line tabs core logic to `geany-go/ui`.
 - [ ] Map all documented `PARITY.md` gaps (Save a Copy As, Bookmark logic) to Go backend interfaces.
