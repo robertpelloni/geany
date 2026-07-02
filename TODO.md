@@ -62,6 +62,7 @@ This file contains individual features, bug fixes, and other fine details that n
 
 ## Phase 2: C++ Refactoring (Submodule Transition)
 - [ ] Begin porting C GTK `main_lib()` logic out of `libmain.c` directly into `subprojects/bobgui`.
+- [ ] Implement robust `geany-go/ui` interface adapters for Qt6 (`bobui`) and Qt4 (`btk`) natively.
 
 ## Phase 2: Bobgui UI Overhaul & Dashboard
 - [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
