@@ -18,6 +18,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Fix submodule pointers (`bobui`, `btk`, `bobgui`).
 - [x] Bootstrap `geany-go` module and CLI.
 - [x] Perform Notepad++ Parity Analysis.
+- [x] Verify submodule building operations via recursive updates.
 
 ## Notepad++ Parity Features (Identified in Analysis)
 - [x] Implement native Macro Recording & Playback.
@@ -60,7 +61,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Thoroughly map all backend `geany-go/engine` features (Line Operations, Formatters, Search) directly into the Dashboard UI.
 - [x] Ensure all settings and tools are comprehensively labeled with clear, detailed UI tooltips indicating their behavior.
 - [ ] Redesign the Bobgui Dashboard UI layout to condense all subpages and related concepts into a single, intuitive, high-value monolithic page.
-- [ ] Ensure every single feature and function exposed in the Dashboard UI is fully annotated with descriptive tooltips and guidance markers.
+- [ ] Ensure every single feature and function exposed in the Dashboard UI is fully annotated with descriptive tooltips and guidance markers based on deep source code feature analysis.
 
 ## Phase 4: Notepad++ Parity Feature Engine Port
 - [ ] Begin porting N++ Multi-line tabs core logic to `geany-go/ui`.
