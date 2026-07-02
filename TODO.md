@@ -60,8 +60,8 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Connect Go backend Config metrics to Dashboard.
 - [x] Thoroughly map all backend `geany-go/engine` features (Line Operations, Formatters, Search) directly into the Dashboard UI.
 - [x] Ensure all settings and tools are comprehensively labeled with clear, detailed UI tooltips indicating their behavior.
-- [ ] Redesign the Bobgui Dashboard UI layout to condense all subpages and related concepts into a single, intuitive, high-value monolithic page.
-- [ ] Ensure every single feature and function exposed in the Dashboard UI is fully annotated with descriptive tooltips and guidance markers based on deep source code feature analysis.
+- [x] Redesign the Bobgui Dashboard UI layout to condense all subpages and related concepts into a single, intuitive, high-value monolithic page.
+- [x] Ensure every single feature and function exposed in the Dashboard UI is fully annotated with descriptive tooltips and guidance markers based on deep source code feature analysis.
 
 ## Phase 4: Notepad++ Parity Feature Engine Port
 - [ ] Begin porting N++ Multi-line tabs core logic to `geany-go/ui`.

@@ -54,6 +54,21 @@ void DashboardHelper::InitializeTooltips() {
         "Removes all line breaks and replaces them with a single space, merging the document into one block.",
         true
     };
+
+    // Dashboard Monolithic Operations (Phase 2 UI Redesign)
+    m_featureRegistry["Dashboard.Config"] = {
+        "Dashboard.Config",
+        "Geany Configuration Metrics",
+        "Provides a real-time monolithic overview of all application preferences and settings. (Merged from Preferences subpage)",
+        true
+    };
+
+    m_featureRegistry["Dashboard.Stats"] = {
+        "Dashboard.Stats",
+        "Application Telemetry",
+        "Displays real-time file I/O operations, text editing metrics, and line manipulations. (Merged from Statistics subpage)",
+        true
+    };
 }
 
 DashboardFeatureMetric DashboardHelper::GetFeatureMetadata(const std::string& featureKey) const {
