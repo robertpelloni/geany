@@ -24,7 +24,7 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Phase 3: The Go Port (Engine Porting)
 - [ ] Initialize `geany-go/engine/parser` package to begin native Go syntax lexing, removing dependence on `scintilla` wrapper.
 - [ ] Rewrite `geany-go/engine/document.go` to handle memory-mapped text operations independently.
-- [ ] Initialize `geany-go/engine/io.go` for managing cross-platform file locking and monitoring.
+- [x] Initialize `geany-go/engine/io.go` for managing cross-platform file locking and monitoring.
 - [ ] Establish `geany-go/engine/encoding.go` for natively handling all encoding formats listed in PARITY.md gaps.
 
 ## Phase 2: Bobui Qt6 UI Integration
