@@ -21,6 +21,9 @@ This document outlines the major, long-term structural plans for the project.
 - [ ] Assimilate features from all submodules into the Go ultra-project.
 - [ ] Begin porting core parsing/lexing logic to Go package `geany-go/engine/parser`.
 - [ ] Begin porting C++ UI interactions directly to `geany-go/ui` boundaries.
+- [ ] Port core File I/O operations from C to idiomatic Go.
+- [ ] Port core Syntax Highlighting/Lexer integrations from C to Go.
+- [ ] Port Plugin System management from C to Go.
 
 ## Phase 4: Notepad++ Parity & Feature Completion
 - [ ] Implement all missing features identified in the Notepad++ parity analysis.
