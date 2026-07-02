@@ -11,11 +11,14 @@ import (
 	"github.com/geany/geany-go/editor"
 	"github.com/geany/geany-go/macros"
 	"github.com/geany/geany-go/plugins"
+	"github.com/geany/geany-go/project"
 	"github.com/geany/geany-go/scintilla"
 	"github.com/geany/geany-go/search"
 	"github.com/geany/geany-go/symbols"
 	"github.com/geany/geany-go/templates"
 	_ "github.com/geany/geany-go/ui/bobgui"
+	_ "github.com/geany/geany-go/ui/bobui"
+	_ "github.com/geany/geany-go/ui/btk"
 )
 
 // Global instances for the FFI bridge
@@ -23,6 +26,7 @@ var (
 	configMgr   *config.Manager
 	macroEngine *macros.Engine
 	pluginMgr   *plugins.Manager
+	projectMgr  *project.Manager
 	searchEng   *search.Engine
 	symbolSpace *symbols.Workspace
 	templateEng *templates.Engine
@@ -35,6 +39,7 @@ func GeanyGo_Initialize() {
 	fmt.Println("[Geany-Go FFI] Initializing Go ultra-project backend...")
 
 	configMgr = config.NewManager()
+	projectMgr = project.NewManager()
 
 	executor := func(a macros.Action) error {
 		fmt.Printf("[Geany-Go FFI] Executing Macro Action: %v\n", a)
@@ -106,6 +111,45 @@ func GeanyGo_Config_GetString(cSection *C.char, cKey *C.char, cFallback *C.char)
 
 	val := configMgr.GetString(section, key, fallback)
 	return C.CString(val) // Caller must free this memory
+}
+
+//export GeanyGo_Project_Create
+func GeanyGo_Project_Create(cName *C.char, cFilename *C.char, cBasePath *C.char) int {
+	if projectMgr == nil {
+		return 0
+	}
+	name := C.GoString(cName)
+	filename := C.GoString(cFilename)
+	basePath := C.GoString(cBasePath)
+
+	_, err := projectMgr.Create(name, filename, basePath)
+	if err != nil {
+		fmt.Printf("[Geany-Go FFI] Error creating project: %v\n", err)
+		return 0
+	}
+	return 1
+}
+
+//export GeanyGo_Project_Open
+func GeanyGo_Project_Open(cFilename *C.char) int {
+	if projectMgr == nil {
+		return 0
+	}
+	filename := C.GoString(cFilename)
+
+	_, err := projectMgr.Load(filename)
+	if err != nil {
+		fmt.Printf("[Geany-Go FFI] Error opening project: %v\n", err)
+		return 0
+	}
+	return 1
+}
+
+//export GeanyGo_Project_Close
+func GeanyGo_Project_Close() {
+	if projectMgr != nil {
+		projectMgr.Close()
+	}
 }
 
 func main() {}
