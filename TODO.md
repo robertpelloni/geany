@@ -67,6 +67,10 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Transition primary GTK calls from `libmain.c` directly into `geany-go/ui/bobgui`.
 - [ ] Bind GTK windowing events natively to the Go backend.
 
+## Phase 3: File I/O Engine Port
+- [ ] Establish `geany-go/engine/io.go` for managing cross-platform file locking and monitoring.
+- [ ] Establish `geany-go/engine/encoding.go` for natively handling all encoding formats listed in PARITY.md gaps.
+
 ## Phase 4: Notepad++ Parity Feature Engine Port
 - [ ] Begin porting N++ Multi-line tabs core logic to `geany-go/ui`.
 - [ ] Map all documented `PARITY.md` gaps (Save a Copy As, Bookmark logic) to Go backend interfaces.
