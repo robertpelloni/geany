@@ -56,17 +56,32 @@ void DashboardHelper::InitializeTooltips() {
     };
 
     // Dashboard Monolithic Operations (Phase 2 UI Redesign)
+    m_featureRegistry["Dashboard.Monolithic"] = {
+        "Dashboard.Monolithic",
+        "Geany Ultra Main Command Center",
+        "A singular, unified dashboard consolidating Editor Metrics, UI Preferences, Telemetry, and Configuration overrides into one prominent, highly-accessible view.",
+        true
+    };
+
     m_featureRegistry["Dashboard.Config"] = {
         "Dashboard.Config",
         "Geany Configuration Metrics",
         "Provides a real-time monolithic overview of all application preferences and settings. (Merged from Preferences subpage)",
-        true
+        false // Now embedded in Monolithic
     };
 
     m_featureRegistry["Dashboard.Stats"] = {
         "Dashboard.Stats",
         "Application Telemetry",
         "Displays real-time file I/O operations, text editing metrics, and line manipulations. (Merged from Statistics subpage)",
+        false // Now embedded in Monolithic
+    };
+
+    // N++ Parity - Compare Plugin & Hex View
+    m_featureRegistry["Plugin.Compare"] = {
+        "Plugin.Compare",
+        "AST Diff / Side-by-Side Compare",
+        "Launch the native Geany-Go diff engine to inspect side-by-side deviations of the current document.",
         true
     };
 }
