@@ -24,6 +24,8 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Phase 3: The Go Port (Engine Porting)
 - [ ] Initialize `geany-go/engine/parser` package to begin native Go syntax lexing, removing dependence on `scintilla` wrapper.
 - [ ] Rewrite `geany-go/engine/document.go` to handle memory-mapped text operations independently.
+- [ ] Initialize `geany-go/engine/io.go` for managing cross-platform file locking and monitoring.
+- [ ] Establish `geany-go/engine/encoding.go` for natively handling all encoding formats listed in PARITY.md gaps.
 
 ## Phase 2: Bobui Qt6 UI Integration
 - [ ] Implement robust `geany-go/ui/bobui` bridge layer tracking C++ Qt6 signals.
@@ -83,10 +85,6 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Phase 2: Core GTK UI Integration
 - [ ] Transition primary GTK calls from `libmain.c` directly into `geany-go/ui/bobgui`.
 - [ ] Bind GTK windowing events natively to the Go backend.
-
-## Phase 3: File I/O Engine Port
-- [ ] Establish `geany-go/engine/io.go` for managing cross-platform file locking and monitoring.
-- [ ] Establish `geany-go/engine/encoding.go` for natively handling all encoding formats listed in PARITY.md gaps.
 
 ## Phase 4: Notepad++ Parity Feature Engine Port
 - [ ] Begin porting N++ Multi-line tabs core logic to `geany-go/ui`.
