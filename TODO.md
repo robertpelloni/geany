@@ -21,6 +21,10 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Verify submodule building operations via recursive updates.
 - [x] Catalog architectural concepts generated during parity gaps into IDEAS.md.
 
+## Phase 3: The Go Port (Engine Porting)
+- [ ] Initialize `geany-go/engine/parser` package to begin native Go syntax lexing, removing dependence on `scintilla` wrapper.
+- [ ] Rewrite `geany-go/engine/document.go` to handle memory-mapped text operations independently.
+
 ## Phase 2: Bobui Qt6 UI Integration
 - [ ] Implement robust `geany-go/ui/bobui` bridge layer tracking C++ Qt6 signals.
 - [ ] Connect Go backend Document tracking state directly to `bobui` tab lifecycle events.
