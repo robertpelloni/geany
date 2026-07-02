@@ -21,6 +21,10 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Verify submodule building operations via recursive updates.
 - [x] Catalog architectural concepts generated during parity gaps into IDEAS.md.
 
+## Phase 2: C++ Refactoring Plan (Submodule Transition)
+- [ ] Begin porting C GTK `main_lib()` logic out of `src/libmain.c` directly into `subprojects/bobgui`.
+- [ ] Hook `bobui` (Qt6) up to a mock C++ GUI window locally.
+
 ## Notepad++ Parity Features (Identified in Analysis)
 - [x] Implement native Macro Recording & Playback.
 - [ ] Implement Multi-line Tabs (Support vertical stacking and scrolling).
