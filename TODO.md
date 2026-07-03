@@ -35,6 +35,7 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Phase 2: Bobui Qt6 UI Integration
 - [ ] Implement robust `geany-go/ui/bobui` bridge layer tracking C++ Qt6 signals.
 - [ ] Connect Go backend Document tracking state directly to `bobui` tab lifecycle events.
+- [ ] Add explicit Qt6 UI mapping and integration documentation to DEPLOY.md.
 
 ## Phase 2: C++ Refactoring Plan (Submodule Transition)
 - [ ] Begin porting C GTK `main_lib()` logic out of `src/libmain.c` directly into `subprojects/bobgui`.
