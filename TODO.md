@@ -22,6 +22,10 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Catalog architectural concepts generated during parity gaps into IDEAS.md.
 - [x] Re-validate all submodule pointers and dependency paths following core repo stabilization.
 
+## Phase 4: Notepad++ Advanced Feature Set (Parity Analysis Additions)
+- [ ] Implement robust multi-line bookmark state management to mirror N++'s "Bookmark" menu logic natively in the Go engine.
+- [ ] Connect Go backend `Hide Lines` capabilities (explicit arbitrary line collapsing) distinct from tree-folding.
+
 ## Phase 3: The Go Port (Engine Porting)
 - [ ] Initialize `geany-go/engine/parser` package to begin native Go syntax lexing, removing dependence on `scintilla` wrapper.
 - [ ] Rewrite `geany-go/engine/document.go` to handle memory-mapped text operations independently.
@@ -79,6 +83,9 @@ This file contains individual features, bug fixes, and other fine details that n
 ## Phase 2: C++ Refactoring (Submodule Transition)
 - [ ] Begin porting C GTK `main_lib()` logic out of `libmain.c` directly into `subprojects/bobgui`.
 - [ ] Implement robust `geany-go/ui` interface adapters for Qt6 (`bobui`) and Qt4 (`btk`) natively.
+
+## Phase 2: Submodule Build Initialization
+- [ ] Implement custom CMake and Autotools initialization routines to cleanly isolate GTK and Qt compilation chains within their respective submodules to prevent global build failure.
 
 ## Phase 2: Bobgui UI Overhaul & Dashboard
 - [ ] Implement Geany settings panel via Dashboard UI (Bobgui).
