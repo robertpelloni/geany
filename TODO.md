@@ -21,6 +21,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Verify submodule building operations via recursive updates.
 - [x] Catalog architectural concepts generated during parity gaps into IDEAS.md.
 - [x] Re-validate all submodule pointers and dependency paths following core repo stabilization.
+- [x] Sync .gitmodules URLs to match exact downstream aliases (`bobgui`, `bobui`, `btk`).
 
 ## Phase 4: Notepad++ Advanced Feature Set (Parity Analysis Additions)
 - [ ] Implement robust multi-line bookmark state management to mirror N++'s "Bookmark" menu logic natively in the Go engine.
