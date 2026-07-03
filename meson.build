@@ -959,6 +959,14 @@ dep_libgeany = declare_dependency(
 )
 
 subdir('geany-go')
+
+# Qt6 Native UI Submodule (bobui)
+qt6_dep = dependency('qt6', modules: ['Core', 'Gui', 'Widgets'], required: false)
+if qt6_dep.found()
+  message('Qt6 found: Enabling bobui native UI integration')
+  subdir('subprojects/bobui')
+endif
+
 executable('geany',
 	win_resc,
 	'src/main.c',
