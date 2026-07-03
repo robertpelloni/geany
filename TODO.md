@@ -27,6 +27,10 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Initialize `geany-go/engine/io.go` for managing cross-platform file locking and monitoring.
 - [ ] Establish `geany-go/engine/encoding.go` for natively handling all encoding formats listed in PARITY.md gaps.
 
+## Phase 3: Go Port Architecture
+- [ ] Construct the central Plugin Management orchestrator in `geany-go/plugins`.
+- [ ] Connect the `geany-go/engine` document models to the new native UI adapters.
+
 ## Phase 2: Bobui Qt6 UI Integration
 - [ ] Implement robust `geany-go/ui/bobui` bridge layer tracking C++ Qt6 signals.
 - [ ] Connect Go backend Document tracking state directly to `bobui` tab lifecycle events.
