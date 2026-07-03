@@ -20,6 +20,7 @@ This file contains individual features, bug fixes, and other fine details that n
 - [x] Perform Notepad++ Parity Analysis.
 - [x] Verify submodule building operations via recursive updates.
 - [x] Catalog architectural concepts generated during parity gaps into IDEAS.md.
+- [x] Re-validate all submodule pointers and dependency paths following core repo stabilization.
 
 ## Phase 3: The Go Port (Engine Porting)
 - [ ] Initialize `geany-go/engine/parser` package to begin native Go syntax lexing, removing dependence on `scintilla` wrapper.
