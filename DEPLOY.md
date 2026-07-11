@@ -42,4 +42,8 @@ cmake --build build
 cd subprojects/btk
 cmake -S . -B build -G "Ninja"
 cmake --build build
+## Submodule Dependencies
+Before building, ensure all UI submodules are pulled and initialized correctly:
+```bash
+git submodule update --init --recursive
 ```

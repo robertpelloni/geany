@@ -62,7 +62,7 @@ func (se *ScintillaEditor) GetTextLength() int {
 	return int(se.SendMessage(C.SCI_GETLENGTH, 0, 0))
 }
 
-func (se *ScintillaEditor) GetText(length int) (string, error) {
+func (se *ScintillaEditor) GetRawText(length int) (string, error) {
 	if length <= 0 {
 		return "", nil
 	}

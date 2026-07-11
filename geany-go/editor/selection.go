@@ -1,9 +1,6 @@
 package editor
 
 // Selection represents a contiguous range of text within a document.
-// It is defined by a Start and End byte offset, where Start is always <= End.
-// This is used for extracting, deleting, or formatting text chunks, separate from
-// the directional nature of the Cursor (Anchor/Position).
 type Selection struct {
 	Start int
 	End   int
@@ -11,7 +8,6 @@ type Selection struct {
 
 // NewSelection creates a new Selection representing the range [start, end].
 // If start > end, the values are automatically swapped to guarantee Start <= End.
-// Negative offsets are clamped to 0.
 func NewSelection(start, end int) *Selection {
 	if start < 0 {
 		start = 0

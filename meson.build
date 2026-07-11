@@ -346,7 +346,7 @@ lexilla = static_library('lexilla',
 	'scintilla/lexilla/lexlib/WordList.h',
 	'scintilla/lexilla/src/Lexilla.cxx',
 	cpp_args: sci_cflags,
-	dependencies: deps + [geanygo_dep],
+	dependencies: deps,
 	include_directories: [
 		iscintilla,
 		include_directories('scintilla/lexilla/lexlib', 'scintilla/lexilla/include')
@@ -959,6 +959,7 @@ dep_libgeany = declare_dependency(
 )
 
 subdir('geany-go')
+subdir('geany-rust')
 
 # Qt6 Native UI Submodule (bobui)
 qt6_dep = dependency('qt6', modules: ['Core', 'Gui', 'Widgets'], required: false)
@@ -973,7 +974,7 @@ executable('geany',
 	'src/Application.cpp',
 	link_with: libgeany,
 	c_args: geany_cflags + [ '-DG_LOG_DOMAIN="Geany"' ],
-	dependencies: deps + [geanygo_dep],
+	dependencies: deps + [geanygo_dep, geanyrust_dep],
 	build_rpath: meson.project_build_root(),
 	install_rpath: '$ORIGIN/../' + get_option('libdir'),
 	install: true,

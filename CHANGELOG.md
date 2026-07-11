@@ -11,6 +11,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 - Mapped explicit GTK code extraction goals to `bobgui` submodule logic.
 - Logged finalized Phase 1 submodule state synchronization check to MEMORY.md.
+## [1.0.0-alpha.19] - Core Go Editor Bootstrapping
+- Bootstrapped `geany-go/editor/search.go` to begin handling Find/Replace engine logic.
+- Bootstrapped `geany-go/editor/cursor.go` defining the `Selection` logic and Scintilla proxying for caret position.
+- Appended final styling and macro details to the `NOTEPAD_PLUS_PARITY_ANALYSIS.md`.
+
+## [1.0.0-alpha.18] - Phase 1 Final Parity Expansion
+- Added expanded analysis of core missing plugins, auto-completion architecture, and Folder as Workspace implementations into `NOTEPAD_PLUS_PARITY_ANALYSIS.md`.
+- Finalized Phase 1 documentation tasks.
+
+## [1.0.0-alpha.17] - Go Architecture Stabilization
+- Fixed build errors in `geany-go/filetypes` module.
+- Implemented the `engine.Backend` UI-agnostic abstraction in `geany-go/engine/editor.go` to safely decouple Scintilla from the main backend.
+- Created `geany-go/scintilla/scintilla_backend.go` which successfully maps CGO C++ Scintilla pointers into the safe Go `Backend` interface.
+- Version bumped to prepare for extensive Phase 3 Go port assimilation.
+
+## [1.0.0-alpha.16] - Pre-Phase 2 Re-Sync
+- Validated upstream parity and verified submodules are cleanly merged and initialized.
+- Merged local phase 1 progress against upstream.
+
+## [1.0.0-alpha.15] - Go Editor Expansion
+- Began implementation of core `Document` logic (`InsertText`, `GetText`) in `geany-go/editor/document_features.go`.
+- Incremented version for phase continuation.
+
+## [1.0.0-alpha.14] - Extended TextFX Parity
+- Implemented `remove_blank_lines`, `remove_duplicate_lines`, `encode_base64`, and `decode_base64` in `geany-go/textfx`.
+- Implemented equivalent functions in `geany-rust/src/textfx.rs` using the `base64` crate.
+- Exposed new TextFX functions across the FFI bridge in `Application_C_Bridge.h`.
+
+## [1.0.0-alpha.13] - AI Dev Automation Synchronization
+- Performed a comprehensive remote and local git workspace synchronization.
+- Consolidated progress from the `jules-8901070248151919093-615e712e` feature branch (which included TextFX and Tab formatting for Rust and Go) into `master`.
 
 ## [1.0.0-alpha.11] - 2026-04-10
 ### Changed
@@ -101,3 +132,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Bootstrapped `geany-go/utils` package with string and file utility functions ported from C.
 - Prepared architecture for C++ refactor and Go port (`geany-go`).
 - Prepared addition of bobui, btk, and bobgui submodules for multiple native UI frontends.
+
+## 1.0.0-alpha.12
+- Initiated \`geany-rust\` port for high-performance functionality.
+- Implemented TextFX2 features (Sort Lines, Proper Case, Sentence Case, Formatting) in both Rust and Go ports.
+- Implemented foundational Vertical Tabs interface via \`TabManager\` in Rust and Go.
+- Connected \`geany-rust\` to the Meson build system as a dynamic/static C dependency.
+- Wired Rust and Go TextFX/UI functionalities into the C++ \`geany::Application\` FFI bridge.

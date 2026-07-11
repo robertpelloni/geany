@@ -38,7 +38,7 @@ func (e *Editor) OpenDocument(path string) (*Document, error) {
 		}
 	}
 
-	doc := NewDocument(e.nextID, path)
+	doc := NewDocument(e.nextID, path, nil)
 	err := doc.Open()
 	if err != nil {
 		// Even if file doesn't exist yet, we might be creating a new file buffer.

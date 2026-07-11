@@ -2,7 +2,7 @@
 
 This document outlines the major, long-term structural plans for the project.
 
-## Phase 1: Deep Analysis and Foundation (Current)
+## Phase 1: Deep Analysis and Foundation (Complete)
 - [x] Establish comprehensive documentation suite (VISION, ROADMAP, TODO, MEMORY, DEPLOY, HANDOFF, AGENTS, etc.).
 - [x] Add git submodules (`bobui`, `btk`, `bobgui`).
 - [x] Bootstrap the Go port (`geany-go`).
@@ -34,3 +34,9 @@ This document outlines the major, long-term structural plans for the project.
 - [ ] Finalize user manuals and help files.
 - [ ] Double and triple check all functions for bugs.
 - [ ] Prepare Web UI frontend architecture.
+
+## Phase 6: The Rust Port (\`geany-rust\`)
+- [x] Establish foundational Rust Cargo project linked via Meson FFI.
+- [x] Implement TextFX2 string formatting algorithms in Rust.
+- [x] Implement Vertical Tabs state manager in Rust.
+- [ ] Port heavier Regex and text manipulation logic to safe Rust.

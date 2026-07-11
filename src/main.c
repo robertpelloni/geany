@@ -31,6 +31,10 @@ int main(int argc, char **argv)
 	GeanyApplicationHandle app = geany_application_new();
 	geany_application_initialize(app, argc, argv);
 
+	// Start Go and Rust backends
+	GeanyGo_Initialize();
+	GeanyRust_Initialize();
+
 	// Hand off execution to the C++ core execution block.
 	// For now, it returns immediately to allow the legacy C application
 	// boot process to continue to setup the GTK event loop.
@@ -41,6 +45,11 @@ int main(int argc, char **argv)
 
 	// Once the GTK loop shuts down, perform C++ core tear down gracefully.
 	geany_application_quit(app);
+
+	// Shut down Go and Rust backends
+	GeanyGo_Shutdown();
+	GeanyRust_Shutdown();
+
 	geany_application_free(app);
 
 	return res;

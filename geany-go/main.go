@@ -7,6 +7,7 @@ import "C"
 
 import (
 	"fmt"
+	"unsafe"
 	"github.com/geany/geany-go/config"
 	"github.com/geany/geany-go/editor"
 	"github.com/geany/geany-go/macros"
@@ -16,6 +17,8 @@ import (
 	"github.com/geany/geany-go/search"
 	"github.com/geany/geany-go/symbols"
 	"github.com/geany/geany-go/templates"
+	"github.com/geany/geany-go/textfx"
+	"github.com/geany/geany-go/ui"
 	_ "github.com/geany/geany-go/ui/bobgui"
 	_ "github.com/geany/geany-go/ui/bobui"
 	_ "github.com/geany/geany-go/ui/btk"
@@ -32,6 +35,7 @@ var (
 	templateEng *templates.Engine
 	editorMgr   *editor.Editor
 	activeScin  *scintilla.ScintillaEditor
+	tabMgr      ui.TabManager
 )
 
 //export GeanyGo_Initialize
@@ -59,6 +63,9 @@ func GeanyGo_Initialize() {
 
 	// Initialize the Editor document lifecycle manager
 	editorMgr = editor.NewEditor()
+
+	// Initialize UI Tab Manager
+	tabMgr = ui.NewDefaultTabManager()
 }
 
 //export GeanyGo_Shutdown
@@ -113,6 +120,12 @@ func GeanyGo_Config_GetString(cSection *C.char, cKey *C.char, cFallback *C.char)
 	return C.CString(val) // Caller must free this memory
 }
 
+//export GeanyGo_FreeString
+// GeanyGo_FreeString frees a string allocated by Go via C.CString
+func GeanyGo_FreeString(str *C.char) {
+	C.free(unsafe.Pointer(str))
+}
+
 //export GeanyGo_Project_Create
 func GeanyGo_Project_Create(cName *C.char, cFilename *C.char, cBasePath *C.char) int {
 	if projectMgr == nil {
@@ -149,6 +162,47 @@ func GeanyGo_Project_Open(cFilename *C.char) int {
 func GeanyGo_Project_Close() {
 	if projectMgr != nil {
 		projectMgr.Close()
+	}
+}
+
+//export GeanyGo_TextFX_SortLines
+func GeanyGo_TextFX_SortLines(cText *C.char, ascending bool, caseSensitive bool) *C.char {
+	text := C.GoString(cText)
+	sorted := textfx.SortLines(text, ascending, caseSensitive)
+	return C.CString(sorted)
+}
+
+//export GeanyGo_TextFX_ToProperCase
+func GeanyGo_TextFX_ToProperCase(cText *C.char) *C.char {
+	text := C.GoString(cText)
+	converted := textfx.ToProperCase(text)
+	return C.CString(converted)
+}
+
+//export GeanyGo_TextFX_ToSentenceCase
+func GeanyGo_TextFX_ToSentenceCase(cText *C.char) *C.char {
+	text := C.GoString(cText)
+	converted := textfx.ToSentenceCase(text)
+	return C.CString(converted)
+}
+
+//export GeanyGo_TextFX_TrimTrailingWhitespace
+func GeanyGo_TextFX_TrimTrailingWhitespace(cText *C.char) *C.char {
+	text := C.GoString(cText)
+	formatted := textfx.TrimTrailingWhitespace(text)
+	return C.CString(formatted)
+}
+
+//export GeanyGo_UI_SetTabOrientation
+func GeanyGo_UI_SetTabOrientation(vertical bool) {
+	if tabMgr != nil {
+		if vertical {
+			tabMgr.SetOrientation(ui.Vertical)
+		} else {
+			tabMgr.SetOrientation(ui.Horizontal)
+		}
+	}
+}
 	}
 }
 

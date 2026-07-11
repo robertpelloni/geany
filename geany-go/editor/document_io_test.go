@@ -11,7 +11,7 @@ func TestDocumentIO(t *testing.T) {
 	testPath := filepath.Join(tempDir, "test_io.txt")
 
 	// 1. Test Save
-	doc := NewDocument(1, testPath)
+	doc := NewDocument(1, testPath, nil)
 	content := []byte("Hello Go Document I/O")
 	err := doc.Save(content)
 	if err != nil {
@@ -25,7 +25,7 @@ func TestDocumentIO(t *testing.T) {
 	}
 
 	// 2. Test Open
-	doc2 := NewDocument(2, testPath)
+	doc2 := NewDocument(2, testPath, nil)
 	err = doc2.Open()
 	if err != nil {
 		t.Fatalf("Open failed: %v", err)
@@ -42,7 +42,7 @@ func TestDocumentIO(t *testing.T) {
 	bomPath := filepath.Join(tempDir, "bom.txt")
 	os.WriteFile(bomPath, []byte{0xEF, 0xBB, 0xBF, 'A', 'B', 'C'}, 0644)
 
-	doc3 := NewDocument(3, bomPath)
+	doc3 := NewDocument(3, bomPath, nil)
 	doc3.Open()
 
 	if !doc3.HasBOM {
@@ -58,7 +58,7 @@ func TestDocumentIO(t *testing.T) {
 }
 
 func TestDocumentIOErrors(t *testing.T) {
-	doc := NewDocument(1, "")
+	doc := NewDocument(1, "", nil)
 	err := doc.Open()
 	if err == nil {
 		t.Errorf("Expected error opening empty path")
@@ -73,7 +73,7 @@ func TestDocumentIOErrors(t *testing.T) {
 	roPath := filepath.Join(tempDir, "ro.txt")
 	os.WriteFile(roPath, []byte("ro"), 0444) // Read-only
 
-	docRO := NewDocument(2, roPath)
+	docRO := NewDocument(2, roPath, nil)
 	docRO.Open()
 	if !docRO.ReadOnly {
 		t.Errorf("Expected document to be marked read-only")

@@ -43,6 +43,7 @@ type Document struct {
 	FilePath string
 	Modified bool
 	Backend  Backend
+	Encoding string
 }
 
 // NewDocument initializes a new high-level editor document bound to a specific UI backend.
@@ -52,6 +53,7 @@ func NewDocument(id int, path string, backend Backend) *Document {
 		FilePath: path,
 		Modified: false,
 		Backend:  backend,
+		Encoding: "UTF-8",
 	}
 }
 
