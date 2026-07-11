@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.12] - 2026-07-02
+### Added
+- Explicit Phase 3 target documentation tracking in TODO.md.
+- Dashboard UI tracking mappings linking features directly to UI elements in `src/DashboardHelper.cpp`.
+
+### Changed
+- Mapped explicit GTK code extraction goals to `bobgui` submodule logic.
+- Logged finalized Phase 1 submodule state synchronization check to MEMORY.md.
+
 ## [1.0.0-alpha.11] - 2026-04-10
 ### Changed
 - Replaced legacy C config file serialization (`src/keyfile.c`) with a modern, memory-safe C++ `ConfigManager`.

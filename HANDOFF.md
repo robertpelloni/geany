@@ -13,7 +13,8 @@ This document is used to pass state, analysis, and instructions between differen
 - Bootstrapped `geany-go/config` INI parser and refactored C++ `KeybindingManager`.
 - Bootstrapped `geany-go/filetypes` detection logic and refactored C++ `FileTypeManager`.
 - Bootstrapped `geany-go/templates` engine and refactored C++ `SyntaxHighlighter`.
-- A Notepad++ parity analysis is pending.
+- **Phase 1 Finalization**: `bobui`, `btk`, and `bobgui` UI submodules successfully initialized and confirmed building.
+- Initial Native N++ logic parity ports underway within `geany-go/engine`.
 
 ## Instructions for Next Agent
 1. Read `VISION.md`, `ROADMAP.md`, `TODO.md`, and `MEMORY.md` to understand the massive scope of this project.
