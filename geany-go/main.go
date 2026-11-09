@@ -20,9 +20,9 @@ import (
 	"github.com/geany/geany-go/templates"
 	"github.com/geany/geany-go/textfx"
 	"github.com/geany/geany-go/ui"
-	_ "github.com/geany/geany-go/ui/bobgui"
-	_ "github.com/geany/geany-go/ui/bobui"
-	_ "github.com/geany/geany-go/ui/btk"
+	"github.com/geany/geany-go/ui/bobgui"
+	"github.com/geany/geany-go/ui/bobui"
+	"github.com/geany/geany-go/ui/btk"
 )
 
 // Global instances for the FFI bridge
@@ -39,6 +39,7 @@ var (
 	tabMgr       ui.TabManager
 	codeParser   *parser.Parser
 	uiDispatcher *ui.EventDispatcher
+	uiRegistry   *ui.Registry
 )
 
 //export GeanyGo_Initialize
@@ -59,6 +60,12 @@ func GeanyGo_Initialize() {
 	symbolSpace = symbols.NewWorkspace()
 	codeParser = parser.NewParser()
 	uiDispatcher = ui.NewEventDispatcher()
+
+	// Initialize UI Registry and register multi-toolkit frontends
+	uiRegistry = ui.NewRegistry()
+	uiRegistry.Register(ui.FrontendBobGUI, bobgui.NewApp())
+	uiRegistry.Register(ui.FrontendBobUI, bobui.NewApp())
+	uiRegistry.Register(ui.FrontendBTK, btk.NewApp())
 
 	prefs := &templates.Preferences{
 		Developer: "Geany User",
@@ -259,6 +266,28 @@ func GeanyGo_UI_DispatchEvent(eventType int, payload *C.char) {
 		Type:    ui.EventType(eventType),
 		Payload: pyld,
 	})
+}
+
+//export GeanyGo_UI_SetActiveFrontend
+func GeanyGo_UI_SetActiveFrontend(cName *C.char) int {
+	if uiRegistry == nil || cName == nil {
+		return 0
+	}
+	name := C.GoString(cName)
+	if err := uiRegistry.SetActive(ui.FrontendType(name)); err != nil {
+		fmt.Printf("[Geany-Go FFI] Error setting active UI frontend %s: %v\n", name, err)
+		return 0
+	}
+	return 1
+}
+
+//export GeanyGo_UI_GetActiveFrontend
+func GeanyGo_UI_GetActiveFrontend() *C.char {
+	if uiRegistry == nil {
+		return C.CString("none")
+	}
+	active, _ := uiRegistry.GetActive()
+	return C.CString(string(active))
 }
 
 //export GeanyGo_Parser_ParseAndIndex

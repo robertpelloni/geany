@@ -1,5 +1,11 @@
 # Handoff Document
 
+## Previous Session (FFI UI Frontend Selection Bridge Integration)
+- Exported `GeanyGo_UI_SetActiveFrontend` and `GeanyGo_UI_GetActiveFrontend` in `geany-go/main.go` and declared them in `src/Application_C_Bridge.h`.
+- Initialized default native UI frontends (`bobgui`, `bobui`, `btk`) in the global `ui.Registry`.
+- Validated all Go and Rust tests pass cleanly.
+- Bumped version to `1.0.0-alpha.28` and updated `CHANGELOG.md`.
+
 ## Previous Session (Session Management & Configuration Requirements Specification)
 - Authored `docs/ai/requirements/2026-04-07-geany-session-management-and-configuration-requirements.md` outlining functional requirements (snapshotting, position persistence, metadata), non-functional requirements (latency bounds, thread safety), and Notepad++ parity comparisons.
 - Bumped version to `1.0.0-alpha.27` and updated `CHANGELOG.md`.
@@ -63,7 +69,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Initial Native N++ logic parity ports underway within `geany-go/engine`.
 - Parser and UI interaction layer established in `geany-go/parser` and `geany-go/ui`.
 - Multi-toolkit UI submodules tested in `geany-go/ui/bobui` and `geany-go/ui/btk`.
-- Frontend adapter registry established in `geany-go/ui/registry.go`.
+- Frontend adapter registry established in `geany-go/ui/registry.go` and exposed via CGO FFI.
 - Session management and configuration requirements, design, implementation, user guide, and testing specifications completed in `docs/ai/`.
 
 ## Instructions for Next Agent

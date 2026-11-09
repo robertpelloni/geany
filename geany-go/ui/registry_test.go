@@ -44,6 +44,15 @@ func TestRegistry_Operations(t *testing.T) {
 		t.Errorf("Expected active frontend to be FrontendBobUI, got %v", activeType)
 	}
 
+	// Switch to BTK
+	if err := reg.SetActive(FrontendBTK); err != nil {
+		t.Fatalf("Failed to set active frontend: %v", err)
+	}
+	activeType, _ = reg.GetActive()
+	if activeType != FrontendBTK {
+		t.Errorf("Expected active frontend to be FrontendBTK, got %v", activeType)
+	}
+
 	// Error on nonexistent frontend
 	if err := reg.SetActive(FrontendType("nonexistent")); err == nil {
 		t.Errorf("Expected error setting unknown frontend, got nil")

@@ -37,6 +37,8 @@ char* GeanyGo_TextFX_EncodeBase64(const char* text);
 char* GeanyGo_TextFX_DecodeBase64(const char* text);
 void GeanyGo_UI_SetTabOrientation(bool vertical);
 void GeanyGo_UI_DispatchEvent(int eventType, const char* payload);
+int GeanyGo_UI_SetActiveFrontend(const char* name);
+char* GeanyGo_UI_GetActiveFrontend(void);
 int GeanyGo_Parser_ParseAndIndex(const char* filename, const char* content, const char* lang);
 
 // Rust Backend FFI Declarations

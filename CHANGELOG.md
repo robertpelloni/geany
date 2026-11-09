@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.28] - FFI UI Frontend Selection Bridge Integration
+- Exported `GeanyGo_UI_SetActiveFrontend` and `GeanyGo_UI_GetActiveFrontend` in `geany-go/main.go` and declared them in `src/Application_C_Bridge.h`.
+- Initialized default native UI frontends (`bobgui`, `bobui`, `btk`) in the global `ui.Registry`.
+- Validated all Go and Rust tests pass cleanly.
+
 ## [1.0.0-alpha.27] - Session Management & Configuration Requirements Specification
 - Authored `docs/ai/requirements/2026-04-07-geany-session-management-and-configuration-requirements.md` outlining functional requirements (snapshotting, position persistence, metadata), non-functional requirements (latency bounds, thread safety), and Notepad++ parity comparisons.
 
