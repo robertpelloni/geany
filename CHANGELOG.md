@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.26] - Session Management & Configuration Testing Documentation
+- Authored `docs/ai/testing/2026-04-07-geany-session-management-and-configuration.md` establishing the test matrix, automated scenarios (round-trip INI serialization, concurrent event notifications, corrupted session recovery), and CI/CD verification commands.
+
 ## [1.0.0-alpha.25] - Multi-Toolkit Frontend Adapter Registry
 - Implemented `geany-go/ui/registry.go` providing a thread-safe `Registry` for managing and dynamically switching active native UI frontends (`FrontendBobGUI`, `FrontendBobUI`, `FrontendBTK`).
 - Added `geany-go/ui/registry_test.go` with mock application implementations to prevent import cycles.
