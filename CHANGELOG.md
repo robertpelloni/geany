@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.25] - Multi-Toolkit Frontend Adapter Registry
+- Implemented `geany-go/ui/registry.go` providing a thread-safe `Registry` for managing and dynamically switching active native UI frontends (`FrontendBobGUI`, `FrontendBobUI`, `FrontendBTK`).
+- Added `geany-go/ui/registry_test.go` with mock application implementations to prevent import cycles.
+- Validated all tests across Go and Rust project modules.
+
 ## [1.0.0-alpha.24] - Session Management & Configuration User/Developer Guide
 - Authored `docs/ai/planning/2026-04-07-geany-session-management-user-guide.md` providing end-user instructions, configuration schema examples, CLI options, developer FFI examples, and session recovery procedures.
 - Documented cross-toolkit session restoration mechanisms across GTK (`bobgui`), Qt6 (`bobui`), and CopperSpice (`btk`).
@@ -146,17 +151,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated build configurations to include `ScintillaWrapper.cpp`, `PluginManager.cpp`, and `DocumentManager.cpp`.
 - Updated `meson.build` and `configure.ac` to dynamically read version from `VERSION.md`.
 - Added C++ refactoring plans to `TODO.md` and updated `HANDOFF.md` tracking.
-
-### Added
-- Initialized comprehensive project documentation suite (VISION, ROADMAP, TODO, MEMORY, DEPLOY, HANDOFF, AGENTS, etc.).
-- Bootstrapped `geany-go/editor` package with core `Document` struct ported from C.
-- Bootstrapped `geany-go/utils` package with string and file utility functions ported from C.
-- Prepared architecture for C++ refactor and Go port (`geany-go`).
-- Prepared addition of bobui, btk, and bobgui submodules for multiple native UI frontends.
-
-## 1.0.0-alpha.12
-- Initiated \`geany-rust\` port for high-performance functionality.
-- Implemented TextFX2 features (Sort Lines, Proper Case, Sentence Case, Formatting) in both Rust and Go ports.
-- Implemented foundational Vertical Tabs interface via \`TabManager\` in Rust and Go.
-- Connected \`geany-rust\` to the Meson build system as a dynamic/static C dependency.
-- Wired Rust and Go TextFX/UI functionalities into the C++ \`geany::Application\` FFI bridge.

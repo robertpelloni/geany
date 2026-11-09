@@ -1,5 +1,11 @@
 # Handoff Document
 
+## Previous Session (Frontend Adapter Registry)
+- Implemented `geany-go/ui/registry.go` providing a thread-safe `Registry` for managing and dynamically switching active native UI frontends (`FrontendBobGUI`, `FrontendBobUI`, `FrontendBTK`).
+- Added `geany-go/ui/registry_test.go` with mock application implementations to prevent import cycles.
+- Ran full test suite across all `geany-go` and `geany-rust` modules.
+- Bumped version to `1.0.0-alpha.25` and updated `CHANGELOG.md`.
+
 ## Previous Session (Session Management & Configuration User/Developer Guide)
 - Authored `docs/ai/planning/2026-04-07-geany-session-management-user-guide.md` providing end-user instructions, configuration schema examples, CLI options, developer FFI examples, and session recovery procedures.
 - Documented cross-toolkit session restoration mechanisms across GTK (`bobgui`), Qt6 (`bobui`), and CopperSpice (`btk`).
@@ -49,6 +55,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Initial Native N++ logic parity ports underway within `geany-go/engine`.
 - Parser and UI interaction layer established in `geany-go/parser` and `geany-go/ui`.
 - Multi-toolkit UI submodules tested in `geany-go/ui/bobui` and `geany-go/ui/btk`.
+- Frontend adapter registry established in `geany-go/ui/registry.go`.
 - Session management and configuration design, implementation, and user guide detailed in `docs/ai/`.
 
 ## Instructions for Next Agent
