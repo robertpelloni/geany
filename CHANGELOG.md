@@ -3,14 +3,13 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.0.0-alpha.12] - 2026-07-02
-### Added
-- Explicit Phase 3 target documentation tracking in TODO.md.
-- Dashboard UI tracking mappings linking features directly to UI elements in `src/DashboardHelper.cpp`.
+## [1.0.0-alpha.20] - Go Parser & UI Interaction Port
+- Created `geany-go/parser` package (`lexer.go`, `parser.go`) with thread-safe lexical analysis and multi-language symbol extraction (Go, C/C++, Python, generic) feeding `symbols.Workspace`.
+- Implemented `geany-go/ui/events.go` with thread-safe `EventDispatcher` coordinating editor and UI lifecycle events (`EventDocOpened`, `EventSymbolsUpdated`, etc.).
+- Fixed syntax in `geany-go/main.go` and implemented missing TextFX utilities (`RemoveBlankLines`, `EncodeBase64`, `DecodeBase64`) in `geany-go/textfx`.
+- Exported FFI functions `GeanyGo_UI_DispatchEvent` and `GeanyGo_Parser_ParseAndIndex` in `geany-go/main.go`, and declared them in `src/Application_C_Bridge.h` and `src/Application.cpp`.
+- Added comprehensive unit tests in `geany-go/parser` and `geany-go/ui`.
 
-### Changed
-- Mapped explicit GTK code extraction goals to `bobgui` submodule logic.
-- Logged finalized Phase 1 submodule state synchronization check to MEMORY.md.
 ## [1.0.0-alpha.19] - Core Go Editor Bootstrapping
 - Bootstrapped `geany-go/editor/search.go` to begin handling Find/Replace engine logic.
 - Bootstrapped `geany-go/editor/cursor.go` defining the `Selection` logic and Scintilla proxying for caret position.
@@ -43,27 +42,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Performed a comprehensive remote and local git workspace synchronization.
 - Consolidated progress from the `jules-8901070248151919093-615e712e` feature branch (which included TextFX and Tab formatting for Rust and Go) into `master`.
 
+## [1.0.0-alpha.12] - 2026-07-02
+### Added
+- Explicit Phase 3 target documentation tracking in TODO.md.
+- Dashboard UI tracking mappings linking features directly to UI elements in `src/DashboardHelper.cpp`.
+
+### Changed
+- Mapped explicit GTK code extraction goals to `bobgui` submodule logic.
+- Logged finalized Phase 1 submodule state synchronization check to MEMORY.md.
+- Initiated \`geany-rust\` port for high-performance functionality.
+- Implemented TextFX2 features (Sort Lines, Proper Case, Sentence Case, Formatting) in both Rust and Go ports.
+- Implemented foundational Vertical Tabs interface via \`TabManager\` in Rust and Go.
+- Connected \`geany-rust\` to the Meson build system as a dynamic/static C dependency.
+- Wired Rust and Go TextFX/UI functionalities into the C++ \`geany::Application\` FFI bridge.
+
 ## [1.0.0-alpha.11] - 2026-04-10
 ### Changed
 - Replaced legacy C config file serialization (`src/keyfile.c`) with a modern, memory-safe C++ `ConfigManager`.
 - Hooked `ConfigManager` into the primary `Application` orchestration structure.
 
-
 ## [1.0.0-alpha.10] - 2026-04-10
 ### Changed
 - Implemented `geany-go/editor/Selection` struct to manage text buffer highlighting ranges securely.
-
 
 ## [1.0.0-alpha.9] - 2026-04-10
 ### Changed
 - Implemented `SetModified()` and `IsModified()` methods for the `geany-go/editor/Document` struct, mimicking Geany's document state behavior.
 
-
 ## [1.0.0-alpha.8] - 2026-04-10
 ### Changed
 - Implemented robust `Save()` and `Open()` file I/O methods for the `geany-go/editor/Document` struct.
 - Added UTF-8 encoding validation and Byte-Order Mark (BOM) preservation across document saves.
-
 
 ## [1.0.0-alpha.7] - 2026-04-10
 ### Changed
@@ -71,33 +80,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Implemented `geany-go/ui` interfaces for `bobgui` (`Window`, `Application`, `EditorWidget`).
 - Injected `bobgui` package into `geany-go` core initialization sequence.
 
-
 ## [1.0.0-alpha.6] - 2026-04-10
 ### Changed
 - Wired the newly created C++ `Application` core into the main execution pipeline (`src/main.c`) utilizing a safe C-to-C++ Bridge wrapper.
 - The Geany executable now securely bootstraps the new C++ and Go subsystems prior to spinning up the legacy GTK loop.
 
-
 ## [1.0.0-alpha.5] - 2026-04-10
 ### Changed
 - Wired C++ `Application` and Go `scintilla` backend through the CGO FFI bridge via `GeanyGo_Scintilla_Bind`.
 
-
 ## [1.0.0-alpha.4] - 2026-04-10
 ### Changed
 - Created `geany-go/scintilla` package with robust CGO bindings to the native C++ Scintilla widget API.
-
 
 ## [1.0.0-alpha.3] - 2026-04-10
 ### Changed
 - Created robust `geany-go/editor/editor.go` to replace legacy C global document arrays with a modern, thread-safe Go `Editor` struct.
 - Created `geany-go/editor/cursor.go` tracking insertion points and text selections.
 
-
 ## [1.0.0-alpha.2] - 2026-04-10
 ### Changed
 - Created modern C++ `PrintManager` and ported to `geany-go/project` interface, abstracting GTK printing APIs.
-
 
 ## [1.0.0-alpha.1] - 2026-04-10
 ### Changed
@@ -125,17 +128,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated build configurations to include `ScintillaWrapper.cpp`, `PluginManager.cpp`, and `DocumentManager.cpp`.
 - Updated `meson.build` and `configure.ac` to dynamically read version from `VERSION.md`.
 - Added C++ refactoring plans to `TODO.md` and updated `HANDOFF.md` tracking.
-
-### Added
-- Initialized comprehensive project documentation suite (VISION, ROADMAP, TODO, MEMORY, DEPLOY, HANDOFF, AGENTS, etc.).
-- Bootstrapped `geany-go/editor` package with core `Document` struct ported from C.
-- Bootstrapped `geany-go/utils` package with string and file utility functions ported from C.
-- Prepared architecture for C++ refactor and Go port (`geany-go`).
-- Prepared addition of bobui, btk, and bobgui submodules for multiple native UI frontends.
-
-## 1.0.0-alpha.12
-- Initiated \`geany-rust\` port for high-performance functionality.
-- Implemented TextFX2 features (Sort Lines, Proper Case, Sentence Case, Formatting) in both Rust and Go ports.
-- Implemented foundational Vertical Tabs interface via \`TabManager\` in Rust and Go.
-- Connected \`geany-rust\` to the Meson build system as a dynamic/static C dependency.
-- Wired Rust and Go TextFX/UI functionalities into the C++ \`geany::Application\` FFI bridge.

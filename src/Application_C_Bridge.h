@@ -36,6 +36,8 @@ char* GeanyGo_TextFX_RemoveDuplicateLines(const char* text);
 char* GeanyGo_TextFX_EncodeBase64(const char* text);
 char* GeanyGo_TextFX_DecodeBase64(const char* text);
 void GeanyGo_UI_SetTabOrientation(bool vertical);
+void GeanyGo_UI_DispatchEvent(int eventType, const char* payload);
+int GeanyGo_Parser_ParseAndIndex(const char* filename, const char* content, const char* lang);
 
 // Rust Backend FFI Declarations
 void GeanyRust_Initialize(void);

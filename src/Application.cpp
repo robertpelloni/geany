@@ -12,6 +12,7 @@
 #include "FileTypeManager.h"
 #include "ToolsManager.h"
 #include "ConfigManager.h"
+#include "Application_C_Bridge.h"
 #include <iostream>
 
 namespace geany {
@@ -103,23 +104,14 @@ void Application::Quit() {
     m_initialized = false;
 }
 
+void Application::BindGoScintilla(intptr_t fnPtr, intptr_t objPtr) {
+    // Send raw Scintilla message function and object pointers across FFI to Go backend
+    GeanyGo_Scintilla_Bind(static_cast<long long>(fnPtr), static_cast<long long>(objPtr));
+}
+
 } // namespace geany
 
-// External Go bindings
-extern "C" {
-    void GeanyGo_Scintilla_Bind(int64_t fnPtr, int64_t objPtr);
-}
-
-namespace geany {
-    void Application::BindGoScintilla(intptr_t fnPtr, intptr_t objPtr) {
-        // Send raw Scintilla message function and object pointers across FFI to Go backend
-        GeanyGo_Scintilla_Bind(static_cast<int64_t>(fnPtr), static_cast<int64_t>(objPtr));
-    }
-}
-
 // C API Export mappings
-#include "Application_C_Bridge.h"
-
 extern "C" {
     GeanyApplicationHandle geany_application_new(void) {
         return new geany::Application();

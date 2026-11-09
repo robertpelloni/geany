@@ -11,6 +11,7 @@ import (
 	"github.com/geany/geany-go/config"
 	"github.com/geany/geany-go/editor"
 	"github.com/geany/geany-go/macros"
+	"github.com/geany/geany-go/parser"
 	"github.com/geany/geany-go/plugins"
 	"github.com/geany/geany-go/project"
 	"github.com/geany/geany-go/scintilla"
@@ -26,16 +27,18 @@ import (
 
 // Global instances for the FFI bridge
 var (
-	configMgr   *config.Manager
-	macroEngine *macros.Engine
-	pluginMgr   *plugins.Manager
-	projectMgr  *project.Manager
-	searchEng   *search.Engine
-	symbolSpace *symbols.Workspace
-	templateEng *templates.Engine
-	editorMgr   *editor.Editor
-	activeScin  *scintilla.ScintillaEditor
-	tabMgr      ui.TabManager
+	configMgr    *config.Manager
+	macroEngine  *macros.Engine
+	pluginMgr    *plugins.Manager
+	projectMgr   *project.Manager
+	searchEng    *search.Engine
+	symbolSpace  *symbols.Workspace
+	templateEng  *templates.Engine
+	editorMgr    *editor.Editor
+	activeScin   *scintilla.ScintillaEditor
+	tabMgr       ui.TabManager
+	codeParser   *parser.Parser
+	uiDispatcher *ui.EventDispatcher
 )
 
 //export GeanyGo_Initialize
@@ -54,6 +57,8 @@ func GeanyGo_Initialize() {
 	pluginMgr = plugins.NewManager()
 	searchEng = search.NewEngine()
 	symbolSpace = symbols.NewWorkspace()
+	codeParser = parser.NewParser()
+	uiDispatcher = ui.NewEventDispatcher()
 
 	prefs := &templates.Preferences{
 		Developer: "Geany User",
@@ -92,6 +97,12 @@ func GeanyGo_Editor_OpenDocument(cPath *C.char) int {
 	if err != nil {
 		fmt.Printf("[Geany-Go FFI] Error opening document: %v\n", err)
 		return -1
+	}
+	if uiDispatcher != nil {
+		uiDispatcher.Dispatch(ui.UIEvent{
+			Type:    ui.EventDocOpened,
+			Payload: path,
+		})
 	}
 	return doc.ID
 }
@@ -193,6 +204,37 @@ func GeanyGo_TextFX_TrimTrailingWhitespace(cText *C.char) *C.char {
 	return C.CString(formatted)
 }
 
+//export GeanyGo_TextFX_RemoveBlankLines
+func GeanyGo_TextFX_RemoveBlankLines(cText *C.char) *C.char {
+	text := C.GoString(cText)
+	cleaned := textfx.RemoveBlankLines(text)
+	return C.CString(cleaned)
+}
+
+//export GeanyGo_TextFX_RemoveDuplicateLines
+func GeanyGo_TextFX_RemoveDuplicateLines(cText *C.char) *C.char {
+	text := C.GoString(cText)
+	deduped := textfx.RemoveDuplicateLines(text)
+	return C.CString(deduped)
+}
+
+//export GeanyGo_TextFX_EncodeBase64
+func GeanyGo_TextFX_EncodeBase64(cText *C.char) *C.char {
+	text := C.GoString(cText)
+	encoded := textfx.EncodeBase64(text)
+	return C.CString(encoded)
+}
+
+//export GeanyGo_TextFX_DecodeBase64
+func GeanyGo_TextFX_DecodeBase64(cText *C.char) *C.char {
+	text := C.GoString(cText)
+	decoded, err := textfx.DecodeBase64(text)
+	if err != nil {
+		return C.CString("")
+	}
+	return C.CString(decoded)
+}
+
 //export GeanyGo_UI_SetTabOrientation
 func GeanyGo_UI_SetTabOrientation(vertical bool) {
 	if tabMgr != nil {
@@ -203,7 +245,46 @@ func GeanyGo_UI_SetTabOrientation(vertical bool) {
 		}
 	}
 }
+
+//export GeanyGo_UI_DispatchEvent
+func GeanyGo_UI_DispatchEvent(eventType int, payload *C.char) {
+	if uiDispatcher == nil {
+		return
 	}
+	var pyld string
+	if payload != nil {
+		pyld = C.GoString(payload)
+	}
+	uiDispatcher.Dispatch(ui.UIEvent{
+		Type:    ui.EventType(eventType),
+		Payload: pyld,
+	})
+}
+
+//export GeanyGo_Parser_ParseAndIndex
+func GeanyGo_Parser_ParseAndIndex(cFilename *C.char, cContent *C.char, cLang *C.char) int {
+	if codeParser == nil || symbolSpace == nil {
+		return 0
+	}
+	filename := C.GoString(cFilename)
+	content := C.GoString(cContent)
+	lang := C.GoString(cLang)
+
+	syms, err := codeParser.ParseSource(filename, content, lang)
+	if err != nil {
+		fmt.Printf("[Geany-Go Parser] Error parsing %s: %v\n", filename, err)
+		return 0
+	}
+
+	symbolSpace.AddFileSymbols(filename, syms)
+
+	if uiDispatcher != nil {
+		uiDispatcher.Dispatch(ui.UIEvent{
+			Type:    ui.EventSymbolsUpdated,
+			Payload: filename,
+		})
+	}
+	return len(syms)
 }
 
 func main() {}

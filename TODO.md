@@ -28,14 +28,14 @@ This file contains individual features, bug fixes, and other fine details that n
 - [ ] Connect Go backend `Hide Lines` capabilities (explicit arbitrary line collapsing) distinct from tree-folding.
 
 ## Phase 3: The Go Port (Engine Porting)
-- [ ] Initialize `geany-go/engine/parser` package to begin native Go syntax lexing, removing dependence on `scintilla` wrapper.
+- [x] Initialize `geany-go/parser` package to begin native Go syntax lexing and symbol extraction, feeding `symbols.Workspace`.
 - [ ] Rewrite `geany-go/engine/document.go` to handle memory-mapped text operations independently.
 - [x] Initialize `geany-go/engine/io.go` for managing cross-platform file locking and monitoring.
 - [ ] Establish `geany-go/engine/encoding.go` for natively handling all encoding formats listed in PARITY.md gaps.
 
 ## Phase 3: Go Port Architecture
 - [ ] Construct the central Plugin Management orchestrator in `geany-go/plugins`.
-- [ ] Connect the `geany-go/engine` document models to the new native UI adapters.
+- [x] Connect the `geany-go/engine` document models to the native UI adapters via thread-safe `EventDispatcher`.
 
 ## Phase 2: Bobui Qt6 UI Integration
 - [ ] Implement robust `geany-go/ui/bobui` bridge layer tracking C++ Qt6 signals.
