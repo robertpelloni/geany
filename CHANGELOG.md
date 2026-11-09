@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.24] - Session Management & Configuration User/Developer Guide
+- Authored `docs/ai/planning/2026-04-07-geany-session-management-user-guide.md` providing end-user instructions, configuration schema examples, CLI options, developer FFI examples, and session recovery procedures.
+- Documented cross-toolkit session restoration mechanisms across GTK (`bobgui`), Qt6 (`bobui`), and CopperSpice (`btk`).
+
 ## [1.0.0-alpha.23] - Session Management and Configuration Architecture Documentation
 - Authored comprehensive architectural design documentation for session management and configuration in `docs/ai/design/2026-04-07-geany-session-management-and-configuration.md`.
 - Authored detailed implementation notes in `docs/ai/implementation/2026-04-07-geany-session-management-and-configuration.md`.

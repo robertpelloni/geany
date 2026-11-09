@@ -1,5 +1,10 @@
 # Handoff Document
 
+## Previous Session (Session Management & Configuration User/Developer Guide)
+- Authored `docs/ai/planning/2026-04-07-geany-session-management-user-guide.md` providing end-user instructions, configuration schema examples, CLI options, developer FFI examples, and session recovery procedures.
+- Documented cross-toolkit session restoration mechanisms across GTK (`bobgui`), Qt6 (`bobui`), and CopperSpice (`btk`).
+- Bumped version to `1.0.0-alpha.24` and updated `CHANGELOG.md`.
+
 ## Previous Session (Session Management & Configuration Implementation Documentation)
 - Authored detailed implementation notes in `docs/ai/implementation/2026-04-07-geany-session-management-and-configuration.md`.
 - Documented codebase mapping between C++ `src/ConfigManager.h`, `src/ConfigManager.cpp`, Go `geany-go/config/manager.go`, FFI exported functions in `geany-go/main.go`, and UI frontends (`subprojects/bobgui`, `subprojects/bobui`, `subprojects/btk`).
@@ -27,12 +32,6 @@
 - Added comprehensive unit tests in `geany-go/parser` and `geany-go/ui`.
 - Bumped version to `1.0.0-alpha.20` and updated `CHANGELOG.md`.
 
-## Previous Session (Go Architecture Stabilization)
-- Fixed preexisting compilation errors in `geany-go/filetypes`.
-- Implemented the `engine.Backend` UI-agnostic abstraction in `geany-go/engine/editor.go` to safely decouple Scintilla from the main backend.
-- Wrote the `geany-go/scintilla/scintilla_backend.go` CGO bridge connecting C++ memory buffers safely to the Go backend interface.
-- Bumped version to `1.0.0-alpha.17` and updated `CHANGELOG.md`.
-
 This document is used to pass state, analysis, and instructions between different AI models (e.g., Claude, Gemini, GPT) across sessions.
 
 ## Current State
@@ -50,7 +49,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Initial Native N++ logic parity ports underway within `geany-go/engine`.
 - Parser and UI interaction layer established in `geany-go/parser` and `geany-go/ui`.
 - Multi-toolkit UI submodules tested in `geany-go/ui/bobui` and `geany-go/ui/btk`.
-- Session management and configuration design and implementation detailed in `docs/ai/design/` and `docs/ai/implementation/`.
+- Session management and configuration design, implementation, and user guide detailed in `docs/ai/`.
 
 ## Instructions for Next Agent
 1. Read `VISION.md`, `ROADMAP.md`, `TODO.md`, and `MEMORY.md` to understand the massive scope of this project.
