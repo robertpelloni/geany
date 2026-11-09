@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.22] - Session Management and Configuration Architecture Documentation
+- Authored comprehensive architectural design documentation for session management and configuration in `docs/ai/design/2026-04-07-geany-session-management-and-configuration.md`.
+- Documented data flow between C++ `ConfigManager`, Go `geany-go/config`, FFI bridges, and UI submodules (`bobgui`, `bobui`, `btk`).
+- Specified schema for global preferences, active session indexes, and per-document states (encodings, cursor/selection bounds, bookmarks, folds).
+
 ## [1.0.0-alpha.21] - UI Submodule Integration Testing & Lifecycle Validation
 - Added comprehensive unit tests for `geany-go/ui/bobui` (`application_test.go`) validating Qt6 lifecycle, window operations, document bindings, and Notepad++ parity toggles (MultiLineTabs, DocumentMap).
 - Added comprehensive unit tests for `geany-go/ui/btk` (`application_test.go`) validating Qt4/CopperSpice lifecycle, window operations, document bindings, and Notepad++ parity toggles.
