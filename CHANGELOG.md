@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.29] - BobUI (Qt6) Rich Component Integration
+- Implemented `geany-go/ui/bobui/components.go` with `TabWidget` (supporting multi-line vertical/horizontal layout), `StatusBar` (displaying caret coordinates, encoding, filetype), and `SearchBar` (incremental find & replace).
+- Integrated components into `bobui.Window` and `bobui.Editor`.
+- Added comprehensive component unit tests in `geany-go/ui/bobui/application_test.go`.
+- Validated all tests across Go and Rust project modules.
+
 ## [1.0.0-alpha.28] - FFI UI Frontend Selection Bridge Integration
 - Exported `GeanyGo_UI_SetActiveFrontend` and `GeanyGo_UI_GetActiveFrontend` in `geany-go/main.go` and declared them in `src/Application_C_Bridge.h`.
 - Initialized default native UI frontends (`bobgui`, `bobui`, `btk`) in the global `ui.Registry`.

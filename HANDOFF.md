@@ -1,5 +1,12 @@
 # Handoff Document
 
+## Previous Session (BobUI Qt6 Rich Component Integration)
+- Implemented `geany-go/ui/bobui/components.go` with `TabWidget` (supporting multi-line vertical/horizontal layout), `StatusBar` (displaying caret coordinates, encoding, filetype), and `SearchBar` (incremental find & replace).
+- Integrated components into `bobui.Window` and `bobui.Editor`.
+- Added comprehensive component unit tests in `geany-go/ui/bobui/application_test.go`.
+- Ran full test suite across all `geany-go` and `geany-rust` modules.
+- Bumped version to `1.0.0-alpha.29` and updated `CHANGELOG.md`.
+
 ## Previous Session (FFI UI Frontend Selection Bridge Integration)
 - Exported `GeanyGo_UI_SetActiveFrontend` and `GeanyGo_UI_GetActiveFrontend` in `geany-go/main.go` and declared them in `src/Application_C_Bridge.h`.
 - Initialized default native UI frontends (`bobgui`, `bobui`, `btk`) in the global `ui.Registry`.
@@ -44,14 +51,6 @@
 - Ran full test suite across all `geany-go` and `geany-rust` modules.
 - Bumped version to `1.0.0-alpha.21` and updated `CHANGELOG.md`.
 
-## Previous Session (Go Parser & UI Interaction Port)
-- Created `geany-go/parser` package (`lexer.go`, `parser.go`) with thread-safe lexical analysis and multi-language symbol extraction (Go, C/C++, Python, generic) feeding `symbols.Workspace`.
-- Implemented `geany-go/ui/events.go` with thread-safe `EventDispatcher` coordinating editor and UI lifecycle events (`EventDocOpened`, `EventSymbolsUpdated`, etc.).
-- Fixed syntax in `geany-go/main.go` and implemented missing TextFX utilities (`RemoveBlankLines`, `EncodeBase64`, `DecodeBase64`) in `geany-go/textfx`.
-- Exported FFI functions `GeanyGo_UI_DispatchEvent` and `GeanyGo_Parser_ParseAndIndex` in `geany-go/main.go`, and declared them in `src/Application_C_Bridge.h` and `src/Application.cpp`.
-- Added comprehensive unit tests in `geany-go/parser` and `geany-go/ui`.
-- Bumped version to `1.0.0-alpha.20` and updated `CHANGELOG.md`.
-
 This document is used to pass state, analysis, and instructions between different AI models (e.g., Claude, Gemini, GPT) across sessions.
 
 ## Current State
@@ -70,6 +69,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Parser and UI interaction layer established in `geany-go/parser` and `geany-go/ui`.
 - Multi-toolkit UI submodules tested in `geany-go/ui/bobui` and `geany-go/ui/btk`.
 - Frontend adapter registry established in `geany-go/ui/registry.go` and exposed via CGO FFI.
+- Rich Qt6 components (`TabWidget`, `StatusBar`, `SearchBar`) implemented and integrated in `geany-go/ui/bobui`.
 - Session management and configuration requirements, design, implementation, user guide, and testing specifications completed in `docs/ai/`.
 
 ## Instructions for Next Agent
