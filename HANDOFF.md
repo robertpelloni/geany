@@ -1,5 +1,9 @@
 # Handoff Document
 
+## Previous Session (Session Management & Configuration Requirements Specification)
+- Authored `docs/ai/requirements/2026-04-07-geany-session-management-and-configuration-requirements.md` outlining functional requirements (snapshotting, position persistence, metadata), non-functional requirements (latency bounds, thread safety), and Notepad++ parity comparisons.
+- Bumped version to `1.0.0-alpha.27` and updated `CHANGELOG.md`.
+
 ## Previous Session (Session Management & Configuration Testing Documentation)
 - Authored `docs/ai/testing/2026-04-07-geany-session-management-and-configuration.md` establishing the test matrix, automated scenarios (round-trip INI serialization, concurrent event notifications, corrupted session recovery), and CI/CD verification commands.
 - Bumped version to `1.0.0-alpha.26` and updated `CHANGELOG.md`.
@@ -60,7 +64,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Parser and UI interaction layer established in `geany-go/parser` and `geany-go/ui`.
 - Multi-toolkit UI submodules tested in `geany-go/ui/bobui` and `geany-go/ui/btk`.
 - Frontend adapter registry established in `geany-go/ui/registry.go`.
-- Session management and configuration design, implementation, user guide, and testing specifications completed in `docs/ai/`.
+- Session management and configuration requirements, design, implementation, user guide, and testing specifications completed in `docs/ai/`.
 
 ## Instructions for Next Agent
 1. Read `VISION.md`, `ROADMAP.md`, `TODO.md`, and `MEMORY.md` to understand the massive scope of this project.

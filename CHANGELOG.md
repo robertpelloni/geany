@@ -3,6 +3,9 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.27] - Session Management & Configuration Requirements Specification
+- Authored `docs/ai/requirements/2026-04-07-geany-session-management-and-configuration-requirements.md` outlining functional requirements (snapshotting, position persistence, metadata), non-functional requirements (latency bounds, thread safety), and Notepad++ parity comparisons.
+
 ## [1.0.0-alpha.26] - Session Management & Configuration Testing Documentation
 - Authored `docs/ai/testing/2026-04-07-geany-session-management-and-configuration.md` establishing the test matrix, automated scenarios (round-trip INI serialization, concurrent event notifications, corrupted session recovery), and CI/CD verification commands.
 
