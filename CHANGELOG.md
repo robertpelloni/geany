@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.32] - Vision & Architectural Governance Refinement
+- Updated and refined `VISION.md` to reflect the multi-toolkit frontend adapter architecture (`bobgui`, `bobui`, `btk`), session management & configuration subsystem, and Go/Rust backend engine progress.
+- Incorporated cross-toolkit state restoration principles and Notepad++ 1:1 functional parity targets into the project vision.
+
 ## [1.0.0-alpha.31] - BobGUI (GTK) Rich Component Architecture & Parity
 - Implemented `geany-go/ui/bobgui/components.go` with `TabWidget`, `StatusBar`, and `SearchBar`.
 - Integrated components into `bobgui.Window` and `bobgui.Editor`.
