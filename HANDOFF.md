@@ -1,5 +1,12 @@
 # Handoff Document
 
+## Previous Session (BTK CopperSpice Rich Component Architecture)
+- Implemented `geany-go/ui/btk/components.go` with `TabWidget`, `StatusBar`, and `SearchBar`.
+- Integrated components into `btk.Window` and `btk.Editor`.
+- Added comprehensive component unit tests in `geany-go/ui/btk/application_test.go`.
+- Ran full test suite across all `geany-go` and `geany-rust` modules.
+- Bumped version to `1.0.0-alpha.30` and updated `CHANGELOG.md`.
+
 ## Previous Session (BobUI Qt6 Rich Component Integration)
 - Implemented `geany-go/ui/bobui/components.go` with `TabWidget` (supporting multi-line vertical/horizontal layout), `StatusBar` (displaying caret coordinates, encoding, filetype), and `SearchBar` (incremental find & replace).
 - Integrated components into `bobui.Window` and `bobui.Editor`.
@@ -27,30 +34,6 @@
 - Ran full test suite across all `geany-go` and `geany-rust` modules.
 - Bumped version to `1.0.0-alpha.25` and updated `CHANGELOG.md`.
 
-## Previous Session (Session Management & Configuration User/Developer Guide)
-- Authored `docs/ai/planning/2026-04-07-geany-session-management-user-guide.md` providing end-user instructions, configuration schema examples, CLI options, developer FFI examples, and session recovery procedures.
-- Documented cross-toolkit session restoration mechanisms across GTK (`bobgui`), Qt6 (`bobui`), and CopperSpice (`btk`).
-- Bumped version to `1.0.0-alpha.24` and updated `CHANGELOG.md`.
-
-## Previous Session (Session Management & Configuration Implementation Documentation)
-- Authored detailed implementation notes in `docs/ai/implementation/2026-04-07-geany-session-management-and-configuration.md`.
-- Documented codebase mapping between C++ `src/ConfigManager.h`, `src/ConfigManager.cpp`, Go `geany-go/config/manager.go`, FFI exported functions in `geany-go/main.go`, and UI frontends (`subprojects/bobgui`, `subprojects/bobui`, `subprojects/btk`).
-- Documented startup and shutdown sequence diagrams, configuration schema details, and test verification procedures.
-- Restored full historical changelog records in `CHANGELOG.md` to prevent historical data loss.
-- Bumped version to `1.0.0-alpha.23` and updated `CHANGELOG.md`.
-
-## Previous Session (Session Management & Configuration Architecture Documentation)
-- Authored comprehensive architectural design documentation for session management and configuration in `docs/ai/design/2026-04-07-geany-session-management-and-configuration.md`.
-- Documented data flow between C++ `ConfigManager`, Go `geany-go/config`, FFI bridges, and UI submodules (`bobgui`, `bobui`, `btk`).
-- Specified schema for global preferences, active session indexes, and per-document states (encodings, cursor/selection bounds, bookmarks, folds).
-- Bumped version to `1.0.0-alpha.22` and updated `CHANGELOG.md`.
-
-## Previous Session (UI Submodule Integration Testing & Validation)
-- Implemented unit tests for `geany-go/ui/bobui` (`application_test.go`) validating Qt6 lifecycle, window operations, document bindings, and Notepad++ parity toggles (MultiLineTabs, DocumentMap).
-- Implemented unit tests for `geany-go/ui/btk` (`application_test.go`) validating Qt4/CopperSpice lifecycle, window operations, document bindings, and Notepad++ parity toggles.
-- Ran full test suite across all `geany-go` and `geany-rust` modules.
-- Bumped version to `1.0.0-alpha.21` and updated `CHANGELOG.md`.
-
 This document is used to pass state, analysis, and instructions between different AI models (e.g., Claude, Gemini, GPT) across sessions.
 
 ## Current State
@@ -69,7 +52,7 @@ This document is used to pass state, analysis, and instructions between differen
 - Parser and UI interaction layer established in `geany-go/parser` and `geany-go/ui`.
 - Multi-toolkit UI submodules tested in `geany-go/ui/bobui` and `geany-go/ui/btk`.
 - Frontend adapter registry established in `geany-go/ui/registry.go` and exposed via CGO FFI.
-- Rich Qt6 components (`TabWidget`, `StatusBar`, `SearchBar`) implemented and integrated in `geany-go/ui/bobui`.
+- Rich Qt6 and Qt4 components (`TabWidget`, `StatusBar`, `SearchBar`) implemented and integrated in `geany-go/ui/bobui` and `geany-go/ui/btk`.
 - Session management and configuration requirements, design, implementation, user guide, and testing specifications completed in `docs/ai/`.
 
 ## Instructions for Next Agent

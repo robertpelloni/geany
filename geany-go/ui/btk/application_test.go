@@ -1,9 +1,11 @@
 package btk
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/geany/geany-go/editor"
+	"github.com/geany/geany-go/ui"
 )
 
 func TestBtkApplicationLifecycle(t *testing.T) {
@@ -70,4 +72,51 @@ func TestBtkApplicationLifecycle(t *testing.T) {
 		t.Errorf("Run() returned %d", ret)
 	}
 	app.Quit()
+}
+
+func TestBtkComponents(t *testing.T) {
+	app := NewApp()
+	btkWin := app.MainWindow().(*Window)
+
+	// TabWidget testing
+	tabWidget := btkWin.GetTabWidget()
+	if tabWidget.Count() != 0 {
+		t.Errorf("Expected 0 initial tabs, got %d", tabWidget.Count())
+	}
+	tabWidget.AddTab("buffer.c")
+	tabWidget.AddTab("buffer.h")
+	if tabWidget.Count() != 2 {
+		t.Errorf("Expected 2 tabs, got %d", tabWidget.Count())
+	}
+	tabWidget.SetOrientation(ui.Horizontal)
+	tabWidget.SetMultiLine(false)
+	if err := tabWidget.RemoveTab(1); err != nil {
+		t.Fatalf("Failed to remove tab: %v", err)
+	}
+	if tabWidget.Count() != 1 {
+		t.Errorf("Expected 1 tab after removal, got %d", tabWidget.Count())
+	}
+
+	// StatusBar testing
+	statusBar := btkWin.GetStatusBar()
+	statusBar.SetPosition(12, 5)
+	statusBar.SetEncoding("ISO-8859-1")
+	statusBar.SetFileType("C")
+	statusBar.SetMessage("Modified")
+	statusText := statusBar.GetText()
+	if !strings.Contains(statusText, "Ln 12, Col 5") || !strings.Contains(statusText, "ISO-8859-1") {
+		t.Errorf("Unexpected status text: %s", statusText)
+	}
+
+	// SearchBar testing
+	searchBar := btkWin.GetSearchBar()
+	searchBar.SetQuery("printf")
+	content := "printf(\"hello\");\nprintf(\"world\");\n"
+	matches := searchBar.ExecuteSearch(content)
+	if matches != 2 {
+		t.Errorf("Expected 2 matches for printf, got %d", matches)
+	}
+	if searchBar.GetResultsCount() != 2 {
+		t.Errorf("Expected GetResultsCount() == 2, got %d", searchBar.GetResultsCount())
+	}
 }
