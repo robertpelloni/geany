@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.0-alpha.31] - BobGUI (GTK) Rich Component Architecture & Parity
+- Implemented `geany-go/ui/bobgui/components.go` with `TabWidget`, `StatusBar`, and `SearchBar`.
+- Integrated components into `bobgui.Window` and `bobgui.Editor`.
+- Added comprehensive component unit tests in `geany-go/ui/bobgui/application_test.go`.
+- Validated all tests across Go and Rust project modules.
+
 ## [1.0.0-alpha.30] - BTK (Qt4/CopperSpice) Rich Component Architecture
 - Implemented `geany-go/ui/btk/components.go` with `TabWidget`, `StatusBar`, and `SearchBar`.
 - Integrated components into `btk.Window` and `btk.Editor`.
