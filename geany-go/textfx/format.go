@@ -1,6 +1,7 @@
 package textfx
 
 import (
+	"encoding/base64"
 	"strings"
 )
 
@@ -39,4 +40,32 @@ func RemoveDuplicateLines(text string) string {
 	}
 
 	return strings.Join(result, "\n")
+}
+
+// RemoveBlankLines strips lines that are entirely empty or consist only of whitespace characters.
+func RemoveBlankLines(text string) string {
+	lines := strings.Split(text, "\n")
+	var result []string
+
+	for _, line := range lines {
+		if strings.TrimSpace(line) != "" {
+			result = append(result, line)
+		}
+	}
+
+	return strings.Join(result, "\n")
+}
+
+// EncodeBase64 encodes the input string into standard base64 format.
+func EncodeBase64(text string) string {
+	return base64.StdEncoding.EncodeToString([]byte(text))
+}
+
+// DecodeBase64 decodes a standard base64 string into plain text.
+func DecodeBase64(text string) (string, error) {
+	bytes, err := base64.StdEncoding.DecodeString(strings.TrimSpace(text))
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
 }

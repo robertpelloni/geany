@@ -47,14 +47,20 @@ func (a *App) MainWindow() ui.Window {
 // -----------------------------------------------------------------------------
 
 type Window struct {
-	title string
-	docs  []*editor.Document
+	title     string
+	docs      []*editor.Document
+	tabWidget *TabWidget
+	statusBar *StatusBar
+	searchBar *SearchBar
 }
 
 func NewWindow() *Window {
 	return &Window{
-		title: "Geany Ultra (btk Qt4)",
-		docs:  make([]*editor.Document, 0),
+		title:     "Geany Ultra (btk Qt4)",
+		docs:      make([]*editor.Document, 0),
+		tabWidget: NewTabWidget(),
+		statusBar: NewStatusBar(),
+		searchBar: NewSearchBar(),
 	}
 }
 
@@ -73,6 +79,8 @@ func (w *Window) Hide() {
 
 func (w *Window) AddDocument(doc *editor.Document) ui.EditorWidget {
 	w.docs = append(w.docs, doc)
+	w.tabWidget.AddTab(doc.BaseName)
+	w.statusBar.SetFileType(doc.BaseName)
 	fmt.Printf("[btk] Document added to Window: %s\n", doc.BaseName)
 	return NewEditorWidget()
 }
@@ -82,6 +90,18 @@ func (w *Window) GetActiveDocument() *editor.Document {
 		return w.docs[0]
 	}
 	return nil
+}
+
+func (w *Window) GetTabWidget() *TabWidget {
+	return w.tabWidget
+}
+
+func (w *Window) GetStatusBar() *StatusBar {
+	return w.statusBar
+}
+
+func (w *Window) GetSearchBar() *SearchBar {
+	return w.searchBar
 }
 
 func (w *Window) CreateMenuBar() ui.MenuBar {

@@ -1,40 +1,36 @@
 # Handoff Document
 
-## Previous Session (Go Architecture Stabilization)
-- Fixed preexisting compilation errors in `geany-go/filetypes`.
-- Implemented the `engine.Backend` UI-agnostic abstraction in `geany-go/engine/editor.go` to prepare for Scintilla integration.
-- Wrote the `geany-go/scintilla/scintilla_backend.go` CGO bridge connecting C++ memory buffers safely to the Go backend interface.
-- Bumped version to `1.0.0-alpha.17` and updated `CHANGELOG.md`.
+## Previous Session (Vision & Architectural Governance Refinement)
+- Updated and refined `VISION.md` incorporating the multi-toolkit frontend adapter architecture (`bobgui`, `bobui`, `btk`), session management & configuration subsystem, and Go/Rust backend engine progress.
+- Incorporated cross-toolkit state restoration principles and Notepad++ 1:1 functional parity targets into the project vision.
+- Bumped version to `1.0.0-alpha.32` and updated `CHANGELOG.md`.
 
-## Previous Session (Git Sync & Merge)
-- Verified the repository is synced with upstream.
-- Bumped version to `1.0.0-alpha.16` and updated `CHANGELOG.md` to reflect the clean state prior to entering Phase 2 C++ refactoring.
+## Previous Session (BobGUI GTK Rich Component Architecture & Parity)
+- Implemented `geany-go/ui/bobgui/components.go` with `TabWidget`, `StatusBar`, and `SearchBar`.
+- Integrated components into `bobgui.Window` and `bobgui.Editor`.
+- Added comprehensive component unit tests in `geany-go/ui/bobgui/application_test.go`.
+- Ran full test suite across all `geany-go` and `geany-rust` modules.
+- Bumped version to `1.0.0-alpha.31` and updated `CHANGELOG.md`.
 
-## Previous Session (Go Search & Cursor Extension)
-- Bootstrapped `geany-go/editor/search.go` mapping initial Find/Replace methods to the Go backend.
-- Bootstrapped `geany-go/editor/cursor.go` defining the `Selection` boundary tracking.
-- Finalized `NOTEPAD_PLUS_PARITY_ANALYSIS.md` missing requirements and bumped version to `1.0.0-alpha.19`.
+## Previous Session (BTK CopperSpice Rich Component Architecture)
+- Implemented `geany-go/ui/btk/components.go` with `TabWidget`, `StatusBar`, and `SearchBar`.
+- Integrated components into `btk.Window` and `btk.Editor`.
+- Added comprehensive component unit tests in `geany-go/ui/btk/application_test.go`.
+- Ran full test suite across all `geany-go` and `geany-rust` modules.
+- Bumped version to `1.0.0-alpha.30` and updated `CHANGELOG.md`.
 
-## Previous Session (Documentation Completion)
-- Expanded `NOTEPAD_PLUS_PARITY_ANALYSIS.md` to include critical editor features (Auto-Completion, Hex Editor, Folder as Workspace).
-- Bumped version to `1.0.0-alpha.18` marking the absolute completion of Phase 1 analysis. Ready for aggressive Phase 2 (C++) and Phase 3 (Go) execution.
+## Previous Session (BobUI Qt6 Rich Component Integration)
+- Implemented `geany-go/ui/bobui/components.go` with `TabWidget` (supporting multi-line vertical/horizontal layout), `StatusBar` (displaying caret coordinates, encoding, filetype), and `SearchBar` (incremental find & replace).
+- Integrated components into `bobui.Window` and `bobui.Editor`.
+- Added comprehensive component unit tests in `geany-go/ui/bobui/application_test.go`.
+- Ran full test suite across all `geany-go` and `geany-rust` modules.
+- Bumped version to `1.0.0-alpha.29` and updated `CHANGELOG.md`.
 
-## Previous Session (Go Editor Extension)
-- Bootstrapped `geany-go/editor/document_features.go` to hold structural extensions to the Go `Document` struct.
-- Started implementing `InsertText` and `GetText` stub logic to prepare for `geany-go/scintilla` wrapper integration.
-- Verified submodule availability and phase progression.
-- Version bumped to `1.0.0-alpha.15`.
-
-## Previous Session (Git Sync & Merge)
-- Verified the repository is synced with upstream.
-- Merged the `jules-8901070248151919093-615e712e` feature branch (containing Go and Rust TextFX and Tab implementations) back into `master`.
-- Updated the versions to `1.0.0-alpha.13` and documented the merge in `CHANGELOG.md`.
-
-## Previous Session (Git Sync & Merge & TextFX)
-- Verified the repository is synced with upstream.
-- Merged the `jules-8901070248151919093-615e712e` feature branch (containing Go and Rust TextFX and Tab implementations) back into `master`.
-- Extended TextFX features: Added `remove_blank_lines`, `remove_duplicate_lines`, `encode_base64`, `decode_base64` in Go and Rust backends.
-- Updated the versions to `1.0.0-alpha.14` and documented the merge in `CHANGELOG.md`.
+## Previous Session (FFI UI Frontend Selection Bridge Integration)
+- Exported `GeanyGo_UI_SetActiveFrontend` and `GeanyGo_UI_GetActiveFrontend` in `geany-go/main.go` and declared them in `src/Application_C_Bridge.h`.
+- Initialized default native UI frontends (`bobgui`, `bobui`, `btk`) in the global `ui.Registry`.
+- Validated all Go and Rust tests pass cleanly.
+- Bumped version to `1.0.0-alpha.28` and updated `CHANGELOG.md`.
 
 This document is used to pass state, analysis, and instructions between different AI models (e.g., Claude, Gemini, GPT) across sessions.
 
@@ -49,8 +45,14 @@ This document is used to pass state, analysis, and instructions between differen
 - Bootstrapped `geany-go/config` INI parser and refactored C++ `KeybindingManager`.
 - Bootstrapped `geany-go/filetypes` detection logic and refactored C++ `FileTypeManager`.
 - Bootstrapped `geany-go/templates` engine and refactored C++ `SyntaxHighlighter`.
-- **Phase 1 Finalization**: `bobui`, `btk`, and `bobgui` UI submodules successfully initialized and confirmed building.
+- **Phase 1 Finalization**: `bobui`, `btk`, and `bobgui` UI submodules successfully initialized, pinned, and tested.
 - Initial Native N++ logic parity ports underway within `geany-go/engine`.
+- Parser and UI interaction layer established in `geany-go/parser` and `geany-go/ui`.
+- Multi-toolkit UI submodules tested in `geany-go/ui/bobui`, `geany-go/ui/btk`, and `geany-go/ui/bobgui`.
+- Frontend adapter registry established in `geany-go/ui/registry.go` and exposed via CGO FFI.
+- Rich UI components (`TabWidget`, `StatusBar`, `SearchBar`) implemented across all three UI adapters (`bobgui`, `bobui`, `btk`).
+- Session management and configuration requirements, design, implementation, user guide, and testing specifications completed in `docs/ai/`.
+- Vision documented with core pillars for modern C++, Go ultra-project, Rust high-performance modules, and multi-toolkit adapters.
 
 ## Instructions for Next Agent
 1. Read `VISION.md`, `ROADMAP.md`, `TODO.md`, and `MEMORY.md` to understand the massive scope of this project.
@@ -58,93 +60,3 @@ This document is used to pass state, analysis, and instructions between differen
 3. Continue executing tasks from `ROADMAP.md` and `TODO.md`.
 4. Document your findings in extreme detail. If you generate new ideas, put them in `IDEAS.md`.
 5. Before finishing your session, update this `HANDOFF.md` file, the `CHANGELOG.md`, and bump the version in `VERSION.md` if significant changes were made.
-
-## Step: C++ PrintManager & Go Project API Port
-- Created `geany-go/project/print.go` interface for Printing API.
-- Implemented `PrintManager.cpp` and `PrintManager.h` abstracting the printing APIs (GTK printing).
-- Validated tests pass and compiled successfully.
-- Version bumped to 1.0.0-alpha.2
-
-## Step: Code Review Fixes (Build Systems Integration)
-- Added `Application.cpp` to `src/Makefile.am`.
-- Registered `geany-go/Makefile.am` inside `configure.ac`.
-- Added `all-local` and `clean-local` in `src/Makefile.am` to compile `geany-go` (libgeanygo.so) via `go build`.
-- Added `subdir('geany-go')` inside `meson.build` to correctly build Go code through Meson.
-- Updated `VERSION.md` extraction in `meson.build` to use a robust, cross-platform python one-liner.
-
-## Step: Pre-commit code review fixes
-- Addressed fatal build system issues identified by code review.
-- Removed invalid `project()` call from `geany-go/meson.build`.
-- Refactored `geany-go/Makefile.am` to use `abs_builddir` fixing out-of-tree builds (VPATH).
-- Removed redundant `all-local` make commands in `src/Makefile.am`.
-- Deleted untracked conflicting `geany-go/Makefile`.
-
-## Step: Go Editor & Cursor Packages
-- Created `geany-go/editor/cursor.go` and `Cursor` struct implementing position, offset tracking, and selection boundaries for text editing.
-- Created `geany-go/editor/editor.go` defining the `Editor` struct. It manages `Document` lifecycle (`OpenDocument`, `CloseDocument`, `GetCurrentDocument`, `SetActiveDocument`).
-- Replaced legacy C dynamic arrays and globals with thread-safe Go maps and mutexes.
-- Tests written and passed successfully.
-
-## Step: Go Scintilla CGO Wrapper
-- Created `geany-go/scintilla/scintilla.go` wrapping the C++ Scintilla message loop (`Scintilla.h`) using CGO.
-- Mapped raw pointers safely using `unsafe.Pointer` and created the `ScintillaEditor` Go struct.
-- Tested CGO boundary safely in a headless environment.
-
-## Step: C++ to Go FFI Wiring
-- Wired `src/Application.cpp` via `BindGoScintilla` method to send raw pointers across the FFI bridge (`GeanyGo_Scintilla_Bind`).
-- This allows the Go backend (`geany-go/scintilla`) to securely manipulate the native text editing widget without the heavyweight GTK messaging overhead.
-- Validated FFI compilation.
-
-## Step: Build Integration Finalization
-- Fixed Autotools linker issue by properly appending `-L$(top_builddir)/geany-go -lgeanygo` to `geany_LDADD`.
-- Fixed Meson dependency graph by migrating `subdir('geany-go')` before the `geany_exe` target.
-- Added `geanygo_dep` to the Meson executable dependencies.
-- Refactored `geany-go/meson.build` `custom_target` to invoke `go build` directly, removing the unstable internal makefile dependency.
-
-## Step: Pre-commit code review build fixes
-- Fixed Autotools broken build by adding `geany-go` to the top-level `SUBDIRS` in `Makefile.am`.
-- Fixed Meson undefined reference linker error by explicitly injecting `geanygo_dep` into the executable's `dependencies:` array.
-
-## Step: Code Review Fixes (Autotools Install)
-- Fixed fatal missing installation rules for Autotools.
-- Appended `install-exec-local` and `uninstall-local` hooks inside `geany-go/Makefile.am` to explicitly install the compiled `libgeanygo.so` shared object into `$(DESTDIR)$(libdir)`.
-- This prevents the application from crashing via missing dynamic linker objects at runtime when installed.
-
-## Step: Main Execution C++ Wiring
-- Created `src/Application_C_Bridge.h` mapping C++ `geany::Application` methods to a C-compatible FFI syntax.
-- Updated `src/Application.cpp` to export `geany_application_new`, `initialize`, `run`, and `quit`.
-- Rewrote the global executable entry point in `src/main.c` to wrap the legacy `main_lib` GTK bootup sequence in the new C++ Application lifecycle hooks. This ensures our newly built managers and Go backend orchestrate the IDE state cleanly alongside the legacy GTK event loop without dropping window messages.
-
-## Step: Native UI Bootstrapping (bobgui)
-- Implemented `geany-go/ui/bobgui/application.go` satisfying the agnostic `geany-go/ui` interfaces (`Application`, `Window`, `EditorWidget`).
-- This package successfully stubs the GTK event loop and serves as the Native UI frontend for the C++ backend orchestrators.
-- Updated `geany-go/main.go` to explicitly load and initialize the `bobgui` submodule on boot.
-
-## Step: Editor Document I/O Implementation
-- Extracted and implemented robust `Save()` and `Open()` logic into `geany-go/editor/document_io.go`.
-- Implemented file permission checking (setting ReadOnly automatically).
-- Added UTF-8 validation and Byte-Order Mark (BOM) stripping and reapplying on save.
-
-## Step: Editor Selection Implementation
-- Defined a `Selection` struct representing text selection ranges (`Start`, `End`).
-- Implemented core operations: `NewSelection` with bounds swapping, `SetRange`, `Length`, `IsEmpty`, and `Contains`.
-- Added comprehensive unit tests validating bounds checking and clamping logic.
-
-## Step: C++ ConfigManager Refactor
-- Replaced legacy C INI/keyfile parsing (`src/keyfile.c`) with a memory-managed `ConfigManager.h` using `std::map`.
-- Integrated `ConfigManager` natively into the `geany::Application` root execution cycle.
-- Updated `meson.build` and `Makefile.am` to compile the new config manager alongside `ToolsManager`.
-
-## Step: Rust Port Initialization
-- Created a new \`geany-rust\` library crate to concurrently handle high-performance, memory-safe algorithms alongside the Go backend.
-- Hand-wrote \`geany-rust/meson.build\` to trigger \`cargo build --release\` and pipe the resulting \`libgeanyrust.so/a\` directly into the \`geany\` executable link dependencies.
-- Updated \`meson.build\` to \`subdir('geany-rust')\` and link \`geanyrust_dep\`.
-
-## Step: TextFX2 and Vertical Tabs Parity
-- Defined \`TabManager\` and \`TabOrientation\` in both \`geany-go/ui\` and \`geany-rust/src/ui.rs\`.
-- Implemented \`textfx\` logic including:
-  - Line sorting (case sensitive and insensitive).
-  - Sentence and Proper casing converters.
-  - Whitespace trimming.
-- Mapped all these functionalities to FFI bridges in \`geany-go/main.go\` and \`geany-rust/src/lib.rs\`.
-- Declared the bridges in \`src/Application_C_Bridge.h\` and successfully called the Init/Shutdown hooks from \`src/main.c\`.
